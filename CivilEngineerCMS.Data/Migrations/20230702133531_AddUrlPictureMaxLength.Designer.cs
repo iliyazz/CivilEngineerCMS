@@ -4,6 +4,7 @@ using CivilEngineerCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CivilEngineerCMS.Data.Migrations
 {
     [DbContext(typeof(CivilEngineerCmsDbContext))]
-    partial class CivilEngineerCmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230702133531_AddUrlPictureMaxLength")]
+    partial class AddUrlPictureMaxLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

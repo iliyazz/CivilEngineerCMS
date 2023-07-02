@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     using Services.Data.Interfaces;
+
     using ViewModels.Project;
 
     public class ProjectController : BaseController
@@ -18,6 +19,12 @@
         {
             IEnumerable<AllProjectViewModel> viewModel = await this.projectService.AllProjectsAsync();
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            return this.View();
         }
     }
 }

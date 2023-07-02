@@ -8,6 +8,7 @@ public static class EntityValidationConstants
         public const int NameMaxLength = 50;
         public const int DescriptionMinLength = 10;
         public const int DescriptionMaxLength = 1000;
+        public const int UrlMaxLength = 2048;
     }
 
     public static class Client

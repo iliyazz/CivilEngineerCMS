@@ -43,6 +43,7 @@ public class Project
 
     public virtual ICollection<ProjectEmployee> ProjectsEmployees { get; set; }// = new HashSet<ProjectEmployee>();
 
+    [MaxLength(UrlMaxLength)]
     public string? UrlPicturePath { get; set; }
 
     [Required]
