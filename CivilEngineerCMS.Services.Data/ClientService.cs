@@ -31,6 +31,22 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return allProjectsByUserIdAsync;
         }
+
+        public async Task<IEnumerable<ProjectSelectClientFormModel>> AllClientsAsync()
+        {
+            IEnumerable<ProjectSelectClientFormModel> allClients = await dbContext
+                .Clients
+                .OrderBy(c => c.FirstName)
+                .ThenBy(c => c.LastName)
+                .Select(c => new ProjectSelectClientFormModel
+                {
+                    Id = c.Id,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName
+                })
+                .ToListAsync();
+            return allClients;
+        }
     }
 }
 

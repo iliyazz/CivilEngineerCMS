@@ -5,5 +5,6 @@
     public interface IClientService
     {
         Task<IEnumerable<MineClientManagerProjectViewModel>> AllProjectsByUserIdAsync(string userId);
+        Task<IEnumerable<ProjectSelectClientFormModel>> AllClientsAsync();
     }
 }

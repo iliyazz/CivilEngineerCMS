@@ -1,5 +1,6 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Mvc;
 
     using Services.Data.Interfaces;
@@ -9,10 +10,14 @@
     public class ProjectController : BaseController
     {
         private readonly IProjectService projectService;
+        private readonly IManagerService managerService;
+        private readonly IClientService clientService;
 
-        public ProjectController(IProjectService projectService)
+        public ProjectController(IProjectService projectService, IManagerService managerService, IClientService clientService)
         {
             this.projectService = projectService;
+            this.managerService = managerService;
+            this.clientService = clientService;
         }
 
         public async Task<IActionResult> All()
@@ -24,7 +29,13 @@
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            return this.View();
+            AddProjectFormModel formModel = new AddProjectFormModel
+            {
+                Managers = await this.managerService.AllManagersAsync(),
+                Clients = await this.clientService.AllClientsAsync()
+            };
+                
+            return this.View(formModel);
         }
     }
 }

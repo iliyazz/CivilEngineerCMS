@@ -1,0 +1,57 @@
+﻿@using CivilEngineerCMS.Common
+@model AddProjectFormModel
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.bg.min.js" ></script>
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Title...">
+                <span asp-validation-for="Name" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" placeholder="Description...">
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectEndDate"></label>
+                <input placeholder="Selected date" type="date" id="date-picker-example" class="form-control datepicker">
+                <span asp-validation-for="ProjectEndDate" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status"></label>
+                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectStatusEnums>()">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+                <span asp-validation-for="Status" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagerId"></label>
+                <select asp-for="ManagerId" class="form-control">
+                    @foreach (var manager in Model.Managers)
+                    {
+                        <option value="@manager.Id">@manager.FullName</option>
+                    }
+                </select>
+                <span asp-validation-for="ManagerId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientId"></label>
+                <select asp-for="ClientId" class="form-control">
+                    @foreach (var client in Model.Clients)
+                    {
+                        <option value="@client.Id">@client.FullName</option>
+                    }
+                </select>
+                <span asp-validation-for="ClientId" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save"/>
+            </div>
+        </form>
+    </div>
+</div>
