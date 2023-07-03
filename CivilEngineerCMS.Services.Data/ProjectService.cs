@@ -1,12 +1,14 @@
 ﻿namespace CivilEngineerCMS.Services.Data;
 
 using CivilEngineerCMS.Data;
-
+using CivilEngineerCMS.Data.Models;
+using Common;
 using Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
 using Web.ViewModels.Project;
+using Task = System.Threading.Tasks.Task;
 
 public class ProjectService : IProjectService
 {
@@ -39,8 +41,46 @@ public class ProjectService : IProjectService
     {
         bool managerExists = await this.dbContext
             .Projects
-            .AnyAsync(x => x.UserId.ToString() == id);
+            .AnyAsync(x => x.Id.ToString() == id);
         return managerExists;
+    }
+
+    public async Task<bool> ClientExistsByUserIdAsync(string id)
+    {
+        bool clientExists = await this.dbContext
+            .Clients
+            .AnyAsync(x => x.Id.ToString() == id);
+        return clientExists;
+    }
+
+    public async Task<bool> EmployeeExistsByUserIdAsync(string id)
+    {
+        bool employeeExists = await this.dbContext 
+            .Employees
+            .AnyAsync(x => x.Id.ToString() == id);
+        return employeeExists;
+    }
+
+    public bool  StatusExists(string id)
+    {
+        bool statusExist = Enum.IsDefined(typeof(ProjectStatusEnums), id);
+        return statusExist;
+    }
+
+    public async Task CreateProjectAsync(AddProjectFormModel formModel)
+    {
+        Project project = new Project
+        {
+            Name = formModel.Name,
+            Description = formModel.Description,
+            ClientId = formModel.ClientId,
+            ManagerId = formModel.ManagerId,
+            UrlPicturePath = formModel.UrlPicturePath,
+            Status = formModel.Status,
+            ProjectEndDate = formModel.ProjectEndDate,
+        };
+        await this.dbContext.Projects.AddAsync(project);
+        await  this.dbContext.SaveChangesAsync();
     }
 }
 

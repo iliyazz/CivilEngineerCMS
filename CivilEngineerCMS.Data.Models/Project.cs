@@ -53,7 +53,7 @@ public class Project
 
     public virtual ICollection<Interaction> Interactions { get; set; }// = new HashSet<Interaction>();
 
-    public Guid UserId { get; set; }
-    public virtual ApplicationUser User { get; set; }
+    //public Guid UserId { get; set; }
+    //public virtual ApplicationUser User { get; set; }
 
 }

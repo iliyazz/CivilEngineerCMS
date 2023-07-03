@@ -11,6 +11,7 @@
         public AddProjectFormModel()
         {
             this.Managers = new HashSet<ProjectSelectManagerFormModel>();
+            this.Clients = new HashSet<ProjectSelectClientFormModel>();
         }
 
         [Required]

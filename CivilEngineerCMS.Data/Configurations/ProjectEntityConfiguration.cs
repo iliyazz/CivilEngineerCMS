@@ -44,7 +44,7 @@
                 Status = ProjectStatusEnums.InProgress,
                 ProjectCreatedDate = new DateTime(2023, 3, 10),
                 ProjectEndDate = new DateTime(2023, 8, 12),
-                UserId = Guid.Parse("E9830393-05A5-4069-1D74-08DB7A21C396")
+                //UserId = Guid.Parse("E9830393-05A5-4069-1D74-08DB7A21C396")
 
             };
             projects.Add(project);
@@ -58,7 +58,7 @@
                 Status = ProjectStatusEnums.NotYetStarted,
                 ProjectCreatedDate = new DateTime(2023, 1, 5),
                 ProjectEndDate = new DateTime(2023, 2, 8),
-                UserId = Guid.Parse("5544BB21-BE62-44AC-1D76-08DB7A21C396")
+                //UserId = Guid.Parse("5544BB21-BE62-44AC-1D76-08DB7A21C396")
 
             };
             projects.Add(project);
