@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CivilEngineerCMS.Data.Migrations
 {
     [DbContext(typeof(CivilEngineerCmsDbContext))]
-    [Migration("20230703225327_Restore")]
-    partial class Restore
+    [Migration("20230704160210_RemoveUserIdfromProject")]
+    partial class RemoveUserIdfromProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

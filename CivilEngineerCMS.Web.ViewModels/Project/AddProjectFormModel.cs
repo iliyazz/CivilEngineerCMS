@@ -2,6 +2,7 @@
 {
     using CivilEngineerCMS.Common;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
     using Client;
     using Manager;
     using static CivilEngineerCMS.Common.EntityValidationConstants.Project;
@@ -41,6 +42,8 @@
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: dd-MM-yyyy}")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0: dd/mm/yy}", ApplyFormatInEditMode = true)]
         public DateTime ProjectEndDate { get; set; }
 
         [Required]

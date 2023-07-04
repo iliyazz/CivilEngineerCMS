@@ -60,6 +60,10 @@
                 this.ModelState.AddModelError(nameof(formModel.Status), "Status does not exist.");
             }
 
+            if (DateTime.UtcNow > formModel.ProjectEndDate)
+            {
+                this.ModelState.AddModelError(nameof(formModel.ProjectEndDate), "Project End Date cannot be before start date.");
+            }
             if (!this.ModelState.IsValid)
             {
                 formModel.Managers = await this.managerService.AllManagersAsync();
