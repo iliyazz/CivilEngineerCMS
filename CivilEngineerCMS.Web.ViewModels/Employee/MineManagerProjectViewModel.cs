@@ -2,6 +2,7 @@
 {
     public class MineManagerProjectViewModel
     {
+        public Guid Id { get; set; }
         public string ProjectName { get; set; } = null!;
         public string ClientName { get; set; } = null!;
         public string ClientPhoneNumber { get; set; } = null!;

@@ -24,6 +24,8 @@
                 .WithMany(e => e.Projects)
                 .HasForeignKey(p => p.ManagerId)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(p => p.IsActive)
+                .HasDefaultValue(true);
 
 
             builder.HasData(this.GenerateProjects());
@@ -44,8 +46,6 @@
                 Status = ProjectStatusEnums.InProgress,
                 ProjectCreatedDate = new DateTime(2023, 3, 10),
                 ProjectEndDate = new DateTime(2023, 8, 12),
-                //UserId = Guid.Parse("E9830393-05A5-4069-1D74-08DB7A21C396")
-
             };
             projects.Add(project);
             project = new Project
@@ -58,22 +58,8 @@
                 Status = ProjectStatusEnums.NotYetStarted,
                 ProjectCreatedDate = new DateTime(2023, 1, 5),
                 ProjectEndDate = new DateTime(2023, 2, 8),
-                //UserId = Guid.Parse("5544BB21-BE62-44AC-1D76-08DB7A21C396")
-
             };
             projects.Add(project);
-            //project = new Project
-            //{
-            //    Id = Guid.Parse("D9D4053D-4D28-42B1-B1FE-AA2DF4B52191"),
-            //    Name = "Project 3",
-            //    Description = "Project 3 Description",
-            //    ClientId = Guid.Parse("4F318431-568E-4CDF-9A58-08DB7A22EBD9"),
-            //    ManagerId = Guid.Parse("5544BB21-BE62-44AC-1D76-08DB7A21C396"),
-            //    Status = ProjectStatusEnums.Finished,
-            //    ProjectCreatedDate = new DateTime(2021, 1, 1),
-            //    ProjectEndDate = new DateTime(2021, 1, 1),
-            //};
-            //projects.Add(project);
             return projects.ToArray();
         }
     }

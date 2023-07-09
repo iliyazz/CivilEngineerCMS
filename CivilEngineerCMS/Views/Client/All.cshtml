@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Client.AllClientViewModel>
+
+@{
+    ViewData["Title"] = "All clients";
+    var clients = Model.ToList();
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr/>
+
+@if (!clients.Any())
+{
+    <h3 class="text-center">No clients yet!</h3>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Phone number</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{ int rowNumber = 0; }
+        @foreach (var cl in clients)
+        {
+            
+            rowNumber++;
+            <tr>
+                <th scope="row">@rowNumber</th>
+                <td>@cl.FirstName</td>
+                <td>@cl.LastName</td>
+                <td>@cl.PhoneNumber</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

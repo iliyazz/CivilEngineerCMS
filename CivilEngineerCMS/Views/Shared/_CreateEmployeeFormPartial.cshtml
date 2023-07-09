@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using CivilEngineerCMS.Data.Models
+@model CreateEmployeeFormModel
+@inject UserManager<ApplicationUser> userManager
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" placeholder="Firs name...">
+                <span asp-validation-for="FirstName" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" placeholder="Last name...">
+                <span asp-validation-for="LastName" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobTitle"></label>
+                <input asp-for="JobTitle" class="form-control" placeholder="Job title...">
+                <span asp-validation-for="JobTitle" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number...">
+                <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" class="form-control" placeholder="Address...">
+                <span asp-validation-for="Address" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId"></label>
+                <select asp-for="UserId" class="form-control">
+                    @foreach (var u in userManager.Users)
+                    {
+                        <option value="@u.Id">@u.Email</option>
+                    }
+                </select>
+                <span asp-validation-for="UserId" class="small text-danger"></span>
+            </div>
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>
+
+

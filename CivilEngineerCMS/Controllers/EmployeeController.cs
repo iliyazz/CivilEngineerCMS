@@ -17,17 +17,6 @@
             this.employeeService = employeeService;
         }
 
-        //public async Task<IActionResult> Mine()
-        //{
-        //    string? userId = this.User.GetId();
-        //    bool isEmployee = await this.employeeService.EmployeeExistsByUserIdAsync(userId);
-        //    if (!isEmployee)
-        //    {
-        //        return this.BadRequest();
-        //    }
-
-        //    return this.View();
-        //}
 
         [HttpGet]
         public async Task<IActionResult> All()
@@ -39,15 +28,48 @@
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
-            string? userId = this.User.GetId();
-            bool isEmployee = await this.employeeService.EmployeeExistsByUserIdAsync(userId);
+            string? id = this.User.GetId();
+            var employeeId = await this.employeeService.GetManagerIdByUserIdAsync(id);
+            bool isEmployee = await this.employeeService.EmployeeExistsByUserIdAsync(id);
             if (!isEmployee)
             {
-                return this.BadRequest();
+                return RedirectToAction("Index", "Home");
             }
 
-            IEnumerable<MineManagerProjectViewModel> viewModel = await this.employeeService.AllProjectsByManagerIdAsync(userId);
+            IEnumerable<MineManagerProjectViewModel> viewModel = await this.employeeService.AllProjectsByManagerIdAsync(employeeId);
             return this.View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            CreateEmployeeFormModel formModel = new CreateEmployeeFormModel();
+
+            return this.View(formModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateEmployeeFormModel formModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(formModel);
+            }
+
+            try
+            {
+                await this.employeeService.CreateEmployeeAsync(formModel);
+
+                this.TempData["SuccessMessage"] =
+                    $"Employee {formModel.FirstName} {formModel.LastName} added successfully.";
+                return this.RedirectToAction("All");
+            }
+            catch (Exception _)
+            {
+                this.ModelState.AddModelError(string.Empty, "An error occurred while adding the employee. Please try again later or contact administrator!");
+                return this.View(formModel);
+            }
         }
     }
 }
+

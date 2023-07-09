@@ -1,15 +1,15 @@
 ﻿@model AddAndEditProjectFormModel
 
 @{
-    ViewData["Title"] = "Add Project";
+    ViewData["Title"] = "Edit Project";
 }
-
 <h2 class="text-center">@ViewData["Title"]</h2>
-<hr/>
-<partial name="_ProjectFormPartial" model="@Model" />
+<hr />
 
+<partial name="_EditProjectPartial" model="@Model" />
 
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial"/>
+    
 }

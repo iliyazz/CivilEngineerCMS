@@ -26,12 +26,12 @@ namespace CivilEngineerCMS.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Projects",
-                columns: new[] { "Id", "ClientId", "Description", "ManagerId", "Name", "ProjectCreatedDate", "ProjectEndDate", "Status", "UserId" },
+                columns: new[] { "Id", "ClientId", "Description", "ManagerId", "Name", "ProjectCreatedDate", "ProjectEndDate", "Name", "UserId" },
                 values: new object[] { new Guid("082258d8-b2ec-410f-acd7-4bde06d025d7"), new Guid("1ae4584f-5611-4870-baa7-cb0e7edcc572"), "Project 2 Description", new Guid("ec5497aa-1b1c-44ac-8259-7b7b95b07b12"), "Project 2", new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new Guid("5544bb21-be62-44ac-1d76-08db7a21c396") });
 
             migrationBuilder.InsertData(
                 table: "Projects",
-                columns: new[] { "Id", "ClientId", "Description", "ManagerId", "Name", "ProjectCreatedDate", "ProjectEndDate", "Status", "UserId" },
+                columns: new[] { "Id", "ClientId", "Description", "ManagerId", "Name", "ProjectCreatedDate", "ProjectEndDate", "Name", "UserId" },
                 values: new object[] { new Guid("cfc9ab51-c431-4624-98ff-4da7be50762d"), new Guid("8058bda4-c0fb-44d3-b3b6-e66619cec1ab"), "Project 1 Description", new Guid("8c0629b6-b564-4a2c-a6c2-73408d4878e5"), "Project 1", new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, new Guid("e9830393-05a5-4069-1d74-08db7a21c396") });
 
             migrationBuilder.InsertData(

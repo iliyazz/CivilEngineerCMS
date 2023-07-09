@@ -22,5 +22,5 @@ public class Board
     [MaxLength(NameMaxLength)]
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Task> Tasks { get; set; }// = new HashSet<Task>();
+    public virtual ICollection<Task> Tasks { get; set; }
 }

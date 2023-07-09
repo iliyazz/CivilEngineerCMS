@@ -2,9 +2,16 @@
 
 namespace CivilEngineerCMS.Services.Data
 {
+    using System.Security.Claims;
     using CivilEngineerCMS.Data;
+    using CivilEngineerCMS.Data.Models;
+    using CivilEngineerCMS.Web.ViewModels.Client;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Web.ViewModels.Client;
+    using Web.ViewModels.Employee;
+    using Task = System.Threading.Tasks.Task;
 
     public class ClientService : IClientService
     {
@@ -13,7 +20,9 @@ namespace CivilEngineerCMS.Services.Data
         public ClientService(CivilEngineerCmsDbContext dbContext)
         {
             this.dbContext = dbContext;
+
         }
+
         public async Task<IEnumerable<MineClientManagerProjectViewModel>> AllProjectsByUserIdAsync(string userId)
         {
             IEnumerable<MineClientManagerProjectViewModel> allProjectsByUserIdAsync = await dbContext
@@ -47,7 +56,40 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return allClients;
         }
+
+        public async Task<IEnumerable<AllClientViewModel>> AllClientsForViewAsync()
+        {
+            IEnumerable<AllClientViewModel> allClients = await dbContext
+                .Clients
+                .OrderBy(c => c.FirstName)
+                .ThenBy(c => c.LastName)
+                .Select(c => new AllClientViewModel()
+                {
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    PhoneNumber = c.PhoneNumber
+                })
+                .ToListAsync();
+            return allClients;
+        }
+
+
+        public async Task CreateClientAsync(CreateClientFormModel formModel)
+        {
+  
+
+            Client client = new Client
+            {
+                UserId = formModel.UserId,
+                FirstName = formModel.FirstName,
+                LastName = formModel.LastName,
+                PhoneNumber = formModel.PhoneNumber,
+                Address = formModel.Address,
+            };
+            await this.dbContext.Clients.AddAsync(client);
+            await this.dbContext.SaveChangesAsync();
+        }
+
+
     }
 }
-
-

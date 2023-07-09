@@ -14,8 +14,7 @@ public class Client
         this.Id = Guid.NewGuid();
     }
 
-    [Key]
-    public Guid Id { get; set; }
+    [Key] public Guid Id { get; set; }
 
     [Required]
     [MaxLength(FirstNameMaxLength)]
@@ -24,11 +23,6 @@ public class Client
     [Required]
     [MaxLength(LastNameMaxLength)]
     public string LastName { get; set; } = null!;
-
-    //[Required]
-    //[EmailAddress]
-    //[MaxLength(EmailMaxLength)]
-    //public string Email { get; set; } = null!;
 
     [Required]
     [Phone]
@@ -39,10 +33,8 @@ public class Client
     [MaxLength(AddressMaxLength)]
     public string Address { get; set; } = null!;
 
-    public virtual ICollection<Project> Projects { get; set; }// = new HashSet<Project>();
+    public virtual ICollection<Project> Projects { get; set; }
 
     public Guid UserId { get; set; }
     public ApplicationUser User { get; set; } = null!;
-
-
 }

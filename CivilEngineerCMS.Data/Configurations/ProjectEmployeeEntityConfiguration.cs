@@ -42,24 +42,7 @@
                 EmployeeId = Guid.Parse("EC5497AA-1B1C-44AC-8259-7B7B95B07B12"),
             };
             projectEmployees.Add(projectEmployee);
-            //projectEmployee = new ProjectEmployee()
-            //{
-            //    ProjectId = Guid.Parse("082258D8-B2EC-410F-ACD7-4BDE06D025D7"),
-            //    EmployeeId = Guid.Parse("68AA7BC7-7358-47E5-985B-BFD6F41BD172"),
-            //};
-            //projectEmployees.Add(projectEmployee);
-            //projectEmployee = new ProjectEmployee()
-            //{
-            //    ProjectId = Guid.Parse("D9D4053D-4D28-42B1-B1FE-AA2DF4B52191"),
-            //    EmployeeId = Guid.Parse("674063AF-0A49-4EEF-AC2E-D8F5C82CC827"),
-            //};
-            //projectEmployees.Add(projectEmployee);
-            //projectEmployee = new ProjectEmployee()
-            //{
-            //    ProjectId = Guid.Parse("D9D4053D-4D28-42B1-B1FE-AA2DF4B52191"),
-            //    EmployeeId = Guid.Parse("68AA7BC7-7358-47E5-985B-BFD6F41BD172"),
-            //};
-            //projectEmployees.Add(projectEmployee);
+
 
             return projectEmployees.ToArray();
         }

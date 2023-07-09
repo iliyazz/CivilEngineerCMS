@@ -4,6 +4,7 @@ using CivilEngineerCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CivilEngineerCMS.Data.Migrations
 {
     [DbContext(typeof(CivilEngineerCmsDbContext))]
-    partial class CivilEngineerCmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230704192448_AddIsActiveColumnForSoftDeletingProjects")]
+    partial class AddIsActiveColumnForSoftDeletingProjects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,7 +316,7 @@ namespace CivilEngineerCMS.Data.Migrations
                     b.Property<DateTime>("ProjectEndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Name")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("UrlPicturePath")

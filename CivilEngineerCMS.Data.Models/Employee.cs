@@ -24,11 +24,6 @@ public class Employee
     [MaxLength(LastNameMaxLength)]
     public string LastName { get; set; } = null!;
 
-    //[Required]
-    //[EmailAddress]
-    //[MaxLength(EmailMaxLength)]
-    //public string Email { get; set; } = null!;
-
     [Required]
     [Phone]
     [MaxLength(PhoneNumberMaxLength)]

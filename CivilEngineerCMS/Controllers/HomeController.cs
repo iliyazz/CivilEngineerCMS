@@ -1,19 +1,18 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers;
 
 using System.Diagnostics;
-
+using Data.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
 using Services.Data.Interfaces;
-
 using ViewModels.Home;
 
 public class HomeController : BaseController
 {
     private readonly IHomeService homeService;
 
-    public HomeController(IHomeService homeService)
+    public HomeController(IHomeService homeService, UserManager<ApplicationUser> userManager)
     {
         this.homeService = homeService;
     }
@@ -25,7 +24,6 @@ public class HomeController : BaseController
         IEnumerable<IndexViewModel> viewModel = await this.homeService.AllIndexProjectsAsync();
 
         return View(viewModel);
-
     }
 
     [AllowAnonymous]

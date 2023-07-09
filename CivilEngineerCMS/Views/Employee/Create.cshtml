@@ -1,0 +1,15 @@
+﻿@model CreateEmployeeFormModel
+@{
+    ViewData["Title"] = "Add Client";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+<partial name="_CreateEmployeeFormPartial" model="@Model" />
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+}
