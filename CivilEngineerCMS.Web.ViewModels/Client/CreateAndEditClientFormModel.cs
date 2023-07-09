@@ -5,10 +5,10 @@
     using Microsoft.AspNetCore.Identity;
     using static Common.EntityValidationConstants.Client;
 
-    public class CreateClientFormModel
+    public class CreateAndEditClientFormModel
     {
 
-        public CreateClientFormModel()
+        public CreateAndEditClientFormModel()
         {
             this.Users = new HashSet<AllUsersSelectViewModelForClient>();
 

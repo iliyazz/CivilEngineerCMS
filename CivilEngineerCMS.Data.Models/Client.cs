@@ -33,8 +33,13 @@ public class Client
     [MaxLength(AddressMaxLength)]
     public string Address { get; set; } = null!;
 
+    public bool IsActive { get; set; }
+
+
     public virtual ICollection<Project> Projects { get; set; }
 
     public Guid UserId { get; set; }
     public ApplicationUser User { get; set; } = null!;
+
+
 }

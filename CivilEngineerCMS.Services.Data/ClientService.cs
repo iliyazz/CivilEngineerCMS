@@ -73,8 +73,7 @@ namespace CivilEngineerCMS.Services.Data
             return allClients;
         }
 
-
-        public async Task CreateClientAsync(CreateClientFormModel formModel)
+        public async Task CreateClientAsync(CreateAndEditClientFormModel formModel)
         {
   
 
@@ -90,6 +89,44 @@ namespace CivilEngineerCMS.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
+        //public async Task<CreateAndEditClientFormModel> GetClientForEditByIdAsync(string clientId)
+        //{
+        //    Client client = await this.dbContext
+        //        .Clients
+        //        .Include(x => x.User)
+        //        .Where(x => x.IsActive)
+        //        .FirstAsync(x => x.Id.ToString() == clientId);
+        //}
+
+        //public Task EditClientByIdAsync(string clientId, CreateAndEditClientFormModel formModel)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
 
     }
 }
+/*
+    public async Task<AddAndEditProjectFormModel> GetProjectForEditByIdAsync(string projectId)
+    {
+        Project project = await this.dbContext
+            .Projects
+            .Include(x => x.Client)
+            .Include(x => x.Manager)
+            .Where(x => x.IsActive)
+            .FirstAsync(x => x.Id.ToString() == projectId);
+
+
+        var result = new AddAndEditProjectFormModel
+        {
+            Name = project.Name,
+            Description = project.Description,
+            ClientId = project.ClientId,
+            ManagerId = project.ManagerId,
+            UrlPicturePath = project.UrlPicturePath,
+            Status = project.Status,
+            ProjectEndDate = project.ProjectEndDate.ToString("dd/MM/yyyy"),
+        };
+        return result;
+    }
+ */

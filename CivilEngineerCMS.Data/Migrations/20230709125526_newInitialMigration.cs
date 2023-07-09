@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CivilEngineerCMS.Data.Migrations
 {
-    public partial class InitializeDb : Migration
+    public partial class newInitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -175,6 +175,7 @@ namespace CivilEngineerCMS.Data.Migrations
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -198,6 +199,7 @@ namespace CivilEngineerCMS.Data.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     JobTitle = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -220,20 +222,21 @@ namespace CivilEngineerCMS.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UrlPicturePath = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    ProjectCreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProjectCreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     ProjectEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    //UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
-                    //table.ForeignKey(
-                    //    name: "FK_Projects_AspNetUsers_UserId",
-                    //    column: x => x.UserId,
-                    //    principalTable: "AspNetUsers",
-                    //    principalColumn: "Id",
-                    //    onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Projects_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Projects_Clients_ClientId",
                         column: x => x.ClientId,
@@ -401,6 +404,11 @@ namespace CivilEngineerCMS.Data.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Projects_ApplicationUserId",
+                table: "Projects",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Projects_ClientId",
                 table: "Projects",
                 column: "ClientId");
@@ -409,11 +417,6 @@ namespace CivilEngineerCMS.Data.Migrations
                 name: "IX_Projects_ManagerId",
                 table: "Projects",
                 column: "ManagerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Projects_UserId",
-                table: "Projects",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectsEmployees_EmployeeId",

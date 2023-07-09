@@ -35,9 +35,7 @@
 
         [Required]
         [Display(Name = "Project End Date")]
-        //[DataType(DataType.DateTime)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
-        public string /*DateTime*/ ProjectEndDate { get; set; }
+        public string ProjectEndDate { get; set; }
 
         [Required]
         [Display(Name = "Project Manager")]

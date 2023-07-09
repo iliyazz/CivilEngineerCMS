@@ -9,6 +9,8 @@
         Task<IEnumerable<MineClientManagerProjectViewModel>> AllProjectsByUserIdAsync(string userId);
         Task<IEnumerable<ProjectSelectClientFormModel>> AllClientsAsync();
         Task<IEnumerable<AllClientViewModel>> AllClientsForViewAsync();
-        Task CreateClientAsync(CreateClientFormModel formModel);
+        Task CreateClientAsync(CreateAndEditClientFormModel formModel);
+        //Task<CreateAndEditClientFormModel> GetClientForEditByIdAsync(string clientId);
+        //Task<CreateAndEditClientFormModel> EditClientByIdAsync(string clientId);
     }
 }

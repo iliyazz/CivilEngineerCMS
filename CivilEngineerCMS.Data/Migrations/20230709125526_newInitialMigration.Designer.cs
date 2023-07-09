@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CivilEngineerCMS.Data.Migrations
 {
     [DbContext(typeof(CivilEngineerCmsDbContext))]
-    [Migration("20230702133531_AddUrlPictureMaxLength")]
-    partial class AddUrlPictureMaxLength
+    [Migration("20230709125526_newInitialMigration")]
+    partial class newInitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -122,6 +122,11 @@ namespace CivilEngineerCMS.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -140,26 +145,6 @@ namespace CivilEngineerCMS.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Clients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8058bda4-c0fb-44d3-b3b6-e66619cec1ab"),
-                            Address = "Plovdiv1",
-                            FirstName = "Pesho",
-                            LastName = "Peshev",
-                            PhoneNumber = "+359123456788",
-                            UserId = new Guid("60376974-e414-4277-1d75-08db7a21c396")
-                        },
-                        new
-                        {
-                            Id = new Guid("1ae4584f-5611-4870-baa7-cb0e7edcc572"),
-                            Address = "Plovdiv1",
-                            FirstName = "Gosho",
-                            LastName = "Goshev",
-                            PhoneNumber = "+359123456787",
-                            UserId = new Guid("4f318431-568e-4cdf-9a58-08db7a22ebd9")
-                        });
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Employee", b =>
@@ -177,6 +162,11 @@ namespace CivilEngineerCMS.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("JobTitle")
                         .IsRequired()
@@ -201,18 +191,6 @@ namespace CivilEngineerCMS.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8c0629b6-b564-4a2c-a6c2-73408d4878e5"),
-                            Address = "Sofia",
-                            FirstName = "Ivan",
-                            JobTitle = "Surveyor",
-                            LastName = "Ivanov",
-                            PhoneNumber = "+395123456781",
-                            UserId = new Guid("5544bb21-be62-44ac-1d76-08db7a21c396")
-                        });
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Expense", b =>
@@ -284,6 +262,9 @@ namespace CivilEngineerCMS.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
@@ -291,6 +272,11 @@ namespace CivilEngineerCMS.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<Guid>("ManagerId")
                         .HasColumnType("uniqueidentifier");
@@ -315,44 +301,15 @@ namespace CivilEngineerCMS.Data.Migrations
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ClientId");
 
                     b.HasIndex("ManagerId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Projects");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("cfc9ab51-c431-4624-98ff-4da7be50762d"),
-                            ClientId = new Guid("8058bda4-c0fb-44d3-b3b6-e66619cec1ab"),
-                            Description = "Project 1 Description",
-                            ManagerId = new Guid("8c0629b6-b564-4a2c-a6c2-73408d4878e5"),
-                            Name = "Project 1",
-                            ProjectCreatedDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProjectEndDate = new DateTime(2023, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 3,
-                            UserId = new Guid("e9830393-05a5-4069-1d74-08db7a21c396")
-                        },
-                        new
-                        {
-                            Id = new Guid("082258d8-b2ec-410f-acd7-4bde06d025d7"),
-                            ClientId = new Guid("1ae4584f-5611-4870-baa7-cb0e7edcc572"),
-                            Description = "Project 2 Description",
-                            ManagerId = new Guid("ec5497aa-1b1c-44ac-8259-7b7b95b07b12"),
-                            Name = "Project 2",
-                            ProjectCreatedDate = new DateTime(2023, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProjectEndDate = new DateTime(2023, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 1,
-                            UserId = new Guid("5544bb21-be62-44ac-1d76-08db7a21c396")
-                        });
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.ProjectEmployee", b =>
@@ -368,18 +325,6 @@ namespace CivilEngineerCMS.Data.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("ProjectsEmployees");
-
-                    b.HasData(
-                        new
-                        {
-                            ProjectId = new Guid("cfc9ab51-c431-4624-98ff-4da7be50762d"),
-                            EmployeeId = new Guid("ec5497aa-1b1c-44ac-8259-7b7b95b07b12")
-                        },
-                        new
-                        {
-                            ProjectId = new Guid("082258d8-b2ec-410f-acd7-4bde06d025d7"),
-                            EmployeeId = new Guid("ec5497aa-1b1c-44ac-8259-7b7b95b07b12")
-                        });
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Task", b =>
@@ -584,6 +529,10 @@ namespace CivilEngineerCMS.Data.Migrations
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Project", b =>
                 {
+                    b.HasOne("CivilEngineerCMS.Data.Models.ApplicationUser", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("CivilEngineerCMS.Data.Models.Client", "Client")
                         .WithMany("Projects")
                         .HasForeignKey("ClientId")
@@ -596,17 +545,9 @@ namespace CivilEngineerCMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CivilEngineerCMS.Data.Models.ApplicationUser", "User")
-                        .WithMany("Projects")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Client");
 
                     b.Navigation("Manager");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.ProjectEmployee", b =>

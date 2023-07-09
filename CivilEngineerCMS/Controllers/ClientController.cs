@@ -33,7 +33,7 @@
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            CreateClientFormModel formModel = new CreateClientFormModel
+            CreateAndEditClientFormModel formModel = new CreateAndEditClientFormModel
             {
                 Users = await this.userManager
                     .Users
@@ -55,7 +55,7 @@
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateClientFormModel formModel)
+        public async Task<IActionResult> Create(CreateAndEditClientFormModel formModel)
         {
             if (!this.ModelState.IsValid)
             {

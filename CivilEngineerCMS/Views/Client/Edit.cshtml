@@ -1,9 +1,4 @@
-﻿@using CivilEngineerCMS.Data
-@using CivilEngineerCMS.Data.Models
-@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@inject UserManager<ApplicationUser> userManager
-@model CreateAndEditClientFormModel
+﻿@model CreateAndEditClientFormModel
 
 
 <div class="row">
@@ -28,16 +23,6 @@
                 <label asp-for="Address"></label>
                 <input asp-for="Address" class="form-control" placeholder="Address...">
                 <span asp-validation-for="Address" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId"></label>
-                <select asp-for="UserId" class="form-control">
-                    @foreach (var u in userManager.Users)
-                    {
-                        <option value="@u.Id">@u.Email</option>
-                    }
-                </select>
-                <span asp-validation-for="UserId" class="small text-danger"></span>
             </div>
             <div class="text-center">
                 <input class="btn btn-primary mt-3" type="submit" value="Save"/>
