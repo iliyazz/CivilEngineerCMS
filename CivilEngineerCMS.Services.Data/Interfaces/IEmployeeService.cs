@@ -1,9 +1,6 @@
 ﻿namespace CivilEngineerCMS.Services.Data.Interfaces
 {
-    using System.Security.Claims;
-
     using CivilEngineerCMS.Web.ViewModels.Manager;
-    using CivilEngineerCMS.Web.ViewModels.Project;
 
     using Web.ViewModels.Employee;
 

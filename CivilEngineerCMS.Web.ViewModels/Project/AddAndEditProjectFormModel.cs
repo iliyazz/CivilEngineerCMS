@@ -1,10 +1,13 @@
 ﻿namespace CivilEngineerCMS.Web.ViewModels.Project
 {
-    using CivilEngineerCMS.Common;
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
+
+    using CivilEngineerCMS.Common;
+
     using Client;
+
     using Manager;
+
     using static CivilEngineerCMS.Common.EntityValidationConstants.Project;
 
     public class AddAndEditProjectFormModel
@@ -35,7 +38,7 @@
 
         [Required]
         [Display(Name = "Project End Date")]
-        public string ProjectEndDate { get; set; }
+        public string ProjectEndDate { get; set; } = null!;
 
         [Required]
         [Display(Name = "Project Manager")]

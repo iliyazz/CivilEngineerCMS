@@ -3,17 +3,16 @@
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.CodeAnalysis;
 
     using Services.Data.Interfaces;
 
     using ViewModels.Project;
+
     using static Common.NotificationMessagesConstants;
 
     public class ProjectController : BaseController
     {
         private readonly IProjectService projectService;
-        //private readonly IManagerService managerService;
         private readonly IClientService clientService;
         private readonly IEmployeeService employeeService;
 
@@ -21,7 +20,6 @@
             IClientService clientService)
         {
             this.projectService = projectService;
-            //this.managerService = managerService;
             this.clientService = clientService;
             this.employeeService = employeeService;
         }
@@ -38,7 +36,6 @@
             AddAndEditProjectFormModel formModel = new AddAndEditProjectFormModel
             {
                 Managers = await this.employeeService.AllManagersAsync(),
-                //Managers = await this.managerService.AllManagersAsync(),
                 Clients = await this.clientService.AllClientsAsync()
             };
 
@@ -111,7 +108,6 @@
             var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
             var currentUserId = this.User.GetId();
-            //var currentManagerId = project.ManagerId.ToString();
 
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
 

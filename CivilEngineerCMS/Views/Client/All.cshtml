@@ -21,19 +21,22 @@ else
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
             <th scope="col">Phone number</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
         </tr>
         </thead>
         <tbody>
         @{ int rowNumber = 0; }
         @foreach (var cl in clients)
         {
-            
             rowNumber++;
-            <tr>
+                <tr onclick="location.href = '@Url.Action("Details", "Client",new { id = @cl.Id.ToString() })'  " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
                 <th scope="row">@rowNumber</th>
                 <td>@cl.FirstName</td>
                 <td>@cl.LastName</td>
                 <td>@cl.PhoneNumber</td>
+                <td>@cl.Email</td>
+                <td>@cl.Address</td>
             </tr>
         }
         </tbody>

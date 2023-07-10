@@ -31,7 +31,7 @@
         }
         else if (User.IsInRole("Client"))
         {
-            if (dbContext.Clients.AnyAsync(c => c.UserId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Result)
+            if (dbContext.Clients.AnyAsync(c => c.UserClientId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameClientIdentifier))).Result)
             {
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Index">Client</a>
@@ -53,10 +53,10 @@
                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             </li>
         }*@
-       @* if (User.Identity?.IsAuthenticated ?? false && dbContext.Clients.AnyAsync(c => c.UserId == Guid.Parse( User.FindFirstValue(ClaimTypes.NameIdentifier))))
+       @* if (User.ClientIdentity?.IsAuthenticated ?? false && dbContext.Clients.AnyAsync(c => c.UserClientId == Guid.Parse( User.FindFirstValue(ClaimTypes.NameClientIdentifier))))
         {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+            <a class="nav-link text-dark" asp-area="ClientIdentity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.ClientIdentity?.Name!</a>
         </li>
         }*@
 

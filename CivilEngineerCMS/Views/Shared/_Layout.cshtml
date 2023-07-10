@@ -31,52 +31,38 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
 
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
-@*                        if (await dbContext.Clients.AnyAsync(c => c.UserId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))))
-                        {*@
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="All">All projects</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="All">All projects</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Add">Add project</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="Add">Add project</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Edit">Edit project</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="Edit">Edit project</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Create">Create client</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="Create">Create client</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Mine">My client's' projects</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="Mine">My client's' projects</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="All">All clients</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="All">All clients</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="All">All employees</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="All">All employees</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Mine">My manager's projects</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Mine">My manager's projects</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Create">Create Employee</a>
+                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Create">Create Employee</a>
                         </li>
-
- @*                       }
-                        else
-                        {
-                            
-
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Create">Create client</a>
-                            </li>
-                            
-                        }*@
                     }
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

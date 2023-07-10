@@ -1,0 +1,107 @@
+﻿@*@model ChooseForEditClientFormModel
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="ClientId">Choose client</label>
+                <select asp-for="ClientId" class="form-control">
+                    @foreach (var client in Model.Clients)
+                    {
+                        <option value="@client.ClientId">@client.ClientInfo</option>
+                    }
+                </select>
+                <span asp-validation-for="ClientId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" placeholder="Firs name...">
+                <span asp-validation-for="FirstName" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" placeholder="Last name...">
+                <span asp-validation-for="LastName" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number...">
+                <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" class="form-control" placeholder="Address...">
+                <span asp-validation-for="Address" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="Email...">
+                <span asp-validation-for="Email" class="small text-danger"></span>
+            </div>
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Edit"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+@*<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+            <div class="form-group">
+                <label asp-for="ClientId">Choose client</label>
+                <select asp-for="ClientId" class="form-control">
+                    @foreach (var client in Model.Clients)
+                    {
+                        <option value="@client.ClientId">@client.ClientInfo</option>
+                    }
+                </select>
+                <span asp-validation-for="ClientId" class="small text-danger"></span>
+            </div>
+            <div class="text-center">
+            <input type="button" class="btn btn-info" value="Edit" onclick="location.href = '@Url.Action("Edit", "Client", new {id= })'" />
+            </div>
+    </div>
+</div>*@
+
+
+@*<a href="@Url.Action("E","Account", new {id=Item.id })" class="btn btn-primary btn-lg">Register</a>*@
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+}
+
+
+
+
+
+
+@*<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="ClientId"></label>
+                <select asp-for="ClientId" class="form-control">
+                    @foreach (var client in Model.Clients)
+                    {
+                        <option value="@client.ClientId">@client.ClientInfo</option>
+                    }
+                </select>
+                <span asp-validation-for="ClientId" class="small text-danger"></span>
+            </div>
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Edit"/>
+            </div>
+        </form>
+    </div>
+</div>
+*@

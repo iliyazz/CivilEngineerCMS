@@ -1,15 +1,17 @@
 ﻿namespace CivilEngineerCMS.Services.Data
 {
     using System.Security.Claims;
+
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Manager;
 
     using Interfaces;
 
-    using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+
     using Web.ViewModels.Employee;
+
     using Task = System.Threading.Tasks.Task;
 
 
@@ -36,9 +38,12 @@
                 .OrderBy(x => x.JobTitle)
                 .Select(e => new AllEmployeeViewModel
                 {
+                    Id = e.Id,
                     FirstName = e.FirstName,
                     LastName = e.LastName,
-                    JobTitle = e.JobTitle
+                    JobTitle = e.JobTitle,
+                    Email = e.User.Email,
+                    PhoneNumber = e.PhoneNumber,
                 })
                 .ToListAsync();
             return allEmployeeAsync;

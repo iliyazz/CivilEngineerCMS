@@ -1,11 +1,15 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
     using Data.Models;
+
     using Infrastructure.Extensions;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+
     using Services.Data.Interfaces;
+
     using ViewModels.Client;
 
     public class ClientController : BaseController
@@ -33,7 +37,7 @@
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            CreateAndEditClientFormModel formModel = new CreateAndEditClientFormModel
+            CreateClientFormModel formModel = new CreateClientFormModel
             {
                 Users = await this.userManager
                     .Users
@@ -48,14 +52,8 @@
             return this.View();
         }
 
-
-
-
-
-
-
         [HttpPost]
-        public async Task<IActionResult> Create(CreateAndEditClientFormModel formModel)
+        public async Task<IActionResult> Create(CreateClientFormModel formModel)
         {
             if (!this.ModelState.IsValid)
             {
@@ -76,7 +74,27 @@
                 return this.View(formModel);
             }
         }
+
+        public async Task<IActionResult> Details()
+        {
+            var clientId = (string?)Url.ActionContext.RouteData.Values["id"];
+            if (clientId == null)
+            {
+                this.TempData["ErrorMessage"] = "Client does not exist.";
+                this.ModelState.AddModelError(string.Empty, "Client does not exist.");
+                return this.RedirectToAction("All");
+            }
+            //var url = Url.RequestContext.RouteData.Values["id"];
+            if (!await clientService.ClientExistsByIdAsync(clientId))
+            {
+                this.TempData["ErrorMessage"] = "Client does not exist.";
+                this.ModelState.AddModelError(string.Empty, "Client does not exist.");
+                return this.RedirectToAction("All");
+            }
+            DetailsClientViewModel viewModel = await this.clientService.DetailsClientAsync(clientId);
+            return this.View(viewModel);
+        }
+
+
     }
 }
-
-

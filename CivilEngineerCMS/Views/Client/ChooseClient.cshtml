@@ -1,17 +1,22 @@
-﻿@model EditClientFormModel
+﻿@using CivilEngineerCMS.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject UserManager<ApplicationUser> userManager
+@model CreateClientFormModel
 @{
-    ViewData["Title"] = "Edit Client";
+    ViewData["Title"] = "Choose Client";
 }
 
 <h2 class="text-center">@ViewData["Title"]</h2>
 <hr />
+
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form method="post">
             <div class="form-group">
                 <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" placeholder="Firs name...">
+                <input asp-for="FirstName" class="form-control" placeholder="First name...">
                 <span asp-validation-for="FirstName" class="small text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,9 +35,14 @@
                 <span asp-validation-for="Address" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" placeholder="Email...">
-                <span asp-validation-for="Email" class="small text-danger"></span>
+                <label asp-for="UserId"></label>
+                <select asp-for="UserId" class="form-control">
+                    @foreach (var u in userManager.Users)
+                    {
+                        <option value="@u.Id">@u.Email</option>
+                    }
+                </select>
+                <span asp-validation-for="UserId" class="small text-danger"></span>
             </div>
             <div class="text-center">
                 <input class="btn btn-primary mt-3" type="submit" value="Save" />
@@ -40,10 +50,3 @@
         </form>
     </div>
 </div>
-
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
-
-}
-

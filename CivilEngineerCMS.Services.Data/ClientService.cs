@@ -2,15 +2,12 @@
 
 namespace CivilEngineerCMS.Services.Data
 {
-    using System.Security.Claims;
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Client;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
+
     using Microsoft.EntityFrameworkCore;
-    using Web.ViewModels.Client;
-    using Web.ViewModels.Employee;
+
     using Task = System.Threading.Tasks.Task;
 
     public class ClientService : IClientService
@@ -20,7 +17,6 @@ namespace CivilEngineerCMS.Services.Data
         public ClientService(CivilEngineerCmsDbContext dbContext)
         {
             this.dbContext = dbContext;
-
         }
 
         public async Task<IEnumerable<MineClientManagerProjectViewModel>> AllProjectsByUserIdAsync(string userId)
@@ -51,7 +47,10 @@ namespace CivilEngineerCMS.Services.Data
                 {
                     Id = c.Id,
                     FirstName = c.FirstName,
-                    LastName = c.LastName
+                    LastName = c.LastName,
+                    PhoneNumber = c.PhoneNumber,
+                    Email = c.User.Email,
+                    Address = c.Address
                 })
                 .ToListAsync();
             return allClients;
@@ -65,18 +64,19 @@ namespace CivilEngineerCMS.Services.Data
                 .ThenBy(c => c.LastName)
                 .Select(c => new AllClientViewModel()
                 {
+                    Id = c.Id,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
-                    PhoneNumber = c.PhoneNumber
+                    PhoneNumber = c.PhoneNumber,
+                    Email = c.User.Email,
+                    Address = c.Address
                 })
                 .ToListAsync();
             return allClients;
         }
 
-        public async Task CreateClientAsync(CreateAndEditClientFormModel formModel)
+        public async Task CreateClientAsync(CreateClientFormModel formModel)
         {
-  
-
             Client client = new Client
             {
                 UserId = formModel.UserId,
@@ -89,44 +89,38 @@ namespace CivilEngineerCMS.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        //public async Task<CreateAndEditClientFormModel> GetClientForEditByIdAsync(string clientId)
-        //{
-        //    Client client = await this.dbContext
-        //        .Clients
-        //        .Include(x => x.User)
-        //        .Where(x => x.IsActive)
-        //        .FirstAsync(x => x.Id.ToString() == clientId);
-        //}
+        public async Task<DetailsClientViewModel> DetailsClientAsync(string clientId)
+        {
+            DetailsClientViewModel client = await this.dbContext
+                .Clients
+                .Include(c => c.User)
+                .Where(c => c.Id.ToString() == clientId)
+                .Select(c => new DetailsClientViewModel()
+                {
+                    Id = c.Id,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
+                    PhoneNumber = c.PhoneNumber,
+                    Email = c.User.Email,
+                    Address = c.Address
+                })
+                .FirstAsync();
 
-        //public Task EditClientByIdAsync(string clientId, CreateAndEditClientFormModel formModel)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            var result = new DetailsClientViewModel
+            {
+                Id = client.Id,
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                PhoneNumber = client.PhoneNumber,
+                Email = client.Email,
+                Address = client.Address
+            };
+            return result;
+        }
 
-
+        public async Task<bool> ClientExistsByIdAsync(string id)
+        {
+            return await this.dbContext.Clients.AnyAsync(c => c.Id.ToString() == id);
+        }
     }
 }
-/*
-    public async Task<AddAndEditProjectFormModel> GetProjectForEditByIdAsync(string projectId)
-    {
-        Project project = await this.dbContext
-            .Projects
-            .Include(x => x.Client)
-            .Include(x => x.Manager)
-            .Where(x => x.IsActive)
-            .FirstAsync(x => x.Id.ToString() == projectId);
-
-
-        var result = new AddAndEditProjectFormModel
-        {
-            Name = project.Name,
-            Description = project.Description,
-            ClientId = project.ClientId,
-            ManagerId = project.ManagerId,
-            UrlPicturePath = project.UrlPicturePath,
-            Status = project.Status,
-            ProjectEndDate = project.ProjectEndDate.ToString("dd/MM/yyyy"),
-        };
-        return result;
-    }
- */

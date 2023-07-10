@@ -1,0 +1,42 @@
+﻿@model DetailsClientViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr/>
+<div justify-content: center>
+    <div style="display: inline">
+        <div class="row" align="center">
+            <div class="card col-12 border-0">
+                <p style="font-size: 25px;">
+                    <u>@Model.FirstName @Model.LastName</u>
+                </p>
+                <p>Address <b>@Model.Address</b></p>
+                <p></p>
+                <div class="card" align="center">
+                    <div class="card-body" align="center">
+                        <h5 class="card-title">Client Info</h5>
+                        <p class="card-text">Email: @Model.Email</p>
+                        <p class="card-text">Phone Number: @Model.PhoneNumber</p>
+                        <div class="form-inline">
+
+                            <a class="btn btn-warning" asp-controller="Client" asp-action="Edit"
+                               asp-route-id="@Model.Id">
+                                Edit
+                            </a>
+                            <a class="ml-2 btn btn-danger" asp-controller="Client" asp-action="Delete"
+                               asp-route-id="@Model.Id">
+                                Delete
+                            </a>
+                            <a class="ml-2 btn btn-info"  href="javascript: history.back();">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

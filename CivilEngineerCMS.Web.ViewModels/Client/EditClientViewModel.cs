@@ -1,22 +1,18 @@
 ﻿namespace CivilEngineerCMS.Web.ViewModels.Client
 {
     using System.ComponentModel.DataAnnotations;
-    using Data.Models;
-    using Microsoft.AspNetCore.Identity;
     using static Common.EntityValidationConstants.Client;
 
-    public class CreateAndEditClientFormModel
+    public class EditClientViewModel
     {
-
-        public CreateAndEditClientFormModel()
+        public EditClientViewModel()
         {
-            this.Users = new HashSet<AllUsersSelectViewModelForClient>();
-
+            this.Clients = new HashSet<ProjectSelectClientFormModel>();
         }
 
         [Required]
-        public Guid UserId { get; set; }
-
+        public Guid ClientId { get; set; }
+        public IEnumerable<ProjectSelectClientFormModel> Clients { get; set; }
         [Required]
         [StringLength(FirstNameMaxLength, MinimumLength = FirstNameMinLength)]
         [Display(Name = "First Name")]
@@ -29,13 +25,15 @@
 
         [Required]
         [Phone]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
         [StringLength(AddressMaxLength, MinimumLength = AddressMinLength)]
         public string Address { get; set; } = null!;
 
-        public  IEnumerable<AllUsersSelectViewModelForClient> Users { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = null!;
     }
 }
-
