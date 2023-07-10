@@ -10,6 +10,7 @@
         Task CreateClientAsync(CreateClientFormModel formModel);
         Task<DetailsClientViewModel> DetailsClientAsync(string clientId);
         Task<bool> ClientExistsByIdAsync(string id);
-        //Task<IEnumerable<AllClientSelectForEditViewModel>> GetAllClientsForEditAsync();
+        Task<EditClientFormModel> GetClientForEditByIdAsync(string clientId);
+        Task EditClientByIdAsync(string clientId, EditClientFormModel formModel);
     }
 }

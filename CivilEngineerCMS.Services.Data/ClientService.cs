@@ -122,5 +122,39 @@ namespace CivilEngineerCMS.Services.Data
         {
             return await this.dbContext.Clients.AnyAsync(c => c.Id.ToString() == id);
         }
+
+        public async Task<EditClientFormModel> GetClientForEditByIdAsync(string clientId)
+        {
+            Client client = await this.dbContext
+                .Clients
+                .Include(c => c.User)
+                .Where(c => c.Id.ToString() == clientId)
+                .FirstAsync();
+            string email = client.User.Email;
+            var result = new EditClientFormModel
+            {
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                PhoneNumber = client.PhoneNumber,
+                Address = client.Address,
+                Email = email
+            };
+            return result;
+        }
+
+        public async Task EditClientByIdAsync(string clientId, EditClientFormModel formModel)
+        {
+            Client client = await this.dbContext                .Clients
+                .Include(c => c.User)
+                .Where(c => c.Id.ToString() == clientId)
+                .FirstAsync();
+            client.FirstName = formModel.FirstName;
+            client.LastName = formModel.LastName;
+            client.PhoneNumber = formModel.PhoneNumber;
+            client.Address = formModel.Address;
+            client.User.Email = formModel.Email;
+            await this.dbContext.SaveChangesAsync();
+        }
     }
 }
+

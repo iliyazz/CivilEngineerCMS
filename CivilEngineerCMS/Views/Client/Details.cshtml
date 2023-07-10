@@ -20,19 +20,10 @@
                         <h5 class="card-title">Client Info</h5>
                         <p class="card-text">Email: @Model.Email</p>
                         <p class="card-text">Phone Number: @Model.PhoneNumber</p>
-                        <div class="form-inline">
-
-                            <a class="btn btn-warning" asp-controller="Client" asp-action="Edit"
-                               asp-route-id="@Model.Id">
-                                Edit
-                            </a>
-                            <a class="ml-2 btn btn-danger" asp-controller="Client" asp-action="Delete"
-                               asp-route-id="@Model.Id">
-                                Delete
-                            </a>
-                            <a class="ml-2 btn btn-info"  href="javascript: history.back();">
-                                Cancel
-                            </a>
+                        <div class="form-check-inline">
+                            <a class="btn btn-warning" asp-controller="Client" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                            <a class="ml-2 btn btn-danger" asp-controller="Client" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                            <a class="ml-2 btn btn-info"  href="javascript: history.back();">Cancel</a>
                         </div>
                     </div>
                 </div>

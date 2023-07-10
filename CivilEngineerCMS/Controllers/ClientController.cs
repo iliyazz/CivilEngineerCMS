@@ -95,6 +95,82 @@
             return this.View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            bool clientExists = await this.clientService.ClientExistsByIdAsync(id.ToString());
+            if (!clientExists)
+            {
+                this.TempData["ErrorMessage"] = "Client with provided id does not exist.";
+                return this.RedirectToAction("All");
+            }
+
+            try
+            {
+                EditClientFormModel viewModel = await this.clientService.GetClientForEditByIdAsync(id.ToString());
+                this.TempData["SuccessMessage"] = $"Client {viewModel.FirstName} {viewModel.LastName} edited successfully.";
+                return this.View(viewModel);
+            }
+            catch (Exception _)
+            {
+                this.TempData["ErrorMessage"] = "Client with provided id does not exist.";
+                return this.RedirectToAction("All");
+            }
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, EditClientFormModel formModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(formModel);
+            }
+
+            bool clientExists = await this.clientService.ClientExistsByIdAsync(id);
+            if (!clientExists)
+            {
+                this.TempData["ErrorMessage"] = "Client with provided id does not exist.";
+                return this.RedirectToAction("All");
+            }
+
+            try
+            {
+                await this.clientService.EditClientByIdAsync(id, formModel);
+
+                this.TempData["SuccessMessage"] = $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
+                return this.RedirectToAction("All");
+            }
+            catch (Exception _)
+            {
+                this.TempData["ErrorMessage"] = "An error occurred while editing the client. Please try again later or contact administrator!";
+                return this.View(formModel);
+            }
+        }
+
 
     }
 }
+/*
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, AddAndEditProjectFormModel formModel)
+        {
+
+
+            try
+            {
+                await this.projectService.EditProjectByIdAsync( id, formModel);
+
+            }
+            catch (Exception e)
+            {
+                this.TempData[ErrorMessage] = "An error occurred while editing the project. Please try again later or contact administrator!";
+                return this.View(formModel);
+
+            }
+            this.TempData[SuccessMessage] = $"Project {formModel.Name} edited successfully.";
+            formModel.Managers = await this.employeeService.AllManagersAsync();
+            formModel.Clients = await this.clientService.AllClientsAsync();
+            return this.RedirectToAction("Mine", "Employee");
+        }
+ */
