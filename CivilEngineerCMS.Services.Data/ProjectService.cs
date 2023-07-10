@@ -1,18 +1,12 @@
 ﻿namespace CivilEngineerCMS.Services.Data;
 
 using System.Globalization;
-
 using CivilEngineerCMS.Data;
 using CivilEngineerCMS.Data.Models;
-
 using Common;
-
 using Interfaces;
-
 using Microsoft.EntityFrameworkCore;
-
 using Web.ViewModels.Project;
-
 using Task = System.Threading.Tasks.Task;
 
 public class ProjectService : IProjectService
@@ -56,6 +50,7 @@ public class ProjectService : IProjectService
     {
         bool clientExists = await this.dbContext
             .Clients
+            .Where(x => x.IsActive)
             .AnyAsync(x => x.Id.ToString() == id);
         return clientExists;
     }
@@ -64,6 +59,7 @@ public class ProjectService : IProjectService
     {
         bool employeeExists = await this.dbContext
             .Employees
+            .Where(x => x.IsActive)
             .AnyAsync(x => x.Id.ToString() == id);
         return employeeExists;
     }
@@ -149,6 +145,7 @@ public class ProjectService : IProjectService
     {
         bool result = await this.dbContext
             .Projects
+            .Where(x => x.IsActive)
             .AnyAsync(x => x.Id.ToString() == id);
         return result;
     }

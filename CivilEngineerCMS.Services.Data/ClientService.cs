@@ -5,9 +5,7 @@ namespace CivilEngineerCMS.Services.Data
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Client;
-
     using Microsoft.EntityFrameworkCore;
-
     using Task = System.Threading.Tasks.Task;
 
     public class ClientService : IClientService
@@ -23,7 +21,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<MineClientManagerProjectViewModel> allProjectsByUserIdAsync = await dbContext
                 .Projects
-                .Where(p => p.Client.UserId.ToString() == userId)
+                .Where(p => p.Client.UserId.ToString() == userId && p.IsActive)
                 .OrderBy(pn => pn.Name)
                 .Select(p => new MineClientManagerProjectViewModel
                 {
@@ -41,6 +39,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<ProjectSelectClientFormModel> allClients = await dbContext
                 .Clients
+                .Where(c => c.IsActive)
                 .OrderBy(c => c.FirstName)
                 .ThenBy(c => c.LastName)
                 .Select(c => new ProjectSelectClientFormModel
@@ -60,6 +59,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<AllClientViewModel> allClients = await dbContext
                 .Clients
+                .Where(c => c.IsActive)
                 .OrderBy(c => c.FirstName)
                 .ThenBy(c => c.LastName)
                 .Select(c => new AllClientViewModel()
@@ -94,7 +94,7 @@ namespace CivilEngineerCMS.Services.Data
             DetailsClientViewModel client = await this.dbContext
                 .Clients
                 .Include(c => c.User)
-                .Where(c => c.Id.ToString() == clientId)
+                .Where(c => c.Id.ToString() == clientId && c.IsActive)
                 .Select(c => new DetailsClientViewModel()
                 {
                     Id = c.Id,
@@ -120,7 +120,7 @@ namespace CivilEngineerCMS.Services.Data
 
         public async Task<bool> ClientExistsByIdAsync(string id)
         {
-            return await this.dbContext.Clients.AnyAsync(c => c.Id.ToString() == id);
+            return await this.dbContext.Clients.AnyAsync(c => c.Id.ToString() == id && c.IsActive);
         }
 
         public async Task<EditClientFormModel> GetClientForEditByIdAsync(string clientId)
@@ -128,7 +128,7 @@ namespace CivilEngineerCMS.Services.Data
             Client client = await this.dbContext
                 .Clients
                 .Include(c => c.User)
-                .Where(c => c.Id.ToString() == clientId)
+                .Where(c => c.Id.ToString() == clientId && c.IsActive)
                 .FirstAsync();
             string email = client.User.Email;
             var result = new EditClientFormModel
@@ -144,9 +144,9 @@ namespace CivilEngineerCMS.Services.Data
 
         public async Task EditClientByIdAsync(string clientId, EditClientFormModel formModel)
         {
-            Client client = await this.dbContext                .Clients
+            Client client = await this.dbContext.Clients
                 .Include(c => c.User)
-                .Where(c => c.Id.ToString() == clientId)
+                .Where(c => c.Id.ToString() == clientId && c.IsActive)
                 .FirstAsync();
             client.FirstName = formModel.FirstName;
             client.LastName = formModel.LastName;
@@ -157,4 +157,3 @@ namespace CivilEngineerCMS.Services.Data
         }
     }
 }
-

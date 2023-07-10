@@ -1,17 +1,12 @@
 ﻿namespace CivilEngineerCMS.Services.Data
 {
     using System.Security.Claims;
-
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Manager;
-
     using Interfaces;
-
     using Microsoft.EntityFrameworkCore;
-
     using Web.ViewModels.Employee;
-
     using Task = System.Threading.Tasks.Task;
 
 
@@ -27,7 +22,7 @@
 
         public async Task<bool> EmployeeExistsByUserIdAsync(string id)
         {
-            bool result = await this.dbContext.Employees.AnyAsync(e => e.UserId.ToString() == id);
+            bool result = await this.dbContext.Employees.AnyAsync(e => e.UserId.ToString() == id && e.IsActive);
             return result;
         }
 
@@ -35,6 +30,7 @@
         {
             IEnumerable<AllEmployeeViewModel> allEmployeeAsync = await this.dbContext
                 .Employees
+                .Where(e => e.IsActive)
                 .OrderBy(x => x.JobTitle)
                 .Select(e => new AllEmployeeViewModel
                 {
@@ -53,7 +49,7 @@
         {
             IEnumerable<MineManagerProjectViewModel> allProjectsByManagerIdAsync = await this.dbContext
                 .Projects
-                .Where(p => p.Manager.Id.ToString() == id)
+                .Where(p => p.Manager.Id.ToString() == id && p.IsActive)
                 .OrderBy(p => p.Name)
                 .Select(p => new MineManagerProjectViewModel
                 {
@@ -68,15 +64,17 @@
             return allProjectsByManagerIdAsync;
         }
 
-        public string GetCurrentUserId(ClaimsPrincipal user)
-        {
-            string userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-            return userId;
-        }
+        //public string GetCurrentUserId(ClaimsPrincipal user)
+        //{
+        //    string userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    return userId;
+        //}
+
         public async Task<IEnumerable<ProjectSelectManagerFormModel>> AllManagersAsync()
         {
             IEnumerable<ProjectSelectManagerFormModel> managers = await this.dbContext
                 .Employees
+                .Where(e => e.IsActive)
                 .Select(u => new ProjectSelectManagerFormModel
                 {
                     Id = u.Id,
@@ -92,17 +90,18 @@
         {
             Employee? manager = await this.dbContext
                 .Employees
+                .Where(e => e.IsActive)
                 .FirstOrDefaultAsync(e => e.UserId.ToString() == userId);
             if (manager == null)
             {
                 return null;
             }
+
             return manager.Id.ToString();
         }
 
         public async Task CreateEmployeeAsync(CreateEmployeeFormModel formModel)
         {
-
             Employee employee = new Employee
             {
                 UserId = formModel.UserId,
@@ -115,7 +114,5 @@
             await this.dbContext.Employees.AddAsync(employee);
             await this.dbContext.SaveChangesAsync();
         }
-
     }
 }
-
