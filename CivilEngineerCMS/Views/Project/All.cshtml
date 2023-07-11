@@ -1,7 +1,7 @@
-﻿@model IEnumerable<AllProjectViewModel>
+﻿@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Project.AllProjectViewModel>
 
 @{
-    ViewData["Title"] = "Task Board";
+    ViewData["Title"] = "All projects";
     var projects = Model.ToList();
 }
 
@@ -10,32 +10,32 @@
 
 @if (!projects.Any())
 {
-    <h3 class="text-center">No project yet!</h3>
+    <h3 class="text-center">No projects yet!</h3>
 }
 else
 {
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Project title</th>
-            <th scope="col">Client name</th>
-            <th scope="col">Manager name</th>
-            <th scope="col">Project create date</th>
+                <th scope="col">#</th>
+                <th scope="col">Project title</th>
+                <th scope="col">Client name</th>
+                <th scope="col">Manager name</th>
+                <th scope="col">Project create date</th>
+
         </tr>
         </thead>
         <tbody>
         @{ int rowNumber = 0; }
         @foreach (var p in projects)
         {
-            
             rowNumber++;
-            <tr>
-                <th scope="row">@rowNumber</th>
-                <td>@p.Name</td>
-                <td>@p.ClientName</td>
-                <td>@p.ManagerName</td>
-                <td>@p.ProjectCreatedDate</td>
+            <tr onclick="location.href = '@Url.Action("Details", "Project", new { id = @p.Id.ToString() })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+                    <th scope="row">@rowNumber</th>
+                    <td>@p.Name</td>
+                    <td>@p.ClientName</td>
+                    <td>@p.ManagerName</td>
+                    <td>@p.ProjectCreatedDate</td>
             </tr>
         }
         </tbody>

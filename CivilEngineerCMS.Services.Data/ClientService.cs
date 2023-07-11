@@ -184,22 +184,20 @@ namespace CivilEngineerCMS.Services.Data
                 .Include(c => c.User)
                 .FirstAsync(c => c.Id.ToString() == clientId);
             clientToDelete.IsActive = false;
-            
+
             Guid userId = clientToDelete.User.Id;
             var userToDelete = await this.userManager.FindByIdAsync(userId.ToString());
-            
+
             if (userToDelete != null)
             {
                 await this.userManager.SetLockoutEnabledAsync(userToDelete, true);
-                await this.userManager.SetLockoutEndDateAsync(userToDelete, new System.DateTimeOffset(System.DateTime.Now.AddYears(100)));
+                await this.userManager.SetLockoutEndDateAsync(userToDelete,
+                    new System.DateTimeOffset(System.DateTime.Now.AddYears(100)));
             }
             else
             {
                 await this.userManager.SetLockoutEnabledAsync(userToDelete, false);
             }
-
-
-
 
             await this.dbContext.SaveChangesAsync();
         }
