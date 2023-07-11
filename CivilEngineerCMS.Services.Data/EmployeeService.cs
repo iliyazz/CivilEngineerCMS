@@ -1,27 +1,31 @@
 ﻿namespace CivilEngineerCMS.Services.Data
 {
-    using System.Security.Claims;
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Manager;
+
     using Interfaces;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Web.ViewModels.Client;
+
     using Web.ViewModels.Employee;
+
     using Task = System.Threading.Tasks.Task;
 
 
     public class EmployeeService : IEmployeeService
     {
         private readonly CivilEngineerCmsDbContext dbContext;
+        private readonly UserManager<ApplicationUser> userManager;
 
 
-        public EmployeeService(CivilEngineerCmsDbContext dbContext)
+        public EmployeeService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
-        public async Task<bool> EmployeeExistsByUserIdAsync(string id)
+        public async Task<bool> EmployeeExistsByIdAsync(string id)
         {
             bool result = await this.dbContext.Employees.AnyAsync(e => e.Id.ToString() == id && e.IsActive);
             return result;
@@ -178,6 +182,44 @@
 
             await this.dbContext.SaveChangesAsync();
         }
+        public async Task<EmployeePreDeleteViewModel> GetEmployeeForPreDeleteByIdAsync(string employeeId)
+        {
+            Employee employee = await this.dbContext
+                .Employees
+                .Include(c => c.User)
+                .Where(c => c.IsActive)
+                .FirstAsync(c => c.Id.ToString() == employeeId);
+            return new EmployeePreDeleteViewModel
+            {
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                JobTitle = employee.JobTitle,
+                PhoneNumber = employee.PhoneNumber,
+                Address = employee.Address,
+                Email = employee.User.Email
+            };
+        }
 
+        public async Task DeleteEmployeeByIdAsync(string employeeId)
+        {
+            Employee employeeToDelete = await this.dbContext
+                .Employees
+                .Where(c => c.IsActive)
+                .Include(c => c.User)
+                .FirstAsync(c => c.Id.ToString() == employeeId);
+            employeeToDelete.IsActive = false;
+
+            Guid userId = employeeToDelete.User.Id;
+            var userToDelete = await this.userManager.FindByIdAsync(userId.ToString());
+
+            if (userToDelete != null)
+            {
+                await this.userManager.SetLockoutEnabledAsync(userToDelete, true);
+                await this.userManager.SetLockoutEndDateAsync(userToDelete,
+                    new System.DateTimeOffset(System.DateTime.Now.AddYears(100)));
+            }
+
+            await this.dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -194,11 +194,6 @@ namespace CivilEngineerCMS.Services.Data
                 await this.userManager.SetLockoutEndDateAsync(userToDelete,
                     new System.DateTimeOffset(System.DateTime.Now.AddYears(100)));
             }
-            else
-            {
-                await this.userManager.SetLockoutEnabledAsync(userToDelete, false);
-            }
-
             await this.dbContext.SaveChangesAsync();
         }
     }

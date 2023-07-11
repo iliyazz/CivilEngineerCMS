@@ -1,8 +1,5 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
-    using CivilEngineerCMS.Services.Data;
-    using CivilEngineerCMS.Web.ViewModels.Client;
-
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
@@ -10,6 +7,7 @@
     using Services.Data.Interfaces;
 
     using ViewModels.Employee;
+
     using static Common.NotificationMessagesConstants;
 
     public class EmployeeController : BaseController
@@ -34,7 +32,7 @@
         {
             string? id = this.User.GetId();
             var employeeId = await this.employeeService.GetManagerIdByUserIdAsync(id);
-            bool isEmployee = await this.employeeService.EmployeeExistsByUserIdAsync(id);
+            bool isEmployee = await this.employeeService.EmployeeExistsByIdAsync(id);
             if (!isEmployee)
             {
                 return RedirectToAction("Index", "Home");
@@ -85,7 +83,7 @@
                 this.ModelState.AddModelError(string.Empty, "Employee does not exist.");
                 return this.RedirectToAction("All", "Employee");
             }
-            if (!await employeeService.EmployeeExistsByUserIdAsync(employeeId))
+            if (!await employeeService.EmployeeExistsByIdAsync(employeeId))
             {
                 this.TempData[ErrorMessage] = "Employee does not exist.";
                 this.ModelState.AddModelError(string.Empty, "Employee does not exist.");
@@ -98,7 +96,7 @@
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            bool employeeExists = await this.employeeService.EmployeeExistsByUserIdAsync(id.ToString());
+            bool employeeExists = await this.employeeService.EmployeeExistsByIdAsync(id.ToString());
             if (!employeeExists)
             {
                 this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
@@ -127,7 +125,7 @@
                 return this.View(formModel);
             }
 
-            bool employeeExist = await this.employeeService.EmployeeExistsByUserIdAsync(id);
+            bool employeeExist = await this.employeeService.EmployeeExistsByIdAsync(id);
             if (!employeeExist)
             {
                 this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
@@ -145,6 +143,65 @@
             {
                 this.TempData[ErrorMessage] = "An error occurred while editing the employee. Please try again later or contact administrator!";
                 return this.View(formModel);
+            }
+        }
+
+        private IActionResult GeneralError()
+        {
+            this.TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
+
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            bool employeeExists = await this.employeeService.EmployeeExistsByIdAsync(id.ToString());
+            if (!employeeExists)
+            {
+                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                return this.RedirectToAction("All", "Employee");
+            }
+
+            try
+            {
+                EmployeePreDeleteViewModel viewModel = await this.employeeService.GetEmployeeForPreDeleteByIdAsync(id.ToString());
+                this.TempData[WarningMessage] =
+                    $"You are going to delete employee {viewModel.FirstName} {viewModel.LastName}.";
+                return this.View(viewModel);
+            }
+            catch (Exception _)
+            {
+                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                return GeneralError();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, EmployeePreDeleteViewModel formModel)
+        {
+
+            bool employeeExists = await this.employeeService.EmployeeExistsByIdAsync(id);
+            if (!employeeExists)
+            {
+                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                return this.RedirectToAction("All", "Employee");
+            }
+
+            try
+            {
+                await this.employeeService.DeleteEmployeeByIdAsync(id);
+
+                this.TempData[WarningMessage] =
+                    $"Employee {formModel.FirstName} {formModel.LastName} deleted successfully.";
+                return this.RedirectToAction("All", "Employee");
+            }
+            catch (Exception _)
+            {
+                this.TempData[ErrorMessage] =
+                    "An error occurred while deleting the employee. Please try again later or contact administrator!";
+                return GeneralError();
             }
         }
     }

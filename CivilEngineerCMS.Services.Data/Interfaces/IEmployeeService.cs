@@ -8,7 +8,7 @@
 
     public interface IEmployeeService
     {
-        Task<bool> EmployeeExistsByUserIdAsync(string id);
+        Task<bool> EmployeeExistsByIdAsync(string id);
         Task<IEnumerable<AllEmployeeViewModel>> AllEmployeesAsync();
         Task<IEnumerable<MineManagerProjectViewModel>> AllProjectsByManagerIdAsync(string id);
         Task<IEnumerable<ProjectSelectManagerFormModel>> AllManagersAsync();
@@ -18,7 +18,7 @@
         Task<EditEmployeeFormModel> GetEmployeeForEditByIdAsync(string employeeId);
         Task EditEmployeeByIdAsync(string employeeId, EditEmployeeFormModel formModel);
 
-        //Task<EmployeePreDeleteViewModel> GetEmployeeForPreDeleteByIdAsync(string employeeId);
-        //Task DeleteEmployeeByIdAsync(string employeeId);
+        Task<EmployeePreDeleteViewModel> GetEmployeeForPreDeleteByIdAsync(string employeeId);
+        Task DeleteEmployeeByIdAsync(string employeeId);
     }
 }
