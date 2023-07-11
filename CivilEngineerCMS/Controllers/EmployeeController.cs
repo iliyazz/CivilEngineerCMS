@@ -7,6 +7,7 @@
     using Services.Data.Interfaces;
 
     using ViewModels.Employee;
+    using static Common.NotificationMessagesConstants;
 
     public class EmployeeController : BaseController
     {
@@ -60,7 +61,7 @@
             {
                 await this.employeeService.CreateEmployeeAsync(formModel);
 
-                this.TempData["SuccessMessage"] =
+                this.TempData[SuccessMessage] =
                     $"Employee {formModel.FirstName} {formModel.LastName} added successfully.";
                 return this.RedirectToAction("All");
             }

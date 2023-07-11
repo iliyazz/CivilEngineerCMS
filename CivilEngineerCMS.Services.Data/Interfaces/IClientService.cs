@@ -12,5 +12,7 @@
         Task<bool> ClientExistsByIdAsync(string id);
         Task<EditClientFormModel> GetClientForEditByIdAsync(string clientId);
         Task EditClientByIdAsync(string clientId, EditClientFormModel formModel);
+        Task<ClientPreDeleteViewModel> GetClientForPreDeleteByIdAsync(string clientId);
+        Task DeleteClientByIdAsync(string clientId);
     }
 }

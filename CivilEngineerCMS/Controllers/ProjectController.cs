@@ -184,5 +184,23 @@
             formModel.Clients = await this.clientService.AllClientsAsync();
             return this.RedirectToAction("Mine", "Employee");
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> Delete(string id)
+        //{
+        //    bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+        //    if (!projectExists)
+        //    {
+        //        this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+        //        return this.RedirectToAction("Mine", "Employee");
+        //    }
+
+        //    var project = await this.projectService.GetProjectForEditByIdAsync(id);
+
+        //    var currentUserId = this.User.GetId();
+
+        //    var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
+        //}
+   
     }
 }

@@ -11,6 +11,7 @@
     using Services.Data.Interfaces;
 
     using ViewModels.Client;
+    using static Common.NotificationMessagesConstants;
 
     public class ClientController : BaseController
     {
@@ -64,8 +65,8 @@
             {
                 await this.clientService.CreateClientAsync(formModel);
 
-                this.TempData["SuccessMessage"] = $"Client {formModel.FirstName} {formModel.LastName} added successfully.";
-                return this.RedirectToAction("All");
+                this.TempData[SuccessMessage] = $"Client {formModel.FirstName} {formModel.LastName} added successfully.";
+                return this.RedirectToAction("All", "Client");
             }
             catch (Exception _)
             {
@@ -80,16 +81,16 @@
             var clientId = (string?)Url.ActionContext.RouteData.Values["id"];
             if (clientId == null)
             {
-                this.TempData["ErrorMessage"] = "Client does not exist.";
+                this.TempData[ErrorMessage] = "Client does not exist.";
                 this.ModelState.AddModelError(string.Empty, "Client does not exist.");
-                return this.RedirectToAction("All");
+                return this.RedirectToAction("All", "Client");
             }
             //var url = Url.RequestContext.RouteData.Values["id"];
             if (!await clientService.ClientExistsByIdAsync(clientId))
             {
-                this.TempData["ErrorMessage"] = "Client does not exist.";
+                this.TempData[ErrorMessage] = "Client does not exist.";
                 this.ModelState.AddModelError(string.Empty, "Client does not exist.");
-                return this.RedirectToAction("All");
+                return this.RedirectToAction("All", "Client");
             }
             DetailsClientViewModel viewModel = await this.clientService.DetailsClientAsync(clientId);
             return this.View(viewModel);
@@ -101,20 +102,20 @@
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id.ToString());
             if (!clientExists)
             {
-                this.TempData["ErrorMessage"] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All");
+                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                return this.RedirectToAction("All", "Client");
             }
 
             try
             {
                 EditClientFormModel viewModel = await this.clientService.GetClientForEditByIdAsync(id.ToString());
-                this.TempData["SuccessMessage"] = $"Client {viewModel.FirstName} {viewModel.LastName} edited successfully.";
+                this.TempData[SuccessMessage] = $"Client {viewModel.FirstName} {viewModel.LastName} edited successfully.";
                 return this.View(viewModel);
             }
             catch (Exception _)
             {
-                this.TempData["ErrorMessage"] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All");
+                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                return this.RedirectToAction("All", "Client");
             }
 
         }
@@ -130,47 +131,82 @@
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id);
             if (!clientExists)
             {
-                this.TempData["ErrorMessage"] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All");
+                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                return this.RedirectToAction("All", "Client");
             }
 
             try
             {
                 await this.clientService.EditClientByIdAsync(id, formModel);
 
-                this.TempData["SuccessMessage"] = $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
-                return this.RedirectToAction("All");
+                this.TempData[SuccessMessage] = $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
+                return this.RedirectToAction("All", "Client");
             }
             catch (Exception _)
             {
-                this.TempData["ErrorMessage"] = "An error occurred while editing the client. Please try again later or contact administrator!";
+                this.TempData[ErrorMessage] = "An error occurred while editing the client. Please try again later or contact administrator!";
                 return this.View(formModel);
             }
         }
 
-
-    }
-}
-/*
-        [HttpPost]
-        public async Task<IActionResult> Edit(string id, AddAndEditProjectFormModel formModel)
+        private IActionResult GeneralError()
         {
+            this.TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
 
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            bool clientExists = await this.clientService.ClientExistsByIdAsync(id.ToString());
+            if (!clientExists)
+            {
+                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                return this.RedirectToAction("All", "Client");
+            }
 
             try
             {
-                await this.projectService.EditProjectByIdAsync( id, formModel);
-
+                ClientPreDeleteViewModel viewModel = await this.clientService.GetClientForPreDeleteByIdAsync(id.ToString());
+                this.TempData[WarningMessage] =
+                    $"You are going to delete client {viewModel.FirstName} {viewModel.LastName}.";
+                return this.View(viewModel);
             }
-            catch (Exception e)
+            catch (Exception _)
             {
-                this.TempData[ErrorMessage] = "An error occurred while editing the project. Please try again later or contact administrator!";
-                return this.View(formModel);
-
+                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                return GeneralError();
             }
-            this.TempData[SuccessMessage] = $"Project {formModel.Name} edited successfully.";
-            formModel.Managers = await this.employeeService.AllManagersAsync();
-            formModel.Clients = await this.clientService.AllClientsAsync();
-            return this.RedirectToAction("Mine", "Employee");
         }
- */
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, ClientPreDeleteViewModel formModel)
+        {
+
+            bool clientExists = await this.clientService.ClientExistsByIdAsync(id);
+            if (!clientExists)
+            {
+                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                return this.RedirectToAction("All", "Client");
+            }
+
+            try
+            {
+                await this.clientService.DeleteClientByIdAsync(id);
+
+                this.TempData[WarningMessage] =
+                    $"Client {formModel.FirstName} {formModel.LastName} deleted successfully.";
+                return this.RedirectToAction("All", "Client");
+            }
+            catch (Exception _)
+            {
+                this.TempData[ErrorMessage] =
+                    "An error occurred while deleting the client. Please try again later or contact administrator!";
+                return GeneralError();
+            }
+        }
+
+    }
+}

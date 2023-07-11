@@ -5,16 +5,19 @@ namespace CivilEngineerCMS.Services.Data
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Client;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Task = System.Threading.Tasks.Task;
 
     public class ClientService : IClientService
     {
         private readonly CivilEngineerCmsDbContext dbContext;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public ClientService(CivilEngineerCmsDbContext dbContext)
+        public ClientService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
         }
 
         public async Task<IEnumerable<MineClientManagerProjectViewModel>> AllProjectsByUserIdAsync(string userId)
@@ -153,6 +156,51 @@ namespace CivilEngineerCMS.Services.Data
             client.PhoneNumber = formModel.PhoneNumber;
             client.Address = formModel.Address;
             client.User.Email = formModel.Email;
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<ClientPreDeleteViewModel> GetClientForPreDeleteByIdAsync(string clientId)
+        {
+            Client client = await this.dbContext
+                .Clients
+                .Include(c => c.User)
+                .Where(c => c.IsActive)
+                .FirstAsync(c => c.Id.ToString() == clientId);
+            return new ClientPreDeleteViewModel
+            {
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                PhoneNumber = client.PhoneNumber,
+                Address = client.Address,
+                Email = client.User.Email
+            };
+        }
+
+        public async Task DeleteClientByIdAsync(string clientId)
+        {
+            Client clientToDelete = await this.dbContext
+                .Clients
+                .Where(c => c.IsActive)
+                .Include(c => c.User)
+                .FirstAsync(c => c.Id.ToString() == clientId);
+            clientToDelete.IsActive = false;
+            
+            Guid userId = clientToDelete.User.Id;
+            var userToDelete = await this.userManager.FindByIdAsync(userId.ToString());
+            
+            if (userToDelete != null)
+            {
+                await this.userManager.SetLockoutEnabledAsync(userToDelete, true);
+                await this.userManager.SetLockoutEndDateAsync(userToDelete, new System.DateTimeOffset(System.DateTime.Now.AddYears(100)));
+            }
+            else
+            {
+                await this.userManager.SetLockoutEnabledAsync(userToDelete, false);
+            }
+
+
+
+
             await this.dbContext.SaveChangesAsync();
         }
     }
