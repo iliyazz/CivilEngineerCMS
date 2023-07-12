@@ -22,6 +22,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
         options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
         options.Password.RequireUppercase = builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
         options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
+        options.Lockout.AllowedForNewUsers = builder.Configuration.GetValue<bool>("Identity:Lockout:AllowedForNewUsers");
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(builder.Configuration.GetValue<int>("Identity:Lockout:DefaultLockoutTimeSpan"));
+        options.Lockout.MaxFailedAccessAttempts = builder.Configuration.GetValue<int>("Identity:Lockout:MaxFailedAccessAttempts");
     })
     .AddEntityFrameworkStores<CivilEngineerCmsDbContext>();
 
