@@ -141,6 +141,30 @@ public class ProjectService : IProjectService
         await this.dbContext.SaveChangesAsync();
     }
 
+    public Task<IEnumerable<MineViewModel>> AllProjectsByManagerIdAsync(string userId)
+    {
+        throw new NotImplementedException();
+    }
+    /*
+            public async Task<IEnumerable<MineClientManagerProjectViewModel>> AllProjectsByUserIdAsync(string userId)
+        {
+            IEnumerable<MineClientManagerProjectViewModel> allProjectsByUserIdAsync = await dbContext
+                .Projects
+                .Where(p => p.Client.UserId.ToString() == userId && p.IsActive)
+                .OrderBy(pn => pn.Name)
+                .Select(p => new MineClientManagerProjectViewModel
+                {
+                    ProjectCreatedDate = p.ProjectCreatedDate,
+                    ProjectName = p.Name,
+                    ProjectEndDate = p.ProjectEndDate,
+                    ManagerName = p.Manager.FirstName + " " + p.Manager.LastName,
+                    ManagerPhoneNumber = p.Manager.PhoneNumber
+                })
+                .ToListAsync();
+            return allProjectsByUserIdAsync;
+        }
+     */
+
     public async Task<bool> ProjectExistsByIdAsync(string id)
     {
         bool result = await this.dbContext

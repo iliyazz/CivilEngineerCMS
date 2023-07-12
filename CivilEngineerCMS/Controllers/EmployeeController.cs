@@ -32,7 +32,7 @@
         {
             string? id = this.User.GetId();
             var employeeId = await this.employeeService.GetManagerIdByUserIdAsync(id);
-            bool isEmployee = await this.employeeService.EmployeeExistsByIdAsync(id);
+            bool isEmployee = await this.employeeService.EmployeeExistsByIdAsync(employeeId);
             if (!isEmployee)
             {
                 return RedirectToAction("Index", "Home");
