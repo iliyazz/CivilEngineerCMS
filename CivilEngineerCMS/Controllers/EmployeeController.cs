@@ -173,7 +173,6 @@
             }
             catch (Exception _)
             {
-                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
                 return GeneralError();
             }
         }

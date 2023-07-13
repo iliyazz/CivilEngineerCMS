@@ -38,7 +38,7 @@ else
                 <td>@p.ProjectCreatedDate.ToString("dd/MM/yyyy")</td>
                 <td>@p.ProjectEndDate.ToString("dd/MM/yyyy")</td>
                 <td>
-                    <a class="btn btn-primary" asp-controller="Project" asp-action="Edit" asp-route-id="@p.Id" method="post">Edit</a>
+                    <a class="btn btn-primary" asp-controller="Project" asp-action="Details" asp-route-id="@p.Id" method="post">Details</a>
                 </td>
             </tr>
         }

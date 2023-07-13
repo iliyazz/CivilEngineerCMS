@@ -17,11 +17,11 @@ else
     <table class="table table-hover">
         <thead>
         <tr>
-                <th scope="col">#</th>
-                <th scope="col">Project title</th>
-                <th scope="col">Client name</th>
-                <th scope="col">Manager name</th>
-                <th scope="col">Project create date</th>
+            <th scope="col">#</th>
+            <th scope="col">Project title</th>
+            <th scope="col">Client name</th>
+            <th scope="col">Manager name</th>
+            <th scope="col">Project create date</th>
 
         </tr>
         </thead>
@@ -30,12 +30,16 @@ else
         @foreach (var p in projects)
         {
             rowNumber++;
-            <tr onclick="location.href = '@Url.Action("Details", "Project", new { id = @p.Id.ToString() })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
-                    <th scope="row">@rowNumber</th>
-                    <td>@p.Name</td>
-                    <td>@p.ClientName</td>
-                    <td>@p.ManagerName</td>
-                    <td>@p.ProjectCreatedDate</td>
+            @*<tr onclick="location.href = '@Url.Action("Details", "Project", new { id = @p.Id.ToString() })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">*@
+            <tr >
+
+                <th scope="row">@rowNumber</th>
+                <td>@p.Name</td>
+                <td>@p.ClientName</td>
+                <td>@p.ManagerName</td>
+                <td>@p.ProjectCreatedDate</td>
+                <td><a class="btn btn-primary" asp-controller="Project" asp-action="Details" asp-route-id="@p.Id" method="post">Details</a></td>
+                   
             </tr>
         }
         </tbody>

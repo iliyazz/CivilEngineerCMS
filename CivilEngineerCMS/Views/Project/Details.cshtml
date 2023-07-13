@@ -1,0 +1,38 @@
+﻿@model DetailsProjectViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+<div justify-content: center>
+    <div style="display: inline">
+        <div class="row" align="center">
+            <div class="card col-12 border-0">
+                <p style="font-size: 25px;">
+                    <u>@Model.Name</u>
+                    <u>@Model.Description</u>
+                </p>
+                <p>Client name <b>@Model.ClientName</b></p>
+                <p>Manager name <b>@Model.ManagerName</b></p>
+                <p></p>
+                <div class="card" align="center">
+                    <div class="card-body" align="center">
+                        <h5 class="card-title">Project Info</h5>
+                        <p class="card-text">Project status: @Model.Status</p>
+                        <p class="card-text">Project start date: @Model.ProjectStartDate</p>
+                        <p class="card-text">Project end date: @Model.ProjectEndDate</p>
+                        <p class="card-text">Project picture path: @Model.UrlPicturePath</p>
+                        <div class="form-check-inline">
+                            <a class="btn btn-warning" asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id.ToString()">Edit</a>
+                            <a class="ml-2 btn btn-danger" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id.ToString()">Delete</a>
+                            <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

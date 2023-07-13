@@ -28,6 +28,7 @@ public class ProjectService : IProjectService
             .Include(x => x.Manager)
             .Select(p => new AllProjectViewModel
             {
+                Id = p.Id,
                 ProjectCreatedDate = p.ProjectCreatedDate,
                 Name = p.Name,
                 ClientName = $"{p.Client.FirstName} {p.Client.LastName}",
@@ -140,6 +141,38 @@ public class ProjectService : IProjectService
 
         await this.dbContext.SaveChangesAsync();
     }
+    public async Task<DetailsProjectViewModel> DetailsByIdProjectAsync(string projectId)
+    {
+        DetailsProjectViewModel project = await this.dbContext
+            .Projects
+            .Include(x => x.Client)
+            .Include(x => x.Manager)
+            .Where(x => x.IsActive && x.Id.ToString() == projectId)
+            .Select(x => new DetailsProjectViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                ClientName = x.Client.FirstName + " " + x.Client.LastName,
+                ManagerName = x.Manager.FirstName + " " + x.Manager.LastName,
+                ProjectStartDate = x.ProjectCreatedDate.ToString("dd.MM.yyyy"),
+                ProjectEndDate = x.ProjectEndDate.ToString("dd.MM.yyyy"),
+                Status = x.Status
+            })
+            .FirstAsync();
+        var result = new DetailsProjectViewModel()
+        {
+            Id = project.Id,
+            Name = project.Name,
+            Description = project.Description,
+            ClientName = project.ClientName,
+            ManagerName = project.ManagerName,
+            ProjectStartDate = project.ProjectStartDate,
+            ProjectEndDate = project.ProjectEndDate,
+            Status = project.Status
+        };
+        return result;
+    }
 
     public Task<IEnumerable<MineViewModel>> AllProjectsByManagerIdAsync(string userId)
     {
@@ -173,4 +206,48 @@ public class ProjectService : IProjectService
             .AnyAsync(x => x.Id.ToString() == id);
         return result;
     }
+
+public async Task<ProjectPreDeleteViewModel> GetProjectForPreDeleteByIdAsync(string projectId)
+    {
+        ProjectPreDeleteViewModel projectToDelete = await this.dbContext
+            .Projects
+            .Include(x => x.Client)
+            .Include(x => x.Manager)
+            .Where(x => x.IsActive && x.Id.ToString() == projectId)
+            .Select(p => new ProjectPreDeleteViewModel
+            {
+                Name = p.Name,
+                Description = p.Description,
+                ClientName = p.Client.FirstName + " " + p.Client.LastName,
+                ManagerName = p.Manager.FirstName + " " + p.Manager.LastName,
+                ProjectStartDate = p.ProjectCreatedDate.ToString("dd.MM.yyyy"),
+                ProjectEndDate = p.ProjectEndDate.ToString("dd.MM.yyyy"),
+                Status = p.Status
+
+            })
+            .FirstAsync();
+        return projectToDelete;
+    }
+
+
+
+    public async Task DeleteProjectByIdAsync(string id)
+    {
+        Project projectToDelete = await this.dbContext
+            .Projects
+            .Where(x => x.IsActive)
+            .FirstAsync(x => x.Id.ToString() == id);
+        projectToDelete.IsActive = false;
+        await this.dbContext.SaveChangesAsync();
+    }
+
+
+
+
+
+
+
+
+
+
 }

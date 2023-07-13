@@ -1,5 +1,7 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
+    using CivilEngineerCMS.Web.ViewModels.Employee;
+
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
@@ -98,6 +100,8 @@
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+
+
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
@@ -185,22 +189,137 @@
             return this.RedirectToAction("Mine", "Employee");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Delete(string id)
-        //{
-        //    bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
-        //    if (!projectExists)
-        //    {
-        //        this.TempData[ErrorMessage] = "Project with provided id does not exist.";
-        //        return this.RedirectToAction("Mine", "Employee");
-        //    }
+        public async Task<IActionResult> Details()
+        {
+            var projectId = (string?)Url.ActionContext.RouteData.Values["id"];
+            if (projectId == null)
+            {
+                this.TempData[ErrorMessage] = "Project does not exist.";
+                this.ModelState.AddModelError(string.Empty, "Project does not exist.");
+                return this.RedirectToAction("All", "Project");
+            }
 
-        //    var project = await this.projectService.GetProjectForEditByIdAsync(id);
+            if (!await projectService.ProjectExistsByIdAsync(projectId))
+            {
+                this.TempData[ErrorMessage] = "Project does not exist.";
+                this.ModelState.AddModelError(string.Empty, "Project does not exist.");
+                return this.RedirectToAction("All", "Project");
+            }
+            DetailsProjectViewModel viewModel = await this.projectService.DetailsByIdProjectAsync(projectId);
+            return this.View(viewModel);
+        }
 
-        //    var currentUserId = this.User.GetId();
+        
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+            if (!projectExists)
+            {
+                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                return this.RedirectToAction("All", "Project");
+            }
 
-        //    var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
-        //}
-   
+            var project = await this.projectService.GetProjectForEditByIdAsync(id);
+
+            var currentUserId = this.User.GetId();
+
+            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
+
+            if (projectManagerUserId != project.ManagerId.ToString())
+            {
+                this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+            try
+            {
+                ProjectPreDeleteViewModel viewModel = await this.projectService.GetProjectForPreDeleteByIdAsync(id);
+                this.TempData[WarningMessage] = $"You are going to delete project {viewModel.Name}.";
+                return this.View(viewModel);
+            }
+            catch (Exception e)
+            {
+                return GeneralError();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, ProjectPreDeleteViewModel formModel)
+        {
+
+            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+            if (!projectExists)
+            {
+                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                return this.RedirectToAction("All", "Project");
+            }
+
+            var project = await this.projectService.GetProjectForEditByIdAsync(id);
+
+            var currentUserId = this.User.GetId();
+
+            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
+
+            if (projectManagerUserId != project.ManagerId.ToString())
+            {
+                this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+            try
+            {
+                await this.projectService.DeleteProjectByIdAsync(id);
+
+                this.TempData[WarningMessage] =
+                    $"Project {formModel.Name} deleted successfully.";
+                return this.RedirectToAction("All", "Project");
+            }
+            catch (Exception _)
+            {
+                this.TempData[ErrorMessage] = "An error occurred while deleting the project. Please try again later or contact administrator!";
+                return this.RedirectToAction("All", "Project");
+            }
+        }
+
+
+        private IActionResult GeneralError()
+        {
+            this.TempData[ErrorMessage] =
+                "Unexpected error occurred! Please try again later or contact administrator";
+
+            return this.RedirectToAction("Index", "Home");
+        }
+
     }
 }
+/*
+
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, EmployeePreDeleteViewModel formModel)
+        {
+
+            bool employeeExists = await this.employeeService.EmployeeExistsByIdAsync(id);
+            if (!employeeExists)
+            {
+                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                return this.RedirectToAction("All", "Employee");
+            }
+
+            try
+            {
+                await this.employeeService.DeleteEmployeeByIdAsync(id);
+
+                this.TempData[WarningMessage] =
+                    $"Employee {formModel.FirstName} {formModel.LastName} deleted successfully.";
+                return this.RedirectToAction("All", "Employee");
+            }
+            catch (Exception _)
+            {
+                this.TempData[ErrorMessage] =
+                    "An error occurred while deleting the employee. Please try again later or contact administrator!";
+                return GeneralError();
+            }
+        }
+ */

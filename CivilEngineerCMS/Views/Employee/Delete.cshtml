@@ -1,6 +1,8 @@
-﻿@model EmployeePreDeleteViewModel
+﻿
+
+@model EmployeePreDeleteViewModel
 @{
-    ViewBag.Title = "Delete employee";
+    ViewBag.Title = "Delete project";
 }
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr/>
@@ -29,8 +31,8 @@
             </div>
             <div class="form-group mt-2">
                 <input type="submit" value="Delete" class="btn btn-danger"/>
+                <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">Cancel</a>
             </div>
         </div>
     </div>
 </form>
-

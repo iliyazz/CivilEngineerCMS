@@ -164,7 +164,6 @@
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id.ToString());
             if (!clientExists)
             {
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
                 return this.RedirectToAction("All", "Client");
             }
 

@@ -1,6 +1,7 @@
 ﻿namespace CivilEngineerCMS.Services.Data.Interfaces;
 
 using CivilEngineerCMS.Web.ViewModels.Client;
+using CivilEngineerCMS.Web.ViewModels.Employee;
 
 using Web.ViewModels.Project;
 
@@ -16,7 +17,8 @@ public interface IProjectService
     Task<bool> IsManagerOfProjectAsync(string userId, string managerId);
     Task EditProjectByIdAsync(string projectId, AddAndEditProjectFormModel formModel);
     Task<IEnumerable<MineViewModel>> AllProjectsByManagerIdAsync(string userId);
-
-
     Task<bool> ProjectExistsByIdAsync(string id);
+    Task<ProjectPreDeleteViewModel> GetProjectForPreDeleteByIdAsync(string projectId);
+    Task DeleteProjectByIdAsync(string id);
+    Task<DetailsProjectViewModel> DetailsByIdProjectAsync(string projectId);
 }
