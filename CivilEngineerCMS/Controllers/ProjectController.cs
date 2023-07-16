@@ -30,13 +30,30 @@
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] ProjectAllQueryModel queryModel)
         {
-
+            //var projectsPerPage = ViewBag.ProjectsPerPage;
 
 
             ProjectAllFilteredAndPagedServiceModel serviceModel = await this.projectService.ProjectAllFilteredAndPagedAsync(queryModel);
             queryModel.Projects = serviceModel.Projects;
             queryModel.TotalProjects = serviceModel.TotalProjectsCount;
+            //if (ViewBag.ProjectsPerPage == null)
+            //{
+                //ViewBag.ProjectsPerPage = 3;
+            //}
+            //else
+            //{
+            //    ViewBag.ProjectsPerPage = queryModel.ProjectsPerPage;
+            //}
+            //queryModel.ProjectsPe/*r*/Page = ViewBag.ProjectsPerPage;
+            //if (ViewBag.ProjectsPerPage != null)
+            //{
+            //    queryModel.ProjectsPerPage = ViewBag.ProjectsPerPage;
+            //}
+
+            //ViewBag.ProjectsPerPage = queryModel.ProjectsPerPage;
+            //queryModel.ProjectsPerPage = ViewBag.ProjectsPerPage;
             queryModel.Statuses = Enum.GetNames(typeof(ProjectStatusEnums)).ToList();
+
 
             return this.View(queryModel);
         }
@@ -303,13 +320,13 @@
             return this.RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AllProjectsFilter([FromQuery]ProjectAllQueryModel queryModel)
-        {
-            ProjectAllFilteredAndPagedServiceModel serviceModel = await this.projectService.ProjectAllFilteredAndPagedAsync(queryModel);
-            queryModel.Projects = serviceModel.Projects;
-            queryModel.TotalProjects = serviceModel.TotalProjectsCount;
-            return this.View(queryModel);
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> AllProjectsFilter([FromQuery]ProjectAllQueryModel queryModel)
+        //{
+        //    ProjectAllFilteredAndPagedServiceModel serviceModel = await this.projectService.ProjectAllFilteredAndPagedAsync(queryModel);
+        //    queryModel.Projects = serviceModel.Projects;
+        //    queryModel.TotalProjects = serviceModel.TotalProjectsCount;
+        //    return this.View(queryModel);
+        //}
     }
 }

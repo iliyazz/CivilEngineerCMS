@@ -7,6 +7,8 @@
         <div class="card-body text-center">
             <h4>@Model.ProjectName</h4>
             <h6>Description: <b>@Model.Description</b></h6>
+            <h6>Manager: <b>@Model.ManagerName</b></h6>
+            <h6>Client: <b>@Model.ClientName</b></h6>
             <br/>
             <a asp-controller="Project" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success">

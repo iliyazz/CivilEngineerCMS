@@ -50,6 +50,8 @@ else
 @model ProjectAllQueryModel
 @{
     ViewBag.Title = "All Projects";
+    //ViewBag.CurrentPage = Model.CurrentPage;
+    //ViewBag.ProjectsPerPage = Model.ProjectsPerPage;
 }
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr/>
@@ -57,14 +59,14 @@ else
 
 <form method="get">
     <div class="row">
-        <div class="form-group col-md-4 d-flex justify-content-between">
-            <div class="form-group">
+        @*<div class="form-group col-md-3 d-flex justify-content-between">*@
+        <div class="form-group col-md-3">
                 <label asp-for="Status"></label>
                 <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectStatusEnums>()">
                     <option selected="selected" value="">Please select</option>
                 </select>
                 <span asp-validation-for="Status" class="small text-danger"></span>
-            </div>
+@*            </div>
 
             <div class="form-group col-md-4">
                 <label asp-for="ProjectsPerPage"></label>
@@ -74,15 +76,15 @@ else
                     <option value="6">6</option>
                     <option value="9">9</option>
                 </select>
-            </div>
+            </div>*@
         </div>
 
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-3 justify-content-between">
             <label asp-for="SearchString"></label>
             <input asp-for="SearchString" class="form-control" placeholder="...">
         </div>
 
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-3">
             <div class="form-group">
                 <label asp-for="ProjectSorting"></label>
                 <select asp-for="ProjectSorting" class="form-control">
@@ -99,7 +101,7 @@ else
                 </select>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="form-group mt-4">
                 <input type="submit" value="Search" class="btn btn-primary"/>
             </div>
@@ -112,19 +114,20 @@ else
     {
         previousPage = 1;
     }
+    ViewBag.ProjectsPerPage = Model.ProjectsPerPage;
     int maxPage = (int)Math.Ceiling((double)Model.TotalProjects /
                                     Model.ProjectsPerPage);
 }
 
-<div class="row mb-5 p-2">
+<div class="row mb-5 p-3">
     <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
         <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="Project"
            asp-action="All"
            asp-route-currentPage="@previousPage"
-           asp-route-status="@Model.Status.ToString()"
-           asp-route-searchTerm="@Model.SearchString"
-           asp-route-sorting="@((int)Model.ProjectSorting)">
+           asp-route-Status="@Model.Status"
+           asp-route-SearchString="@Model.SearchString"
+           asp-route-ProjectSorting="@((int)Model.ProjectSorting)">
             <<
         </a>
     </div>
@@ -138,9 +141,9 @@ else
            asp-controller="Project"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage + 1)"
-           asp-route-status="@Model.Status.ToString()"
-           asp-route-searchTerm="@Model.SearchString"
-           asp-route-sorting="@((int)Model.ProjectSorting)">
+           asp-route-Status="@Model.Status.ToString()"
+           asp-route-SearchString="@Model.SearchString"
+           asp-route-ProjectSorting="@((int)Model.ProjectSorting)">
             >>
         </a>
     </div>
