@@ -8,6 +8,6 @@ public class MineViewModel
     public DateTime ProjectCreatedDate { get; set; }
     public DateTime ProjectEndDate { get; set; }
     public string ClientName { get; set; } = null!;
-    public string Status { get; set; } = null!;
+    public int StatusId { get; set; } 
 }
 

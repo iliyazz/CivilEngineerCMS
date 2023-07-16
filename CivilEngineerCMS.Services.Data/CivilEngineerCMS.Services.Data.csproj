@@ -15,6 +15,7 @@
     <ProjectReference Include="..\CivilEngineerCMS.Common\CivilEngineerCMS.Common.csproj" />
     <ProjectReference Include="..\CivilEngineerCMS.Data.Models\CivilEngineerCMS.Data.Models.csproj" />
     <ProjectReference Include="..\CivilEngineerCMS.Data\CivilEngineerCMS.Data.csproj" />
+    <ProjectReference Include="..\CivilEngineerCMS.Services.Data.Models\CivilEngineerCMS.Services.Data.Models.csproj" />
     <ProjectReference Include="..\CivilEngineerCMS.Web.ViewModels\CivilEngineerCMS.Web.ViewModels.csproj" />
   </ItemGroup>
 

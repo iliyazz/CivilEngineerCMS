@@ -73,7 +73,7 @@
             }
         }
 
-        //[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> Details()
         {
             var employeeId = (string?)Url.ActionContext.RouteData.Values["id"];

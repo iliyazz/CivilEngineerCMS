@@ -77,6 +77,7 @@
             }
         }
 
+        [HttpGet]
         public async Task<IActionResult> Details()
         {
             var clientId = (string?)Url.ActionContext.RouteData.Values["id"];
@@ -110,7 +111,7 @@
             try
             {
                 EditClientFormModel viewModel = await this.clientService.GetClientForEditByIdAsync(id.ToString());
-                this.TempData[SuccessMessage] = $"Client {viewModel.FirstName} {viewModel.LastName} edited successfully.";
+                this.TempData[WarningMessage] = $"You are going to edit client {viewModel.FirstName} {viewModel.LastName}.";
                 return this.View(viewModel);
             }
             catch (Exception _)

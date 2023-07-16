@@ -1,5 +1,6 @@
 ﻿namespace CivilEngineerCMS.Services.Data.Interfaces;
 
+using CivilEngineerCMS.Services.Data.Models.Project;
 using CivilEngineerCMS.Web.ViewModels.Client;
 using CivilEngineerCMS.Web.ViewModels.Employee;
 
@@ -21,4 +22,6 @@ public interface IProjectService
     Task<ProjectPreDeleteViewModel> GetProjectForPreDeleteByIdAsync(string projectId);
     Task DeleteProjectByIdAsync(string id);
     Task<DetailsProjectViewModel> DetailsByIdProjectAsync(string projectId);
+    Task<ProjectAllFilteredAndPagedServiceModel> ProjectAllFilteredAndPagedAsync(ProjectAllQueryModel queryModel);
+
 }

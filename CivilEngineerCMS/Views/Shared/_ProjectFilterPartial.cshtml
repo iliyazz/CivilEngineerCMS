@@ -1,0 +1,32 @@
+﻿@using CivilEngineerCMS.Data.Models
+@using CivilEngineerCMS.Web.Infrastructure.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ProjectAllViewModel
+<div class="col-md-4">
+    <div class="card mb-3">
+        <div class="card-body text-center">
+            <h4>@Model.ProjectName</h4>
+            <h6>Description: <b>@Model.Description</b></h6>
+            <br/>
+            <a asp-controller="Project" asp-action="Details" asp-route-id="@Model.Id"
+               class="btn btn-success">
+                Details
+            </a>
+            @if (this.User.Identity?.IsAuthenticated ?? false)
+            {
+                if (this.Model.ManagerName == this.User.GetId())
+                {
+                    <a asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="btn btn-warning">
+                        Edit
+                    </a>
+                    <a asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id"
+                       class="btn btn-danger">
+                        Delete
+                    </a>
+                }
+                <p></p>
+            }
+        </div>
+    </div>
+</div>

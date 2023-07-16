@@ -7,6 +7,7 @@ namespace CivilEngineerCMS.Services.Data
     using CivilEngineerCMS.Web.ViewModels.Client;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    //using Models.Client;
     using Task = System.Threading.Tasks.Task;
 
     public class ClientService : IClientService
@@ -196,5 +197,6 @@ namespace CivilEngineerCMS.Services.Data
             }
             await this.dbContext.SaveChangesAsync();
         }
+
     }
 }
