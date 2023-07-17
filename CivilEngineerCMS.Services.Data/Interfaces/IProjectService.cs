@@ -3,7 +3,7 @@
 using CivilEngineerCMS.Services.Data.Models.Project;
 using CivilEngineerCMS.Web.ViewModels.Client;
 using CivilEngineerCMS.Web.ViewModels.Employee;
-
+using Models.Statistics;
 using Web.ViewModels.Project;
 
 public interface IProjectService
@@ -23,5 +23,5 @@ public interface IProjectService
     Task DeleteProjectByIdAsync(string id);
     Task<DetailsProjectViewModel> DetailsByIdProjectAsync(string projectId);
     Task<ProjectAllFilteredAndPagedServiceModel> ProjectAllFilteredAndPagedAsync(ProjectAllQueryModel queryModel);
-
+    Task<StatisticsServiceModel> GetStatisticsAsync();
 }

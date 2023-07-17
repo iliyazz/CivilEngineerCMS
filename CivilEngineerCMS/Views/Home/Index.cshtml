@@ -14,10 +14,9 @@
             Here you can find all the information about your projects.
         </p>
     </div>
-
-
-
 }
+
+<div class="mb-5"></div>
 
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -32,7 +31,9 @@
                     <div class="carousel-caption d-none d-md-block">
                         <h5>
                             <a class="btn btn-primary" asp-controller="Project" asp-action="Details"
-                               asp-route-id="@project.Id"> @project.Name</a>
+                               asp-route-id="@project.Id">
+                                @project.Name
+                            </a>
                         </h5>
                     </div>
                 }
@@ -49,3 +50,21 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+
+<div class="mb-5"></div>
+<div class="row">
+    <div class="col-12 text-center">
+        <button class="btn btn-primary" id="statistics_btn">Show statistics</button>
+    </div>
+</div>
+<div class="mt-4 p-5 bg-light d-none" id="statistics_box">
+    <div class="row">
+        <h2 class="col-md-4 text-center" id="total_projects"></h2>
+        <h2 class="col-md-4 text-center" id="total_active_projects"></h2>
+        <h2 class="col-md-4 text-center" id="total_clients"></h2>
+    </div>
+</div>
+
+@section Scripts {
+    <script>statistics();</script>
+}

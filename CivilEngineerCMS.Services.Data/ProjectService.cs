@@ -8,6 +8,7 @@ using Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Models.Project;
+using Models.Statistics;
 using Web.ViewModels.Project;
 using Web.ViewModels.Project.Enums;
 using Task = System.Threading.Tasks.Task;
@@ -298,6 +299,23 @@ public class ProjectService : IProjectService
             Projects = allProjects
         };
         return result;
+    }
+
+    public async Task<StatisticsServiceModel> GetStatisticsAsync()
+    {
+        return new StatisticsServiceModel()
+        {
+            TotalActiveProjects = await this.dbContext
+                .Projects
+                .Where(x => x.IsActive)
+                .CountAsync(),
+            TotalProjects = await this.dbContext
+                .Projects
+                .CountAsync(),
+            TotalClients = await this.dbContext
+                .Clients
+                .CountAsync(),
+        };
     }
 }
 

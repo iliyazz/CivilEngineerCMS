@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e66d02c5-3ff1-42e3-8553-b19ae9c78637</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CivilEngineerCMS.Common\CivilEngineerCMS.Common.csproj" />
+    <ProjectReference Include="..\CivilEngineerCMS.Services.Data.Models\CivilEngineerCMS.Services.Data.Models.csproj" />
+    <ProjectReference Include="..\CivilEngineerCMS.Services.Data\CivilEngineerCMS.Services.Data.csproj" />
+    <ProjectReference Include="..\CivilEngineerCMS.Web.Infrastructure\CivilEngineerCMS.Web.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
