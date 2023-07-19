@@ -5,9 +5,10 @@ namespace CivilEngineerCMS.Services.Data
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Client;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    //using Models.Client;
+
     using Task = System.Threading.Tasks.Task;
 
     public class ClientService : IClientService
@@ -39,14 +40,14 @@ namespace CivilEngineerCMS.Services.Data
             return allProjectsByUserIdAsync;
         }
 
-        public async Task<IEnumerable<ProjectSelectClientFormModel>> AllClientsAsync()
+        public async Task<IEnumerable<SelectClientForProjectFormModel>> AllClientsAsync()
         {
-            IEnumerable<ProjectSelectClientFormModel> allClients = await dbContext
+            IEnumerable<SelectClientForProjectFormModel> allClients = await dbContext
                 .Clients
                 .Where(c => c.IsActive)
                 .OrderBy(c => c.FirstName)
                 .ThenBy(c => c.LastName)
-                .Select(c => new ProjectSelectClientFormModel
+                .Select(c => new SelectClientForProjectFormModel
                 {
                     Id = c.Id,
                     FirstName = c.FirstName,
@@ -77,6 +78,15 @@ namespace CivilEngineerCMS.Services.Data
                 })
                 .ToListAsync();
             return allClients;
+        }
+
+        public async Task<bool> ClientExistsByUserIdAsync(string id)
+        {
+            bool clientExists = await this.dbContext
+                .Clients
+                .Where(x => x.IsActive)
+                .AnyAsync(x => x.Id.ToString() == id);
+            return clientExists;
         }
 
         public async Task CreateClientAsync(CreateClientFormModel formModel)
@@ -195,8 +205,8 @@ namespace CivilEngineerCMS.Services.Data
                 await this.userManager.SetLockoutEndDateAsync(userToDelete,
                     new System.DateTimeOffset(System.DateTime.Now.AddYears(100)));
             }
+
             await this.dbContext.SaveChangesAsync();
         }
-
     }
 }

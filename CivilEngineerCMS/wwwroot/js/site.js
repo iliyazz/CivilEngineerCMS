@@ -6,7 +6,7 @@
 
             if ($("#statistics_box").hasClass("d-none")) {
                 $.get("https://localhost:7208/api/statistics",
-                    function(data) {
+                    function (data) {
                         $("#total_projects").text(data.totalProjects + " projects");
                         $("#total_active_projects").text(data.totalActiveProjects + " active projects");
                         $("#total_clients").text(data.totalClients + " clients");
@@ -25,3 +25,29 @@
         }
     );
 }
+
+//toggleListAndCardStyle
+//function toggleListAndCardStyle() {
+//    $("#toggleListCardStyle_btn").on("click",
+//        function(e) {
+//            e.preventDefault();
+//            e.stopPropagation();
+
+
+//            var btn = document.getElementById("toggleListCardStyle_btn");
+//            var btnText = document.getElementById("toggleListCardStyle_btn");
+//            var sectionList = document.getElementById("projectListStyle");
+//            var sectionCard = document.getElementById("projectCardStyle");
+
+//            if (btnText.textContent === "To List style") {
+//                btn.innerText = "To Card style";
+//                sectionList.classList.remove("d-none");
+//                sectionCard.classList.add("d-none");
+//            } else {
+//                btn.innerText = "To List style";
+//                sectionList.classList.add("d-none");
+//                sectionCard.classList.remove("d-none");
+//            }
+//        }
+//    );
+//}

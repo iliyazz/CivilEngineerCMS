@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SelectEmployeesForProjectFormModel>
+
+@{
+    ViewData["Title"] = "Manage employees in project";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr/>
+<div justify-content: center>
+    <div style="display: inline">
+        <div class="row" align="center">
+            <form method="post">
+                <h4 class="mt-2">Employees in project</h4>
+                @if (!Model.Any())
+                {
+                    <h4 class="mt-2">No employees have been added to the project</h4>
+                }
+                else
+                {
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First name</th>
+                            <th scope="col">Last name</th>
+                            <th scope="col">Job title</th>
+                            <th scope="col">PhoneNumber</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @{
+                            int rowNumber = 0;
+                        }
+                        @foreach (var e in Model)
+                        {
+                            rowNumber++;
+                            <tr >
+                                <th scope="row">@rowNumber</th>
+                                <td>@e.FirstName</td>
+                                <td>@e.LastName</td>
+                                <td>@e.JobTitle</td>
+                                <td>@e.PhoneNumber</td>
+                                <td>
+                                    <input type="checkbox" asp-for=@e.IsChecked id=@e.Id name="selectedEmployee" value=@e.Id class="w3-check">
+                                    <input type="hidden" asp-for=@e.Id/>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+                <div class="text-center">
+                    <input class="btn btn-warning mt-3" type="submit" value="SaveAllEmployeesForProjectAsync" />
+                    <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">Cancel</a>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,14 +1,17 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
     using Common;
+
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
 
     using Services.Data.Interfaces;
     using Services.Data.Models.Project;
+
+    using ViewModels.Employee;
     using ViewModels.Project;
-    using ViewModels.Project.Enums;
+
     using static Common.NotificationMessagesConstants;
 
     public class ProjectController : BaseController
@@ -25,41 +28,18 @@
             this.employeeService = employeeService;
         }
 
- 
 
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] ProjectAllQueryModel queryModel)
         {
-            //var projectsPerPage = ViewBag.ProjectsPerPage;
-
-
-            ProjectAllFilteredAndPagedServiceModel serviceModel = await this.projectService.ProjectAllFilteredAndPagedAsync(queryModel);
+            ProjectAllFilteredAndPagedServiceModel serviceModel =
+                await this.projectService.ProjectAllFilteredAndPagedAsync(queryModel);
             queryModel.Projects = serviceModel.Projects;
             queryModel.TotalProjects = serviceModel.TotalProjectsCount;
-            //if (ViewBag.ProjectsPerPage == null)
-            //{
-                //ViewBag.ProjectsPerPage = 3;
-            //}
-            //else
-            //{
-            //    ViewBag.ProjectsPerPage = queryModel.ProjectsPerPage;
-            //}
-            //queryModel.ProjectsPe/*r*/Page = ViewBag.ProjectsPerPage;
-            //if (ViewBag.ProjectsPerPage != null)
-            //{
-            //    queryModel.ProjectsPerPage = ViewBag.ProjectsPerPage;
-            //}
-
-            //ViewBag.ProjectsPerPage = queryModel.ProjectsPerPage;
-            //queryModel.ProjectsPerPage = ViewBag.ProjectsPerPage;
             queryModel.Statuses = Enum.GetNames(typeof(ProjectStatusEnums)).ToList();
-
 
             return this.View(queryModel);
         }
-
-
-
 
 
         [HttpGet]
@@ -67,7 +47,7 @@
         {
             AddAndEditProjectFormModel formModel = new AddAndEditProjectFormModel
             {
-                Managers = await this.employeeService.AllManagersAsync(),
+                Managers = await this.employeeService.AllEmployeesAndManagersAsync(),
                 Clients = await this.clientService.AllClientsAsync()
             };
 
@@ -77,14 +57,14 @@
         [HttpPost]
         public async Task<IActionResult> Add(AddAndEditProjectFormModel formModel)
         {
-            bool managerExists = await this.projectService.EmployeeExistsByUserIdAsync(formModel.ManagerId.ToString());
+            bool managerExists = await this.employeeService.EmployeeExistsByUserIdAsync(formModel.ManagerId.ToString());
 
             if (!managerExists)
             {
                 this.ModelState.AddModelError(nameof(formModel.ManagerId), "Manager does not exist.");
             }
 
-            bool clientExists = await this.projectService.ClientExistsByUserIdAsync(formModel.ClientId.ToString());
+            bool clientExists = await this.clientService.ClientExistsByUserIdAsync(formModel.ClientId.ToString());
             if (!clientExists)
             {
                 this.ModelState.AddModelError(nameof(formModel.ClientId), "Client does not exist.");
@@ -104,7 +84,7 @@
 
             if (!this.ModelState.IsValid)
             {
-                formModel.Managers = await this.employeeService.AllManagersAsync();
+                formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
                 return this.View(formModel);
             }
@@ -120,12 +100,49 @@
             {
                 this.ModelState.AddModelError(string.Empty,
                     "An error occurred while adding the project. Please try again later or contact administrator!");
-                formModel.Managers = await this.employeeService.AllManagersAsync();
+                formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
                 return this.View(formModel);
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllEmployeesInProject(string id)
+        {
+            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+            if (!projectExists)
+            {
+                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+            var project = await this.projectService.GetProjectForEditByIdAsync(id);
+            var currentUserId = this.User.GetId();
+
+            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
+
+
+            if (project.ManagerId.ToString() != projectManagerUserId)
+            {
+                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+            try
+            {
+                //var employees = await this.employeeService.AllEmployeesAndManagersAsync();
+                IEnumerable<AllEmployeeViewModel> projectEmployees =
+                    await this.employeeService.AllEmployeesByProjectIdAsync(id);
+
+                return this.View(projectEmployees);
+            }
+            catch (Exception _)
+            {
+                this.TempData[ErrorMessage] =
+                    "An error occurred while editing the project. Please try again later or contact administrator!";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+        }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
@@ -153,8 +170,10 @@
             try
             {
                 AddAndEditProjectFormModel formModel = await this.projectService.GetProjectForEditByIdAsync(id);
-                formModel.Managers = await this.employeeService.AllManagersAsync();
+                formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
+                formModel.Employees = await this.employeeService.AllEmployeesByProjectIdAsync(id);
+
 
                 return this.View(formModel);
             }
@@ -166,13 +185,12 @@
             }
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Edit(string id, AddAndEditProjectFormModel formModel)
         {
             if (!this.ModelState.IsValid)
             {
-                formModel.Managers = await this.employeeService.AllManagersAsync();
+                formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
                 return this.View(formModel);
             }
@@ -211,10 +229,11 @@
             }
 
             this.TempData[SuccessMessage] = $"Project {formModel.Name} edited successfully.";
-            formModel.Managers = await this.employeeService.AllManagersAsync();
+            formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
             formModel.Clients = await this.clientService.AllClientsAsync();
             return this.RedirectToAction("Mine", "Employee");
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Details()
@@ -320,13 +339,50 @@
             return this.RedirectToAction("Index", "Home");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> AllProjectsFilter([FromQuery]ProjectAllQueryModel queryModel)
-        //{
-        //    ProjectAllFilteredAndPagedServiceModel serviceModel = await this.projectService.ProjectAllFilteredAndPagedAsync(queryModel);
-        //    queryModel.Projects = serviceModel.Projects;
-        //    queryModel.TotalProjects = serviceModel.TotalProjectsCount;
-        //    return this.View(queryModel);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> ManageEmployeesInProject(string id)
+        {
+            if (!await this.projectService.ProjectExistsByIdAsync(id))
+            {
+                this.TempData[ErrorMessage] = "Project does not exist.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+            try
+            {
+                IEnumerable<SelectEmployeesForProjectFormModel> employees =
+                    await this.projectService.AllEmployeesForProjectAsync(id);
+                return this.View(employees);
+            }
+            catch (Exception _)
+            {
+                this.TempData[ErrorMessage] =
+                    "An error occurred while adding employee to project. Please try again later or contact administrator!";
+                return this.RedirectToAction("Mine", "Employee", new { id });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ManageEmployeesInProject(string id, IEnumerable<string> selectedEmployee)
+        {
+            if (!await this.projectService.ProjectExistsByIdAsync(id))
+            {
+                this.TempData[ErrorMessage] = "Project does not exist.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+            try
+            {
+                await this.projectService.SaveAllEmployeesForProjectAsync(id, selectedEmployee);
+                this.TempData[SuccessMessage] = "Employee added successfully.";
+                return this.RedirectToAction("Mine", "Employee", new { id });
+            }
+            catch (Exception _)
+            {
+                this.TempData[ErrorMessage] =
+                    "An error occurred while adding employee to project. Please try again later or contact administrator!";
+                return this.RedirectToAction("Mine", "Employee", new { id });
+            }
+        }
     }
 }

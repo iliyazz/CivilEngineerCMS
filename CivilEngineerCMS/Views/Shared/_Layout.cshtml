@@ -1,9 +1,8 @@
 ﻿@using static CivilEngineerCMS.Common.GeneralApplicationConstants;
-@using System.Security.Claims
 @using CivilEngineerCMS.Data
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using Microsoft.EntityFrameworkCore
 @inject CivilEngineerCmsDbContext dbContext
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,9 +41,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="Add">Add project</a>
                         </li>
-@*                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="Edit">Edit project</a>
-                        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="Create">Create client</a>
                         </li>

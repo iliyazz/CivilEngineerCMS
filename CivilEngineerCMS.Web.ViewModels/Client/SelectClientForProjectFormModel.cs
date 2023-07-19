@@ -1,6 +1,6 @@
 ﻿namespace CivilEngineerCMS.Web.ViewModels.Client
 {
-    public class ProjectSelectClientFormModel
+    public class SelectClientForProjectFormModel
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; } = null!;

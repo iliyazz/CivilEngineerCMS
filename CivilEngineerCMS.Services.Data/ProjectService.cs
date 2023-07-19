@@ -1,16 +1,23 @@
 ﻿namespace CivilEngineerCMS.Services.Data;
 
 using System.Globalization;
+
 using CivilEngineerCMS.Data;
 using CivilEngineerCMS.Data.Models;
+
 using Common;
+
 using Interfaces;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.EntityFrameworkCore;
+
 using Models.Project;
 using Models.Statistics;
+
+using Web.ViewModels.Employee;
 using Web.ViewModels.Project;
 using Web.ViewModels.Project.Enums;
+
 using Task = System.Threading.Tasks.Task;
 
 public class ProjectService : IProjectService
@@ -51,24 +58,6 @@ public class ProjectService : IProjectService
         return managerExists;
     }
 
-    public async Task<bool> ClientExistsByUserIdAsync(string id)
-    {
-        bool clientExists = await this.dbContext
-            .Clients
-            .Where(x => x.IsActive)
-            .AnyAsync(x => x.Id.ToString() == id);
-        return clientExists;
-    }
-
-    public async Task<bool> EmployeeExistsByUserIdAsync(string id)
-    {
-        bool employeeExists = await this.dbContext
-            .Employees
-            .Where(x => x.IsActive)
-            .AnyAsync(x => x.Id.ToString() == id);
-        return employeeExists;
-    }
-
     public bool StatusExists(string id)
     {
         bool statusExist = Enum.IsDefined(typeof(ProjectStatusEnums), id);
@@ -100,14 +89,16 @@ public class ProjectService : IProjectService
         return project.ManagerId.ToString() == managerId;
     }
 
-    public async Task<AddAndEditProjectFormModel> GetProjectForEditByIdAsync(string projectId)
+    public async Task<AddAndEditProjectFormModel> GetProjectForEditByIdAsync(string id)
     {
         Project project = await this.dbContext
             .Projects
             .Include(x => x.Client)
             .Include(x => x.Manager)
+            .Include(x => x.ProjectsEmployees)
+            .ThenInclude(x => x.Employee)
             .Where(x => x.IsActive)
-            .FirstAsync(x => x.Id.ToString() == projectId);
+            .FirstAsync(x => x.Id.ToString() == id);
 
 
         var result = new AddAndEditProjectFormModel
@@ -119,6 +110,17 @@ public class ProjectService : IProjectService
             UrlPicturePath = project.UrlPicturePath,
             Status = project.Status,
             ProjectEndDate = project.ProjectEndDate.ToString("dd/MM/yyyy"),
+
+            Employees = project.ProjectsEmployees.Where(pe => pe.ProjectId.ToString() == id).Select(t =>
+                new AllEmployeeViewModel
+                {
+                    Id = t.Employee.Id,
+                    FirstName = t.Employee.FirstName,
+                    LastName = t.Employee.LastName,
+                    //Email = t.Employee.User.Email,
+                    JobTitle = t.Employee.JobTitle,
+                    PhoneNumber = t.Employee.PhoneNumber,
+                }).ToList()
         };
         return result;
     }
@@ -127,6 +129,8 @@ public class ProjectService : IProjectService
     {
         Project project = await this.dbContext
             .Projects
+            .Include(x => x.Manager)
+            .Include(x => x.ProjectsEmployees)
             .Where(x => x.IsActive)
             .FirstAsync(x => x.Id.ToString() == projectId);
 
@@ -138,8 +142,6 @@ public class ProjectService : IProjectService
         project.Status = formModel.Status;
         project.ProjectEndDate =
             DateTime.ParseExact(formModel.ProjectEndDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
-
-
         await this.dbContext.SaveChangesAsync();
     }
 
@@ -149,6 +151,8 @@ public class ProjectService : IProjectService
             .Projects
             .Include(x => x.Client)
             .Include(x => x.Manager)
+            .Include(x => x.ProjectsEmployees)
+            .ThenInclude(x => x.Employee)
             .Where(x => x.IsActive && x.Id.ToString() == projectId)
             .Select(x => new DetailsProjectViewModel
             {
@@ -159,7 +163,19 @@ public class ProjectService : IProjectService
                 ManagerName = x.Manager.FirstName + " " + x.Manager.LastName,
                 ProjectStartDate = x.ProjectCreatedDate.ToString("dd.MM.yyyy"),
                 ProjectEndDate = x.ProjectEndDate.ToString("dd.MM.yyyy"),
-                Status = x.Status
+                Status = x.Status,
+                Employees = x.ProjectsEmployees.Where(p => p.ProjectId.ToString() == projectId).Select(pe =>
+                    new DetailsEmployeeViewModel
+                    {
+                        Id = pe.Employee.Id,
+                        FirstName = pe.Employee.FirstName,
+                        LastName = pe.Employee.LastName,
+                        PhoneNumber = pe.Employee.PhoneNumber,
+                        Email = pe.Employee.User.Email,
+                        Address = pe.Employee.Address,
+                        JobTitle = pe.Employee.JobTitle,
+                    }
+                ).ToList()
             })
             .FirstAsync();
         var result = new DetailsProjectViewModel()
@@ -171,14 +187,10 @@ public class ProjectService : IProjectService
             ManagerName = project.ManagerName,
             ProjectStartDate = project.ProjectStartDate,
             ProjectEndDate = project.ProjectEndDate,
-            Status = project.Status
+            Status = project.Status,
+            Employees = project.Employees
         };
         return result;
-    }
-
-    public Task<IEnumerable<MineViewModel>> AllProjectsByManagerIdAsync(string userId)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<bool> ProjectExistsByIdAsync(string id)
@@ -226,6 +238,7 @@ public class ProjectService : IProjectService
     {
         IQueryable<Project> projectsQuery = this.dbContext
             .Projects
+            .Where(x => x.IsActive)
             .AsQueryable();
 
 
@@ -252,7 +265,6 @@ public class ProjectService : IProjectService
                             EF.Functions.Like(p.Manager.LastName, wildCard) ||
                             EF.Functions.Like(p.Manager.JobTitle, wildCard));
         }
-
 
 
         projectsQuery = queryModel.ProjectSorting switch
@@ -317,5 +329,49 @@ public class ProjectService : IProjectService
                 .CountAsync(),
         };
     }
-}
 
+    public async Task<IEnumerable<SelectEmployeesForProjectFormModel>> AllEmployeesForProjectAsync(string projectId)
+    {
+        IEnumerable<SelectEmployeesForProjectFormModel> allEmployees = await this.dbContext
+            .Employees
+            .Where(x => x.IsActive)
+            .Include(x => x.Projects)
+            .Include(x => x.ProjectsEmployees)
+            .Select(e => new SelectEmployeesForProjectFormModel
+            {
+                Id = e.Id,
+                FirstName = e.FirstName,
+                LastName = e.LastName,
+                JobTitle = e.JobTitle,
+                PhoneNumber = e.PhoneNumber,
+                Email = e.User.Email,
+                IsChecked = e.ProjectsEmployees.Any(pe => pe.EmployeeId == e.Id && pe.ProjectId.ToString() == projectId)
+            })
+            .ToListAsync();
+
+        return allEmployees;
+    }
+
+    public async Task SaveAllEmployeesForProjectAsync(string projectId, IEnumerable<string> idList)
+    {
+        Project project = await this.dbContext
+            .Projects
+            .Where(x => x.IsActive)
+            .Include(x => x.ProjectsEmployees)
+            .ThenInclude(x => x.Employee)
+            .FirstAsync(x => x.Id.ToString() == projectId);
+
+        project.ProjectsEmployees.Clear();
+
+        foreach (var id in idList)
+        {
+            project.ProjectsEmployees.Add(new ProjectEmployee
+            {
+                EmployeeId = Guid.Parse(id),
+                ProjectId = Guid.Parse(projectId)
+            });
+        }
+
+        await this.dbContext.SaveChangesAsync();
+    }
+}

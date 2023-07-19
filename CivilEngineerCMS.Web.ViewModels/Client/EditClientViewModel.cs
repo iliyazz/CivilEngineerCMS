@@ -7,12 +7,12 @@
 //    {
 //        public EditClientViewModel()
 //        {
-//            this.Clients = new HashSet<ProjectSelectClientFormModel>();
+//            this.Clients = new HashSet<SelectClientForProjectFormModel>();
 //        }
 
 //        [Required]
 //        public Guid ClientId { get; set; }
-//        public IEnumerable<ProjectSelectClientFormModel> Clients { get; set; }
+//        public IEnumerable<SelectClientForProjectFormModel> Clients { get; set; }
 //        [Required]
 //        [StringLength(FirstNameMaxLength, MinimumLength = FirstNameMinLength)]
 //        [Display(Name = "First Name")]

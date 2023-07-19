@@ -106,7 +106,7 @@
             try
             {
                 EditEmployeeFormModel viewModel = await this.employeeService.GetEmployeeForEditByIdAsync(id.ToString());
-                this.TempData[SuccessMessage] = $"Employee {viewModel.FirstName} {viewModel.LastName} edited successfully.";
+                //this.TempData[SuccessMessage] = $"Employee {viewModel.FirstName} {viewModel.LastName} edited successfully.";
                 return this.View(viewModel);
             }
             catch (Exception _)

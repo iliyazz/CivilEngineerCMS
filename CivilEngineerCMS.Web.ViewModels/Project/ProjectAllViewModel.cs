@@ -27,13 +27,3 @@
         public string ManagerEmail { get; set; } = null!;
     }
 }
-/*
-        ProjectName = 0,
-        ClientName = 1,
-        ManagerName = 2,
-        ClientEmail = 3,
-        ManagerEmail = 4,
-        ClientPhone = 5,
-        ManagerPhone = 6,
-        Status = 7,
- */

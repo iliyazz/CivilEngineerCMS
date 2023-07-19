@@ -21,10 +21,20 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CivilEngineerCms", policyBuilder =>
+    options.AddPolicy("CivilEngineerCmsDev", policyBuilder =>
     {
         policyBuilder
             .WithOrigins("https://localhost:7255")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CivilEngineerCmsPr", policyBuilder =>
+    {
+        policyBuilder
+            .WithOrigins("https://civilengineeringCMS.com")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -45,6 +55,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors("CivilEngineerCms");
+app.UseCors("CivilEngineerCmsDev");
 
 app.Run();

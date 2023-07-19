@@ -19,8 +19,6 @@ public class HomeService : IHomeService
 
     public async Task<IEnumerable<IndexViewModel>> AllIndexProjectsAsync()
     {
-
-
         IEnumerable<IndexViewModel> allProjects = await this.dbContext
             .Projects
             .Where(p => p.UrlPicturePath != null)
@@ -35,7 +33,4 @@ public class HomeService : IHomeService
             .ToListAsync();
         return allProjects;
     }
-
-
-
 }

@@ -5,8 +5,9 @@
     public interface IClientService
     {
         Task<IEnumerable<MineClientManagerProjectViewModel>> AllProjectsByUserIdAsync(string userId);
-        Task<IEnumerable<ProjectSelectClientFormModel>> AllClientsAsync();
+        Task<IEnumerable<SelectClientForProjectFormModel>> AllClientsAsync();
         Task<IEnumerable<AllClientViewModel>> AllClientsForViewAsync();
+        Task<bool> ClientExistsByUserIdAsync(string id);
         Task CreateClientAsync(CreateClientFormModel formModel);
         Task<DetailsClientViewModel> DetailsClientAsync(string clientId);
         Task<bool> ClientExistsByIdAsync(string id);

@@ -3,13 +3,10 @@
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Manager;
-
     using Interfaces;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-
     using Web.ViewModels.Employee;
-
     using Task = System.Threading.Tasks.Task;
 
 
@@ -17,7 +14,6 @@
     {
         private readonly CivilEngineerCmsDbContext dbContext;
         private readonly UserManager<ApplicationUser> userManager;
-
 
         public EmployeeService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
@@ -69,12 +65,12 @@
             return allProjectsByManagerIdAsync;
         }
 
-        public async Task<IEnumerable<ProjectSelectManagerFormModel>> AllManagersAsync()
+        public async Task<IEnumerable<SelectEmployeesAndManagerForProjectFormModel>> AllEmployeesAndManagersAsync()
         {
-            IEnumerable<ProjectSelectManagerFormModel> managers = await this.dbContext
+            IEnumerable<SelectEmployeesAndManagerForProjectFormModel> managers = await this.dbContext
                 .Employees
                 .Where(e => e.IsActive)
-                .Select(u => new ProjectSelectManagerFormModel
+                .Select(u => new SelectEmployeesAndManagerForProjectFormModel
                 {
                     Id = u.Id,
                     FirstName = u.FirstName,
@@ -83,6 +79,15 @@
                 })
                 .ToListAsync();
             return managers;
+        }
+
+        public async Task<bool> EmployeeExistsByUserIdAsync(string id)
+        {
+            bool employeeExists = await this.dbContext
+                .Employees
+                .Where(x => x.IsActive)
+                .AnyAsync(x => x.Id.ToString() == id);
+            return employeeExists;
         }
 
         public async Task<string> GetManagerIdByUserIdAsync(string userId)
@@ -145,10 +150,9 @@
             return result;
         }
 
-
         public async Task<EditEmployeeFormModel> GetEmployeeForEditByIdAsync(string employeeId)
         {
-            Employee employee = await this.dbContext     
+            Employee employee = await this.dbContext
                 .Employees
                 .Include(e => e.User)
                 .Where(e => e.Id.ToString() == employeeId && e.IsActive)
@@ -182,6 +186,7 @@
 
             await this.dbContext.SaveChangesAsync();
         }
+
         public async Task<EmployeePreDeleteViewModel> GetEmployeeForPreDeleteByIdAsync(string employeeId)
         {
             Employee employee = await this.dbContext
@@ -220,6 +225,25 @@
             }
 
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<AllEmployeeViewModel>> AllEmployeesByProjectIdAsync(string projectId)
+        {
+            IEnumerable<AllEmployeeViewModel> allEmployeesByProjectIdAsync = await this.dbContext
+                .ProjectsEmployees
+                .Include(e => e.Employee)
+                .Where(e => e.ProjectId.ToString() == projectId)
+                .Select(e => new AllEmployeeViewModel
+                {
+                    Id = e.Employee.Id,
+                    FirstName = e.Employee.FirstName,
+                    LastName = e.Employee.LastName,
+                    JobTitle = e.Employee.JobTitle,
+                    Email = e.Employee.User.Email,
+                    PhoneNumber = e.Employee.PhoneNumber,
+                })
+                .ToListAsync();
+            return allEmployeesByProjectIdAsync;
         }
     }
 }

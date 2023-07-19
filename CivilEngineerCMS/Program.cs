@@ -3,6 +3,7 @@ using CivilEngineerCMS.Data.Models;
 using CivilEngineerCMS.Services.Data.Interfaces;
 using CivilEngineerCMS.Web.Infrastructure.Extensions;
 using CivilEngineerCMS.Web.Infrastructure.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -36,7 +37,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 builder.Services.AddApplicationServices(typeof(IHomeService));
 
 builder.Services.AddControllersWithViews()
-    .AddMvcOptions(options => { options.ModelBinderProviders.Insert(0, new DecimalModeBinderProvider()); });
+    .AddMvcOptions(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new DecimalModeBinderProvider());
+        options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+    });
 
 
 WebApplication app = builder.Build();

@@ -5,7 +5,7 @@
     using CivilEngineerCMS.Common;
 
     using Client;
-
+    using Employee;
     using Manager;
 
     using static CivilEngineerCMS.Common.EntityValidationConstants.Project;
@@ -14,8 +14,9 @@
     {
         public AddAndEditProjectFormModel()
         {
-            this.Managers = new HashSet<ProjectSelectManagerFormModel>();
-            this.Clients = new HashSet<ProjectSelectClientFormModel>();
+            this.Managers = new HashSet<SelectEmployeesAndManagerForProjectFormModel>();
+            this.Clients = new HashSet<SelectClientForProjectFormModel>();
+            this.Employees = new HashSet<AllEmployeeViewModel>();
         }
 
         [Required]
@@ -43,12 +44,15 @@
         [Required]
         [Display(Name = "Project Manager")]
         public Guid ManagerId { get; set; }
-        public IEnumerable<ProjectSelectManagerFormModel> Managers { get; set; }
+        public IEnumerable<SelectEmployeesAndManagerForProjectFormModel> Managers { get; set; }
 
         [Required]
         [Display(Name = "Client name")]
         public Guid ClientId { get; set; }
-        public IEnumerable<ProjectSelectClientFormModel> Clients { get; set; }
+        public IEnumerable<SelectClientForProjectFormModel> Clients { get; set; }
 
+
+        public Guid EmployeeId { get; set; }
+        public IEnumerable<AllEmployeeViewModel> Employees { get; set; }
     }
 }

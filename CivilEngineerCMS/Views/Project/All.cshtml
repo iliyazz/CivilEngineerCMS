@@ -1,57 +1,8 @@
-﻿@*@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Project.AllProjectViewModel>
-
-@{
-    ViewData["Title"] = "All projects";
-    var projects = Model.ToList();
-}
-
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr/>
-
-@if (!projects.Any())
-{
-    <h3 class="text-center">No projects yet!</h3>
-}
-else
-{
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Project title</th>
-            <th scope="col">Client name</th>
-            <th scope="col">Manager name</th>
-            <th scope="col">Project create date</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        @{ int rowNumber = 0; }
-        @foreach (var p in projects)
-        {
-            rowNumber++;
-            <tr >
-
-                <th scope="row">@rowNumber</th>
-                <td>@p.Name</td>
-                <td>@p.ClientName</td>
-                <td>@p.ManagerName</td>
-                <td>@p.ProjectCreatedDate</td>
-                <td><a class="btn btn-primary" asp-controller="Project" asp-action="Details" asp-route-id="@p.Id" method="post">Details</a></td>
-                   
-            </tr>
-        }
-        </tbody>
-    </table>
-}*@
-
-@using CivilEngineerCMS.Common
+﻿@using CivilEngineerCMS.Common
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ProjectAllQueryModel
 @{
     ViewBag.Title = "All Projects";
-    //ViewBag.CurrentPage = Model.CurrentPage;
-    //ViewBag.ProjectsPerPage = Model.ProjectsPerPage;
 }
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr/>
@@ -59,24 +10,12 @@ else
 
 <form method="get">
     <div class="row">
-        @*<div class="form-group col-md-3 d-flex justify-content-between">*@
         <div class="form-group col-md-3">
-                <label asp-for="Status"></label>
-                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectStatusEnums>()">
-                    <option selected="selected" value="">Please select</option>
-                </select>
-                <span asp-validation-for="Status" class="small text-danger"></span>
-@*            </div>
-
-            <div class="form-group col-md-4">
-                <label asp-for="ProjectsPerPage"></label>
-                <select asp-for="ProjectsPerPage" class="form-control">
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
-                    <option value="9">9</option>
-                </select>
-            </div>*@
+            <label asp-for="Status"></label>
+            <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectStatusEnums>()">
+                <option selected="selected" value="">Please select</option>
+            </select>
+            <span asp-validation-for="Status" class="small text-danger"></span>
         </div>
 
         <div class="form-group col-md-3 justify-content-between">
@@ -152,9 +91,46 @@ else
 {
     <h2 class="text-center">No projects found by the given criteria!</h2>
 }
-<div class="row">
-    @foreach (var project in Model.Projects)
-    {
-        <partial name="_ProjectFilterPartial" model="@project"/>
-    }
-</div>
+else
+{
+    <div class="mb-5"></div>
+
+
+    <section id="projectListStyle">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Project title</th>
+                <th scope="col">Client name</th>
+                <th scope="col">Manager name</th>
+                <th scope="col">Project create date</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            @{
+                int rowNumber = 0;
+                int currentRowNumber = 0;
+            }
+            @foreach (var p in Model.Projects)
+            {
+                rowNumber++;
+                currentRowNumber = (Model.CurrentPage - 1) * Model.ProjectsPerPage + rowNumber;
+                <tr >
+
+                    <th scope="row">@currentRowNumber</th>
+                    <td>@p.ProjectName</td>
+                    <td>@p.ClientName</td>
+                    <td>@p.ManagerName</td>
+                    <td>@p.ProjectCreatedDate</td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Project" asp-action="Details" asp-route-id="@p.Id" method="post">Details</a>
+                    </td>
+
+                </tr>
+            }
+            </tbody>
+        </table>
+    </section>
+}
