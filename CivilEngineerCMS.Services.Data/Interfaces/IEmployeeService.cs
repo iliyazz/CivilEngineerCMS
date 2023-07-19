@@ -20,5 +20,7 @@
         Task<EmployeePreDeleteViewModel> GetEmployeeForPreDeleteByIdAsync(string employeeId);
         Task DeleteEmployeeByIdAsync(string employeeId);
         Task<IEnumerable<AllEmployeeViewModel>> AllEmployeesByProjectIdAsync(string projectId);
+        Task<bool> IsEmployeeInProjectAsync(string projectId, string employeeId);
+
     }
 }

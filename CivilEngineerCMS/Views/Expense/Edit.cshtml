@@ -1,0 +1,35 @@
+﻿@model AddAndEditExpensesFormModel
+@{
+    ViewData["Title"] = "Edit employee";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Amount"></label>
+                <input asp-for="Amount" class="form-control" placeholder="Firs name...">
+                <span asp-validation-for="Amount" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAmount"></label>
+                <input asp-for="TotalAmount" class="form-control" placeholder="Last name...">
+                <span asp-validation-for="TotalAmount" class="small text-danger"></span>
+            </div>
+            <div class="text-center">
+                <input class="btn btn-warning mt-3" type="submit" value="Save" />
+                <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+
+}
+

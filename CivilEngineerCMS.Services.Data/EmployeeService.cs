@@ -245,5 +245,24 @@
                 .ToListAsync();
             return allEmployeesByProjectIdAsync;
         }
+
+        public async Task<bool> IsEmployeeInProjectAsync(string projectId, string employeeId)
+        {
+            bool isEmployeeInProject = await this.dbContext
+                .ProjectsEmployees
+                .AnyAsync(x => x.ProjectId.ToString() == projectId && x.EmployeeId.ToString() == employeeId);
+            return isEmployeeInProject;
+        }
     }
 }
+/*
+    public async Task<bool> IsManagerOfProjectAsync(string projectId, string managerId)
+    {
+        Project project = await this.dbContext
+            .Projects
+            .Where(x => x.IsActive)
+            .FirstAsync(x => x.Id.ToString() == projectId);
+        var isManager = project.ManagerId.ToString() == managerId;
+        return isManager;
+    }
+ */

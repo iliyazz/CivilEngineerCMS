@@ -28,17 +28,24 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
+    //options.AddPolicy("CivilEngineerCmsPr", policyBuilder =>
+    //{
+    //    policyBuilder
+    //        .WithOrigins("https://civilengineeringCMS.com")
+    //        .AllowAnyHeader()
+    //        .AllowAnyMethod();
+    //});
 });
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("CivilEngineerCmsPr", policyBuilder =>
-    {
-        policyBuilder
-            .WithOrigins("https://civilengineeringCMS.com")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("CivilEngineerCmsPr", policyBuilder =>
+//    {
+//        policyBuilder
+//            .WithOrigins("https://civilengineeringCMS.com")
+//            .AllowAnyHeader()
+//            .AllowAnyMethod();
+//    });
+//});
 
 var app = builder.Build();
 

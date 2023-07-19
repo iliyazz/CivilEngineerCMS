@@ -208,5 +208,16 @@ namespace CivilEngineerCMS.Services.Data
 
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> IsClientOfProjectAsync(string projectId, string clientId)
+        {
+            Project project = await this.dbContext
+                .Projects
+                .Where(x => x.IsActive)
+                .FirstAsync(x => x.Id.ToString() == projectId);
+            var isClientOfProject = project.ClientId.ToString() == clientId;
+            return isClientOfProject;
+        }
     }
 }
+

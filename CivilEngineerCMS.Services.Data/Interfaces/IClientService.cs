@@ -15,5 +15,6 @@
         Task EditClientByIdAsync(string clientId, EditClientFormModel formModel);
         Task<ClientPreDeleteViewModel> GetClientForPreDeleteByIdAsync(string clientId);
         Task DeleteClientByIdAsync(string clientId);
+        Task<bool> IsClientOfProjectAsync(string projectId, string clientId);
     }
 }

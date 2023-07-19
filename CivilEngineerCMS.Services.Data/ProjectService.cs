@@ -80,13 +80,14 @@ public class ProjectService : IProjectService
         await this.dbContext.SaveChangesAsync();
     }
 
-    public async Task<bool> IsManagerOfProjectAsync(string userId, string managerId)
+    public async Task<bool> IsManagerOfProjectAsync(string projectId, string managerId)
     {
         Project project = await this.dbContext
             .Projects
             .Where(x => x.IsActive)
-            .FirstAsync(x => x.Id.ToString() == userId);
-        return project.ManagerId.ToString() == managerId;
+            .FirstAsync(x => x.Id.ToString() == projectId);
+        var isManagerOfProject = project.ManagerId.ToString() == managerId;
+        return isManagerOfProject;
     }
 
     public async Task<AddAndEditProjectFormModel> GetProjectForEditByIdAsync(string id)
@@ -373,5 +374,14 @@ public class ProjectService : IProjectService
         }
 
         await this.dbContext.SaveChangesAsync();
+    }
+
+    public async Task<Project> GetProjectByIdAsync(string projectId)
+    {
+        Project project = await this.dbContext
+            .Projects
+            .Where(p => p.IsActive && p.Id.ToString() == projectId)
+            .FirstAsync();
+        return project;
     }
 }

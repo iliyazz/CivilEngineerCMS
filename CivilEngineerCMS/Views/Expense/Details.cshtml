@@ -1,0 +1,28 @@
+﻿@model AddAndEditExpensesFormModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+<div justify-content: center>
+    <div style="display: inline">
+        <div class="row" align="center">
+            <div class="card col-12 border-0">
+                <p>Last date of movement on account: <b>@Model.Date.ToString("dd.MM.yyyy")</b></p>
+                <p></p>
+                <div class="card" align="center">
+                    <div class="card-body" align="center">
+                        <p class="card-text">Paid money so far: <b>@Model.Amount €</b></p>
+                        <p class="card-text">Total needed money: <b>@Model.TotalAmount €</b></p>
+                        <div class="form-check-inline">
+                            <a class="btn btn-warning" asp-controller="Expense" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
+                            <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,6 +10,9 @@
         public void Configure(EntityTypeBuilder<Expense> builder)
         {
             builder
+                .Property(e => e.Date)
+                .HasDefaultValueSql("GETDATE()");
+            builder
                 .Property(e => e.Amount)
                 .HasColumnType("decimal(18,2)");
             builder
@@ -19,3 +22,4 @@
         }
     }
 }
+
