@@ -9,6 +9,6 @@
         Task<bool> InteractionExistsByProjectIdAsync(string projectId);
         Task CreateInteractionAsync(string id, AddAndEditInteractionFormModel formModel);
         Task<AddAndEditInteractionFormModel> GetInteractionForEditByProjectIdAsync(string projectId, string interactionId);
-        Task EditInteractionForEditByProjectIdAsync(string projectId, AddAndEditInteractionFormModel formModel);
+        Task EditInteractionByProjectIdAsync(string interactionId, AddAndEditInteractionFormModel formModel);
     }
 }

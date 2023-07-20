@@ -58,14 +58,67 @@ namespace CivilEngineerCMS.Services.Data
             await dbContext.SaveChangesAsync();
         }
 
-        public Task<AddAndEditInteractionFormModel> GetInteractionForEditByProjectIdAsync(string projectId, string interactionId)
+        public async Task<AddAndEditInteractionFormModel> GetInteractionForEditByProjectIdAsync(string projectId, string interactionId)
         {
-            throw new NotImplementedException();
+            Interaction interaction = await dbContext.Interactions
+                .Where(i => i.ProjectId.ToString() == projectId && i.Id.ToString() == interactionId)
+                .FirstAsync();
+            AddAndEditInteractionFormModel result = new AddAndEditInteractionFormModel
+            {
+                Id = interaction.Id,
+                ProjectId = interaction.ProjectId,
+                Type = interaction.Type,
+                Description = interaction.Description,
+                Message = interaction.Message,
+                UrlPath = interaction.UrlPath,
+                Date = interaction.Date,
+            };
+            return result;
         }
 
-        public Task EditInteractionForEditByProjectIdAsync(string projectId, AddAndEditInteractionFormModel formModel)
+        public async Task EditInteractionByProjectIdAsync(string id, AddAndEditInteractionFormModel formModel)
         {
-            throw new NotImplementedException();
+            Interaction interaction = await this.dbContext
+                .Interactions
+                .Where(i => i.Id.ToString() == id)
+                .FirstAsync();
+            interaction.Type = formModel.Type;
+            interaction.Description = formModel.Description;
+            interaction.Message = formModel.Message;
+            interaction.UrlPath = formModel.UrlPath;
+            interaction.Date = DateTime.UtcNow;
+            //interaction.ProjectId = Guid.Parse(projectId);
+            //interaction.Id = Guid.Parse(id);
+            await this.dbContext.SaveChangesAsync();
         }
+        
     }
 }
+/*
+        public async Task<AddAndEditExpensesFormModel> GetExpenseForEditByProjectIdAsync(string projectId)
+        {
+            Expense expense = await this.dbContext.Expenses
+                .Where(e => e.ProjectId.ToString() == projectId)
+                .FirstAsync();
+            AddAndEditExpensesFormModel result = new AddAndEditExpensesFormModel
+            {
+                Amount = expense.Amount,
+                TotalAmount = expense.TotalAmount,
+                Date = expense.Date
+            };
+            return result;
+        }
+*/
+/*
+        public async Task EditExpenseForEditByProjectIdAsync(string projectId, AddAndEditExpensesFormModel formModel)
+        {
+            Expense expense = await this.dbContext
+                .Expenses
+                .Where(e => e.ProjectId.ToString() == projectId)
+                .FirstAsync();
+            expense.Amount = formModel.Amount;
+            expense.TotalAmount = formModel.TotalAmount;
+            expense.Date = DateTime.UtcNow;
+            await this.dbContext.SaveChangesAsync();
+        }
+ */
