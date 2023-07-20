@@ -52,7 +52,6 @@
             return this.dbContext.Expenses.AnyAsync(e => e.ProjectId.ToString() == projectId);
         }
 
-
         public async Task CreateExpenseAsync(string id, AddAndEditExpensesFormModel formModel)
         {
             Expense expense = new Expense
@@ -94,43 +93,3 @@
         }
     }
 }
-
-
-
-/*
-        public async Task<EditClientFormModel> GetClientForEditByIdAsync(string clientId)
-        {
-            Client client = await this.dbContext
-                .Clients
-                .Include(c => c.User)
-                .Where(c => c.Id.ToString() == clientId && c.IsActive)
-                .FirstAsync();
-            string email = client.User.Email;
-            var result = new EditClientFormModel
-            {
-                FirstName = client.FirstName,
-                LastName = client.LastName,
-                PhoneNumber = client.PhoneNumber,
-                Address = client.Address,
-                Email = email
-            };
-            return result;
-        }
-*/
-
-/*
-         public async Task EditClientByIdAsync(string clientId, EditClientFormModel formModel)
-        {
-            Client client = await this.dbContext.Clients
-                .Include(c => c.User)
-                .Where(c => c.Id.ToString() == clientId && c.IsActive)
-                .FirstAsync();
-            client.FirstName = formModel.FirstName;
-            client.LastName = formModel.LastName;
-            client.PhoneNumber = formModel.PhoneNumber;
-            client.Address = formModel.Address;
-            client.User.Email = formModel.Email;
-            await this.dbContext.SaveChangesAsync();
-        }
- */
-

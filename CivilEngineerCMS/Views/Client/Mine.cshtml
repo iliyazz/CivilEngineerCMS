@@ -35,11 +35,12 @@ else
                 <td>@p.ProjectName</td>
                 <td>@p.ManagerName</td>
                 <td>@p.ManagerPhoneNumber</td>
-                    <td>@p.ProjectCreatedDate.ToString("dd/MM/yyyy")</td>
-                    <td>@p.ProjectEndDate.ToString("dd/MM/yyyy")</td>
+                <td>@p.ProjectCreatedDate.ToString("dd/MM/yyyy")</td>
+                <td>@p.ProjectEndDate.ToString("dd/MM/yyyy")</td>
+                    <a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Details" asp-route-id="@p.ProjectId">Expense details</a>
+
             </tr>
         }
         </tbody>
     </table>
 }
-

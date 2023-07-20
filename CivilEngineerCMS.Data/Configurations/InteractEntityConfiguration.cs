@@ -10,6 +10,9 @@
         public void Configure(EntityTypeBuilder<Interaction> builder)
         {
             builder
+                .Property(i => i.Date)
+                .HasDefaultValueSql("GETDATE()");
+            builder
                 .HasOne(i => i.Project)
                 .WithMany(p => p.Interactions)
                 .HasForeignKey(i => i.ProjectId)
@@ -17,3 +20,8 @@
         }
     }
 }
+/*
+            builder
+                .Property(e => e.Date)
+                .HasDefaultValueSql("GETDATE()");
+ */

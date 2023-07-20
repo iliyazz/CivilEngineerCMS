@@ -35,7 +35,8 @@
             string userId = this.User.GetId();
             string managerId = await this.employeeService.GetManagerIdByUserIdAsync(userId);
             bool isManagerOfProject = project.ManagerId.ToString() == managerId;
-            bool isClientOfProject = project.ClientId.ToString() == userId;
+            string clientId = await this.clientService.GetClientIdByProjectIdAsync(id);
+            bool isClientOfProject = project.ClientId.ToString() == clientId;
 
             if (!(isManagerOfProject || isClientOfProject))
             {

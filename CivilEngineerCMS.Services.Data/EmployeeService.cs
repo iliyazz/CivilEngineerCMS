@@ -255,14 +255,4 @@
         }
     }
 }
-/*
-    public async Task<bool> IsManagerOfProjectAsync(string projectId, string managerId)
-    {
-        Project project = await this.dbContext
-            .Projects
-            .Where(x => x.IsActive)
-            .FirstAsync(x => x.Id.ToString() == projectId);
-        var isManager = project.ManagerId.ToString() == managerId;
-        return isManager;
-    }
- */
+

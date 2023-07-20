@@ -16,5 +16,6 @@
         Task<ClientPreDeleteViewModel> GetClientForPreDeleteByIdAsync(string clientId);
         Task DeleteClientByIdAsync(string clientId);
         Task<bool> IsClientOfProjectAsync(string projectId, string clientId);
+        Task<string> GetClientIdByProjectIdAsync(string projectId);
     }
 }

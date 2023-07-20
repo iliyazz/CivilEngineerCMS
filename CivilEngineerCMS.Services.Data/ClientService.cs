@@ -30,6 +30,7 @@ namespace CivilEngineerCMS.Services.Data
                 .OrderBy(pn => pn.Name)
                 .Select(p => new MineClientManagerProjectViewModel
                 {
+                    ProjectId = p.Id.ToString(),
                     ProjectCreatedDate = p.ProjectCreatedDate,
                     ProjectName = p.Name,
                     ProjectEndDate = p.ProjectEndDate,
@@ -217,6 +218,20 @@ namespace CivilEngineerCMS.Services.Data
                 .FirstAsync(x => x.Id.ToString() == projectId);
             var isClientOfProject = project.ClientId.ToString() == clientId;
             return isClientOfProject;
+        }
+
+        public async Task<string> GetClientIdByProjectIdAsync(string projectId)
+        {
+            var project = await this.dbContext
+                .Projects
+                .Where(x => x.IsActive)
+                .Include(x => x.Client)
+                .FirstOrDefaultAsync(x => x.Id.ToString() == projectId);
+            if (project == null || project.ClientId.ToString() == string.Empty)
+            {
+                return null;
+            }
+            return project.Client.Id.ToString();
         }
     }
 }
