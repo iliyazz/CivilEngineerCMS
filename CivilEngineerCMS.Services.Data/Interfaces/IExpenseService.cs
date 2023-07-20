@@ -1,8 +1,5 @@
 ﻿namespace CivilEngineerCMS.Services.Data.Interfaces
 {
-    using CivilEngineerCMS.Web.ViewModels.Client;
-    using CivilEngineerCMS.Web.ViewModels.Employee;
-
     using Web.ViewModels.Expenses;
 
     public interface IExpenseService

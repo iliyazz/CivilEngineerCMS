@@ -1,0 +1,71 @@
+﻿using CivilEngineerCMS.Services.Data.Interfaces;
+
+namespace CivilEngineerCMS.Services.Data
+{
+    using CivilEngineerCMS.Data;
+    using CivilEngineerCMS.Data.Models;
+    using Microsoft.EntityFrameworkCore;
+    using Web.ViewModels.Interaction;
+    using Task = Task;
+
+    public class InteractionService : IInteractionService
+    {
+        private readonly CivilEngineerCmsDbContext dbContext;
+
+        public InteractionService(CivilEngineerCmsDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
+
+        public async Task<IEnumerable<AddAndEditInteractionFormModel>> AllInteractionsByProjectIdAsync(string id)
+        {
+            IEnumerable<AddAndEditInteractionFormModel> allInteractionsByProjectIdIdAsync = await dbContext
+                .Interactions
+                .Where(i => i.ProjectId.ToString() == id)
+                .OrderBy(x => x.Date)
+                .Select(i => new AddAndEditInteractionFormModel
+                {
+                    Id = i.Id,
+                    Date = i.Date,
+                    Description = i.Description,
+                    Message = i.Message,
+                    UrlPath = i.UrlPath,
+                    ProjectId = i.ProjectId,
+                    Type = i.Type,
+                })
+                .ToListAsync();
+            return allInteractionsByProjectIdIdAsync;
+        }
+
+        public Task<bool> InteractionExistsByProjectIdAsync(string projectId)
+        {
+            return dbContext.Interactions.AnyAsync(i => i.ProjectId.ToString() == projectId);
+        }
+
+        public async Task CreateInteractionAsync(string id, AddAndEditInteractionFormModel formModel)
+        {
+            Interaction interaction = new Interaction
+            {
+                ProjectId = Guid.Parse(id),
+                Date = formModel.Date,
+                Description = formModel.Description,
+                Message = formModel.Message,
+                UrlPath = formModel.UrlPath,
+                Type = formModel.Type,
+            };
+            await dbContext.Interactions.AddAsync(interaction);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public Task<AddAndEditInteractionFormModel> GetInteractionForEditByProjectIdAsync(string projectId, string interactionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task EditInteractionForEditByProjectIdAsync(string projectId, AddAndEditInteractionFormModel formModel)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

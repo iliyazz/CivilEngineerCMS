@@ -30,7 +30,7 @@
                             <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
                             <a class="btn btn-warning" asp-controller="Project" asp-action="ManageEmployeesInProject" asp-route-id="@Model.Id.ToString()">Manage employees in project</a>
                             <a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Details" asp-route-id="@Model.Id.ToString()">Expense details</a>
-                            @*<a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Add" asp-route-id="@Model.Id.ToString()">Add expense</a>*@
+                            <a class="ml-2 btn btn-info" asp-controller="Interaction" asp-action="All" asp-route-id="@Model.Id.ToString()">Interactions</a>
 
                         </div>
                     </div>

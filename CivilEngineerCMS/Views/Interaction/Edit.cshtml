@@ -1,0 +1,46 @@
+﻿@model AddAndEditInteractionFormModel
+
+@{
+    ViewData["Title"] = "Edit interactions";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Type"></label>
+                <input asp-for="Type" class="form-control" placeholder="Type...">
+                <span asp-validation-for="Type" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" placeholder="Description...">
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Message"></label>
+                <input asp-for="Message" class="form-control" placeholder="Description...">
+                <span asp-validation-for="Message" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UrlPath"></label>
+                <input asp-for="UrlPath" class="form-control" placeholder="Link to file...">
+                <span asp-validation-for="UrlPath" class="small text-danger"></span>
+            </div>
+            <div class="text-center">
+                <input class="btn btn-warning mt-3" type="submit" value="Save" />
+                <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+
+}
+

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Interaction.AddAndEditInteractionFormModel>
+
+@{
+    ViewData["Title"] = "All interactions about project";
+    var interactions = Model.ToList();
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr/>
+
+@if (!interactions.Any())
+{
+    <h3 class="text-center">No clients yet!</h3>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Phone number</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{ int rowNumber = 0; }
+        @foreach (var interaction in interactions)
+        {
+            rowNumber++;
+            <tr onclick="location.href = '@Url.Action("Edit", "Interaction",new { id = interaction.ProjectId.ToString() })'" type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+                <th scope="row">@rowNumber</th>
+                <td>@interaction.Date</td>
+                <td>@interaction.Type</td>
+                <td>@interaction.Description</td>
+                <td>@interaction.Message</td>
+                <td>@interaction.UrlPath</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
