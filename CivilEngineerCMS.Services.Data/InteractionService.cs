@@ -4,8 +4,11 @@ namespace CivilEngineerCMS.Services.Data
 {
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
+
     using Microsoft.EntityFrameworkCore;
+
     using Web.ViewModels.Interaction;
+
     using Task = Task;
 
     public class InteractionService : IInteractionService
@@ -87,38 +90,8 @@ namespace CivilEngineerCMS.Services.Data
             interaction.Message = formModel.Message;
             interaction.UrlPath = formModel.UrlPath;
             interaction.Date = DateTime.UtcNow;
-            //interaction.ProjectId = Guid.Parse(projectId);
-            //interaction.Id = Guid.Parse(id);
             await this.dbContext.SaveChangesAsync();
         }
-        
     }
 }
-/*
-        public async Task<AddAndEditExpensesFormModel> GetExpenseForEditByProjectIdAsync(string projectId)
-        {
-            Expense expense = await this.dbContext.Expenses
-                .Where(e => e.ProjectId.ToString() == projectId)
-                .FirstAsync();
-            AddAndEditExpensesFormModel result = new AddAndEditExpensesFormModel
-            {
-                Amount = expense.Amount,
-                TotalAmount = expense.TotalAmount,
-                Date = expense.Date
-            };
-            return result;
-        }
-*/
-/*
-        public async Task EditExpenseForEditByProjectIdAsync(string projectId, AddAndEditExpensesFormModel formModel)
-        {
-            Expense expense = await this.dbContext
-                .Expenses
-                .Where(e => e.ProjectId.ToString() == projectId)
-                .FirstAsync();
-            expense.Amount = formModel.Amount;
-            expense.TotalAmount = formModel.TotalAmount;
-            expense.Date = DateTime.UtcNow;
-            await this.dbContext.SaveChangesAsync();
-        }
- */
+

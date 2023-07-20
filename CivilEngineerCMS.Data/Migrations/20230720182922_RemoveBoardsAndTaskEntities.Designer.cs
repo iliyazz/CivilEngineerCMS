@@ -4,6 +4,7 @@ using CivilEngineerCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CivilEngineerCMS.Data.Migrations
 {
     [DbContext(typeof(CivilEngineerCmsDbContext))]
-    partial class CivilEngineerCmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230720182922_RemoveBoardsAndTaskEntities")]
+    partial class RemoveBoardsAndTaskEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,6 +88,22 @@ namespace CivilEngineerCMS.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("CivilEngineerCMS.Data.Models.Board", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Board");
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Client", b =>
@@ -313,6 +331,27 @@ namespace CivilEngineerCMS.Data.Migrations
                     b.ToTable("ProjectsEmployees");
                 });
 
+            modelBuilder.Entity("CivilEngineerCMS.Data.Models.Task", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BoardId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Task");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("Id")
@@ -534,6 +573,25 @@ namespace CivilEngineerCMS.Data.Migrations
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("CivilEngineerCMS.Data.Models.Task", b =>
+                {
+                    b.HasOne("CivilEngineerCMS.Data.Models.Board", "Board")
+                        .WithMany("Tasks")
+                        .HasForeignKey("BoardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CivilEngineerCMS.Data.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Board");
+
+                    b.Navigation("Project");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
@@ -588,6 +646,11 @@ namespace CivilEngineerCMS.Data.Migrations
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("CivilEngineerCMS.Data.Models.Board", b =>
+                {
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Client", b =>

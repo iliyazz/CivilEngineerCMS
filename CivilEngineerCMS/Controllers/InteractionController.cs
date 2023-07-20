@@ -21,6 +21,12 @@
         [HttpGet]
         public async Task<IActionResult> All(string id)
         {
+            if (!await this.interactionService.InteractionExistsByProjectIdAsync(id))
+            {
+                this.TempData[InfoMessage] = "There are no interaction about this project. Create the first one.";
+                return RedirectToAction("Add", "Interaction", new { id = id });
+            }
+
             IEnumerable<AddAndEditInteractionFormModel> viewModel =
                 await this.interactionService.AllInteractionsByProjectIdAsync(id);
             return View(viewModel);
@@ -31,7 +37,6 @@
         {
             AddAndEditInteractionFormModel formModel = new AddAndEditInteractionFormModel
             {
-                //Id = default,
                 ProjectId = Guid.Parse(id),
                 Date = DateTime.UtcNow,
             };
