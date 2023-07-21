@@ -394,5 +394,11 @@ public class ProjectService : IProjectService
             .FirstAsync();
     }
 
-
+    public async Task<bool> IsEmployeeOfProjectAsync(string projectId, string employeeId)
+    {
+        var isEmployeeOfProject = await this.dbContext
+            .ProjectsEmployees
+            .AnyAsync(pe => pe.ProjectId.ToString() == projectId && pe.EmployeeId.ToString() == employeeId);
+        return isEmployeeOfProject;
+    }
 }

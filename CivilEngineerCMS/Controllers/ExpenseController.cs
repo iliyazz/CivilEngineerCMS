@@ -55,7 +55,7 @@
                 this.TempData[ErrorMessage] = "No payments have been made for this project.";
                 return RedirectToAction("Add", "Expense", new { id = id });
             }
-            else if(isClientOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
+            if(isClientOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
             {
                 this.TempData[ErrorMessage] = "No payments have been made for this project.";
                 return RedirectToAction("Mine", "Client", new { id = id });

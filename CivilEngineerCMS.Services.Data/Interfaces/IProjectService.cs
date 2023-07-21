@@ -28,4 +28,5 @@ public interface IProjectService
     Task SaveAllEmployeesForProjectAsync(string projectId, IEnumerable<string> idList);
     Task<Project> GetProjectByIdAsync(string projectId);
     Task<string> GetManagerIdByProjectIdAsync(string projectId);
+    Task<bool> IsEmployeeOfProjectAsync(string projectId, string employeeId);
 }
