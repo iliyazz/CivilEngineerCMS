@@ -30,7 +30,7 @@
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
-            string? id = this.User.GetId();
+            string id = this.User.GetId();
             var employeeId = await this.employeeService.GetManagerIdByUserIdAsync(id);
             bool isEmployee = await this.employeeService.EmployeeExistsByIdAsync(employeeId);
             if (!isEmployee)
@@ -42,6 +42,23 @@
             IEnumerable<MineManagerProjectViewModel> viewModel = await this.employeeService.AllProjectsByManagerIdAsync(employeeId);
             return this.View(viewModel);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> MineByEmployeeId()
+        {
+            string id = this.User.GetId();
+            var employeeId = await this.employeeService.GetEmployeeIdByUserIdAsync(id);
+            bool isEmployee = await this.employeeService.EmployeeExistsByIdAsync(employeeId);
+            if (!isEmployee)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            IEnumerable<MineManagerProjectViewModel> viewModel = await this.employeeService.AllProjectsByEmployeeIdAsync(employeeId);
+            return this.View(viewModel);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> Create()

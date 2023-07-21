@@ -29,4 +29,11 @@
     <ProjectReference Include="..\CivilEngineerCMS.Web.ViewModels\CivilEngineerCMS.Web.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Employee\MineByEmployeeId.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

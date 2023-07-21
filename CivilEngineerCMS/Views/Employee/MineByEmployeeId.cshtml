@@ -1,0 +1,47 @@
+﻿@model IEnumerable<MineManagerProjectViewModel>
+
+@{
+    ViewData["Title"] = "My projects";
+    var projects = Model.ToList();
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr/>
+
+@if (!projects.Any())
+{
+    <h3 class="text-center">No project yet!</h3>
+}
+else
+{
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project title</th>
+            <th scope="col">Manager name</th>
+            <th scope="col">Manager phone number</th>
+            <th scope="col">Project create date</th>
+            <th scope="col">Project end date</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{ int rowNumber = 0; }
+        @foreach (var p in projects)
+        {
+            rowNumber++;
+            <tr>
+                <th scope="row">@rowNumber</th>
+                <td>@p.ProjectName</td>
+                <td>@p.ClientName</td>
+                <td>@p.ClientPhoneNumber</td>
+                <td>@p.ProjectCreatedDate.ToString("dd/MM/yyyy")</td>
+                <td>@p.ProjectEndDate.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Project" asp-action="Details" asp-route-id="@p.Id" method="post">Details</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

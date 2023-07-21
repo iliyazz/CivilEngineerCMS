@@ -270,5 +270,26 @@
                 .Select(e => e.Id.ToString())
                 .FirstAsync();
         }
+
+        public async Task<IEnumerable<MineManagerProjectViewModel>> AllProjectsByEmployeeIdAsync(string id)
+        {
+            IEnumerable<MineManagerProjectViewModel> allProjectsByManagerIdAsync = await this.dbContext
+                .Projects
+                .Include(p => p.ProjectsEmployees)
+                .Where(p => p.IsActive && p.ProjectsEmployees.Any(pe => pe.EmployeeId.ToString() == id))
+                .OrderBy(p => p.Name)
+                .Select(p => new MineManagerProjectViewModel
+                {
+                    Id = p.Id,
+                    ProjectName = p.Name,
+                    ClientName = p.Client.FirstName + " " + p.Client.LastName,
+                    ClientPhoneNumber = p.Client.PhoneNumber,
+                    ProjectCreatedDate = p.ProjectCreatedDate,
+                    ProjectEndDate = p.ProjectEndDate,
+                })
+                .ToListAsync();
+            return allProjectsByManagerIdAsync;
+        }
     }
 }
+

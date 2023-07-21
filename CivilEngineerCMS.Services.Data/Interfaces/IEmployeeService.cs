@@ -23,5 +23,7 @@
         Task<bool> IsEmployeeInProjectAsync(string projectId, string employeeId);
         Task<bool> IsEmployeeAsync(string userId);
         Task<string> GetEmployeeIdByUserIdAsync(string userId);
+        Task<IEnumerable<MineManagerProjectViewModel>> AllProjectsByEmployeeIdAsync(string id);
+
     }
 }
