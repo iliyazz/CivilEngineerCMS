@@ -28,7 +28,6 @@
             this.employeeService = employeeService;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] ProjectAllQueryModel queryModel)
         {
@@ -40,7 +39,6 @@
 
             return this.View(queryModel);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Add()
@@ -154,6 +152,8 @@
                 return this.RedirectToAction("Mine", "Employee");
             }
 
+
+
             var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
             var currentUserId = this.User.GetId();
@@ -234,7 +234,6 @@
             return this.RedirectToAction("Mine", "Employee");
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Details()
         {
@@ -256,7 +255,6 @@
             DetailsProjectViewModel viewModel = await this.projectService.DetailsByIdProjectAsync(projectId);
             return this.View(viewModel);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
@@ -330,7 +328,6 @@
             }
         }
 
-
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
@@ -347,6 +344,18 @@
                 this.TempData[ErrorMessage] = "Project does not exist.";
                 return this.RedirectToAction("Mine", "Employee");
             }
+            var project = await this.projectService.GetProjectForEditByIdAsync(id);
+
+            var currentUserId = this.User.GetId();
+
+            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
+
+            if (projectManagerUserId != project.ManagerId.ToString())
+            {
+                this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
 
             try
             {
@@ -370,7 +379,17 @@
                 this.TempData[ErrorMessage] = "Project does not exist.";
                 return this.RedirectToAction("Mine", "Employee");
             }
+            var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
+            var currentUserId = this.User.GetId();
+
+            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
+
+            if (projectManagerUserId != project.ManagerId.ToString())
+            {
+                this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
             try
             {
                 await this.projectService.SaveAllEmployeesForProjectAsync(id, selectedEmployee);

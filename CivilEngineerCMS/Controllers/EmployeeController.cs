@@ -35,6 +35,7 @@
             bool isEmployee = await this.employeeService.EmployeeExistsByIdAsync(employeeId);
             if (!isEmployee)
             {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
                 return RedirectToAction("Index", "Home");
             }
 

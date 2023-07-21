@@ -26,6 +26,13 @@
         }
         public async Task<IActionResult> Mine()
         {
+            string userId = this.User.GetId();
+            bool clientExists = await this.clientService.IsClientAsync(userId);
+            if (!clientExists)
+            {
+                this.TempData[ErrorMessage] = "Client does not exist.";
+                return this.RedirectToAction("Index", "Home");
+            }
             IEnumerable<MineClientManagerProjectViewModel> viewModel = await this.clientService.AllProjectsByUserIdAsync(this.User.GetId());
             return View(viewModel);
         }
@@ -87,7 +94,6 @@
                 this.ModelState.AddModelError(string.Empty, "Client does not exist.");
                 return this.RedirectToAction("All", "Client");
             }
-            //var url = Url.RequestContext.RouteData.Values["id"];
             if (!await clientService.ClientExistsByIdAsync(clientId))
             {
                 this.TempData[ErrorMessage] = "Client does not exist.";
@@ -208,6 +214,5 @@
                 return GeneralError();
             }
         }
-
     }
 }
