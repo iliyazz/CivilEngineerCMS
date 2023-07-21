@@ -1,9 +1,13 @@
-﻿@model IEnumerable<IndexViewModel>
-
+﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@using CivilEngineerCMS.Web.Infrastructure.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<IndexViewModel>
+@inject IEmployeeService EmployeeService
 @{
     ViewData["Title"] = "Home Page";
-
     var projects = Model.ToList();
+    string userId = User.GetId();
+    bool isEmployee = await EmployeeService.IsEmployeeAsync(userId);
 }
 
 @if (projects.Any())
@@ -26,7 +30,7 @@
             <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
                 <img class="d-block w-100" style="height:500px"
                      src="@project.UrlPicturePath" alt="@project.Name">
-                @if (User.Identity?.IsAuthenticated ?? false)
+                @if (@*User.Identity?.IsAuthenticated ?? false && *@isEmployee)
                 {
                     <div class="carousel-caption d-none d-md-block">
                         <h5>

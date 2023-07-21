@@ -1,7 +1,15 @@
-﻿@model DetailsProjectViewModel
-
+﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@using CivilEngineerCMS.Web.Infrastructure.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model DetailsProjectViewModel
+@inject IEmployeeService EmployeesService
+@inject IProjectService ProjectService
 @{
     ViewData["Title"] = "Details";
+    string userId = User.GetId();
+    string employeeId = await EmployeesService.GetEmployeeIdByUserIdAsync(userId);
+    string managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.Id.ToString());
+    bool isManagerInProject = employeeId == managerId;
 }
 
 <h2 class="text-center">@ViewData["Title"]</h2>
@@ -25,12 +33,15 @@
                         <p class="card-text">Project end date: @Model.ProjectEndDate</p>
                         <p class="card-text">Project picture path: @Model.UrlPicturePath</p>
                         <div class="form-check-inline">
-                            <a class="btn btn-warning" asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id.ToString()">Edit</a>
-                            <a class="ml-2 btn btn-danger" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id.ToString()">Delete</a>
-                            <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
-                            <a class="btn btn-warning" asp-controller="Project" asp-action="ManageEmployeesInProject" asp-route-id="@Model.Id.ToString()">Manage employees in project</a>
-                            <a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Details" asp-route-id="@Model.Id.ToString()">Expense details</a>
+                            @if (isManagerInProject)
+                            {
+                                <a class="btn btn-warning" asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id.ToString()">Edit</a>
+                                <a class="ml-2 btn btn-danger" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id.ToString()">Delete</a>
+                                <a class="btn btn-warning" asp-controller="Project" asp-action="ManageEmployeesInProject" asp-route-id="@Model.Id.ToString()">Manage employees in project</a>
+                                <a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Details" asp-route-id="@Model.Id.ToString()">Expense details</a>
+                            }
                             <a class="ml-2 btn btn-info" asp-controller="Interaction" asp-action="All" asp-route-id="@Model.Id.ToString()">Interactions</a>
+                            <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
                         </div>
                     </div>
                 </div>

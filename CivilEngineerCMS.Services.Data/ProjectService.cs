@@ -86,7 +86,7 @@ public class ProjectService : IProjectService
             .Projects
             .Where(x => x.IsActive)
             .FirstAsync(x => x.Id.ToString() == projectId);
-        var isManagerOfProject = string.Equals(project.ManagerId.ToString(), managerId, StringComparison.CurrentCultureIgnoreCase);
+        bool isManagerOfProject = string.Equals(project.ManagerId.ToString(), managerId, StringComparison.CurrentCultureIgnoreCase);
         return isManagerOfProject;
     }
 
