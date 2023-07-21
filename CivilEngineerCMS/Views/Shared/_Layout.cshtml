@@ -1,7 +1,16 @@
 ﻿@using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 @using CivilEngineerCMS.Data
+@using CivilEngineerCMS.Services.Data.Interfaces
+@using CivilEngineerCMS.Web.Infrastructure.Extensions
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject CivilEngineerCmsDbContext dbContext
+@inject IProjectService ProjectService
+@inject IClientService ClientService
+@inject IEmployeeService EmployeeService
+@{
+    bool isClient = await ClientService.IsClientAsync(User.GetId());
+    bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
+}
 
 
 <!DOCTYPE html>
@@ -35,30 +44,37 @@
 
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="All">All projects</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="Add">Add project</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="Create">Create client</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="Mine">My client's' projects</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="All">All clients</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="All">All employees</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Mine">My manager's projects</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Create">Create Employee</a>
-                        </li>
+                        @if (isEmployee)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="All">All projects</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="All">All employees</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="All">All clients</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Create">Create Employee</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="Create">Create client</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="Add">Add project</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Mine">My manager's projects</a>
+                            </li>
+
+                        }
+                        @if (isClient)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="Mine">My client's' projects</a>
+                            </li>
+                        }
                     }
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

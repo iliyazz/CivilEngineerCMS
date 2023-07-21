@@ -1,12 +1,17 @@
-﻿@model AddAndEditInteractionFormModel
-
-
+﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@model AddAndEditInteractionFormModel
+@*@inject IEmployeeService EmployeeService*@
+@inject IProjectService ProjectService
 @{
     ViewData["Title"] = "Details";
+    //bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
+    var managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.ProjectId.ToString());
+    bool isManagerOfProject = await ProjectService.IsManagerOfProjectAsync(Model.ProjectId.ToString(), managerId);
 }
 
+
 <h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
+<hr/>
 <div justify-content: center>
     <div style="display: inline">
         <div class="row" align="center">
@@ -20,8 +25,11 @@
                         <p class="card-text">Description: <b>@Model.Message</b></p>
                         <p class="card-text">Description: <b>@Model.UrlPath</b></p>
                         <div class="form-check-inline">
-                            <a class="btn btn-warning" asp-controller="Interaction" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
-                            <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                            @if (isManagerOfProject)
+                            {
+                                <a class="btn btn-warning" asp-controller="Interaction" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
+                                <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                            }
                         </div>
                     </div>
                 </div>

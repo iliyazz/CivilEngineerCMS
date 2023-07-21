@@ -233,6 +233,24 @@ namespace CivilEngineerCMS.Services.Data
             }
             return project.Client.Id.ToString();
         }
+
+        public async Task<bool> IsClientAsync(string userId)
+        {
+            return await this.dbContext
+                .Clients
+                .Where(c => c.IsActive)
+                .AnyAsync(c => c.UserId.ToString() == userId);
+        }
+
+        public async Task<string> GetClientIdByUserIdAsync(string userId)
+        {
+            return await this.dbContext
+                .Clients
+                .Where(c => c.IsActive && c.UserId.ToString() == userId)
+                .Select(c => c.Id.ToString())
+                .FirstAsync();
+        }
     }
 }
+
 

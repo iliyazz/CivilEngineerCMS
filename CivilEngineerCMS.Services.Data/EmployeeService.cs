@@ -253,6 +253,22 @@
                 .AnyAsync(x => x.ProjectId.ToString() == projectId && x.EmployeeId.ToString() == employeeId);
             return isEmployeeInProject;
         }
+
+        public async Task<bool> IsEmployeeAsync(string userId)
+        {
+            return await this.dbContext
+                .Employees
+                .Where(e => e.IsActive)
+                .AnyAsync(e => e.UserId.ToString() == userId);
+        }
+
+        public async Task<string> GetEmployeeIdByUserIdAsync(string userId)
+        {
+            return await this.dbContext
+                .Employees
+                .Where(e => e.IsActive && e.UserId.ToString() == userId)
+                .Select(e => e.Id.ToString())
+                .FirstAsync();
+        }
     }
 }
-

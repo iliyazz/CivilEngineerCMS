@@ -86,7 +86,7 @@ public class ProjectService : IProjectService
             .Projects
             .Where(x => x.IsActive)
             .FirstAsync(x => x.Id.ToString() == projectId);
-        var isManagerOfProject = project.ManagerId.ToString() == managerId;
+        var isManagerOfProject = string.Equals(project.ManagerId.ToString(), managerId, StringComparison.CurrentCultureIgnoreCase);
         return isManagerOfProject;
     }
 
@@ -384,4 +384,15 @@ public class ProjectService : IProjectService
             .FirstAsync();
         return project;
     }
+
+    public async Task<string> GetManagerIdByProjectIdAsync(string projectId)
+    {
+        return await this.dbContext
+            .Projects
+            .Where(p => p.IsActive && p.Id.ToString() == projectId)
+            .Select(p => p.ManagerId.ToString())
+            .FirstAsync();
+    }
+
+
 }

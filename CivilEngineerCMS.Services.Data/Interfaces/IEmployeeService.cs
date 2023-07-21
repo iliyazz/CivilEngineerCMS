@@ -21,6 +21,7 @@
         Task DeleteEmployeeByIdAsync(string employeeId);
         Task<IEnumerable<AllEmployeeViewModel>> AllEmployeesByProjectIdAsync(string projectId);
         Task<bool> IsEmployeeInProjectAsync(string projectId, string employeeId);
-
+        Task<bool> IsEmployeeAsync(string userId);
+        Task<string> GetEmployeeIdByUserIdAsync(string userId);
     }
 }

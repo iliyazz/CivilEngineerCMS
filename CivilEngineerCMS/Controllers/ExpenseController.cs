@@ -25,41 +25,69 @@
 
         public async Task<IActionResult> Details(string id)
         {
-            if (!await this.expensesService.ExpenseExistsByProjectIdAsync(id))
-            {
-                //this.TempData[ErrorMessage] = "No payments have been made for this project.";
-                return RedirectToAction("Add", "Expense", new { id = id });
-            }
-            Project project = await this.projectService.GetProjectByIdAsync(id);
-
             string userId = this.User.GetId();
-            string managerId = await this.employeeService.GetManagerIdByUserIdAsync(userId);
-            bool isManagerOfProject = project.ManagerId.ToString() == managerId;
-            string clientId = await this.clientService.GetClientIdByProjectIdAsync(id);
-            bool isClientOfProject = project.ClientId.ToString() == clientId;
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerOfProject = false;
+            if (isEmployee)
+            {
+                var employeeId = await this.employeeService.GetEmployeeIdByUserIdAsync(userId);
+                isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
+                
+            }
+            bool isClient = await this.clientService.IsClientAsync(userId);
+
+            bool isClientOfProject = false;
+            if (isClient)
+            {
+                string clientIdByUserId = await this.clientService.GetClientIdByUserIdAsync(userId);
+                string clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(id);
+                isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId, StringComparison.CurrentCultureIgnoreCase);
+            }
 
             if (!(isManagerOfProject || isClientOfProject))
             {
+                this.TempData[ErrorMessage] = "You are not authorized to view expenses to this project.";
                 return RedirectToAction("Index", "home");
             }
 
-
+            if (isManagerOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
+            {
+                this.TempData[ErrorMessage] = "No payments have been made for this project.";
+                return RedirectToAction("Add", "Expense", new { id = id });
+            }
+            else if(isClientOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
+            {
+                this.TempData[ErrorMessage] = "No payments have been made for this project.";
+                return RedirectToAction("Mine", "Client", new { id = id });
+            }
             var viewModel = await this.expensesService.GetExpensesByProjectIdIdAsync(id);
-
-
             return View(viewModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> Add(string id)
         {
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerOfProject = false;
+            if (isEmployee)
+            {
+                var employeeId = await this.employeeService.GetEmployeeIdByUserIdAsync(userId);
+                isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
+            }
+
+            if (!isManagerOfProject)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view expenses to this project.";
+                return RedirectToAction("Index", "home");
+            }
+
             bool isExpenseExists = await this.expensesService.ExpenseExistsByProjectIdAsync(id);
             if (isExpenseExists)
             {
                 this.TempData[ErrorMessage] = "Expense already exists.";
                 return RedirectToAction("Details", "Expense", new { id = id });
             }
-
             AddAndEditExpensesFormModel formModel =  new AddAndEditExpensesFormModel
             {
                 Date = DateTime.UtcNow,
@@ -76,6 +104,27 @@
                 return this.View(formModel);
             }
 
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerOfProject = false;
+            if (isEmployee)
+            {
+                var employeeId = await this.employeeService.GetEmployeeIdByUserIdAsync(userId);
+                isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
+            }
+
+            if (!isManagerOfProject)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to add expenses to this project.";
+                return RedirectToAction("Index", "home");
+            }
+
+            bool isExpenseExists = await this.expensesService.ExpenseExistsByProjectIdAsync(id);
+            if (isExpenseExists)
+            {
+                this.TempData[ErrorMessage] = "Expense already exists.";
+                return RedirectToAction("Details", "Expense", new { id = id });
+            }
             try
             {
                 await this.expensesService.CreateExpenseAsync(id, formModel);
@@ -93,11 +142,26 @@
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerOfProject = false;
+            if (isEmployee)
+            {
+                var employeeId = await this.employeeService.GetEmployeeIdByUserIdAsync(userId);
+                isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
+            }
+
+            if (!isManagerOfProject)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to edit expenses to this project.";
+                return RedirectToAction("Index", "home");
+            }
+
             bool isExpenseExists = await this.expensesService.ExpenseExistsByProjectIdAsync(id);
             if (!isExpenseExists)
             {
                 this.TempData[ErrorMessage] = "Expense does not exist.";
-                return RedirectToAction("Details", "Expense");
+                return RedirectToAction("Add", "Expense");
             }
 
             AddAndEditExpensesFormModel viewModel = await this.expensesService.GetExpenseForEditByProjectIdAsync(id);
@@ -110,6 +174,29 @@
             if (!this.ModelState.IsValid)
             {
                 return this.View(formModel);
+            }
+
+
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerOfProject = false;
+            if (isEmployee)
+            {
+                var employeeId = await this.employeeService.GetEmployeeIdByUserIdAsync(userId);
+                isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
+            }
+
+            if (!isManagerOfProject)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to edit expenses to this project.";
+                return RedirectToAction("Index", "home");
+            }
+
+            bool isExpenseExists = await this.expensesService.ExpenseExistsByProjectIdAsync(id);
+            if (!isExpenseExists)
+            {
+                this.TempData[ErrorMessage] = "Expense does not exist.";
+                return RedirectToAction("Add", "Expense");
             }
 
             try
@@ -127,61 +214,3 @@
         }
     }
 }
-/*
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            bool clientExists = await this.clientService.ClientExistsByIdAsync(id.ToString());
-            if (!clientExists)
-            {
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All", "Client");
-            }
-
-            try
-            {
-                EditClientFormModel viewModel = await this.clientService.GetClientForEditByIdAsync(id.ToString());
-                this.TempData[WarningMessage] = $"You are going to edit client {viewModel.FirstName} {viewModel.LastName}.";
-                return this.View(viewModel);
-            }
-            catch (Exception _)
-            {
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All", "Client");
-            }
-
-        }
-*/
-/*
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(string id, EditClientFormModel formModel)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(formModel);
-            }
-
-            bool clientExists = await this.clientService.ClientExistsByIdAsync(id);
-            if (!clientExists)
-            {
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All", "Client");
-            }
-
-            try
-            {
-                await this.clientService.EditClientByIdAsync(id, formModel);
-
-                this.TempData[SuccessMessage] = $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
-                return this.RedirectToAction("All", "Client");
-            }
-            catch (Exception _)
-            {
-                this.TempData[ErrorMessage] = "An error occurred while editing the client. Please try again later or contact administrator!";
-                return this.View(formModel);
-            }
-        }
-
- */

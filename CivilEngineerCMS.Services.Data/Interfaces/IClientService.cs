@@ -17,5 +17,7 @@
         Task DeleteClientByIdAsync(string clientId);
         Task<bool> IsClientOfProjectAsync(string projectId, string clientId);
         Task<string> GetClientIdByProjectIdAsync(string projectId);
+        Task<bool> IsClientAsync(string userId);
+        Task<string> GetClientIdByUserIdAsync(string userId);
     }
 }
