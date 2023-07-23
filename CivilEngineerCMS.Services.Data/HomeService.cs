@@ -21,8 +21,8 @@ public class HomeService : IHomeService
     {
         IEnumerable<IndexViewModel> allProjects = await this.dbContext
             .Projects
-            .Where(p => p.UrlPicturePath != null)
-            .OrderBy(x => x.ProjectCreatedDate)
+            .Where(p => !string.IsNullOrWhiteSpace(p.UrlPicturePath))
+            .OrderBy(x => Guid.NewGuid())
             .Select(p => new IndexViewModel
             {
                 Id = p.Id.ToString(),

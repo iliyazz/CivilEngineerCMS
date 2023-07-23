@@ -1,22 +1,22 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
     using Data.Models;
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using ViewModels.User;
+    using static Common.NotificationMessagesConstants;
 
     public class UserController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly IUserStore<ApplicationUser> userStore;
 
-        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUserStore<ApplicationUser> userStore)
+        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.userStore = userStore;
         }
 
 
@@ -24,7 +24,7 @@
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            return this.View();
         }
 
         [AllowAnonymous]
@@ -33,7 +33,7 @@
         {
             if (!ModelState.IsValid)
             {
-                return View(formModel);
+                return this.View(formModel);
             }
 
             ApplicationUser user = new ApplicationUser
@@ -56,5 +56,39 @@
             await this.signInManager.SignInAsync(user, false);
             return this.RedirectToAction("Index", "Home");
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Login(string? returnUrl = null)
+        {
+            await this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+            LoginFormModel formModel = new LoginFormModel
+            {
+                ReturnUrl = returnUrl
+            };
+            return this.View(formModel);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginFormModel formModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View(formModel);
+            }
+
+            var result = await this.signInManager.PasswordSignInAsync(formModel.Email, formModel.Password, formModel.RememberMe, false);
+            if (!result.Succeeded)
+            {
+                this.TempData[ErrorMessage] = "There was an error while logging. Please contact again later or contact an administrator.";
+                return this.View(formModel);
+
+            }
+            return this.Redirect(formModel.ReturnUrl ?? "/Home/Index");
+
+        }
+
     }
 }

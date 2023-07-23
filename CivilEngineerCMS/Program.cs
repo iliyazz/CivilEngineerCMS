@@ -39,6 +39,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 //builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddApplicationServices(typeof(IHomeService));
 
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = "/User/Login";
+});
+
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
