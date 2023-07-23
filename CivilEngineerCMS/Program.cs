@@ -3,6 +3,7 @@ using CivilEngineerCMS.Data.Models;
 using CivilEngineerCMS.Services.Data.Interfaces;
 using CivilEngineerCMS.Web.Infrastructure.Extensions;
 using CivilEngineerCMS.Web.Infrastructure.ModelBinders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +33,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             builder.Configuration.GetValue<int>("Identity:Lockout:MaxFailedAccessAttempts");
     })
     .AddEntityFrameworkStores<CivilEngineerCmsDbContext>();
+    /*.AddDefaultTokenProviders()*/
+    //.AddRoles<IdentityRole>();
 
 //builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddApplicationServices(typeof(IHomeService));

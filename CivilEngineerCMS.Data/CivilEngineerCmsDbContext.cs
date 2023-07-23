@@ -15,14 +15,12 @@ public class CivilEngineerCmsDbContext : IdentityDbContext<ApplicationUser, Iden
     {
     }
 
-    //public DbSet<Board> Boards { get; set; } = null!;
     public DbSet<Client> Clients { get; set; } = null!;
     public DbSet<Employee> Employees { set; get; } = null!;
     public DbSet<Expense> Expenses { get; set; } = null!;
     public DbSet<Interaction> Interactions { get; set; } = null!;
     public DbSet<Project> Projects { get; set; } = null!;
     public DbSet<ProjectEmployee> ProjectsEmployees { get; set; } = null!;
-    //public DbSet<Task> Tasks { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

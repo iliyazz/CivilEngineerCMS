@@ -144,12 +144,6 @@
                 return RedirectToAction("Mine", "Employee");
             }
 
-            //if ((isEmployeeOfProject || isManagerOfProject) && !await this.interactionService.InteractionExistsByProjectIdAsync(id))
-            //{
-            //    this.TempData[InfoMessage] = "There are no interaction about this project. Create the first one.";
-            //    return RedirectToAction("Add", "Interaction", new { id = id });
-            //}
-
             try
             {
                 await this.interactionService.CreateInteractionAsync(id, formModel);
@@ -239,12 +233,6 @@
                 this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
                 return RedirectToAction("Mine", "Employee");
             }
-
-            //if (isManagerOfProject && !await this.interactionService.InteractionExistsByProjectIdAsync(projectId))
-            //{
-            //    this.TempData[InfoMessage] = "There are no interaction about this project. Create the first one.";
-            //    return RedirectToAction("Add", "Interaction", new { id = projectId });
-            //}
 
             bool isInteractionExists = await this.interactionService.InteractionExistsByProjectIdAsync(projectId);
             if (!isInteractionExists)

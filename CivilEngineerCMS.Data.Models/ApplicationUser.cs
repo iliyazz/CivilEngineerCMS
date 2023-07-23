@@ -10,7 +10,7 @@
     {
         public ApplicationUser()
         {
-            //this.Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid();
             this.Projects = new HashSet<Project>();
         } 
 

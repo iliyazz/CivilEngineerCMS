@@ -5,7 +5,7 @@
 
 
     [Authorize]
-    //[AutoValidateAntiforgeryToken]
+    [AutoValidateAntiforgeryToken]
     public class BaseController : Controller
     {
     }
