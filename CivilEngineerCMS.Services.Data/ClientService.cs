@@ -15,11 +15,15 @@ namespace CivilEngineerCMS.Services.Data
     {
         private readonly CivilEngineerCmsDbContext dbContext;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserService userService;
 
-        public ClientService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager)
+
+
+        public ClientService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager, IUserService userService)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
+            this.userService = userService;
         }
 
         public async Task<IEnumerable<MineClientManagerProjectViewModel>> AllProjectsByUserIdAsync(string userId)
@@ -102,6 +106,9 @@ namespace CivilEngineerCMS.Services.Data
             };
             await this.dbContext.Clients.AddAsync(client);
             await this.dbContext.SaveChangesAsync();
+
+            await this.userService.AddClaimToUserAsync(client.UserId.ToString(), "FullName", $"{client.FirstName} {client.LastName}");
+
         }
 
         public async Task<DetailsClientViewModel> DetailsClientAsync(string clientId)

@@ -10,7 +10,9 @@
             this.Users = new HashSet<AllUsersSelectViewModelForClient>();
         }
 
-        [Required] public Guid UserId { get; set; }
+        [Required]
+        [Display(Name = "Email")]
+        public Guid UserId { get; set; }
 
         [Required]
         [StringLength(FirstNameMaxLength, MinimumLength = FirstNameMinLength)]

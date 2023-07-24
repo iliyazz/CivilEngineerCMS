@@ -1,5 +1,6 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
+    using System.Security.Claims;
     using Data.Models;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
@@ -40,6 +41,7 @@
             {
 
             };
+
             await this.userManager.SetEmailAsync(user, formModel.Email);
             await this.userManager.SetUserNameAsync(user, formModel.Email);
             IdentityResult result = await this.userManager.CreateAsync(user, formModel.Password);

@@ -10,6 +10,7 @@
             this.Users = new HashSet<AllUsersSelectViewModelForEmployee>();
         }
         [Required]
+        [Display(Name = "Email")]
         public Guid UserId { get; set; }
 
         [Required]

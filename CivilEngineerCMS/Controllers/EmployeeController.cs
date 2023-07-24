@@ -61,7 +61,7 @@
 
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             CreateEmployeeFormModel formModel = new CreateEmployeeFormModel();
 
@@ -79,6 +79,8 @@
             try
             {
                 await this.employeeService.CreateEmployeeAsync(formModel);
+                //await this.userService.AddClaimToUserAsync(employee.UserId.ToString(), "FullName", $"{employee.FirstName} {employee.LastName}");
+
 
                 this.TempData[SuccessMessage] =
                     $"Employee {formModel.FirstName} {formModel.LastName} added successfully.";

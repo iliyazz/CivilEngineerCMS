@@ -1,5 +1,6 @@
 ﻿namespace CivilEngineerCMS.Services.Data
 {
+    using System.Security.Claims;
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Manager;
@@ -14,11 +15,13 @@
     {
         private readonly CivilEngineerCmsDbContext dbContext;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserService userService;
 
-        public EmployeeService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager)
+        public EmployeeService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager, IUserService userService)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
+            this.userService = userService;
         }
 
         public async Task<bool> EmployeeExistsByIdAsync(string id)
@@ -117,6 +120,8 @@
             };
             await this.dbContext.Employees.AddAsync(employee);
             await this.dbContext.SaveChangesAsync();
+
+            await this.userService.AddClaimToUserAsync(employee.UserId.ToString(), "FullName", $"{employee.FirstName} {employee.LastName}");
         }
 
         public async Task<DetailsEmployeeViewModel> DetailsEmployeeAsync(string employeeId)
@@ -292,4 +297,3 @@
         }
     }
 }
-
