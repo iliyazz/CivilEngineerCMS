@@ -19,17 +19,19 @@
             ApplicationUser applicationUser;
             applicationUser = new ApplicationUser
             {
-                Id = Guid.Parse("60376974-E414-4277-1D75-08DB7A21C396"),
+                Id = Guid.Parse("B85227A0-4FB4-4B5E-84AD-08DB807C5EDB"),
                 UserName = "iliyaz.softuni@gmail.com",
                 NormalizedUserName = "ILIYAZ.SOFTUNI@GMAIL.COM",
                 Email = "iliyaz.softuni@gmail.com",
                 NormalizedEmail = "ILIYAZ.SOFTUNI@GMAIL.COM",
                 EmailConfirmed = true,
                 AccessFailedCount = 0,
-                SecurityStamp = "3B0A598F-AA09-4D3B-B0DE-45C0F5938332",
+                SecurityStamp = "LJW7J33EVBQOCAMXUDU6OLJIC5NFDMBG",
+                ConcurrencyStamp = "31ca9820-e6fd-48dd-8483-68225bd2071c",
                 PhoneNumber = "+359123456789",
                 PhoneNumberConfirmed = true,
                 TwoFactorEnabled = false,
+                LockoutEnd = null,
                 LockoutEnabled = false
             };
 

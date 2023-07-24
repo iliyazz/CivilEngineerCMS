@@ -19,31 +19,31 @@
             this.userManager = userManager;
         }
 
-        public async Task<string?> GetFullNameByUserIdAsync(string userId)
-        {
-            string? userFullName = String.Empty;
-            userFullName = await this.dbContext
-                .Clients
-                .Where(x => x.UserId.ToString() == userId)
-                .Select(x => $"{x.FirstName} {x.LastName}")
-                .FirstOrDefaultAsync();
-            if (userFullName != null)
-            {
-                return userFullName;
-            }
+        //public async Task<string?> GetFullNameByUserIdAsync(string userId)
+        //{
+        //    string? userFullName = String.Empty;
+        //    userFullName = await this.dbContext
+        //        .Clients
+        //        .Where(x => x.UserId.ToString() == userId)
+        //        .Select(x => $"{x.FirstName} {x.LastName}")
+        //        .FirstOrDefaultAsync();
+        //    if (userFullName != null)
+        //    {
+        //        return userFullName;
+        //    }
 
-            userFullName = await this.dbContext
-                .Employees
-                .Where(x => x.UserId.ToString() == userId)
-                .Select(x => $"{x.FirstName} {x.LastName}")
-                .FirstOrDefaultAsync();
-            if (userFullName != null)
-            {
-                return userFullName;
-            }
+        //    userFullName = await this.dbContext
+        //        .Employees
+        //        .Where(x => x.UserId.ToString() == userId)
+        //        .Select(x => $"{x.FirstName} {x.LastName}")
+        //        .FirstOrDefaultAsync();
+        //    if (userFullName != null)
+        //    {
+        //        return userFullName;
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public async Task AddClaimToUserAsync(string userId, string claimType, string claimValue)
         {

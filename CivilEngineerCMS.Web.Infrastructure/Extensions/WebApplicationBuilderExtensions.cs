@@ -5,7 +5,13 @@ using System.Reflection;
 using CivilEngineerCMS.Services.Data;
 using CivilEngineerCMS.Services.Data.Interfaces;
 
+using Data.Models;
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+
+using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 //Extensions, Filters, Middleware, ModelBinders
 public static class WebApplicationBuilderExtensions
 {
@@ -40,5 +46,30 @@ public static class WebApplicationBuilderExtensions
         }
 
         services.AddScoped<IHomeService, HomeService>();
+    }
+
+    public static IApplicationBuilder SeedAdministrator(this IApplicationBuilder app, string email)
+    {
+        using IServiceScope scopedServices = app.ApplicationServices.CreateScope();
+        IServiceProvider serviceProvider = scopedServices.ServiceProvider;
+        UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        RoleManager<IdentityRole<Guid>> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+
+        Task.Run(async () =>
+        {
+            if (await roleManager.RoleExistsAsync(AdministratorRoleName))
+            {
+                return;
+            }
+            IdentityRole<Guid> role = new IdentityRole<Guid>(AdministratorRoleName);
+            await roleManager.CreateAsync(role);
+
+            ApplicationUser adminUser = await userManager.FindByEmailAsync(email);
+
+            await userManager.AddToRoleAsync(adminUser, AdministratorRoleName);
+        })
+            .GetAwaiter()
+            .GetResult();
+        return app;
     }
 }

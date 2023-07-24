@@ -3,9 +3,12 @@ using CivilEngineerCMS.Data.Models;
 using CivilEngineerCMS.Services.Data.Interfaces;
 using CivilEngineerCMS.Web.Infrastructure.Extensions;
 using CivilEngineerCMS.Web.Infrastructure.ModelBinders;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
+using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
         options.Lockout.MaxFailedAccessAttempts =
             builder.Configuration.GetValue<int>("Identity:Lockout:MaxFailedAccessAttempts");
     })
+    .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<CivilEngineerCmsDbContext>();
     /*.AddDefaultTokenProviders()*/
     //.AddRoles<IdentityRole>();
@@ -75,6 +79,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.SeedAdministrator(DevelopmentAdminEmail);
 
 app.MapDefaultControllerRoute();
 app.MapRazorPages();
