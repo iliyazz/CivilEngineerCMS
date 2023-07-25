@@ -1,17 +1,14 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
+    using CivilEngineerCMS.Services.Data;
     using Common;
-
     using Infrastructure.Extensions;
-
     using Microsoft.AspNetCore.Mvc;
-
     using Services.Data.Interfaces;
     using Services.Data.Models.Project;
-
     using ViewModels.Employee;
     using ViewModels.Project;
-
+    using static CivilEngineerCMS.Common.EntityValidationConstants;
     using static Common.NotificationMessagesConstants;
 
     public class ProjectController : BaseController
@@ -31,6 +28,13 @@
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] ProjectAllQueryModel queryModel)
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
             ProjectAllFilteredAndPagedServiceModel serviceModel =
                 await this.projectService.ProjectAllFilteredAndPagedAsync(queryModel);
             queryModel.Projects = serviceModel.Projects;
@@ -43,6 +47,13 @@
         [HttpGet]
         public async Task<IActionResult> Add()
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
             AddAndEditProjectFormModel formModel = new AddAndEditProjectFormModel
             {
                 Managers = await this.employeeService.AllEmployeesAndManagersAsync(),
@@ -55,6 +66,13 @@
         [HttpPost]
         public async Task<IActionResult> Add(AddAndEditProjectFormModel formModel)
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
             bool managerExists = await this.employeeService.EmployeeExistsByUserIdAsync(formModel.ManagerId.ToString());
 
             if (!managerExists)
@@ -118,9 +136,9 @@
             var currentUserId = this.User.GetId();
 
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
+            bool isAdministrator = this.User.IsAdministrator();
 
-
-            if (project.ManagerId.ToString() != projectManagerUserId)
+            if ((project.ManagerId.ToString() != projectManagerUserId) || !isAdministrator)
             {
                 this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -153,15 +171,19 @@
             }
 
 
-
             var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
-            var currentUserId = this.User.GetId();
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerInProject = false;
+            if (isEmployee)
+            {
+                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+                isManagerInProject = employeeId == managerId;
+            }
 
-            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
-
-
-            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
+            if (!(this.User.IsAdministrator() || isManagerInProject))
             {
                 this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -195,23 +217,28 @@
                 return this.View(formModel);
             }
 
+
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
                 this.TempData[ErrorMessage] = "Project with provided id does not exist.";
-
                 return this.RedirectToAction("Mine", "Employee");
             }
 
+
             var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerInProject = false;
+            if (isEmployee)
+            {
+                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+                isManagerInProject = employeeId == managerId;
+            }
 
-            var currentUserId = this.User.GetId();
-
-            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
-
-
-            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
+            if (!(this.User.IsAdministrator() || isManagerInProject))
             {
                 this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -235,6 +262,7 @@
             {
                 return this.RedirectToAction("All");
             }
+
             return this.RedirectToAction("Mine", "Employee");
         }
 
@@ -267,18 +295,25 @@
             if (!projectExists)
             {
                 this.TempData[ErrorMessage] = "Project with provided id does not exist.";
-                return this.RedirectToAction("All", "Project");
+                return this.RedirectToAction("Mine", "Employee");
             }
+
 
             var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
-            var currentUserId = this.User.GetId();
-
-            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
-
-            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerInProject = false;
+            if (isEmployee)
             {
-                this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
+                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+                isManagerInProject = employeeId == managerId;
+            }
+
+            if (!(this.User.IsAdministrator() || isManagerInProject))
+            {
+                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -301,18 +336,25 @@
             if (!projectExists)
             {
                 this.TempData[ErrorMessage] = "Project with provided id does not exist.";
-                return this.RedirectToAction("All", "Project");
+                return this.RedirectToAction("Mine", "Employee");
             }
+
 
             var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
-            var currentUserId = this.User.GetId();
-
-            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
-
-            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerInProject = false;
+            if (isEmployee)
             {
-                this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
+                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+                isManagerInProject = employeeId == managerId;
+            }
+
+            if (!(this.User.IsAdministrator() || isManagerInProject))
+            {
+                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -343,20 +385,29 @@
         [HttpGet]
         public async Task<IActionResult> ManageEmployeesInProject(string id)
         {
-            if (!await this.projectService.ProjectExistsByIdAsync(id))
+            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+            if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project does not exist.";
+                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
                 return this.RedirectToAction("Mine", "Employee");
             }
+
+
             var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
-            var currentUserId = this.User.GetId();
-
-            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
-
-            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerInProject = false;
+            if (isEmployee)
             {
-                this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
+                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+                isManagerInProject = employeeId == managerId;
+            }
+
+            if (!(this.User.IsAdministrator() || isManagerInProject))
+            {
+                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -378,31 +429,37 @@
         [HttpPost]
         public async Task<IActionResult> ManageEmployeesInProject(string id, IEnumerable<string> selectedEmployee)
         {
-            if (!await this.projectService.ProjectExistsByIdAsync(id))
+            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+            if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project does not exist.";
+                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
                 return this.RedirectToAction("Mine", "Employee");
             }
+
+
             var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
-            var currentUserId = this.User.GetId();
-
-            var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
-
-            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerInProject = false;
+            if (isEmployee)
             {
-                this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
+                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+                isManagerInProject = employeeId == managerId;
+            }
+
+            if (!(this.User.IsAdministrator() || isManagerInProject))
+            {
+                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
             }
+
             try
             {
                 await this.projectService.SaveAllEmployeesForProjectAsync(id, selectedEmployee);
-                this.TempData[SuccessMessage] = "Employee added successfully.";
-                if (this.User.IsAdministrator())
-                {
-                    return this.RedirectToAction("All", "Project");
-                }
-                return this.RedirectToAction("Mine", "Employee", new { id });
+                this.TempData[SuccessMessage] = "Employee changed successfully.";
+                return this.RedirectToAction("Details", "Project", new { id });
             }
             catch (Exception _)
             {

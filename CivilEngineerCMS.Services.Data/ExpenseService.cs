@@ -11,12 +11,12 @@
     public class ExpenseService : IExpenseService
     {
         private readonly CivilEngineerCmsDbContext dbContext;
-        private readonly IProjectService projectService;
+        //private readonly IProjectService projectService;
 
-        public ExpenseService(CivilEngineerCmsDbContext dbContext, IProjectService projectService)
+        public ExpenseService(CivilEngineerCmsDbContext dbContext/*, IProjectService projectService*/)
         {
             this.dbContext = dbContext;
-            this.projectService = projectService;
+            //this.projectService = projectService;
         }
 
 
@@ -29,7 +29,6 @@
                 .Where(e => e.ProjectId.ToString() == projectId)
                 .Select(e => new AddAndEditExpensesFormModel
                 {
-
                     ProjectId = e.ProjectId,
                     Amount = e.Amount,
                     TotalAmount = e.TotalAmount,

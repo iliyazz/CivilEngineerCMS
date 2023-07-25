@@ -5,17 +5,14 @@
 @inject IProjectService ProjectService
 @{
     ViewData["Title"] = "Details";
-    //bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
+    string userId = User.GetId();
+    bool isEmployee = await EmployeeService.IsEmployeeAsync(userId);
     bool isManagerOfProject = false;
     bool isAdministrator = this.User.IsAdministrator();
-    if (isAdministrator)
-    {
-        isManagerOfProject = true;
-    }
-    else
+
+    if(isEmployee)
     {
         var managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.ProjectId.ToString());
-        var isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
         isManagerOfProject = false;
         if (isEmployee)
         {
@@ -40,21 +37,26 @@
                         <p class="card-text">Paid money so far: <b>@Model.Amount €</b></p>
                         <p class="card-text">Total needed money: <b>@Model.TotalAmount €</b></p>
                         <div class="form-check-inline">
-                            @if (isManagerOfProject)
+                            @if (isAdministrator || isManagerOfProject || isEmployee)
                             {
                                 <a class="btn btn-warning" asp-controller="Expense" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
                                 if (isAdministrator)
                                 {
                                     <a class="ml-2 btn btn-info" asp-controller="Project" asp-action="All">Cancel</a>
                                 }
-                                else
+                                else if (isManagerOfProject)
                                 {
                                     <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                                }
+                                else
+                                {
+                                    <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="MineByEmployeeId">Cancel</a>
                                 }
                             }
                             else
                             {
-                                <a class="ml-2 btn btn-info"  href="javascript: history.back();">Cancel</a>
+                                <a class="ml-2 btn btn-info" asp-controller="Client" asp-action="Mine">Cancel</a>
+                                @*<a class="ml-2 btn btn-info"  href="javascript: history.back();">Cancel</a>*@
                             }
                         </div>
                     </div>

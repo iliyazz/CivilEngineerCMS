@@ -1,14 +1,17 @@
 ﻿@using CivilEngineerCMS.Services.Data.Interfaces
 @using CivilEngineerCMS.Web.Infrastructure.Extensions
 @model AddAndEditInteractionFormModel
-@*@inject IEmployeeService EmployeeService*@
+@inject IEmployeeService EmployeeService
 @inject IProjectService ProjectService
 @{
     ViewData["Title"] = "Details";
     //bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
+    string projectId = Model.ProjectId.ToString();
+    string employeeId = await EmployeeService.GetEmployeeIdByUserIdAsync(User.GetId());
     bool isAdministrator = this.User.IsAdministrator();
-    var managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.ProjectId.ToString());
-    bool isManagerOfProject = await ProjectService.IsManagerOfProjectAsync(Model.ProjectId.ToString(), managerId);
+    var managerId = await ProjectService.GetManagerIdByProjectIdAsync(projectId);
+    bool isManagerOfProject = await ProjectService.IsManagerOfProjectAsync(projectId, managerId);
+    bool isEmployeeInProject = await EmployeeService.IsEmployeeInProjectAsync(projectId, employeeId);
 }
 
 
@@ -31,6 +34,11 @@
                             {
                                 <a class="btn btn-warning" asp-controller="Interaction" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
                                 <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                            }
+                            @if (isEmployeeInProject)
+                            {
+                                <a class="ml-2 btn btn-info" asp-controller="Client" asp-action="Mine">Cancel</a>
+
                             }
                         </div>
                     </div>

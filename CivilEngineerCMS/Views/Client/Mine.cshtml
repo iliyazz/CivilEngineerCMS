@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Client.MineClientManagerProjectViewModel>
+﻿@model IEnumerable<MineClientManagerProjectViewModel>
 
 @{
     ViewData["Title"] = "My projects";
@@ -38,11 +38,11 @@ else
                 <td>@p.ProjectCreatedDate.ToString("dd/MM/yyyy")</td>
                 <td>@p.ProjectEndDate.ToString("dd/MM/yyyy")</td>
                 <td>
-                    <a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Details" asp-route-id="@p.ProjectId">Expense details</a>
+                    <a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Details" asp-route-id="@p.ProjectId">Expense</a>
                     <a class="ml-2 btn btn-info" asp-controller="Interaction" asp-action="All" asp-route-id="@p.ProjectId">Interactions</a>
 
-                        <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
-                </td>
+                        <a class="ml-2 btn btn-info" asp-controller="Home" asp-action="Index" asp-route-id="@p.ProjectId">Cancel</a>
+                    </td>
 
 
             </tr>

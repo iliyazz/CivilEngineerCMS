@@ -18,6 +18,8 @@
         public string ProjectEndDate { get; set; } = null!;
         public string ManagerName { get; set; } = null!;
         public string ClientName { get; set; } = null!;
+        public string ClientPhone { get; set; } = null!;
+        public string ClientEmail { get; set; } = null!;
 
         public IEnumerable<DetailsEmployeeViewModel> Employees { get; set; }
     }

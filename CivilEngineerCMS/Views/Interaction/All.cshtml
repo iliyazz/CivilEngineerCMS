@@ -4,6 +4,7 @@
 @model IEnumerable<CivilEngineerCMS.Web.ViewModels.Interaction.AddAndEditInteractionFormModel>
 @inject IEmployeeService EmployeeService
 @inject IProjectService ProjectService
+@inject IClientService ClientService
 @{
     ViewData["Title"] = "All interactions about project";
     var interactions = Model.ToList();
@@ -11,6 +12,7 @@
     bool isEmployeeInProject = false;
     bool isManagerOfProject = false;
     bool isAdministrator = this.User.IsAdministrator();
+    bool isClient = await ClientService.IsClientAsync(User.GetId());
     if (isEmployee)
     {
         var projectId = interactions.First().ProjectId.ToString();
@@ -35,9 +37,14 @@ else
         @if (isEmployeeInProject || isManagerOfProject || isAdministrator)
         {
         <a class="btn btn-success" asp-controller="Interaction" asp-action="Add" asp-route-id="@Model.First().ProjectId.ToString()">Add interaction</a>
+            <a class="btn btn-info" asp-controller="Project" asp-action="Details" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
 
         }
-        <a class="btn btn-info" asp-controller="Project" asp-action="Details" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
+        @if (isClient)
+        {
+            <a class="btn btn-info" asp-controller="Client" asp-action="Mine" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
+        }
+
         @*<a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>*@
     </div>
     <hr/>

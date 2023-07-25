@@ -4,17 +4,21 @@
 @model DetailsProjectViewModel
 @inject IEmployeeService EmployeesService
 @inject IProjectService ProjectService
+@inject IClientService ClientService
 @{
     ViewData["Title"] = "Details";
+    string userId = User.GetId();
     bool isManagerInProject = false;
     bool isAdministrator = this.User.IsAdministrator();
-    if (isAdministrator)
+    bool isEmployee = await EmployeesService.IsEmployeeAsync(userId);
+    bool isClient = await ClientService.IsClientAsync(userId);
+    //if (isAdministrator)
+    //{
+    //    isManagerInProject = true;
+    //}
+    if (isEmployee)
     {
-        isManagerInProject = true;
-    }
-    else
-    {
-        string userId = User.GetId();
+        //string userId = User.GetId();
         string employeeId = await EmployeesService.GetEmployeeIdByUserIdAsync(userId);
         string managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.Id.ToString());
         isManagerInProject = employeeId == managerId;
@@ -23,18 +27,24 @@
 }
 
 <h2 class="text-center">@ViewData["Title"]</h2>
-<hr/>
 <div justify-content: center>
     <div style="display: inline">
         <div class="row" align="center">
             <div class="card col-12 border-0">
-                <p style="font-size: 25px;">
-                    <u>@Model.Name</u>
-                    <u>@Model.Description</u>
-                </p>
-                <p>Client name <b>@Model.ClientName</b></p>
-                <p>Manager name <b>@Model.ManagerName</b></p>
-                <p></p>
+                <div class="card" align="center">
+                    <p style="font-size: 25px;">
+                        <u>@Model.Name</u>
+                        <u>@Model.Description</u>
+                    </p>
+                </div>
+                <div class="card" align="center">
+                    <p>Client name <b>@Model.ClientName</b></p>
+                    <p>Client phone <b>@Model.ClientPhone</b></p>
+                    <p>Client email <b>@Model.ClientEmail</b></p>
+                </div>
+                <div class="card" align="center">
+                    <p>Manager name <b>@Model.ManagerName</b></p>
+                </div>
                 <div class="card" align="center">
                     <div class="card-body" align="center">
                         <h5 class="card-title">Project Info</h5>
@@ -43,7 +53,7 @@
                         <p class="card-text">Project end date: @Model.ProjectEndDate</p>
                         <p class="card-text">Project picture path: @Model.UrlPicturePath</p>
                         <div class="form-check-inline">
-                            @if (isManagerInProject)
+                            @if (isManagerInProject || isAdministrator)
                             {
                                 <a class="btn btn-warning" asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id.ToString()">Edit</a>
                                 <a class="ml-2 btn btn-danger" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id.ToString()">Delete</a>
@@ -54,12 +64,23 @@
                             @if (isAdministrator)
                             {
                                 <a class="ml-2 btn btn-info" asp-controller="Project" asp-action="All" asp-route-id="@Model.Id.ToString()">Cancel</a>
-
                             }
-                            else
+                            else if (isManagerInProject)
                             {
-                                <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
+                                <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine" asp-route-id="@Model.Id.ToString()">Cancel</a>
+                                @*<a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>*@
                             }
+                            else if (isEmployee)
+                            {
+                                <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="MineByEmployeeId" asp-route-id="@Model.Id.ToString()">Cancel</a>
+                                @*<a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>*@
+                            }
+                            else if (isClient)
+                            {
+                                <a class="ml-2 btn btn-info" asp-controller="Client" asp-action="Mine" asp-route-id="@Model.Id.ToString()">Cancel</a>
+                                @*<a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>*@
+                            }
+
                         </div>
                     </div>
                 </div>

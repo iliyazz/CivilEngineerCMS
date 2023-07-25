@@ -1,12 +1,13 @@
 ﻿namespace CivilEngineerCMS.Services.Data
 {
     using System.Security.Claims;
+
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
+
     using Interfaces;
+
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
-    using static CivilEngineerCMS.Common.EntityValidationConstants;
 
     public class UserService : IUserService
     {

@@ -39,6 +39,13 @@
 
         public async Task<IActionResult> All()
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
             IEnumerable<AllClientViewModel> viewModel = await this.clientService.AllClientsForViewAsync();
             return View(viewModel);
         }
@@ -46,6 +53,14 @@
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
+
             CreateClientFormModel formModel = new CreateClientFormModel
             {
                 Users = await this.userManager
@@ -64,6 +79,13 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateClientFormModel formModel)
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(formModel);
@@ -107,6 +129,13 @@
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id.ToString());
             if (!clientExists)
             {
@@ -131,6 +160,14 @@
         [HttpPost]
         public async Task<IActionResult> Edit(string id, EditClientFormModel formModel)
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(formModel);
@@ -168,6 +205,13 @@
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id.ToString());
             if (!clientExists)
             {
@@ -191,6 +235,13 @@
         [HttpPost]
         public async Task<IActionResult> Delete(string id, ClientPreDeleteViewModel formModel)
         {
+            bool isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                return this.RedirectToAction("Index", "Home");
+            }
+
 
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id);
             if (!clientExists)

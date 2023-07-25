@@ -10,6 +10,7 @@
 @{
     bool isClient = await ClientService.IsClientAsync(User.GetId());
     bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
+    bool isAdministrator = User.IsAdministrator();
 }
 
 
@@ -44,7 +45,7 @@
 
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
-                        @if (isEmployee || this.User.IsAdministrator())
+                        if (isAdministrator)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="All">All projects</a>
@@ -64,13 +65,15 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="Add">Add project</a>
                             </li>
+                        }
+                        @if (isEmployee)
+                        {
                             <li class="nav-item">
                                 <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Mine">My manager's projects</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">My employee's projects</a>
                             </li>
-
                         }
                         @if (isClient)
                         {
