@@ -2,6 +2,7 @@
 {
     using System.Security.Claims;
     using Data.Models;
+    using Griesoft.AspNetCore.ReCaptcha;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -30,6 +31,7 @@
 
         [AllowAnonymous]
         [HttpPost]
+        [ValidateRecaptcha(Action =nameof(Register), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Register(RegisterFormModel formModel)
         {
             if (!ModelState.IsValid)
