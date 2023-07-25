@@ -44,7 +44,7 @@
 
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
-                        @if (isEmployee)
+                        @if (isEmployee || this.User.IsAdministrator())
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Project" asp-action="All">All projects</a>

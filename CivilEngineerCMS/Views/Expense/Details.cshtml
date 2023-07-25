@@ -6,14 +6,25 @@
 @{
     ViewData["Title"] = "Details";
     //bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
-    var managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.ProjectId.ToString());
-    var isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
     bool isManagerOfProject = false;
-    if (isEmployee)
+    bool isAdministrator = this.User.IsAdministrator();
+    if (isAdministrator)
     {
-        isManagerOfProject = await ProjectService.IsManagerOfProjectAsync(Model.ProjectId.ToString(), managerId);
-
+        isManagerOfProject = true;
     }
+    else
+    {
+        var managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.ProjectId.ToString());
+        var isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
+        isManagerOfProject = false;
+        if (isEmployee)
+        {
+            isManagerOfProject = await ProjectService.IsManagerOfProjectAsync(Model.ProjectId.ToString(), managerId);
+
+        }
+    }
+
+
 }
 
 <h2 class="text-center">@ViewData["Title"]</h2>
@@ -32,7 +43,14 @@
                             @if (isManagerOfProject)
                             {
                                 <a class="btn btn-warning" asp-controller="Expense" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
-                                <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                                if (isAdministrator)
+                                {
+                                    <a class="ml-2 btn btn-info" asp-controller="Project" asp-action="All">Cancel</a>
+                                }
+                                else
+                                {
+                                    <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                                }
                             }
                             else
                             {

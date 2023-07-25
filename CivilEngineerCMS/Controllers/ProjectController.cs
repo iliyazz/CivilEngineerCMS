@@ -161,7 +161,7 @@
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
 
 
-            if (project.ManagerId.ToString() != projectManagerUserId)
+            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
             {
                 this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -211,7 +211,7 @@
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
 
 
-            if (project.ManagerId.ToString() != projectManagerUserId)
+            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
             {
                 this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -231,6 +231,10 @@
             this.TempData[SuccessMessage] = $"Project {formModel.Name} edited successfully.";
             formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
             formModel.Clients = await this.clientService.AllClientsAsync();
+            if (this.User.IsAdministrator())
+            {
+                return this.RedirectToAction("All");
+            }
             return this.RedirectToAction("Mine", "Employee");
         }
 
@@ -272,7 +276,7 @@
 
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
 
-            if (projectManagerUserId != project.ManagerId.ToString())
+            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
             {
                 this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -306,7 +310,7 @@
 
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
 
-            if (projectManagerUserId != project.ManagerId.ToString())
+            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
             {
                 this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -350,7 +354,7 @@
 
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
 
-            if (projectManagerUserId != project.ManagerId.ToString())
+            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
             {
                 this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -385,7 +389,7 @@
 
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
 
-            if (projectManagerUserId != project.ManagerId.ToString())
+            if (!(!this.User.IsAdministrator() || (project.ManagerId.ToString() != projectManagerUserId)))
             {
                 this.TempData[ErrorMessage] = "You should be manager of this project to delete it.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -394,6 +398,10 @@
             {
                 await this.projectService.SaveAllEmployeesForProjectAsync(id, selectedEmployee);
                 this.TempData[SuccessMessage] = "Employee added successfully.";
+                if (this.User.IsAdministrator())
+                {
+                    return this.RedirectToAction("All", "Project");
+                }
                 return this.RedirectToAction("Mine", "Employee", new { id });
             }
             catch (Exception _)

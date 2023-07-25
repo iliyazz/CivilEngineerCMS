@@ -6,10 +6,20 @@
 @inject IProjectService ProjectService
 @{
     ViewData["Title"] = "Details";
-    string userId = User.GetId();
-    string employeeId = await EmployeesService.GetEmployeeIdByUserIdAsync(userId);
-    string managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.Id.ToString());
-    bool isManagerInProject = employeeId == managerId;
+    bool isManagerInProject = false;
+    bool isAdministrator = this.User.IsAdministrator();
+    if (isAdministrator)
+    {
+        isManagerInProject = true;
+    }
+    else
+    {
+        string userId = User.GetId();
+        string employeeId = await EmployeesService.GetEmployeeIdByUserIdAsync(userId);
+        string managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.Id.ToString());
+        isManagerInProject = employeeId == managerId;
+    }
+
 }
 
 <h2 class="text-center">@ViewData["Title"]</h2>
@@ -41,7 +51,15 @@
                                 <a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Details" asp-route-id="@Model.Id.ToString()">Expense details</a>
                             }
                             <a class="ml-2 btn btn-info" asp-controller="Interaction" asp-action="All" asp-route-id="@Model.Id.ToString()">Interactions</a>
-                            <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
+                            @if (isAdministrator)
+                            {
+                                <a class="ml-2 btn btn-info" asp-controller="Project" asp-action="All" asp-route-id="@Model.Id.ToString()">Cancel</a>
+
+                            }
+                            else
+                            {
+                                <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
+                            }
                         </div>
                     </div>
                 </div>

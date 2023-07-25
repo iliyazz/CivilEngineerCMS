@@ -44,13 +44,13 @@
                 isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId, StringComparison.CurrentCultureIgnoreCase);
             }
 
-            if (!(isManagerOfProject || isClientOfProject))
+            if (!(isManagerOfProject || isClientOfProject || this.User.IsAdministrator()))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to view expenses to this project.";
                 return RedirectToAction("Index", "home");
             }
 
-            if (isManagerOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
+            if ((isManagerOfProject || this.User.IsAdministrator()) && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
             {
                 this.TempData[ErrorMessage] = "No payments have been made for this project.";
                 return RedirectToAction("Add", "Expense", new { id = id });
@@ -76,7 +76,7 @@
                 isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
             }
 
-            if (!isManagerOfProject)
+            if (!(isManagerOfProject || this.User.IsAdministrator()))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to view expenses to this project.";
                 return RedirectToAction("Index", "home");
@@ -113,7 +113,7 @@
                 isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
             }
 
-            if (!isManagerOfProject)
+            if (!(isManagerOfProject || this.User.IsAdministrator()))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to add expenses to this project.";
                 return RedirectToAction("Index", "home");
@@ -151,7 +151,7 @@
                 isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
             }
 
-            if (!isManagerOfProject)
+            if (!(isManagerOfProject || this.User.IsAdministrator()))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to edit expenses to this project.";
                 return RedirectToAction("Index", "home");
@@ -186,7 +186,7 @@
                 isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
             }
 
-            if (!isManagerOfProject)
+            if (!(isManagerOfProject || this.User.IsAdministrator()))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to edit expenses to this project.";
                 return RedirectToAction("Index", "home");

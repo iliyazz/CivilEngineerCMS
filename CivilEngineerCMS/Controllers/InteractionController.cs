@@ -32,6 +32,7 @@
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
             bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isAdministrator = this.User.IsAdministrator();
 
             bool isClientOfProject = false;
             if (isClient)
@@ -49,13 +50,13 @@
                 isEmployeeOfProject = await this.projectService.IsEmployeeOfProjectAsync(id, employeeId);
             }
 
-            if (!(isEmployeeOfProject || isManagerOfProject || isClientOfProject))
+            if (!(isEmployeeOfProject || isManagerOfProject || isClientOfProject || isAdministrator))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to view interaction to this project.";
                 return RedirectToAction("Index", "home");
             }
 
-            if ((isEmployeeOfProject || isManagerOfProject) && !await this.interactionService.InteractionExistsByProjectIdAsync(id))
+            if ((isEmployeeOfProject || isManagerOfProject || isAdministrator) && !await this.interactionService.InteractionExistsByProjectIdAsync(id))
             {
                 this.TempData[InfoMessage] = "There are no interaction about this project. Create the first one.";
                 return RedirectToAction("Add", "Interaction", new { id = id });
@@ -77,6 +78,8 @@
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
             bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isAdministrator = this.User.IsAdministrator();
+
 
             if (isClient)
             {
@@ -92,7 +95,7 @@
                 isEmployeeOfProject = await this.projectService.IsEmployeeOfProjectAsync(id, employeeId);
             }
 
-            if (!(isEmployeeOfProject || isManagerOfProject))
+            if (!(isEmployeeOfProject || isManagerOfProject || isAdministrator))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to add interaction to this project.";
                 return RedirectToAction("Mine", "Employee");
@@ -123,6 +126,7 @@
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
             bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isAdministrator = this.User.IsAdministrator();
 
             if (isClient)
             {
@@ -138,7 +142,7 @@
                 isEmployeeOfProject = await this.projectService.IsEmployeeOfProjectAsync(id, employeeId);
             }
 
-            if (!(isEmployeeOfProject || isManagerOfProject))
+            if (!(isEmployeeOfProject || isManagerOfProject || isAdministrator))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to add interaction to this project.";
                 return RedirectToAction("Mine", "Employee");
@@ -166,6 +170,7 @@
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
             bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isAdministrator = this.User.IsAdministrator();
 
             if (isClient)
             {
@@ -179,10 +184,14 @@
                 isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(projectId, employeeId);
             }
 
-            if (!(isManagerOfProject))
+            if (!(isManagerOfProject || isAdministrator))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
-                return RedirectToAction("Mine", "Employee");
+                if (isManagerOfProject)
+                {
+                    return RedirectToAction("Mine", "Employee");
+                }
+                return RedirectToAction("All", "Project");
             }
 
             //if (isManagerOfProject && !await this.interactionService.InteractionExistsByProjectIdAsync(projectId))
@@ -215,6 +224,7 @@
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
             bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isAdministrator = this.User.IsAdministrator();
 
             if (isClient)
             {
@@ -228,10 +238,14 @@
                 isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(projectId, employeeId);
             }
 
-            if (!(isManagerOfProject))
+            if (!(isManagerOfProject || isAdministrator))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
-                return RedirectToAction("Mine", "Employee");
+                if (isManagerOfProject)
+                {
+                    return RedirectToAction("Mine", "Employee");
+                }
+                return RedirectToAction("All", "Project");
             }
 
             bool isInteractionExists = await this.interactionService.InteractionExistsByProjectIdAsync(projectId);
