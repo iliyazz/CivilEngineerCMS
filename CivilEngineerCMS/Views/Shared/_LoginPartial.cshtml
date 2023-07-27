@@ -1,14 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using CivilEngineerCMS.Data.Models
-@using CivilEngineerCMS.Data
-@using Microsoft.EntityFrameworkCore
-@using System.Security.Claims
+@*@using CivilEngineerCMS.Data*@
+@*@using Microsoft.EntityFrameworkCore
+@using System.Security.Claims*@
 @using CivilEngineerCMS.Services.Data.Interfaces
 @using CivilEngineerCMS.Web.Infrastructure.Extensions
 @inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
-@inject CivilEngineerCmsDbContext dbContext
+@*@inject UserManager<ApplicationUser> UserManager
+@inject CivilEngineerCmsDbContext dbContext*@
 @inject IUserService UserServices
 @{
     string userId = User.GetId();
@@ -26,56 +26,6 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        @*@if (User.IsInRole("Admin"))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
-            </li>
-        }
-        else if (User.IsInRole("Manager"))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Manager" asp-action="Index">Manager</a>
-            </li>
-        }
-        else if (User.IsInRole("Employee"))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
-            </li>
-        }
-        else if (User.IsInRole("Client"))
-        {
-            if (dbContext.Clients.AnyAsync(c => c.UserClientId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameClientIdentifier))).Result)
-            {
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Index">Client</a>
-                </li>
-            }
-            else
-            {
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Create">Create client</a>
-                </li>
-            }
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Client" asp-action="Index">Client</a>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            </li>
-        }*@
-       @* if (User.ClientIdentity?.IsAuthenticated ?? false && dbContext.Clients.AnyAsync(c => c.UserClientId == Guid.Parse( User.FindFirstValue(ClaimTypes.NameClientIdentifier))))
-        {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="ClientIdentity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.ClientIdentity?.Name!</a>
-        </li>
-        }*@
-
-
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @fullName</a>
         </li>

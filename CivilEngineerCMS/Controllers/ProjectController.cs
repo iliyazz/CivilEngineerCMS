@@ -1,14 +1,17 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
-    using CivilEngineerCMS.Services.Data;
     using Common;
+
     using Infrastructure.Extensions;
+
     using Microsoft.AspNetCore.Mvc;
+
     using Services.Data.Interfaces;
     using Services.Data.Models.Project;
+
     using ViewModels.Employee;
     using ViewModels.Project;
-    using static CivilEngineerCMS.Common.EntityValidationConstants;
+
     using static Common.NotificationMessagesConstants;
 
     public class ProjectController : BaseController
@@ -393,7 +396,7 @@
             }
 
 
-            var project = await this.projectService.GetProjectForEditByIdAsync(id);
+            //var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
@@ -437,7 +440,7 @@
             }
 
 
-            var project = await this.projectService.GetProjectForEditByIdAsync(id);
+            //var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
