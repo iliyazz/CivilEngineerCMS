@@ -11,8 +11,8 @@ using Task = System.Threading.Tasks.Task;
 
 public interface IProjectService
 {
-    Task<IEnumerable<AllProjectViewModel>> AllProjectsAsync();
-    Task<bool> ManagerExistsByUserIdAsync(string id);
+    //Task<IEnumerable<AllProjectViewModel>> AllProjectsAsync();
+    //Task<bool> ManagerExistsByUserIdAsync(string id);
     bool StatusExists(string id);
     Task CreateProjectAsync(AddAndEditProjectFormModel formModel);
     Task<AddAndEditProjectFormModel> GetProjectForEditByIdAsync(string projectId);

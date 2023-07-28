@@ -29,34 +29,34 @@ public class ProjectService : IProjectService
         this.dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<AllProjectViewModel>> AllProjectsAsync()
-    {
-        IEnumerable<AllProjectViewModel> allProjects = await this.dbContext
-            .Projects
-            .Where(x => x.IsActive)
-            .OrderByDescending(x => x.ProjectCreatedDate)
-            .Include(x => x.Client)
-            .Include(x => x.Manager)
-            .Select(p => new AllProjectViewModel
-            {
-                Id = p.Id,
-                ProjectCreatedDate = p.ProjectCreatedDate,
-                Name = p.Name,
-                ClientName = $"{p.Client.FirstName} {p.Client.LastName}",
-                ManagerName = $"{p.Manager.FirstName} {p.Manager.LastName}"
-            })
-            .ToListAsync();
-        return allProjects;
-    }
+    //public async Task<IEnumerable<AllProjectViewModel>> AllProjectsAsync()
+    //{
+    //    IEnumerable<AllProjectViewModel> allProjects = await this.dbContext
+    //        .Projects
+    //        .Where(x => x.IsActive)
+    //        .OrderByDescending(x => x.ProjectCreatedDate)
+    //        .Include(x => x.Client)
+    //        .Include(x => x.Manager)
+    //        .Select(p => new AllProjectViewModel
+    //        {
+    //            Id = p.Id,
+    //            ProjectCreatedDate = p.ProjectCreatedDate,
+    //            Name = p.Name,
+    //            ClientName = $"{p.Client.FirstName} {p.Client.LastName}",
+    //            ManagerName = $"{p.Manager.FirstName} {p.Manager.LastName}"
+    //        })
+    //        .ToListAsync();
+    //    return allProjects;
+    //}
 
-    public async Task<bool> ManagerExistsByUserIdAsync(string id)
-    {
-        bool managerExists = await this.dbContext
-            .Projects
-            .Where(x => x.IsActive)
-            .AnyAsync(x => x.Id.ToString() == id);
-        return managerExists;
-    }
+    //public async Task<bool> ManagerExistsByUserIdAsync(string id)
+    //{
+    //    bool managerExists = await this.dbContext
+    //        .Projects
+    //        .Where(x => x.IsActive)
+    //        .AnyAsync(x => x.Id.ToString() == id);
+    //    return managerExists;
+    //}
 
     public bool StatusExists(string id)
     {

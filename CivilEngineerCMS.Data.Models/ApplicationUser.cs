@@ -12,8 +12,8 @@
         {
             this.Id = Guid.NewGuid();
             this.Projects = new HashSet<Project>();
-        } 
+        }
 
-        public virtual ICollection<Project> Projects { get; set; }// = new HashSet<Project>();
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }
