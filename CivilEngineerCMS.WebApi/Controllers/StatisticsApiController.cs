@@ -1,8 +1,12 @@
 ﻿namespace CivilEngineerCMS.WebApi.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
+    using System.Data;
+
     using Microsoft.AspNetCore.Mvc;
     using Services.Data.Interfaces;
     using Services.Data.Models.Statistics;
+
 
     [Route("api/statistics")]
     [ApiController]
@@ -15,6 +19,7 @@
             this.projectService = projectService;
         }
 
+        //[Authorize(Roles = AdministratorRoleName)]
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(typeof(StatisticsServiceModel), StatusCodes.Status200OK)]

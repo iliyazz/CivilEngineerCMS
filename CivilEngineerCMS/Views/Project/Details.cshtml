@@ -12,13 +12,9 @@
     bool isAdministrator = this.User.IsAdministrator();
     bool isEmployee = await EmployeesService.IsEmployeeAsync(userId);
     bool isClient = await ClientService.IsClientAsync(userId);
-    //if (isAdministrator)
-    //{
-    //    isManagerInProject = true;
-    //}
+
     if (isEmployee)
     {
-        //string userId = User.GetId();
         string employeeId = await EmployeesService.GetEmployeeIdByUserIdAsync(userId);
         string managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.Id.ToString());
         isManagerInProject = employeeId == managerId;
@@ -68,17 +64,14 @@
                             else if (isManagerInProject)
                             {
                                 <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine" asp-route-id="@Model.Id.ToString()">Cancel</a>
-                                @*<a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>*@
                             }
                             else if (isEmployee)
                             {
                                 <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="MineByEmployeeId" asp-route-id="@Model.Id.ToString()">Cancel</a>
-                                @*<a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>*@
                             }
                             else if (isClient)
                             {
                                 <a class="ml-2 btn btn-info" asp-controller="Client" asp-action="Mine" asp-route-id="@Model.Id.ToString()">Cancel</a>
-                                @*<a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>*@
                             }
 
                         </div>

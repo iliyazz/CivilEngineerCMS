@@ -5,7 +5,6 @@
 @inject IProjectService ProjectService
 @{
     ViewData["Title"] = "Details";
-    //bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
     string projectId = Model.ProjectId.ToString();
     string employeeId = await EmployeeService.GetEmployeeIdByUserIdAsync(User.GetId());
     bool isAdministrator = this.User.IsAdministrator();

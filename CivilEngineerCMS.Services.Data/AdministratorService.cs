@@ -1,21 +1,16 @@
 ﻿namespace CivilEngineerCMS.Services.Data
 {
-    using System.Collections;
-    using System.Security.Cryptography.X509Certificates;
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
+
     using Interfaces;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Web.ViewModels.Administrator;
-    using Web.ViewModels.Employee;
-    using static CivilEngineerCMS.Common.EntityValidationConstants;
-    using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 
-    //    using CivilEngineerCMS.Data;
-    //    using CivilEngineerCMS.Data.Models;
-    //    using Microsoft.AspNetCore.Identity;
-    //    using Microsoft.EntityFrameworkCore;
+    using Web.ViewModels.Administrator;
+
+    using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 
     public class AdministratorService : IAdministratorService
     {

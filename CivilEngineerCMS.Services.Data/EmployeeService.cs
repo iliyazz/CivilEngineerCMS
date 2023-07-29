@@ -1,13 +1,16 @@
 ﻿namespace CivilEngineerCMS.Services.Data
 {
-    using System.Security.Claims;
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Web.ViewModels.Manager;
+
     using Interfaces;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+
     using Web.ViewModels.Employee;
+
     using Task = System.Threading.Tasks.Task;
 
 
@@ -17,7 +20,8 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
 
-        public EmployeeService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager, IUserService userService)
+        public EmployeeService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager,
+            IUserService userService)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
@@ -121,7 +125,8 @@
             await this.dbContext.Employees.AddAsync(employee);
             await this.dbContext.SaveChangesAsync();
 
-            await this.userService.AddClaimToUserAsync(employee.UserId.ToString(), "FullName", $"{employee.FirstName} {employee.LastName}");
+            await this.userService.AddClaimToUserAsync(employee.UserId.ToString(), "FullName",
+                $"{employee.FirstName} {employee.LastName}");
         }
 
         public async Task<DetailsEmployeeViewModel> DetailsEmployeeAsync(string employeeId)

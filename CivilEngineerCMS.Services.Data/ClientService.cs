@@ -18,8 +18,8 @@ namespace CivilEngineerCMS.Services.Data
         private readonly IUserService userService;
 
 
-
-        public ClientService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager, IUserService userService)
+        public ClientService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager,
+            IUserService userService)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
@@ -107,8 +107,8 @@ namespace CivilEngineerCMS.Services.Data
             await this.dbContext.Clients.AddAsync(client);
             await this.dbContext.SaveChangesAsync();
 
-            await this.userService.AddClaimToUserAsync(client.UserId.ToString(), "FullName", $"{client.FirstName} {client.LastName}");
-
+            await this.userService.AddClaimToUserAsync(client.UserId.ToString(), "FullName",
+                $"{client.FirstName} {client.LastName}");
         }
 
         public async Task<DetailsClientViewModel> DetailsClientAsync(string clientId)
@@ -217,15 +217,6 @@ namespace CivilEngineerCMS.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        //public async Task<bool> IsClientOfProjectAsync(string projectId, string clientId)
-        //{
-        //    Project project = await this.dbContext
-        //        .Projects
-        //        .Where(x => x.IsActive)
-        //        .FirstAsync(x => x.Id.ToString() == projectId);
-        //    var isClientOfProject = project.ClientId.ToString() == clientId;
-        //    return isClientOfProject;
-        //}
 
         public async Task<string> GetClientIdByProjectIdAsync(string projectId)
         {
@@ -238,6 +229,7 @@ namespace CivilEngineerCMS.Services.Data
             {
                 return null;
             }
+
             return project.Client.Id.ToString();
         }
 
@@ -259,5 +251,3 @@ namespace CivilEngineerCMS.Services.Data
         }
     }
 }
-
-

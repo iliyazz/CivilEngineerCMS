@@ -4,10 +4,7 @@
 @{
     ViewBag.Title = "All Projects";
 }
-@*@section Scripts {
-    <script>toggleListAndCardStyle();</script>
-    <script>pagingLinks();</script>
-}*@
+
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr/>
 
@@ -98,32 +95,6 @@
 else
 {
     <div class="mb-5"></div>
-    //---------------------------------Toggle button--------------------------------->
-    //down
-@*    <div class="row">
-        <div class="col-12 text-center">
-            <button class="btn  btn-primary" id="toggleListCardStyle_btn">To Card style</button>
-        </div>
-    </div>*@
-    //up
-    //---------------------------------Toggle button---------------------------------<
-
-
-//---------------------------------Card style--------------------------------->
-    //down
-@*    <section id="projectCardStyle" class="d-none">
-
-        <div class="row">
-            @foreach (var project in Model.Projects)
-            {
-                <partial name="_ProjectFilterPartial" model="@project" />
-            }
-        </div>
-    </section>*@
-    //up
-//---------------------------------Card style---------------------------------<
-
-//---------------------------------List style--------------------------------->
 
     <section id="projectListStyle">
         <table class="table table-hover">
@@ -162,10 +133,4 @@ else
             </tbody>
         </table>
     </section>
-//---------------------------------List style---------------------------------<
-    //down
-@*    @section Scripts {
-        <script>toggleListAndCardStyle();</script>
-    }*@
-    //up
 }

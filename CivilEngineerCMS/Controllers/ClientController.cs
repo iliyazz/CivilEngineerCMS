@@ -16,7 +16,7 @@
 
     public class ClientController : BaseController
     {
-        private readonly IClientService  clientService;
+        private readonly IClientService clientService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public ClientController(IClientService clientService, UserManager<ApplicationUser> userManager)
@@ -24,6 +24,7 @@
             this.clientService = clientService;
             this.userManager = userManager;
         }
+
         public async Task<IActionResult> Mine()
         {
             string userId = this.User.GetId();
@@ -33,7 +34,9 @@
                 this.TempData[ErrorMessage] = "Client does not exist.";
                 return this.RedirectToAction("Index", "Home");
             }
-            IEnumerable<MineClientManagerProjectViewModel> viewModel = await this.clientService.AllProjectsByUserIdAsync(this.User.GetId());
+
+            IEnumerable<MineClientManagerProjectViewModel> viewModel =
+                await this.clientService.AllProjectsByUserIdAsync(this.User.GetId());
             return View(viewModel);
         }
 
@@ -95,13 +98,14 @@
             {
                 await this.clientService.CreateClientAsync(formModel);
 
-                this.TempData[SuccessMessage] = $"Client {formModel.FirstName} {formModel.LastName} added successfully.";
+                this.TempData[SuccessMessage] =
+                    $"Client {formModel.FirstName} {formModel.LastName} added successfully.";
                 return this.RedirectToAction("All", "Client");
             }
             catch (Exception _)
             {
                 this.ModelState.AddModelError(string.Empty,
-                                       "An error occurred while adding the client. Please try again later or contact administrator!");
+                    "An error occurred while adding the client. Please try again later or contact administrator!");
                 return this.View(formModel);
             }
         }
@@ -116,12 +120,14 @@
                 this.ModelState.AddModelError(string.Empty, "Client does not exist.");
                 return this.RedirectToAction("All", "Client");
             }
+
             if (!await clientService.ClientExistsByIdAsync(clientId))
             {
                 this.TempData[ErrorMessage] = "Client does not exist.";
                 this.ModelState.AddModelError(string.Empty, "Client does not exist.");
                 return this.RedirectToAction("All", "Client");
             }
+
             DetailsClientViewModel viewModel = await this.clientService.DetailsClientAsync(clientId);
             return this.View(viewModel);
         }
@@ -146,7 +152,8 @@
             try
             {
                 EditClientFormModel viewModel = await this.clientService.GetClientForEditByIdAsync(id.ToString());
-                this.TempData[WarningMessage] = $"You are going to edit client {viewModel.FirstName} {viewModel.LastName}.";
+                this.TempData[WarningMessage] =
+                    $"You are going to edit client {viewModel.FirstName} {viewModel.LastName}.";
                 return this.View(viewModel);
             }
             catch (Exception _)
@@ -154,7 +161,6 @@
                 this.TempData[ErrorMessage] = "Client with provided id does not exist.";
                 return this.RedirectToAction("All", "Client");
             }
-
         }
 
         [HttpPost]
@@ -184,12 +190,14 @@
             {
                 await this.clientService.EditClientByIdAsync(id, formModel);
 
-                this.TempData[SuccessMessage] = $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
+                this.TempData[SuccessMessage] =
+                    $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
                 return this.RedirectToAction("All", "Client");
             }
             catch (Exception _)
             {
-                this.TempData[ErrorMessage] = "An error occurred while editing the client. Please try again later or contact administrator!";
+                this.TempData[ErrorMessage] =
+                    "An error occurred while editing the client. Please try again later or contact administrator!";
                 return this.View(formModel);
             }
         }
@@ -220,7 +228,8 @@
 
             try
             {
-                ClientPreDeleteViewModel viewModel = await this.clientService.GetClientForPreDeleteByIdAsync(id.ToString());
+                ClientPreDeleteViewModel viewModel =
+                    await this.clientService.GetClientForPreDeleteByIdAsync(id.ToString());
                 this.TempData[WarningMessage] =
                     $"You are going to delete client {viewModel.FirstName} {viewModel.LastName}.";
                 return this.View(viewModel);

@@ -1,7 +1,6 @@
 ﻿namespace CivilEngineerCMS.Web.ViewModels.User
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Xml.Linq;
 
     public class LoginFormModel
     {

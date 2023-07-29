@@ -1,14 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using CivilEngineerCMS.Data.Models
-@*@using CivilEngineerCMS.Data*@
-@*@using Microsoft.EntityFrameworkCore
-@using System.Security.Claims*@
 @using CivilEngineerCMS.Services.Data.Interfaces
 @using CivilEngineerCMS.Web.Infrastructure.Extensions
 @inject SignInManager<ApplicationUser> SignInManager
-@*@inject UserManager<ApplicationUser> UserManager
-@inject CivilEngineerCmsDbContext dbContext*@
 @inject IUserService UserServices
 @{
     string userId = User.GetId();
@@ -17,7 +12,7 @@
     {
         fullName = UserServices.GetClaimValueByUserIdAsync(User.GetId(), "FullName").Result?.Value;
     }
-    if(string.IsNullOrWhiteSpace(fullName))
+    if (string.IsNullOrWhiteSpace(fullName))
     {
         fullName = User.Identity?.Name;
     }

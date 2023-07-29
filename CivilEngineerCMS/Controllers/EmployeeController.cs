@@ -46,7 +46,8 @@
                 return RedirectToAction("Index", "Home");
             }
 
-            IEnumerable<MineManagerProjectViewModel> viewModel = await this.employeeService.AllProjectsByManagerIdAsync(employeeId);
+            IEnumerable<MineManagerProjectViewModel> viewModel =
+                await this.employeeService.AllProjectsByManagerIdAsync(employeeId);
             return this.View(viewModel);
         }
 
@@ -62,7 +63,8 @@
                 return RedirectToAction("Index", "Home");
             }
 
-            IEnumerable<MineManagerProjectViewModel> viewModel = await this.employeeService.AllProjectsByEmployeeIdAsync(employeeId);
+            IEnumerable<MineManagerProjectViewModel> viewModel =
+                await this.employeeService.AllProjectsByEmployeeIdAsync(employeeId);
             return this.View(viewModel);
         }
 
@@ -100,8 +102,6 @@
             try
             {
                 await this.employeeService.CreateEmployeeAsync(formModel);
-                //await this.userService.AddClaimToUserAsync(employee.UserId.ToString(), "FullName", $"{employee.FirstName} {employee.LastName}");
-
 
                 this.TempData[SuccessMessage] =
                     $"Employee {formModel.FirstName} {formModel.LastName} added successfully.";
@@ -109,7 +109,8 @@
             }
             catch (Exception _)
             {
-                this.ModelState.AddModelError(string.Empty, "An error occurred while adding the employee. Please try again later or contact administrator!");
+                this.ModelState.AddModelError(string.Empty,
+                    "An error occurred while adding the employee. Please try again later or contact administrator!");
                 return this.View(formModel);
             }
         }
@@ -124,12 +125,14 @@
                 this.ModelState.AddModelError(string.Empty, "Employee does not exist.");
                 return this.RedirectToAction("All", "Employee");
             }
+
             if (!await employeeService.EmployeeExistsByIdAsync(employeeId))
             {
                 this.TempData[ErrorMessage] = "Employee does not exist.";
                 this.ModelState.AddModelError(string.Empty, "Employee does not exist.");
                 return this.RedirectToAction("All", "Employee");
             }
+
             DetailsEmployeeViewModel viewModel = await this.employeeService.DetailsEmployeeAsync(employeeId);
             return this.View(viewModel);
         }
@@ -162,7 +165,6 @@
                 this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
                 return this.RedirectToAction("All", "Employee");
             }
-
         }
 
         [HttpPost]
@@ -191,12 +193,14 @@
             {
                 await this.employeeService.EditEmployeeByIdAsync(id, formModel);
 
-                this.TempData[SuccessMessage] = $"Employee {formModel.FirstName} {formModel.LastName} edited successfully.";
+                this.TempData[SuccessMessage] =
+                    $"Employee {formModel.FirstName} {formModel.LastName} edited successfully.";
                 return this.RedirectToAction("All", "Employee");
             }
             catch (Exception _)
             {
-                this.TempData[ErrorMessage] = "An error occurred while editing the employee. Please try again later or contact administrator!";
+                this.TempData[ErrorMessage] =
+                    "An error occurred while editing the employee. Please try again later or contact administrator!";
                 return this.View(formModel);
             }
         }
@@ -228,7 +232,8 @@
 
             try
             {
-                EmployeePreDeleteViewModel viewModel = await this.employeeService.GetEmployeeForPreDeleteByIdAsync(id.ToString());
+                EmployeePreDeleteViewModel viewModel =
+                    await this.employeeService.GetEmployeeForPreDeleteByIdAsync(id.ToString());
                 this.TempData[WarningMessage] =
                     $"You are going to delete employee {viewModel.FirstName} {viewModel.LastName}.";
                 return this.View(viewModel);
@@ -273,4 +278,3 @@
         }
     }
 }
-

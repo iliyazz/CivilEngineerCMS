@@ -396,8 +396,6 @@
             }
 
 
-            //var project = await this.projectService.GetProjectForEditByIdAsync(id);
-
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
             bool isManagerInProject = false;
@@ -439,8 +437,6 @@
                 return this.RedirectToAction("Mine", "Employee");
             }
 
-
-            //var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);

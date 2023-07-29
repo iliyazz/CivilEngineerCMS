@@ -1,13 +1,16 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
-    using System.Security.Claims;
     using Data.Models;
+
     using Griesoft.AspNetCore.ReCaptcha;
+
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+
     using ViewModels.User;
+
     using static Common.NotificationMessagesConstants;
 
     public class UserController : BaseController

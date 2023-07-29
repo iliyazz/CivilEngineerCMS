@@ -1,10 +1,13 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
-    using Data.Models;
     using Infrastructure.Extensions;
+
     using Microsoft.AspNetCore.Mvc;
+
     using Services.Data.Interfaces;
+
     using ViewModels.Expenses;
+
     using static Common.NotificationMessagesConstants;
 
     public class ExpenseController : BaseController
@@ -14,7 +17,8 @@
         private readonly IClientService clientService;
         private readonly IProjectService projectService;
 
-        public ExpenseController(IExpenseService expensesService, IEmployeeService employeeService, IClientService clientService, IProjectService projectService)
+        public ExpenseController(IExpenseService expensesService, IEmployeeService employeeService,
+            IClientService clientService, IProjectService projectService)
         {
             this.expensesService = expensesService;
             this.employeeService = employeeService;
@@ -32,8 +36,8 @@
             {
                 var employeeId = await this.employeeService.GetEmployeeIdByUserIdAsync(userId);
                 isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
-                
             }
+
             bool isClient = await this.clientService.IsClientAsync(userId);
 
             bool isClientOfProject = false;
@@ -41,7 +45,8 @@
             {
                 string clientIdByUserId = await this.clientService.GetClientIdByUserIdAsync(userId);
                 string clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(id);
-                isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId, StringComparison.CurrentCultureIgnoreCase);
+                isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId,
+                    StringComparison.CurrentCultureIgnoreCase);
             }
 
             if (!(isManagerOfProject || isClientOfProject || this.User.IsAdministrator()))
@@ -50,16 +55,19 @@
                 return RedirectToAction("Index", "home");
             }
 
-            if ((isManagerOfProject || this.User.IsAdministrator()) && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
+            if ((isManagerOfProject || this.User.IsAdministrator()) &&
+                !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
             {
                 this.TempData[ErrorMessage] = "No payments have been made for this project.";
                 return RedirectToAction("Add", "Expense", new { id = id });
             }
-            if(isClientOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
+
+            if (isClientOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
             {
                 this.TempData[ErrorMessage] = "No payments have been made for this project.";
                 return RedirectToAction("Mine", "Client", new { id = id });
             }
+
             var viewModel = await this.expensesService.GetExpensesByProjectIdIdAsync(id);
             return View(viewModel);
         }
@@ -88,7 +96,8 @@
                 this.TempData[ErrorMessage] = "Expense already exists.";
                 return RedirectToAction("Details", "Expense", new { id = id });
             }
-            AddAndEditExpensesFormModel formModel =  new AddAndEditExpensesFormModel
+
+            AddAndEditExpensesFormModel formModel = new AddAndEditExpensesFormModel
             {
                 Date = DateTime.UtcNow,
                 ProjectId = Guid.Parse(id)
@@ -125,6 +134,7 @@
                 this.TempData[ErrorMessage] = "Expense already exists.";
                 return RedirectToAction("Details", "Expense", new { id = id });
             }
+
             try
             {
                 await this.expensesService.CreateExpenseAsync(id, formModel);
@@ -134,7 +144,8 @@
             }
             catch (Exception _)
             {
-                this.ModelState.AddModelError(string.Empty, "An error occurred while adding the expense. Please try again later or contact administrator!");
+                this.ModelState.AddModelError(string.Empty,
+                    "An error occurred while adding the expense. Please try again later or contact administrator!");
                 return this.View(formModel);
             }
         }
@@ -208,7 +219,8 @@
             }
             catch (Exception _)
             {
-                this.ModelState.AddModelError(string.Empty, "An error occurred while editing the expense. Please try again later or contact administrator!");
+                this.ModelState.AddModelError(string.Empty,
+                    "An error occurred while editing the expense. Please try again later or contact administrator!");
                 return this.View(formModel);
             }
         }

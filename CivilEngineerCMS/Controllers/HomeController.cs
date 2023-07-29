@@ -1,7 +1,5 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers;
 
-using System.Diagnostics;
-
 using Data.Models;
 
 using Microsoft.AspNetCore.Authorization;
@@ -35,9 +33,10 @@ public class HomeController : BaseController
     {
         return View();
     }
+
     [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error( int statusCode)
+    public IActionResult Error(int statusCode)
     {
         if (statusCode == 400 || statusCode == 404)
         {
@@ -48,7 +47,7 @@ public class HomeController : BaseController
         {
             return this.View("Error401");
         }
+
         return this.View();
     }
-
 }

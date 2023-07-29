@@ -37,18 +37,13 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     })
     .AddRoles<IdentityRole<Guid>>()
     .AddEntityFrameworkStores<CivilEngineerCmsDbContext>();
-    /*.AddDefaultTokenProviders()*/
-    //.AddRoles<IdentityRole>();
 
 //builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddApplicationServices(typeof(IHomeService));
 
 builder.Services.AddRecaptchaService();
 
-builder.Services.ConfigureApplicationCookie(config =>
-{
-    config.LoginPath = "/User/Login";
-});
+builder.Services.ConfigureApplicationCookie(config => { config.LoginPath = "/User/Login"; });
 
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>

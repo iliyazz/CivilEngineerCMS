@@ -2,28 +2,27 @@
 {
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
+
     using Interfaces;
+
     using Microsoft.EntityFrameworkCore;
-    using Web.ViewModels.Client;
+
     using Web.ViewModels.Expenses;
+
     using Task = System.Threading.Tasks.Task;
 
     public class ExpenseService : IExpenseService
     {
         private readonly CivilEngineerCmsDbContext dbContext;
-        //private readonly IProjectService projectService;
 
-        public ExpenseService(CivilEngineerCmsDbContext dbContext/*, IProjectService projectService*/)
+        public ExpenseService(CivilEngineerCmsDbContext dbContext)
         {
             this.dbContext = dbContext;
-            //this.projectService = projectService;
         }
 
 
         public async Task<AddAndEditExpensesFormModel> GetExpensesByProjectIdIdAsync(string projectId)
         {
-
-
             AddAndEditExpensesFormModel expenses = await this.dbContext
                 .Expenses
                 .Where(e => e.ProjectId.ToString() == projectId)
@@ -59,7 +58,6 @@
                 Amount = formModel.Amount,
                 TotalAmount = formModel.TotalAmount,
                 Date = DateTime.UtcNow,
-
             };
             await this.dbContext.Expenses.AddAsync(expense);
             await this.dbContext.SaveChangesAsync();

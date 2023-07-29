@@ -36,16 +36,14 @@ else
     <div class="text-center">
         @if (isEmployeeInProject || isManagerOfProject || isAdministrator)
         {
-        <a class="btn btn-success" asp-controller="Interaction" asp-action="Add" asp-route-id="@Model.First().ProjectId.ToString()">Add interaction</a>
+            <a class="btn btn-success" asp-controller="Interaction" asp-action="Add" asp-route-id="@Model.First().ProjectId.ToString()">Add interaction</a>
             <a class="btn btn-info" asp-controller="Project" asp-action="Details" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
-
         }
         @if (isClient)
         {
             <a class="btn btn-info" asp-controller="Client" asp-action="Mine" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
         }
 
-        @*<a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>*@
     </div>
     <hr/>
     <table class="table table-hover">
@@ -56,7 +54,6 @@ else
             <th scope="col">Type of interaction</th>
             <th scope="col">Description</th>
             <th scope="col">Message</th>
-            @*<th scope="col">Link to file</th>*@
         </tr>
         </thead>
         <tbody>
@@ -66,13 +63,13 @@ else
             rowNumber++;
             @if (isEmployeeInProject || isManagerOfProject || isAdministrator)
             {
-            <tr onclick="location.href = '@Url.Action("Edit", "Interaction", new { projectId = interaction.ProjectId.ToString(), interactionId = interaction.Id.ToString() })'" type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
-                <th scope="row">@rowNumber</th>
-                <td>@interaction.Date</td>
-                <td>@interaction.Type</td>
-                <td>@interaction.Description</td>
-                <td>@interaction.Message</td>
-            </tr>
+                <tr onclick="location.href = '@Url.Action("Edit", "Interaction", new { projectId = interaction.ProjectId.ToString(), interactionId = interaction.Id.ToString() })'" type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+                    <th scope="row">@rowNumber</th>
+                    <td>@interaction.Date</td>
+                    <td>@interaction.Type</td>
+                    <td>@interaction.Description</td>
+                    <td>@interaction.Message</td>
+                </tr>
             }
             else
             {
@@ -84,9 +81,6 @@ else
                     <td>@interaction.Message</td>
                 </tr>
             }
-
-
-
         }
         </tbody>
     </table>
