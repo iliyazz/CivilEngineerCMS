@@ -11,7 +11,7 @@
     bool isManagerInProject = false;
     bool isAdministrator = this.User.IsAdministrator();
     bool isEmployee = await EmployeesService.IsEmployeeAsync(userId);
-    bool isClient = await ClientService.IsClientAsync(userId);
+    bool isClient = await ClientService.IsClientByUserIdAsync(userId);
 
     if (isEmployee)
     {

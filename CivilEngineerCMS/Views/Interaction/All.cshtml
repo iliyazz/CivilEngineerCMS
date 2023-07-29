@@ -12,7 +12,7 @@
     bool isEmployeeInProject = false;
     bool isManagerOfProject = false;
     bool isAdministrator = this.User.IsAdministrator();
-    bool isClient = await ClientService.IsClientAsync(User.GetId());
+    bool isClient = await ClientService.IsClientByUserIdAsync(User.GetId());
     if (isEmployee)
     {
         var projectId = interactions.First().ProjectId.ToString();

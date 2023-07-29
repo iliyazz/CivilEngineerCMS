@@ -1,17 +1,13 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
     using Data.Models;
-
     using Infrastructure.Extensions;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-
     using Services.Data.Interfaces;
-
     using ViewModels.Client;
-
+    using static CivilEngineerCMS.Common.EntityValidationConstants;
     using static Common.NotificationMessagesConstants;
 
     public class ClientController : BaseController
@@ -28,7 +24,7 @@
         public async Task<IActionResult> Mine()
         {
             string userId = this.User.GetId();
-            bool clientExists = await this.clientService.IsClientAsync(userId);
+            bool clientExists = await this.clientService.IsClientByUserIdAsync(userId);
             if (!clientExists)
             {
                 this.TempData[ErrorMessage] = "Client does not exist.";
@@ -52,6 +48,7 @@
             IEnumerable<AllClientViewModel> viewModel = await this.clientService.AllClientsForViewAsync();
             return View(viewModel);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Create()

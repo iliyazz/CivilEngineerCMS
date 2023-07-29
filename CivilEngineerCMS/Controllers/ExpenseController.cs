@@ -38,7 +38,7 @@
                 isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
             }
 
-            bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isClient = await this.clientService.IsClientByUserIdAsync(userId);
 
             bool isClientOfProject = false;
             if (isClient)

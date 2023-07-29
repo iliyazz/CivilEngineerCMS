@@ -85,14 +85,14 @@ namespace CivilEngineerCMS.Services.Data
             return allClients;
         }
 
-        public async Task<bool> ClientExistsByUserIdAsync(string id)
-        {
-            bool clientExists = await this.dbContext
-                .Clients
-                .Where(x => x.IsActive)
-                .AnyAsync(x => x.Id.ToString() == id);
-            return clientExists;
-        }
+        //public async Task<bool> ClientExistsByUserIdAsync(string id)
+        //{
+        //    bool clientExists = await this.dbContext
+        //        .Clients
+        //        .Where(x => x.IsActive)
+        //        .AnyAsync(x => x.Id.ToString() == id);
+        //    return clientExists;
+        //}
 
         public async Task CreateClientAsync(CreateClientFormModel formModel)
         {
@@ -142,7 +142,9 @@ namespace CivilEngineerCMS.Services.Data
 
         public async Task<bool> ClientExistsByIdAsync(string id)
         {
-            return await this.dbContext.Clients.AnyAsync(c => c.Id.ToString() == id && c.IsActive);
+            return await this.dbContext
+                .Clients
+                .AnyAsync(c => c.Id.ToString() == id && c.IsActive);
         }
 
         public async Task<EditClientFormModel> GetClientForEditByIdAsync(string clientId)
@@ -217,7 +219,6 @@ namespace CivilEngineerCMS.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-
         public async Task<string> GetClientIdByProjectIdAsync(string projectId)
         {
             var project = await this.dbContext
@@ -233,7 +234,7 @@ namespace CivilEngineerCMS.Services.Data
             return project.Client.Id.ToString();
         }
 
-        public async Task<bool> IsClientAsync(string userId)
+        public async Task<bool> IsClientByUserIdAsync(string userId)
         {
             return await this.dbContext
                 .Clients

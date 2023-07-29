@@ -32,7 +32,7 @@
         {
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
-            bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isClient = await this.clientService.IsClientByUserIdAsync(userId);
             bool isAdministrator = this.User.IsAdministrator();
 
             bool isClientOfProject = false;
@@ -82,7 +82,7 @@
         {
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
-            bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isClient = await this.clientService.IsClientByUserIdAsync(userId);
             bool isAdministrator = this.User.IsAdministrator();
 
 
@@ -126,7 +126,7 @@
 
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
-            bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isClient = await this.clientService.IsClientByUserIdAsync(userId);
             bool isAdministrator = this.User.IsAdministrator();
 
             if (isClient)
@@ -170,7 +170,7 @@
         {
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
-            bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isClient = await this.clientService.IsClientByUserIdAsync(userId);
             bool isAdministrator = this.User.IsAdministrator();
 
             if (isClient)
@@ -221,7 +221,7 @@
 
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
-            bool isClient = await this.clientService.IsClientAsync(userId);
+            bool isClient = await this.clientService.IsClientByUserIdAsync(userId);
             bool isAdministrator = this.User.IsAdministrator();
 
             if (isClient)

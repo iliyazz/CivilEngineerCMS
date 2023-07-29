@@ -26,31 +26,6 @@
             this.roleManager = roleManager;
         }
 
-
-        public async Task AssignAdministratorRoleAsync(string userId)
-        {
-            ApplicationUser? user = await this.dbContext.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userId);
-            IdentityRole<Guid>? role =
-                await this.dbContext.Roles.FirstOrDefaultAsync(r => r.Name == AdministratorRoleName);
-            if (user != null && role != null)
-            {
-                await this.userManager.AddToRoleAsync(user, role.Name);
-                await this.dbContext.SaveChangesAsync();
-            }
-        }
-
-        public async Task RemoveAdministratorRoleAsync(string userId)
-        {
-            ApplicationUser? user = await this.dbContext.Users.FirstOrDefaultAsync(x => x.Id.ToString() == userId);
-            IdentityRole<Guid>? role =
-                await this.dbContext.Roles.FirstOrDefaultAsync(r => r.Name == AdministratorRoleName);
-            if (user != null && role != null)
-            {
-                await this.userManager.RemoveFromRoleAsync(user, role.Name);
-                await this.dbContext.SaveChangesAsync();
-            }
-        }
-
         public async Task<IEnumerable<SelectEmployeesForAdministratorFormModel>> AllEmployeesForAdministratorAsync()
         {
             IEnumerable<SelectEmployeesForAdministratorFormModel> allEmployees = await this.dbContext

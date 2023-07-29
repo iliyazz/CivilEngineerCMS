@@ -83,7 +83,7 @@
                 this.ModelState.AddModelError(nameof(formModel.ManagerId), "Manager does not exist.");
             }
 
-            bool clientExists = await this.clientService.ClientExistsByUserIdAsync(formModel.ClientId.ToString());
+            bool clientExists = await this.clientService.ClientExistsByIdAsync(formModel.ClientId.ToString());
             if (!clientExists)
             {
                 this.ModelState.AddModelError(nameof(formModel.ClientId), "Client does not exist.");

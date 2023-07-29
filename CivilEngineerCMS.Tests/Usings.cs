@@ -1,0 +1,10 @@
+global using NUnit.Framework;
+global using Microsoft.EntityFrameworkCore;
+global using CivilEngineerCMS.Data.Models;
+global using CivilEngineerCMS.Web.ViewModels;
+global using CivilEngineerCMS.Services.Data;
+global using CivilEngineerCMS.Tests.Mocks;
+global using static CivilEngineerCMS.Common.EntityValidationConstants;
+global using static CivilEngineerCMS.Common.GeneralApplicationConstants;
+global using static CivilEngineerCMS.Common.NotificationMessagesConstants;
+global using static CivilEngineerCMS.Common.ProjectStatusEnums;

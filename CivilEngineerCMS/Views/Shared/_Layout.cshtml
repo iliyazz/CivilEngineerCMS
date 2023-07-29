@@ -8,7 +8,7 @@
 @inject IClientService ClientService
 @inject IEmployeeService EmployeeService
 @{
-    bool isClient = await ClientService.IsClientAsync(User.GetId());
+    bool isClient = await ClientService.IsClientByUserIdAsync(User.GetId());
     bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
     bool isAdministrator = User.IsAdministrator();
 }
