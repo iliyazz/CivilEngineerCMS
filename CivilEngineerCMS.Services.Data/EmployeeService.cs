@@ -88,15 +88,6 @@
             return managers;
         }
 
-        public async Task<bool> EmployeeExistsByUserIdAsync(string id)
-        {
-            bool employeeExists = await this.dbContext
-                .Employees
-                .Where(x => x.IsActive)
-                .AnyAsync(x => x.Id.ToString() == id);
-            return employeeExists;
-        }
-
         public async Task<string> GetManagerIdByUserIdAsync(string userId)
         {
             Employee? manager = await this.dbContext
@@ -270,6 +261,7 @@
                 .Employees
                 .Where(e => e.IsActive)
                 .AnyAsync(e => e.UserId.ToString() == userId);
+
         }
 
         public async Task<string> GetEmployeeIdByUserIdAsync(string userId)

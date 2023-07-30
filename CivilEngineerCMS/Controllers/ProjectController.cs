@@ -76,7 +76,7 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
-            bool managerExists = await this.employeeService.EmployeeExistsByUserIdAsync(formModel.ManagerId.ToString());
+            bool managerExists = await this.employeeService.EmployeeExistsByIdAsync(formModel.ManagerId.ToString());
 
             if (!managerExists)
             {

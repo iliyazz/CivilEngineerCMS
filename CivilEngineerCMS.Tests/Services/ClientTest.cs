@@ -1,18 +1,17 @@
 ﻿namespace CivilEngineerCMS.Tests.Services
 {
-    using System.Runtime.InteropServices.ComTypes;
-    using System.Security.Cryptography.X509Certificates;
     using CivilEngineerCMS.Web.ViewModels.Client;
     using CivilEngineerCMS.Web.ViewModels.Project;
 
     using Common;
+
     using Data;
+
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.DependencyInjection;
+
     using Moq;
+
     using Web.ViewModels.Employee;
-    using Client = Data.Models.Client;
-    using Project = Data.Models.Project;
 
     [TestFixture]
     public class ClientTest
@@ -255,7 +254,7 @@
         }
 
         [Test]
-        public async Task GetClientForPreDeleteByIdAsync()
+        public async Task GetClientForPreDeleteByIdAsyncShouldReturnCorrectData()
         {
             var userManager = UserManagerMock.MockUserManager().Object;
             this.applicationUser = new ApplicationUser()
