@@ -8,7 +8,7 @@
 
 This is educational project for SoftUni's ASP.NET Advanced course, built using ASP.NET MVC, Entity framework core, C#, Microsoft SQL Server, JavaScript, HTML, CSS, Bootstrap.
 
-The application is a Civil Engineer Customer Management System for consulting and design firms. The purpose of the application is to help with the internalization of the company and at the same time to enable the client to monitor the work process.
+The application is a Civil Engineer Customer Management System for consulting and design firms. The purpose of the application is to help with the organization of work of the company and at the same time to enable the client to monitor the work process.
 There are three types of application users: employees, customers, and administrators.
 Only those registered as employees can be administrators.
 The application has one seed account for admin with username: iliyaz.softuni@gmail.com and initial password: 123456.
