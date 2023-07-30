@@ -511,7 +511,7 @@
         }
 
         [Test]
-        public async Task ProjectExistsByIdAsyncShouldReturnTrueIfProjecttExists()
+        public async Task ProjectExistsByIdAsyncShouldReturnTrueIfProjectExists()
         {
             await using var data = DatabaseMock.MockDatabase();
 
@@ -983,8 +983,6 @@
             await projectService.CreateProjectAsync(modelProject1);
             var project1 = data.Projects.FirstOrDefault();
             project1.IsActive = true;
-            var projectStartDate1 = project1.ProjectCreatedDate;
-            var projectManagerName1 = project1.Manager.FirstName + " " + project1.Manager.LastName;
 
             //Project2 info
             var managerId2 = employee2.Id;
@@ -1002,8 +1000,6 @@
             await projectService.CreateProjectAsync(modelProject2);
             var project2 = data.Projects.FirstOrDefault();
             project2.IsActive = true;
-            var projectStartDate2 = project1.ProjectCreatedDate;
-            var projectManagerName2 = project1.Manager.FirstName + " " + project1.Manager.LastName;
 
             await data.SaveChangesAsync();
 
@@ -1284,7 +1280,7 @@
         }
 
         [Test]
-        public async Task AllEmployeesForProjectAsyncShouldReturnCorrectDataWhenNoActoveEmployeeInProject()
+        public async Task AllEmployeesForProjectAsyncShouldReturnCorrectDataWhenNoActionEmployeeInProject()
         {
             await using var data = DatabaseMock.MockDatabase();
 

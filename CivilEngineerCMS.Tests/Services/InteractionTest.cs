@@ -4,13 +4,13 @@
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Web.ViewModels.Client;
     using CivilEngineerCMS.Web.ViewModels.Employee;
-    using CivilEngineerCMS.Web.ViewModels.Expenses;
     using CivilEngineerCMS.Web.ViewModels.Project;
 
     using Microsoft.AspNetCore.Identity;
+
     using Moq;
+
     using Web.ViewModels.Interaction;
-    using static System.Net.WebRequestMethods;
 
     [TestFixture]
     public class InteractionTest

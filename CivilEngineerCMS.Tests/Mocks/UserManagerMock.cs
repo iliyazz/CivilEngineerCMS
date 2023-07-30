@@ -9,7 +9,6 @@
     {
         public static Mock<UserManager<ApplicationUser>> MockUserManager()
         {
-            //var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
 
             Mock<UserManager<ApplicationUser>> userManager = new Mock<UserManager<ApplicationUser>>(Mock.Of<IUserStore<ApplicationUser>>(), null, null, null, null, null,
                 null, null, null);

@@ -60,7 +60,9 @@
                 PhoneNumber = "+359123456789",
                 Address = "TestAddress1",
             };
-            await data.SaveChangesAsync();
+            //await data.SaveChangesAsync();
+             
+
 
             clientService = new ClientService(data, userManager, userService);
             await clientService.CreateClientAsync(model);

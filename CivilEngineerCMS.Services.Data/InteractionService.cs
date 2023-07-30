@@ -20,7 +20,6 @@ namespace CivilEngineerCMS.Services.Data
             this.dbContext = dbContext;
         }
 
-
         public async Task<IEnumerable<AddAndEditInteractionFormModel>> AllInteractionsByProjectIdAsync(string id)
         {
             IEnumerable<AddAndEditInteractionFormModel> allInteractionsByProjectIdIdAsync = await dbContext

@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CivilEngineerCMS.Services.Data\CivilEngineerCMS.Services.Data.csproj" />
+    <ProjectReference Include="..\CivilEngineerCMS.Web.Infrastructure\CivilEngineerCMS.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
