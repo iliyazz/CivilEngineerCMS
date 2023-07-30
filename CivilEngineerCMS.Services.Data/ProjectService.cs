@@ -292,7 +292,7 @@ public class ProjectService : IProjectService
 
     public async Task<StatisticsServiceModel> GetStatisticsAsync()
     {
-        return new StatisticsServiceModel()
+        var result =  new StatisticsServiceModel()
         {
             TotalActiveProjects = await this.dbContext
                 .Projects
@@ -305,6 +305,7 @@ public class ProjectService : IProjectService
                 .Clients
                 .CountAsync(),
         };
+        return result;
     }
 
     public async Task<IEnumerable<SelectEmployeesForProjectFormModel>> AllEmployeesForProjectAsync(string projectId)

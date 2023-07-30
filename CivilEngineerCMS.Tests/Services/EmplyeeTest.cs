@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using CivilEngineerCMS.Common;
@@ -14,6 +13,7 @@
     using CivilEngineerCMS.Web.ViewModels.Project;
 
     using Microsoft.AspNetCore.Identity;
+
     using Moq;
 
     [TestFixture]
@@ -85,7 +85,7 @@
         }
 
         [Test]
-        public async Task EmployeeExistsByIdAsyncShouldReturnFalseIfEmployeeIsDeleteted()
+        public async Task EmployeeExistsByIdAsyncShouldReturnFalseIfEmployeeIsDeleted()
         {
             await using var data = DatabaseMock.MockDatabase();
             var userManager = UserManagerMock.MockUserManager().Object;

@@ -381,7 +381,7 @@
                 Description = "TestProjectDescription1",
                 ClientId = clientId,
                 ManagerId = managerId,
-                Status = (ProjectStatusEnums)0,
+                Status = (ProjectStatusEnums)1,
                 ProjectEndDate = "2023-12-15",
             };
             projectService = new ProjectService(data);
