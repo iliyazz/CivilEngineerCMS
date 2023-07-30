@@ -10,13 +10,14 @@
     using CivilEngineerCMS.Services.Data.Models.Project;
     using CivilEngineerCMS.Web.ViewModels.Client;
     using CivilEngineerCMS.Web.ViewModels.Employee;
-    using CivilEngineerCMS.Web.ViewModels.Manager;
     using CivilEngineerCMS.Web.ViewModels.Project;
 
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore.Query.Internal;
+
     using Moq;
+
     using Web.ViewModels.Project.Enums;
+
     using Project = Data.Models.Project;
 
     [TestFixture]
