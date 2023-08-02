@@ -38,7 +38,7 @@
         {
             IEnumerable<AllEmployeeViewModel> allEmployeeAsync = await this.dbContext
                 .Employees
-                .Where(e => e.IsActive)
+                //.Where(e => e.IsActive)
                 .OrderBy(x => x.JobTitle)
                 .Select(e => new AllEmployeeViewModel
                 {
@@ -48,6 +48,7 @@
                     JobTitle = e.JobTitle,
                     Email = e.User.Email,
                     PhoneNumber = e.PhoneNumber,
+                    IsActive = e.IsActive
                 })
                 .ToListAsync();
             return allEmployeeAsync;

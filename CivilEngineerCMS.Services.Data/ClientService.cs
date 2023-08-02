@@ -49,7 +49,8 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<SelectClientForProjectFormModel> allClients = await dbContext
                 .Clients
-                .Where(c => c.IsActive)
+                .Include(c => c.User)
+                .Where(c => c.IsActive || c.User.LockoutEnd != null)
                 .OrderBy(c => c.FirstName)
                 .ThenBy(c => c.LastName)
                 .Select(c => new SelectClientForProjectFormModel
@@ -69,7 +70,6 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<AllClientViewModel> allClients = await dbContext
                 .Clients
-                .Where(c => c.IsActive)
                 .OrderBy(c => c.FirstName)
                 .ThenBy(c => c.LastName)
                 .Select(c => new AllClientViewModel()
@@ -79,12 +79,32 @@ namespace CivilEngineerCMS.Services.Data
                     LastName = c.LastName,
                     PhoneNumber = c.PhoneNumber,
                     Email = c.User.Email,
-                    Address = c.Address
+                    Address = c.Address,
+                    IsActive = c.IsActive
                 })
                 .ToListAsync();
             return allClients;
         }
-
+        //public async Task<IEnumerable<AllClientViewModel>> AllInactiveClientsForViewAsync()
+        //{
+        //    IEnumerable<AllClientViewModel> allClients = await dbContext
+        //        .Clients
+        //        .Include(c => c.User)
+        //        .Where(c => !c.IsActive || c.User.LockoutEnd != null)
+        //        .OrderBy(c => c.FirstName)
+        //        .ThenBy(c => c.LastName)
+        //        .Select(c => new AllClientViewModel()
+        //        {
+        //            Id = c.Id,
+        //            FirstName = c.FirstName,
+        //            LastName = c.LastName,
+        //            PhoneNumber = c.PhoneNumber,
+        //            Email = c.User.Email,
+        //            Address = c.Address
+        //        })
+        //        .ToListAsync();
+        //    return allClients;
+        //}
         //public async Task<bool> ClientExistsByUserIdAsync(string id)
         //{
         //    bool clientExists = await this.dbContext

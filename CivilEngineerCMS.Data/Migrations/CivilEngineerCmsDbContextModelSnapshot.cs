@@ -145,7 +145,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Employee", b =>
@@ -191,7 +191,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Expense", b =>
@@ -218,7 +218,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Expenses");
+                    b.ToTable("Expenses", (string)null);
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Interaction", b =>
@@ -258,7 +258,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Interactions");
+                    b.ToTable("Interactions", (string)null);
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Project", b =>
@@ -314,7 +314,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.ProjectEmployee", b =>
@@ -329,7 +329,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("ProjectsEmployees");
+                    b.ToTable("ProjectsEmployees", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

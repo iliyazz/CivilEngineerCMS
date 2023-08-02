@@ -400,6 +400,15 @@
         }
 
         [Test]
+        public async Task GetClientIdByProjectIdAsyncShouldReturnNullIfProjectNotExist()
+        {
+            await using var data = DatabaseMock.MockDatabase();
+            var result = await clientService.GetClientIdByProjectIdAsync("1FA37C21-89E7-4F63-853A-43BC8B5B6504");
+            Assert.That(result, Is.Null);
+        }
+
+
+        [Test]
         public async Task IsClientByUserIdAsyncShouldReturnTrueIfClientExists()
         {
             await using var data = DatabaseMock.MockDatabase();

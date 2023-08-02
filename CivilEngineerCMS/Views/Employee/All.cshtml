@@ -1,4 +1,6 @@
-﻿@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Employee.AllEmployeeViewModel>
+﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Employee.AllEmployeeViewModel>
+@inject IEmployeeService EmployeeService
 
 @{
     ViewData["Title"] = "All employees";
@@ -16,13 +18,15 @@ else
 {
     <table class="table table-hover table-bordered">
         <thead>
-            <tr>
+        <tr>
             <th scope="col">#</th>
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
             <th scope="col">Job title</th>
             <th scope="col">Email</th>
             <th scope="col">Phone number</th>
+            <th scope="col">Is deleted</th>
+
         </tr>
         </thead>
         <tbody>
@@ -30,13 +34,16 @@ else
         @foreach (var em in employees)
         {
             rowNumber++;
-                <tr onclick="location.href = '@Url.Action("Details", "Employee", new { id = @em.Id })'" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+            var employeeCondition = string.Empty;
+            employeeCondition = em.IsActive ? "Active" : "Deleted";
+            <tr onclick="location.href = '@Url.Action("Details", "Employee", new { id = @em.Id })'" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
                 <th scope="row">@rowNumber</th>
                 <td>@em.FirstName</td>
                 <td>@em.LastName</td>
                 <td>@em.JobTitle</td>
                 <td>@em.Email</td>
                 <td>@em.PhoneNumber</td>
+                <td>@employeeCondition</td>
             </tr>
         }
         </tbody>

@@ -29,6 +29,9 @@
         [Required]
         [EmailAddress]
         public string Email { get; set; } = null!;
+
+        public bool IsActive { get; set; }
+
     }
 }
 

@@ -1,5 +1,6 @@
-﻿@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Client.AllClientViewModel>
-
+﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Client.AllClientViewModel>
+@inject IClientService ClientService
 @{
     ViewData["Title"] = "All clients";
     var clients = Model.ToList();
@@ -23,6 +24,7 @@ else
             <th scope="col">Phone number</th>
             <th scope="col">Email</th>
             <th scope="col">Address</th>
+            <th scope="col">Is deleted</th>
         </tr>
         </thead>
         <tbody>
@@ -30,13 +32,16 @@ else
         @foreach (var cl in clients)
         {
             rowNumber++;
-                <tr onclick="location.href = '@Url.Action("Details", "Client",new { id = @cl.Id.ToString() })'  " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+            var clientCondition = string.Empty;
+                clientCondition = cl.IsActive ? "Active" : "Deleted";
+            <tr onclick="location.href = '@Url.Action("Details", "Client", new { id = @cl.Id.ToString() })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
                 <th scope="row">@rowNumber</th>
                 <td>@cl.FirstName</td>
                 <td>@cl.LastName</td>
                 <td>@cl.PhoneNumber</td>
                 <td>@cl.Email</td>
                 <td>@cl.Address</td>
+                <td>@clientCondition</td>
             </tr>
         }
         </tbody>
