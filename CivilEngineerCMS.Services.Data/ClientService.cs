@@ -85,34 +85,7 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return allClients;
         }
-        //public async Task<IEnumerable<AllClientViewModel>> AllInactiveClientsForViewAsync()
-        //{
-        //    IEnumerable<AllClientViewModel> allClients = await dbContext
-        //        .Clients
-        //        .Include(c => c.User)
-        //        .Where(c => !c.IsActive || c.User.LockoutEnd != null)
-        //        .OrderBy(c => c.FirstName)
-        //        .ThenBy(c => c.LastName)
-        //        .Select(c => new AllClientViewModel()
-        //        {
-        //            Id = c.Id,
-        //            FirstName = c.FirstName,
-        //            LastName = c.LastName,
-        //            PhoneNumber = c.PhoneNumber,
-        //            Email = c.User.Email,
-        //            Address = c.Address
-        //        })
-        //        .ToListAsync();
-        //    return allClients;
-        //}
-        //public async Task<bool> ClientExistsByUserIdAsync(string id)
-        //{
-        //    bool clientExists = await this.dbContext
-        //        .Clients
-        //        .Where(x => x.IsActive)
-        //        .AnyAsync(x => x.Id.ToString() == id);
-        //    return clientExists;
-        //}
+
 
         public async Task CreateClientAsync(CreateClientFormModel formModel)
         {
