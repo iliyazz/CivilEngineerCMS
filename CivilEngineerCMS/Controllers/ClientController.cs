@@ -41,19 +41,6 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> All()
-        {
-            bool isAdministrator = this.User.IsAdministrator();
-            if (!isAdministrator)
-            {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
-                return this.RedirectToAction("Index", "Home");
-            }
-
-            IEnumerable<AllClientViewModel> viewModel = await this.clientService.AllClientsForViewAsync();
-            return View(viewModel);
-        }
-
 
         [HttpGet]
         public async Task<IActionResult> Create()

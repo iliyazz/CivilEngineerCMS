@@ -28,24 +28,6 @@
             this.employeeService = employeeService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> All([FromQuery] ProjectAllQueryModel queryModel)
-        {
-            bool isAdministrator = this.User.IsAdministrator();
-            if (!isAdministrator)
-            {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
-                return this.RedirectToAction("Index", "Home");
-            }
-
-            ProjectAllFilteredAndPagedServiceModel serviceModel =
-                await this.projectService.ProjectAllFilteredAndPagedAsync(queryModel);
-            queryModel.Projects = serviceModel.Projects;
-            queryModel.TotalProjects = serviceModel.TotalProjectsCount;
-            queryModel.Statuses = Enum.GetNames(typeof(ProjectStatusEnums)).ToList();
-
-            return this.View(queryModel);
-        }
 
         [HttpGet]
         public async Task<IActionResult> Add()

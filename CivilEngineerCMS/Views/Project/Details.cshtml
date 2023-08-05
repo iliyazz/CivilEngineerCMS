@@ -59,7 +59,7 @@
                             <a class="ml-2 btn btn-info" asp-area="" asp-controller="Interaction" asp-action="All" asp-route-id="@Model.Id.ToString()">Interactions</a>
                             @if (isAdministrator)
                             {
-                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Project" asp-action="All" asp-route-id="@Model.Id.ToString()">Cancel</a>
+                                <a class="ml-2 btn btn-info" asp-area="Admin" asp-controller="Project" asp-action="All" asp-route-id="@Model.Id.ToString()">Cancel</a>
                             }
                             else if (isManagerInProject)
                             {

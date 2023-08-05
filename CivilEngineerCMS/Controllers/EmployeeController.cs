@@ -9,6 +9,7 @@
     using ViewModels.Employee;
 
     using static Common.NotificationMessagesConstants;
+    using static Common.GeneralApplicationConstants;
 
     public class EmployeeController : BaseController
     {
@@ -19,20 +20,6 @@
             this.employeeService = employeeService;
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> All()
-        {
-            bool isAdministrator = this.User.IsAdministrator();
-            if (!isAdministrator)
-            {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
-                return this.RedirectToAction("Index", "Home");
-            }
-
-            IEnumerable<AllEmployeeViewModel> viewModel = await this.employeeService.AllEmployeesAsync();
-            return this.View(viewModel);
-        }
 
         [HttpGet]
         public async Task<IActionResult> Mine()
@@ -118,6 +105,10 @@
         [HttpGet]
         public async Task<IActionResult> Details()
         {
+            //if (this.User.IsInRole(AdministratorRoleName))
+            //{
+            //    return this.RedirectToAction("Details", "Employee");
+            //}
             var employeeId = (string?)Url.ActionContext.RouteData.Values["id"];
             if (employeeId == null)
             {
