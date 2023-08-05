@@ -43,3 +43,5 @@ Customers can only access the projects they are joined to.
 Employees can only access and work on the projects they are attached to.
 Managers only have access to and can work with the projects they are managers of.
 Administrators have access to and can work with all projects, employees and customers.
+
+In the main folder there is a script for seeding the database: CivilEngineerCMS-seed data in database.sql
