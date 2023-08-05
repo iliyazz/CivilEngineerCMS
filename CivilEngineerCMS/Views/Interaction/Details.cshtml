@@ -31,12 +31,12 @@
                         <div class="form-check-inline">
                             @if (isManagerOfProject || isAdministrator)
                             {
-                                <a class="btn btn-warning" asp-controller="Interaction" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
-                                <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                                <a class="btn btn-warning" asp-area="" asp-controller="Interaction" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
+                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Employee" asp-action="Mine">Cancel</a>
                             }
                             @if (isEmployeeInProject)
                             {
-                                <a class="ml-2 btn btn-info" asp-controller="Client" asp-action="Mine">Cancel</a>
+                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Client" asp-action="Mine">Cancel</a>
 
                             }
                         </div>

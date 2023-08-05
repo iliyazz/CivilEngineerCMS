@@ -39,23 +39,23 @@
                         <div class="form-check-inline">
                             @if (isAdministrator || isManagerOfProject || isEmployee)
                             {
-                                <a class="btn btn-warning" asp-controller="Expense" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
+                                <a class="btn btn-warning" asp-area="" asp-controller="Expense" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
                                 if (isAdministrator)
                                 {
-                                    <a class="ml-2 btn btn-info" asp-controller="Project" asp-action="All">Cancel</a>
+                                    <a class="ml-2 btn btn-info" asp-area="" asp-controller="Project" asp-action="All">Cancel</a>
                                 }
                                 else if (isManagerOfProject)
                                 {
-                                    <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                                    <a class="ml-2 btn btn-info" asp-area="" asp-controller="Employee" asp-action="Mine">Cancel</a>
                                 }
                                 else
                                 {
-                                    <a class="ml-2 btn btn-info" asp-controller="Employee" asp-action="MineByEmployeeId">Cancel</a>
+                                    <a class="ml-2 btn btn-info" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">Cancel</a>
                                 }
                             }
                             else
                             {
-                                <a class="ml-2 btn btn-info" asp-controller="Client" asp-action="Mine">Cancel</a>
+                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Client" asp-action="Mine">Cancel</a>
                             }
                         </div>
                     </div>

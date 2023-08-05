@@ -7,4 +7,5 @@ public static class GeneralApplicationConstants
     public const int EntitiesPerPage = 3;
     public const string AdministratorRoleName = "Administrator";
     public const string DevelopmentAdminEmail = "iliyaz.softuni@gmail.com";
+    public const string AdminAreaName = "Admin";
 }

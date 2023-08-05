@@ -38,10 +38,10 @@ else
                 <td>@p.ProjectCreatedDate.ToString("dd/MM/yyyy")</td>
                 <td>@p.ProjectEndDate.ToString("dd/MM/yyyy")</td>
                 <td>
-                    <a class="ml-2 btn btn-info" asp-controller="Expense" asp-action="Details" asp-route-id="@p.ProjectId">Expense</a>
-                    <a class="ml-2 btn btn-info" asp-controller="Interaction" asp-action="All" asp-route-id="@p.ProjectId">Interactions</a>
+                        <a class="ml-2 btn btn-info" asp-area="" asp-controller="Expense" asp-action="Details" asp-route-id="@p.ProjectId">Expense</a>
+                        <a class="ml-2 btn btn-info" asp-area="" asp-controller="Interaction" asp-action="All" asp-route-id="@p.ProjectId">Interactions</a>
 
-                        <a class="ml-2 btn btn-info" asp-controller="Home" asp-action="Index" asp-route-id="@p.ProjectId">Cancel</a>
+                        <a class="ml-2 btn btn-info" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="@p.ProjectId">Cancel</a>
                     </td>
 
 

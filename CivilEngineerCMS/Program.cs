@@ -43,7 +43,11 @@ builder.Services.AddApplicationServices(typeof(IHomeService));
 
 builder.Services.AddRecaptchaService();
 
-builder.Services.ConfigureApplicationCookie(config => { config.LoginPath = "/User/Login"; });
+builder.Services.ConfigureApplicationCookie(config => 
+{
+    config.LoginPath = "/User/Login"; 
+    config.AccessDeniedPath = "/Home/Error/401";
+});
 
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
@@ -82,7 +86,21 @@ if (app.Environment.IsDevelopment())
     app.SeedAdministrator(DevelopmentAdminEmail);
 }
 
-app.MapDefaultControllerRoute();
-app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+               name: "areaRoute",
+                      pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapControllerRoute(
+               name: "default",
+                      pattern: "/{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapDefaultControllerRoute();
+
+    endpoints.MapRazorPages();
+});
+
+
 
 app.Run();

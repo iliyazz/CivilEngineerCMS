@@ -36,12 +36,12 @@ else
     <div class="text-center">
         @if (isEmployeeInProject || isManagerOfProject || isAdministrator)
         {
-            <a class="btn btn-success" asp-controller="Interaction" asp-action="Add" asp-route-id="@Model.First().ProjectId.ToString()">Add interaction</a>
-            <a class="btn btn-info" asp-controller="Project" asp-action="Details" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
+            <a class="btn btn-success" asp-area="" asp-controller="Interaction" asp-action="Add" asp-route-id="@Model.First().ProjectId.ToString()">Add interaction</a>
+            <a class="btn btn-info" asp-area="" asp-controller="Project" asp-action="Details" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
         }
         @if (isClient)
         {
-            <a class="btn btn-info" asp-controller="Client" asp-action="Mine" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
+            <a class="btn btn-info" asp-area="" asp-controller="Client" asp-action="Mine" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
         }
 
     </div>

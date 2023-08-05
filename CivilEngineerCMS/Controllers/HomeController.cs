@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Data.Interfaces;
 
 using ViewModels.Home;
+using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 
 public class HomeController : BaseController
 {
@@ -23,6 +24,10 @@ public class HomeController : BaseController
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
+        if(this.User.IsInRole(AdministratorRoleName))
+        {
+            return this.RedirectToAction("Index", "Home", new {Area = AdminAreaName});
+        }
         IEnumerable<IndexViewModel> viewModel = await this.homeService.AllIndexProjectsAsync();
 
         return View(viewModel);
