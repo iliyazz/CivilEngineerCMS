@@ -1,29 +1,28 @@
-﻿namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
-{
-    using Data.Models;
+﻿using System.Collections;
+using Microsoft.Extensions.Caching.Memory;
 
+namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
+{
     using Infrastructure.Extensions;
 
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     using Services.Data.Interfaces;
 
     using ViewModels.Client;
 
-    using static CivilEngineerCMS.Common.EntityValidationConstants;
     using static Common.NotificationMessagesConstants;
+    using static Common.GeneralApplicationConstants;
 
     public class ClientController : BaseAdminController
     {
         private readonly IClientService clientService;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMemoryCache memoryCache;
 
-        public ClientController(IClientService clientService, UserManager<ApplicationUser> userManager)
+        public ClientController(IClientService clientService, IMemoryCache memoryCache)
         {
             this.clientService = clientService;
-            this.userManager = userManager;
+            this.memoryCache = memoryCache;
         }
 
         public async Task<IActionResult> All()
@@ -35,7 +34,17 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
-            IEnumerable<AllClientViewModel> viewModel = await this.clientService.AllClientsForViewAsync();
+            IEnumerable<AllClientViewModel> viewModel = this.memoryCache.Get<IEnumerable<AllClientViewModel>>(OnLineClientsCacheKey);
+            if (viewModel == null)
+            {
+                viewModel = await this.clientService.AllClientsForViewAsync();
+                MemoryCacheEntryOptions cachesOption = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(OnLineUsersCacheExpirationInMinutes));
+
+                this.memoryCache.Set(OnLineClientsCacheKey, viewModel, cachesOption);
+            }
+
+            //IEnumerable<AllClientViewModel> viewModel = await this.clientService.AllClientsForViewAsync();
             return View(viewModel);
         }
 

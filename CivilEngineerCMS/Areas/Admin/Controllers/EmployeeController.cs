@@ -1,4 +1,6 @@
-﻿namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
+﻿using Microsoft.Extensions.Caching.Memory;
+
+namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
 {
     using Infrastructure.Extensions;
 
@@ -8,16 +10,18 @@
 
     using ViewModels.Employee;
 
-    using static Common.NotificationMessagesConstants;
     using static Common.GeneralApplicationConstants;
+    using static Common.NotificationMessagesConstants;
 
     public class EmployeeController : BaseAdminController
     {
         private readonly IEmployeeService employeeService;
+        private readonly IMemoryCache memoryCache;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, IMemoryCache memoryCache)
         {
             this.employeeService = employeeService;
+            this.memoryCache = memoryCache;
         }
 
 
@@ -32,6 +36,15 @@
             }
 
             IEnumerable<AllEmployeeViewModel> viewModel = await this.employeeService.AllEmployeesAsync();
+            if (viewModel == null)
+            {
+                viewModel = await this.employeeService.AllEmployeesAsync();
+                MemoryCacheEntryOptions cachesOption = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(OnLineUsersCacheExpirationInMinutes));
+                this.memoryCache.Set(OnLineEmployeesCacheKey, viewModel, cachesOption);
+            }
+
+            //IEnumerable<AllEmployeeViewModel> viewModel = await this.employeeService.AllEmployeesAsync();
             return this.View(viewModel);
         }
 

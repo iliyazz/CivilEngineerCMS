@@ -1,36 +1,37 @@
-﻿namespace CivilEngineerCMS.Services.Data;
-
-using CivilEngineerCMS.Data;
-
-using Interfaces;
-
-using Microsoft.EntityFrameworkCore;
-
-using Web.ViewModels.Home;
-
-public class HomeService : IHomeService
+﻿namespace CivilEngineerCMS.Services.Data
 {
-    private readonly CivilEngineerCmsDbContext dbContext;
+    using CivilEngineerCMS.Data;
 
-    public HomeService(CivilEngineerCmsDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
+    using Interfaces;
 
-    public async Task<IEnumerable<IndexViewModel>> AllIndexProjectsAsync()
+    using Microsoft.EntityFrameworkCore;
+
+    using Web.ViewModels.Home;
+
+    public class HomeService : IHomeService
     {
-        IEnumerable<IndexViewModel> allProjects = await this.dbContext
-            .Projects
-            .Where(p => !string.IsNullOrWhiteSpace(p.UrlPicturePath))
-            .OrderBy(x => Guid.NewGuid())
-            .Select(p => new IndexViewModel
-            {
-                Id = p.Id.ToString(),
-                Name = p.Name,
-                UrlPicturePath = p.UrlPicturePath,
-            })
-            .Take(5)
-            .ToListAsync();
-        return allProjects;
+        private readonly CivilEngineerCmsDbContext dbContext;
+
+        public HomeService(CivilEngineerCmsDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
+        public async Task<IEnumerable<IndexViewModel>> AllIndexProjectsAsync()
+        {
+            IEnumerable<IndexViewModel> allProjects = await this.dbContext
+                .Projects
+                .Where(p => !string.IsNullOrWhiteSpace(p.UrlPicturePath))
+                .OrderBy(x => Guid.NewGuid())
+                .Select(p => new IndexViewModel
+                {
+                    Id = p.Id.ToString(),
+                    Name = p.Name,
+                    UrlPicturePath = p.UrlPicturePath,
+                })
+                .Take(5)
+                .ToListAsync();
+            return allProjects;
+        }
     }
 }

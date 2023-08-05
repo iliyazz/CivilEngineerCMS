@@ -1,6 +1,6 @@
 ﻿@using CivilEngineerCMS.Services.Data.Interfaces;
 @using CivilEngineerCMS.Web.Infrastructure.Extensions;
-@inject IEmployeeService EmployeeService
+@inject IEmployeeService EmployeeService;
 
 @{
     ViewData["Title"] = "Home Page";
@@ -8,7 +8,7 @@
 
 }
 <div class="mt-4 p-5 bg-light text-center">
-    <h2 class="display-4">Hello, Admin!</h2>
+    <h2 class="display-4"><b>Hello, Admin!</b></h2>
     <p class="lead mb-1 mt-3">
         This is your administrator area - you can <b>read</b>, <b>create</b>,
         <b>delete</b> and <b>edit</b> clients, employees, administrators and projects.
@@ -22,35 +22,30 @@
         <a asp-area="Admin" asp-controller="Administrator" asp-action="ManageAdministrators" class="btn btn-primary btn-lg">Manage administrators</a>
     </div>
     <hr />
-<div class="mb-3">
+    <div class="mb-3">
         <a asp-area="Admin" asp-controller="Client" asp-action="All" class="btn btn-primary btn-lg me-2">All clients</a>
         <a asp-area="Admin" asp-controller="Employee" asp-action="All" class="btn btn-primary btn-lg me-2">All employees</a>
         <a asp-area="Admin" asp-controller="Project" asp-action="All" class="btn btn-primary btn-lg">All projects</a>
-</div>
+    </div>
     <hr />
     <div class="mb-3">
         <a asp-area="" asp-controller="Client" asp-action="Create" class="btn btn-primary btn-lg me-2">Create client</a>
         <a asp-area="" asp-controller="Employee" asp-action="Create" class="btn btn-primary btn-lg me-2">Create employee</a>
         <a asp-area="" asp-controller="Project" asp-action="Add" class="btn btn-primary btn-lg">Create project</a>
+    </div>
 </div>
-    <hr />
 
-<div>
-    <h2 class="display-4">Employees functions</h2>
+<hr />
+<div class="mt-4 p-2 bg-light text-center">
     @if (isEmployee)
     {
-        <a asp-area="" asp-controller="Employee" asp-action="Mine" class="btn btn-primary btn-lg me-2">My manager's projects</a>
-        <a asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId" class="btn btn-primary btn-lg">My employee's projects</a>
+    <div class="mb-1">
 
+            <h2 class="display-4"><b>Employees functions</b></h2>
 
-        @*        <li class="nav-item">
-    <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Mine">My manager's projects</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">My employee's projects</a>
-    </li>*@
+        <a asp-area="" asp-controller="Employee" asp-action="Mine" class="btn btn-info btn-lg me-2">My manager's projects</a>
+        <a asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId" class="btn btn-info btn-lg">My employee's projects</a>
+    </div>
+
     }
-
-</div>
-
 </div>

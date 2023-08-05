@@ -1,4 +1,6 @@
-﻿namespace CivilEngineerCMS.Services.Data
+﻿using Microsoft.Extensions.Caching.Memory;
+
+namespace CivilEngineerCMS.Services.Data
 {
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
@@ -19,13 +21,17 @@
         private readonly CivilEngineerCmsDbContext dbContext;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
+        private readonly IMemoryCache memoryCache;
 
-        public EmployeeService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager,
-            IUserService userService)
+        public EmployeeService(CivilEngineerCmsDbContext dbContext,
+            UserManager<ApplicationUser> userManager,
+            IUserService userService,
+            IMemoryCache memoryCache)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
             this.userService = userService;
+            this.memoryCache = memoryCache;
         }
 
         public async Task<bool> EmployeeExistsByIdAsync(string id)
@@ -48,7 +54,8 @@
                     JobTitle = e.JobTitle,
                     Email = e.User.Email,
                     PhoneNumber = e.PhoneNumber,
-                    IsActive = e.IsActive
+                    IsActive = e.IsActive,
+                    UserId = e.UserId
                 })
                 .ToListAsync();
             return allEmployeeAsync;

@@ -1,8 +1,9 @@
-﻿namespace CivilEngineerCMS.Services.Data.Interfaces;
-
-using Web.ViewModels.Home;
-
-public interface IHomeService
+﻿namespace CivilEngineerCMS.Services.Data.Interfaces
 {
-    Task<IEnumerable<IndexViewModel>> AllIndexProjectsAsync();
+    using Web.ViewModels.Home;
+
+    public interface IHomeService
+    {
+        Task<IEnumerable<IndexViewModel>> AllIndexProjectsAsync();
+    }
 }

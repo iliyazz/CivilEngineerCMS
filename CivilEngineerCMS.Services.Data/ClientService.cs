@@ -80,7 +80,7 @@ namespace CivilEngineerCMS.Services.Data
                     PhoneNumber = c.PhoneNumber,
                     Email = c.User.Email,
                     Address = c.Address,
-                    IsActive = c.IsActive
+                    UserId = c.UserId
                 })
                 .ToListAsync();
             return allClients;

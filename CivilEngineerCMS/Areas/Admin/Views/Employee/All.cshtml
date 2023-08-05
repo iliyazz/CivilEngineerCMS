@@ -1,4 +1,5 @@
 ﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@using CivilEngineerCMS.Web.Infrastructure.Middlewares
 @model IEnumerable<CivilEngineerCMS.Web.ViewModels.Employee.AllEmployeeViewModel>
 @inject IEmployeeService EmployeeService
 
@@ -16,6 +17,11 @@
 }
 else
 {
+    <div>
+        <h5 class="text-center text-success">
+            Total online users: <b>@OnLineUsersMiddleware.GetOnLineUsersCount()</b>
+        </h5>
+    </div>
     <table class="table table-hover table-bordered">
         <thead>
         <tr>
@@ -26,7 +32,7 @@ else
             <th scope="col">Email</th>
             <th scope="col">Phone number</th>
             <th scope="col">Is deleted</th>
-
+            <th scope="col">Online employees</th>
         </tr>
         </thead>
         <tbody>
@@ -35,8 +41,8 @@ else
         {
             rowNumber++;
             var employeeCondition = string.Empty;
-            employeeCondition = em.IsActive ? "Active" : "Deleted";
-            <tr onclick="location.href = '@Url.Action("Details", "Employee", new { id = @em.Id , Area = ""})'" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+            employeeCondition = em.IsActive ? "Yes" : "No";
+            <tr onclick="location.href = '@Url.Action("Details", "Employee", new { id = @em.Id, Area = "" })'" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
                 <th scope="row">@rowNumber</th>
                 <td>@em.FirstName</td>
                 <td>@em.LastName</td>
@@ -44,6 +50,17 @@ else
                 <td>@em.Email</td>
                 <td>@em.PhoneNumber</td>
                 <td>@employeeCondition</td>
+                <td>
+                    @if (OnLineUsersMiddleware.CheckIfUserIsOnline(em.UserId.ToString()))
+                    {
+                        <span class="text-success">Online</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Offline</span>
+                    }
+
+                </td>
             </tr>
         }
         </tbody>

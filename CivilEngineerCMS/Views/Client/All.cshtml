@@ -1,4 +1,5 @@
 ﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@using CivilEngineerCMS.Web.Infrastructure.Middlewares
 @model IEnumerable<CivilEngineerCMS.Web.ViewModels.Client.AllClientViewModel>
 @inject IClientService ClientService
 @{
@@ -25,6 +26,7 @@ else
             <th scope="col">Email</th>
             <th scope="col">Address</th>
             <th scope="col">Is deleted</th>
+
         </tr>
         </thead>
         <tbody>
@@ -33,8 +35,8 @@ else
         {
             rowNumber++;
             var clientCondition = string.Empty;
-                clientCondition = cl.IsActive ? "Active" : "Deleted";
-                <tr onclick="location.href = '@Url.Action("Details", "Client", new { id = @cl.Id.ToString(), Area = "" })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+            clientCondition = cl.IsActive ? "Active" : "Deleted";
+            <tr onclick="location.href = '@Url.Action("Details", "Client", new { id = @cl.Id.ToString(), Area = "" })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
                 <th scope="row">@rowNumber</th>
                 <td>@cl.FirstName</td>
                 <td>@cl.LastName</td>

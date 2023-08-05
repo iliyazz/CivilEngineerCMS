@@ -1,4 +1,6 @@
-﻿namespace CivilEngineerCMS.Web.Controllers
+﻿using Microsoft.Extensions.Caching.Memory;
+
+namespace CivilEngineerCMS.Web.Controllers
 {
     using Data.Models;
 
@@ -12,16 +14,21 @@
     using ViewModels.User;
 
     using static Common.NotificationMessagesConstants;
+    using static Common.GeneralApplicationConstants;
 
     public class UserController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IMemoryCache memoryCache;
 
-        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IMemoryCache memoryCache)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.memoryCache = memoryCache;
         }
 
 
@@ -61,6 +68,7 @@
             }
 
             await this.signInManager.SignInAsync(user, false);
+            this.memoryCache.Remove(OnLineClientsCacheKey);
             return this.RedirectToAction("Index", "Home");
         }
 
@@ -90,6 +98,7 @@
             if (!result.Succeeded)
             {
                 this.TempData[ErrorMessage] = "There was an error while logging. Please contact again later or contact an administrator.";
+                this.memoryCache.Remove(OnLineClientsCacheKey);
                 return this.View(formModel);
 
             }

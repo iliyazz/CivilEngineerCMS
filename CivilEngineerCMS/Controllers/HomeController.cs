@@ -1,58 +1,59 @@
-﻿namespace CivilEngineerCMS.Web.Controllers;
-
-using Data.Models;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-using Services.Data.Interfaces;
-
-using ViewModels.Home;
-using static CivilEngineerCMS.Common.GeneralApplicationConstants;
-
-public class HomeController : BaseController
+﻿namespace CivilEngineerCMS.Web.Controllers
 {
-    private readonly IHomeService homeService;
+    using Data.Models;
 
-    public HomeController(IHomeService homeService, UserManager<ApplicationUser> userManager)
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
+    using Services.Data.Interfaces;
+
+    using ViewModels.Home;
+    using static CivilEngineerCMS.Common.GeneralApplicationConstants;
+
+    public class HomeController : BaseController
     {
-        this.homeService = homeService;
-    }
+        private readonly IHomeService homeService;
 
-
-    [AllowAnonymous]
-    public async Task<IActionResult> Index()
-    {
-        if(this.User.IsInRole(AdministratorRoleName))
+        public HomeController(IHomeService homeService, UserManager<ApplicationUser> userManager)
         {
-            return this.RedirectToAction("Index", "Home", new {Area = AdminAreaName});
-        }
-        IEnumerable<IndexViewModel> viewModel = await this.homeService.AllIndexProjectsAsync();
-
-        return View(viewModel);
-    }
-
-    [AllowAnonymous]
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [AllowAnonymous]
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error(int statusCode)
-    {
-        if (statusCode == 400 || statusCode == 404)
-        {
-            return this.View("Error404");
+            this.homeService = homeService;
         }
 
-        if (statusCode == 401)
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Index()
         {
-            return this.View("Error401");
+            if(this.User.IsInRole(AdministratorRoleName))
+            {
+                return this.RedirectToAction("Index", "Home", new {Area = AdminAreaName});
+            }
+            IEnumerable<IndexViewModel> viewModel = await this.homeService.AllIndexProjectsAsync();
+
+            return View(viewModel);
         }
 
-        return this.View();
+        [AllowAnonymous]
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error(int statusCode)
+        {
+            if (statusCode == 400 || statusCode == 404)
+            {
+                return this.View("Error404");
+            }
+
+            if (statusCode == 401)
+            {
+                return this.View("Error401");
+            }
+
+            return this.View();
+        }
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace CivilEngineerCMS.Tests.Mocks;
-
-using Data;
-
-public static class DatabaseMock
+﻿namespace CivilEngineerCMS.Tests.Mocks
 {
+    using Data;
+
+    public static class DatabaseMock
+    {
 
         public static CivilEngineerCmsDbContext MockDatabase()
         {
@@ -14,4 +14,5 @@ public static class DatabaseMock
 
             return new CivilEngineerCmsDbContext(optionsBuilder.Options);
         }
+    }
 }

@@ -43,6 +43,8 @@ builder.Services.AddApplicationServices(typeof(IHomeService));
 
 builder.Services.AddRecaptchaService();
 
+builder.Services.AddMemoryCache();
+
 builder.Services.ConfigureApplicationCookie(config => 
 {
     config.LoginPath = "/User/Login"; 
@@ -80,6 +82,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.EnableOnlineUsersCheck();
 
 if (app.Environment.IsDevelopment())
 {
