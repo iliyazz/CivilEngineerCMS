@@ -68,7 +68,7 @@ namespace CivilEngineerCMS.Services.Data
                     LastName = c.LastName,
                     PhoneNumber = c.PhoneNumber,
                     Email = c.User.Email,
-                    Address = c.Address
+                    Address = c.Address,
                 })
                 .ToListAsync();
             return allClients;
@@ -91,7 +91,8 @@ namespace CivilEngineerCMS.Services.Data
                     PhoneNumber = c.PhoneNumber,
                     Email = c.User.Email,
                     Address = c.Address,
-                    UserId = c.UserId
+                    UserId = c.UserId,
+                    IsActive = c.IsActive
                 })
                 .ToListAsync();
             return allClients;

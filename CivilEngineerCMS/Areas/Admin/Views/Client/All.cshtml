@@ -35,32 +35,62 @@ else
         </tr>
         </thead>
         <tbody>
-        @{ int rowNumber = 0; }
+        @{
+            int rowNumber = 0;
+            var clientCondition = string.Empty;
+        }
         @foreach (var cl in clients)
         {
             rowNumber++;
-            var clientCondition = string.Empty;
+@*                var clientCondition = string.Empty;
+*@
             clientCondition = cl.IsActive ? "Yes" : "No";
-            <tr onclick="location.href = '@Url.Action("Details", "Client", new { id = @cl.Id.ToString(), Area = "" })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
-                <th scope="row">@rowNumber</th>
-                <td>@cl.FirstName</td>
-                <td>@cl.LastName</td>
-                <td>@cl.PhoneNumber</td>
-                <td>@cl.Email</td>
-                <td>@cl.Address</td>
-                <td>@clientCondition</td>
-                <td>
-                    @if (OnLineUsersMiddleware.CheckIfUserIsOnline(cl.UserId.ToString()))
-                    {
-                        <span class="text-success">Online</span>
-                    }
-                    else
-                    {
-                        <span class="text-danger">Offline</span>
-                    }
+            @if (cl.IsActive)
+            {
+                <tr onclick="location.href = '@Url.Action("Details", "Client", new { id = @cl.Id.ToString(), Area = "" })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+                    <th scope="row">@rowNumber</th>
+                    <td>@cl.FirstName</td>
+                    <td>@cl.LastName</td>
+                    <td>@cl.PhoneNumber</td>
+                    <td>@cl.Email</td>
+                    <td>@cl.Address</td>
+                        <td class="text-success">@clientCondition</td>
+                    <td>
+                        @if (OnLineUsersMiddleware.CheckIfUserIsOnline(cl.UserId.ToString()))
+                        {
+                            <span class="text-success">Online</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Offline</span>
+                        }
 
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th scope="row">@rowNumber</th>
+                    <td>@cl.FirstName</td>
+                    <td>@cl.LastName</td>
+                    <td>@cl.PhoneNumber</td>
+                    <td>@cl.Email</td>
+                    <td>@cl.Address</td>
+                        <td class="text-danger">@clientCondition</td>
+                    <td>
+                        @if (OnLineUsersMiddleware.CheckIfUserIsOnline(cl.UserId.ToString()))
+                        {
+                            <span class="text-success">Online</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Offline</span>
+                        }
+
+                    </td>
+                </tr>
+            }
         }
         </tbody>
     </table>

@@ -42,26 +42,52 @@ else
             rowNumber++;
             var employeeCondition = string.Empty;
             employeeCondition = em.IsActive ? "Yes" : "No";
-            <tr onclick="location.href = '@Url.Action("Details", "Employee", new { id = @em.Id, Area = "" })'" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
-                <th scope="row">@rowNumber</th>
-                <td>@em.FirstName</td>
-                <td>@em.LastName</td>
-                <td>@em.JobTitle</td>
-                <td>@em.Email</td>
-                <td>@em.PhoneNumber</td>
-                <td>@employeeCondition</td>
-                <td>
-                    @if (OnLineUsersMiddleware.CheckIfUserIsOnline(em.UserId.ToString()))
-                    {
-                        <span class="text-success">Online</span>
-                    }
-                    else
-                    {
-                        <span class="text-danger">Offline</span>
-                    }
+            if (em.IsActive)
+            {
+                <tr onclick="location.href = '@Url.Action("Details", "Employee", new { id = @em.Id, Area = "" })'" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+                    <th scope="row">@rowNumber</th>
+                    <td>@em.FirstName</td>
+                    <td>@em.LastName</td>
+                    <td>@em.JobTitle</td>
+                    <td>@em.Email</td>
+                    <td>@em.PhoneNumber</td>
+                    <td class="text-success">@employeeCondition</td>
+                    <td>
+                        @if (OnLineUsersMiddleware.CheckIfUserIsOnline(em.UserId.ToString()))
+                        {
+                            <span class="text-success">Online</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Offline</span>
+                        }
 
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th scope="row">@rowNumber</th>
+                    <td>@em.FirstName</td>
+                    <td>@em.LastName</td>
+                    <td>@em.JobTitle</td>
+                    <td>@em.Email</td>
+                    <td>@em.PhoneNumber</td>
+                    <td class="text-danger">@employeeCondition</td>
+                    <td>
+                        @if (OnLineUsersMiddleware.CheckIfUserIsOnline(em.UserId.ToString()))
+                        {
+                            <span class="text-success">Online</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Offline</span>
+                        }
+
+                    </td>
+                </tr>
+            }
         }
         </tbody>
     </table>
