@@ -48,7 +48,7 @@
             clientService = new ClientService(dbContext, userManager.Object, userService);
             employeeService = new EmployeeService(dbContext, userManager.Object, userService);
             projectService = new ProjectService(dbContext);
-            administratorService = new AdministratorService(dbContext, userManager.Object, roleManager.Object);
+            administratorService = new AdministratorService(dbContext, userManager.Object);
             homeService = new HomeService(dbContext);
         }
 
@@ -84,7 +84,7 @@
 
             await data.SaveChangesAsync();
 
-            administratorService = new AdministratorService(data, userManager, roleManager.Object);
+            administratorService = new AdministratorService(data, userManager);
 
             var res2 = await administratorService.AllEmployeesForAdministratorAsync();
 
@@ -123,7 +123,7 @@
 
             await data.SaveChangesAsync();
 
-            administratorService = new AdministratorService(data, userManager, roleManager.Object);
+            administratorService = new AdministratorService(data, userManager);
 
             var res2 = await administratorService.AllEmployeesForAdministratorAsync();
 

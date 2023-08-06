@@ -25,6 +25,8 @@
         private ProjectService projectService;
         private ExpenseService expenseService;
         private Mock<UserManager<ApplicationUser>> userManager;
+
+
         public ApplicationUser applicationUser { get; set; }
 
         [SetUp]
@@ -45,6 +47,7 @@
             employeeService = new EmployeeService(dbContext, userManager.Object, userService);
             projectService = new ProjectService(dbContext);
             expenseService = new ExpenseService(dbContext);
+
         }
 
         [Test]
@@ -548,7 +551,7 @@
             Assert.That(result.Amount, Is.EqualTo(modelExpenseEdited.Amount));
             Assert.That(result.TotalAmount, Is.EqualTo(modelExpenseEdited.TotalAmount));
         }
-        
+
         [TearDown]
         public void TearDown()
         {

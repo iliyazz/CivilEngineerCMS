@@ -21,17 +21,17 @@ namespace CivilEngineerCMS.Services.Data
         private readonly CivilEngineerCmsDbContext dbContext;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
-        private readonly IMemoryCache memoryCache;
+        //private readonly IMemoryCache memoryCache;
 
         public EmployeeService(CivilEngineerCmsDbContext dbContext,
             UserManager<ApplicationUser> userManager,
-            IUserService userService,
-            IMemoryCache memoryCache)
+            IUserService userService/*,
+            IMemoryCache memoryCache*/)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
             this.userService = userService;
-            this.memoryCache = memoryCache;
+            //this.memoryCache = memoryCache;
         }
         /// <summary>
         /// This method check if employee exists by id
