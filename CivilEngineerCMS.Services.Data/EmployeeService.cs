@@ -33,13 +33,20 @@ namespace CivilEngineerCMS.Services.Data
             this.userService = userService;
             this.memoryCache = memoryCache;
         }
-
+        /// <summary>
+        /// This method check if employee exists by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<bool> EmployeeExistsByIdAsync(string id)
         {
             bool result = await this.dbContext.Employees.AnyAsync(e => e.Id.ToString() == id && e.IsActive);
             return result;
         }
-
+        /// <summary>
+        /// This method return all employees for administrator area
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<AllEmployeeViewModel>> AllEmployeesAsync()
         {
             IEnumerable<AllEmployeeViewModel> allEmployeeAsync = await this.dbContext
@@ -60,7 +67,11 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return allEmployeeAsync;
         }
-
+        /// <summary>
+        /// This method return all projects depending on manager id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<MineManagerProjectViewModel>> AllProjectsByManagerIdAsync(string id)
         {
             IEnumerable<MineManagerProjectViewModel> allProjectsByManagerIdAsync = await this.dbContext
@@ -79,7 +90,10 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return allProjectsByManagerIdAsync;
         }
-
+        /// <summary>
+        /// This method return all employees and managers for project
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<SelectEmployeesAndManagerForProjectFormModel>> AllEmployeesAndManagersAsync()
         {
             IEnumerable<SelectEmployeesAndManagerForProjectFormModel> managers = await this.dbContext
@@ -95,7 +109,11 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return managers;
         }
-
+        /// <summary>
+        /// This method return manager id by user id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<string> GetManagerIdByUserIdAsync(string userId)
         {
             Employee? manager = await this.dbContext
@@ -109,7 +127,11 @@ namespace CivilEngineerCMS.Services.Data
 
             return manager.Id.ToString();
         }
-
+        /// <summary>
+        /// This method create employee
+        /// </summary>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         public async Task CreateEmployeeAsync(CreateEmployeeFormModel formModel)
         {
             Employee employee = new Employee
@@ -127,7 +149,11 @@ namespace CivilEngineerCMS.Services.Data
             await this.userService.AddClaimToUserAsync(employee.UserId.ToString(), "FullName",
                 $"{employee.FirstName} {employee.LastName}");
         }
-
+        /// <summary>
+        /// This method return details for employee
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task<DetailsEmployeeViewModel> DetailsEmployeeAsync(string employeeId)
         {
             DetailsEmployeeViewModel employee = await this.dbContext
@@ -158,7 +184,11 @@ namespace CivilEngineerCMS.Services.Data
             };
             return result;
         }
-
+        /// <summary>
+        /// This method return employee for edit
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task<EditEmployeeFormModel> GetEmployeeForEditByIdAsync(string employeeId)
         {
             Employee employee = await this.dbContext
@@ -178,7 +208,12 @@ namespace CivilEngineerCMS.Services.Data
             };
             return result;
         }
-
+        /// <summary>
+        /// This method edit employee
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         public async Task EditEmployeeByIdAsync(string employeeId, EditEmployeeFormModel formModel)
         {
             Employee employee = await this.dbContext
@@ -195,7 +230,11 @@ namespace CivilEngineerCMS.Services.Data
 
             await this.dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// This method return employee for delete
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task<EmployeePreDeleteViewModel> GetEmployeeForPreDeleteByIdAsync(string employeeId)
         {
             Employee employee = await this.dbContext
@@ -213,7 +252,11 @@ namespace CivilEngineerCMS.Services.Data
                 Email = employee.User.Email
             };
         }
-
+        /// <summary>
+        /// This method delete employee
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task DeleteEmployeeByIdAsync(string employeeId)
         {
             Employee employeeToDelete = await this.dbContext
@@ -235,7 +278,11 @@ namespace CivilEngineerCMS.Services.Data
 
             await this.dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// This method return all employees working on project with id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<AllEmployeeViewModel>> AllEmployeesByProjectIdAsync(string projectId)
         {
             IEnumerable<AllEmployeeViewModel> allEmployeesByProjectIdAsync = await this.dbContext
@@ -254,7 +301,12 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return allEmployeesByProjectIdAsync;
         }
-
+        /// <summary>
+        /// This method check if employee is working on project
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task<bool> IsEmployeeInProjectAsync(string projectId, string employeeId)
         {
             bool isEmployeeInProject = await this.dbContext
@@ -262,7 +314,11 @@ namespace CivilEngineerCMS.Services.Data
                 .AnyAsync(x => x.ProjectId.ToString() == projectId && x.EmployeeId.ToString() == employeeId);
             return isEmployeeInProject;
         }
-
+        /// <summary>
+        /// This method check if user is employee depending on userId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<bool> IsEmployeeAsync(string userId)
         {
             return await this.dbContext
@@ -271,7 +327,11 @@ namespace CivilEngineerCMS.Services.Data
                 .AnyAsync(e => e.UserId.ToString() == userId);
 
         }
-
+        /// <summary>
+        /// This method return employeeId depending on userId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public async Task<string> GetEmployeeIdByUserIdAsync(string userId)
         {
             return await this.dbContext
@@ -280,7 +340,11 @@ namespace CivilEngineerCMS.Services.Data
                 .Select(e => e.Id.ToString())
                 .FirstAsync();
         }
-
+        /// <summary>
+        /// This method return all projects for employee with id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<MineManagerProjectViewModel>> AllProjectsByEmployeeIdAsync(string id)
         {
             IEnumerable<MineManagerProjectViewModel> allProjectsByManagerIdAsync = await this.dbContext

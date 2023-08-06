@@ -1,13 +1,10 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
-    using Common;
-
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
 
     using Services.Data.Interfaces;
-    using Services.Data.Models.Project;
 
     using ViewModels.Employee;
     using ViewModels.Project;
@@ -27,8 +24,10 @@
             this.clientService = clientService;
             this.employeeService = employeeService;
         }
-
-
+        /// <summary>
+        /// This method return view for create project
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -47,7 +46,11 @@
 
             return this.View(formModel);
         }
-
+        /// <summary>
+        /// This method create project
+        /// </summary>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add(AddAndEditProjectFormModel formModel)
         {
@@ -106,7 +109,11 @@
                 return this.View(formModel);
             }
         }
-
+        /// <summary>
+        /// This method return view for all employees in project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> AllEmployeesInProject(string id)
         {
@@ -144,7 +151,11 @@
                 return this.RedirectToAction("Mine", "Employee");
             }
         }
-
+        /// <summary>
+        /// This method return view for edit project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -191,7 +202,12 @@
                 return this.RedirectToAction("Mine", "Employee");
             }
         }
-
+        /// <summary>
+        /// This method edit project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string id, AddAndEditProjectFormModel formModel)
         {
@@ -250,7 +266,10 @@
 
             return this.RedirectToAction("Mine", "Employee");
         }
-
+        /// <summary>
+        /// This method return view for project details
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Details()
         {
@@ -272,7 +291,11 @@
             DetailsProjectViewModel viewModel = await this.projectService.DetailsByIdProjectAsync(projectId);
             return this.View(viewModel);
         }
-
+        /// <summary>
+        /// This method return view for delete project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
@@ -313,7 +336,12 @@
                 return GeneralError();
             }
         }
-
+        /// <summary>
+        /// This method delete project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Delete(string id, ProjectPreDeleteViewModel formModel)
         {
@@ -358,7 +386,10 @@
                 return this.RedirectToAction("All", "Project");
             }
         }
-
+        /// <summary>
+        /// This method return general error
+        /// </summary>
+        /// <returns></returns>
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
@@ -366,7 +397,11 @@
 
             return this.RedirectToAction("Index", "Home");
         }
-
+        /// <summary>
+        /// This method return view for manage employees in project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> ManageEmployeesInProject(string id)
         {
@@ -408,7 +443,12 @@
                 return this.RedirectToAction("Mine", "Employee", new { id });
             }
         }
-
+        /// <summary>
+        /// This method manage employees in project
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="selectedEmployee"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ManageEmployeesInProject(string id, IEnumerable<string> selectedEmployee)
         {

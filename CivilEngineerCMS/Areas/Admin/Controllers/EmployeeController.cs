@@ -23,8 +23,10 @@ namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
             this.employeeService = employeeService;
             this.memoryCache = memoryCache;
         }
-
-
+        /// <summary>
+        /// This method return view for all employees
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> All()
         {

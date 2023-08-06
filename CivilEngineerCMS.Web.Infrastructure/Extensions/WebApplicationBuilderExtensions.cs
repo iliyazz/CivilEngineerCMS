@@ -48,7 +48,12 @@
 
             services.AddScoped<IHomeService, HomeService>();
         }
-
+        /// <summary>
+        /// This method is used to create the administrator role and assign it to the user with the provided email.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public static IApplicationBuilder SeedAdministrator(this IApplicationBuilder app, string email)
         {
             using IServiceScope scopedServices = app.ApplicationServices.CreateScope();
@@ -73,7 +78,11 @@
                 .GetResult();
             return app;
         }
-
+        /// <summary>
+        /// This method is used to check if the user is online.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder EnableOnlineUsersCheck(this IApplicationBuilder app)
         {
             return app.UseMiddleware<OnLineUsersMiddleware>();

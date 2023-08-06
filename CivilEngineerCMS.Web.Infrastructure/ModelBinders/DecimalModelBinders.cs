@@ -2,7 +2,9 @@
 {
     using System.Globalization;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
-
+    /// <summary>
+    /// DecimalModelBinders is used to bind decimal values from different cultures.
+    /// </summary>
     public class DecimalModelBinders : IModelBinder
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)

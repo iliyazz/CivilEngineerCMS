@@ -34,7 +34,11 @@
             bool statusExist = Enum.IsDefined(typeof(ProjectStatusEnums), id);
             return statusExist;
         }
-
+        /// <summary>
+        /// This method create project
+        /// </summary>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         public async Task CreateProjectAsync(AddAndEditProjectFormModel formModel)
         {
             Project project = new Project
@@ -50,7 +54,12 @@
             await this.dbContext.Projects.AddAsync(project);
             await this.dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// This method check if employee is manager of project
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="managerId"></param>
+        /// <returns></returns>
         public async Task<bool> IsManagerOfProjectAsync(string projectId, string managerId)
         {
             Project project = await this.dbContext
@@ -61,7 +70,11 @@
                 StringComparison.CurrentCultureIgnoreCase);
             return isManagerOfProject;
         }
-
+        /// <summary>
+        /// This method return project for edit by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<AddAndEditProjectFormModel> GetProjectForEditByIdAsync(string id)
         {
             Project project = await this.dbContext
@@ -97,7 +110,12 @@
             };
             return result;
         }
-
+        /// <summary>
+        /// This method edit project by id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         public async Task EditProjectByIdAsync(string projectId, AddAndEditProjectFormModel formModel)
         {
             Project project = await this.dbContext
@@ -117,7 +135,11 @@
                 DateTime.ParseExact(formModel.ProjectEndDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             await this.dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// This method return details project by id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<DetailsProjectViewModel> DetailsByIdProjectAsync(string projectId)
         {
             DetailsProjectViewModel project = await this.dbContext
@@ -169,7 +191,11 @@
             };
             return result;
         }
-
+        /// <summary>
+        /// This method check if project exists by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<bool> ProjectExistsByIdAsync(string id)
         {
             bool result = await this.dbContext
@@ -178,7 +204,11 @@
                 .AnyAsync(x => x.Id.ToString() == id);
             return result;
         }
-
+        /// <summary>
+        /// This method return project for delete by id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<ProjectPreDeleteViewModel> GetProjectForPreDeleteByIdAsync(string projectId)
         {
             ProjectPreDeleteViewModel projectToDelete = await this.dbContext
@@ -199,7 +229,11 @@
                 .FirstAsync();
             return projectToDelete;
         }
-
+        /// <summary>
+        /// This method delete project by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task DeleteProjectByIdAsync(string id)
         {
             Project projectToDelete = await this.dbContext
@@ -209,7 +243,11 @@
             projectToDelete.IsActive = false;
             await this.dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// This method return all projects in IQueryable for sorting and filtering
+        /// </summary>
+        /// <param name="queryModel"></param>
+        /// <returns></returns>
         public async Task<ProjectAllFilteredAndPagedServiceModel> ProjectAllFilteredAndPagedAsync(
             ProjectAllQueryModel queryModel)
         {
@@ -289,7 +327,10 @@
             };
             return result;
         }
-
+        /// <summary>
+        /// This method return statistics for projects and clients
+        /// </summary>
+        /// <returns></returns>
         public async Task<StatisticsServiceModel> GetStatisticsAsync()
         {
             var result =  new StatisticsServiceModel()
@@ -307,7 +348,11 @@
             };
             return result;
         }
-
+        /// <summary>
+        /// This method return all employees for project
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<SelectEmployeesForProjectFormModel>> AllEmployeesForProjectAsync(string projectId)
         {
             IEnumerable<SelectEmployeesForProjectFormModel> allEmployees = await this.dbContext
@@ -329,7 +374,12 @@
 
             return allEmployees;
         }
-
+        /// <summary>
+        /// This method save all employees for project
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="idList"></param>
+        /// <returns></returns>
         public async Task SaveAllEmployeesForProjectAsync(string projectId, IEnumerable<string> idList)
         {
             Project project = await this.dbContext
@@ -352,7 +402,11 @@
 
             await this.dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// This method return project by project id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<Project> GetProjectByIdAsync(string projectId)
         {
             Project project = await this.dbContext
@@ -361,7 +415,11 @@
                 .FirstAsync();
             return project;
         }
-
+        /// <summary>
+        /// This method return manager id by project id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<string> GetManagerIdByProjectIdAsync(string projectId)
         {
             return await this.dbContext
@@ -370,7 +428,12 @@
                 .Select(p => p.ManagerId.ToString())
                 .FirstAsync();
         }
-
+        /// <summary>
+        /// This method check if employee is employee of project
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task<bool> IsEmployeeOfProjectAsync(string projectId, string employeeId)
         {
             var isEmployeeOfProject = await this.dbContext

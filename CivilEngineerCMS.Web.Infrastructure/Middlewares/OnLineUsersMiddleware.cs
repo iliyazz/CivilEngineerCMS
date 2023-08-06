@@ -25,7 +25,12 @@
             this.cookieName = cookieName;
             this.lastActivityMinutes = lastActivityMinutes;
         }
-
+        /// <summary>
+        /// Adds the user to the cache if he is authenticated.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="memoryCache"></param>
+        /// <returns></returns>
         public Task InvokeAsync(HttpContext context, IMemoryCache memoryCache)
         {
             if (context.User.Identity?.IsAuthenticated ?? false)
@@ -70,14 +75,24 @@
 
             return this.next(context);
         }
-
+        /// <summary>
+        /// Checks if the user is online.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public static bool CheckIfUserIsOnline(string userId)
         {
             bool valueTaken = AllKeys.TryGetValue(userId.ToLower(), out bool success);
 
             return success && valueTaken;
         }
-
+        /// <summary>
+        /// Removes the key from the concurrent dictionary when it expires, and if it fails to remove it, it updates it.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="reason"></param>
+        /// <param name="state"></param>
         private void RemoveKeyWhenExpired(object key, object value, EvictionReason reason, object state)
         {
             string keyStr = (string)key; //UserId
@@ -87,7 +102,10 @@
                 AllKeys.TryUpdate(keyStr, false, true);
             }
         }
-
+        /// <summary>
+        /// Returns the count of the online users.
+        /// </summary>
+        /// <returns></returns>
         public static int GetOnLineUsersCount()
         {
             return AllKeys.Count(x => x.Value);

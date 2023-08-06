@@ -13,8 +13,8 @@ namespace CivilEngineerCMS.Web.Controllers
 
     using ViewModels.User;
 
-    using static Common.NotificationMessagesConstants;
     using static Common.GeneralApplicationConstants;
+    using static Common.NotificationMessagesConstants;
 
     public class UserController : BaseController
     {
@@ -31,14 +31,21 @@ namespace CivilEngineerCMS.Web.Controllers
             this.memoryCache = memoryCache;
         }
 
-
+        /// <summary>
+        /// This method return view for register
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
             return this.View();
         }
-
+        /// <summary>
+        /// This method register new user
+        /// </summary>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         [ValidateRecaptcha(Action =nameof(Register), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
@@ -71,7 +78,11 @@ namespace CivilEngineerCMS.Web.Controllers
             this.memoryCache.Remove(OnLineClientsCacheKey);
             return this.RedirectToAction("Index", "Home");
         }
-
+        /// <summary>
+        /// This method return view for login
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Login(string? returnUrl = null)
@@ -84,7 +95,11 @@ namespace CivilEngineerCMS.Web.Controllers
             };
             return this.View(formModel);
         }
-
+        /// <summary>
+        /// This method login user
+        /// </summary>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginFormModel formModel)

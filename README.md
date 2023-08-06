@@ -45,3 +45,23 @@ Managers only have access to and can work with the projects they are managers of
 Administrators have access to and can work with all projects, employees and customers.
 
 In the main folder there is a script for seeding the database: CivilEngineerCMS-seed data in database.sql
+
+Registered users in application are:
+iliyaz.softuni@gmail.com
+client1@abv.bg
+client2@abv.bg
+client3@abv.bg
+client4@abv.bg
+client5@abv.bg this user is soft deleted
+client7@abv.bg
+client8@abv.bg
+employee1@abv.bg
+employee2@abv.bg
+employee3@abv.bg
+employee4@abv.bg
+employee5@abv.bg
+employee6@abv.bg
+employee7@abv.bg
+forRecapture@abv.bg
+
+Password for every one of users is: 123456

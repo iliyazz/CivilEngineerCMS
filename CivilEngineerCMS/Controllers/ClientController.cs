@@ -25,7 +25,10 @@
             this.clientService = clientService;
             this.userManager = userManager;
         }
-
+        /// <summary>
+        /// This method return all projects for current client
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Mine()
         {
             string userId = this.User.GetId();
@@ -41,7 +44,10 @@
             return View(viewModel);
         }
 
-
+        /// <summary>
+        /// This method return view for creating new client
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -67,7 +73,11 @@
 
             return this.View();
         }
-
+        /// <summary>
+        /// This method create new client
+        /// </summary>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Create(CreateClientFormModel formModel)
         {
@@ -98,7 +108,10 @@
                 return this.View(formModel);
             }
         }
-
+        /// <summary>
+        /// This method return details for client
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Details()
         {
@@ -120,7 +133,11 @@
             DetailsClientViewModel viewModel = await this.clientService.DetailsClientAsync(clientId);
             return this.View(viewModel);
         }
-
+        /// <summary>
+        /// This method return view for editing client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -151,7 +168,12 @@
                 return this.RedirectToAction("All", "Client");
             }
         }
-
+        /// <summary>
+        /// This method edit client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string id, EditClientFormModel formModel)
         {
@@ -190,7 +212,10 @@
                 return this.View(formModel);
             }
         }
-
+        /// <summary>
+        /// This method return general error
+        /// </summary>
+        /// <returns></returns>
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
@@ -198,7 +223,11 @@
 
             return this.RedirectToAction("Index", "Home");
         }
-
+        /// <summary>
+        /// This method return view for deleting client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -228,7 +257,12 @@
                 this.TempData[ErrorMessage] = "Client with provided id does not exist.";
                 return GeneralError();
             }
-        }
+        }/// <summary>
+        /// This method delete client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
 
         [HttpPost]
         public async Task<IActionResult> Delete(string id, ClientPreDeleteViewModel formModel)

@@ -27,7 +27,11 @@
             this.clientService = clientService;
             this.employeeService = employeeService;
         }
-
+        /// <summary>
+        /// This method return view for all projects
+        /// </summary>
+        /// <param name="queryModel"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> All([FromQuery] ProjectAllQueryModel queryModel)
         {

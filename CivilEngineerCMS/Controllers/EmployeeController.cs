@@ -9,7 +9,6 @@
     using ViewModels.Employee;
 
     using static Common.NotificationMessagesConstants;
-    using static Common.GeneralApplicationConstants;
 
     public class EmployeeController : BaseController
     {
@@ -20,7 +19,10 @@
             this.employeeService = employeeService;
         }
 
-
+        /// <summary>
+        /// This method return all projects where the current employee is manager
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
@@ -37,7 +39,10 @@
                 await this.employeeService.AllProjectsByManagerIdAsync(employeeId);
             return this.View(viewModel);
         }
-
+        /// <summary>
+        /// This method return all projects where the current employee is worker
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> MineByEmployeeId()
         {
@@ -54,8 +59,10 @@
                 await this.employeeService.AllProjectsByEmployeeIdAsync(employeeId);
             return this.View(viewModel);
         }
-
-
+        /// <summary>
+        /// This method return view for create employee
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Create()
         {
@@ -70,7 +77,11 @@
 
             return this.View(formModel);
         }
-
+        /// <summary>
+        /// This method create employee
+        /// </summary>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Create(CreateEmployeeFormModel formModel)
         {
@@ -101,14 +112,13 @@
                 return this.View(formModel);
             }
         }
-
+        /// <summary>
+        /// This method return details for employee
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Details()
         {
-            //if (this.User.IsInRole(AdministratorRoleName))
-            //{
-            //    return this.RedirectToAction("Details", "Employee");
-            //}
             var employeeId = (string?)Url.ActionContext.RouteData.Values["id"];
             if (employeeId == null)
             {
@@ -127,7 +137,11 @@
             DetailsEmployeeViewModel viewModel = await this.employeeService.DetailsEmployeeAsync(employeeId);
             return this.View(viewModel);
         }
-
+        /// <summary>
+        /// This method return view for edit employee
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -148,7 +162,6 @@
             try
             {
                 EditEmployeeFormModel viewModel = await this.employeeService.GetEmployeeForEditByIdAsync(id.ToString());
-                //this.TempData[SuccessMessage] = $"Employee {viewModel.FirstName} {viewModel.LastName} edited successfully.";
                 return this.View(viewModel);
             }
             catch (Exception _)
@@ -157,7 +170,12 @@
                 return this.RedirectToAction("All", "Employee");
             }
         }
-
+        /// <summary>
+        /// This method edit employee
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string id, EditEmployeeFormModel formModel)
         {
@@ -195,7 +213,10 @@
                 return this.View(formModel);
             }
         }
-
+        /// <summary>
+        /// This method return general error
+        /// </summary>
+        /// <returns></returns>
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
@@ -203,7 +224,11 @@
 
             return this.RedirectToAction("Index", "Home");
         }
-
+        /// <summary>
+        /// this method return view for delete employee
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -234,7 +259,12 @@
                 return GeneralError();
             }
         }
-
+        /// <summary>
+        /// This method delete employee
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Delete(string id, EmployeePreDeleteViewModel formModel)
         {

@@ -1,7 +1,5 @@
 ﻿namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
 {
-    using CivilEngineerCMS.Web.Areas.Admin.Controllers;
-
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
@@ -16,17 +14,17 @@
     public class AdministratorController : BaseAdminController
     {
         private readonly IAdministratorService administratorService;
-        private readonly IEmployeeService employeesService;
-        private readonly IProjectService projectService;
 
-        public AdministratorController(IEmployeeService employeeService, IProjectService projectService,
-            IAdministratorService administratorService)
+
+        public AdministratorController(IAdministratorService administratorService)
         {
-            this.employeesService = employeeService;
-            this.projectService = projectService;
             this.administratorService = administratorService;
         }
-
+        /// <summary>
+        /// This method return view for manage administrators
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> ManageAdministrators(string userId)
         {
@@ -47,7 +45,11 @@
                 return this.GeneralError();
             }
         }
-
+        /// <summary>
+        /// This method return view for saving administrators
+        /// </summary>
+        /// <param name="selectedEmployee"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ManageAdministrators(IEnumerable<string> selectedEmployee)
         {

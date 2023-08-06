@@ -16,16 +16,17 @@
     {
         private readonly CivilEngineerCmsDbContext dbContext;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly RoleManager<IdentityRole<Guid>> roleManager;
 
-        public AdministratorService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole<Guid>> roleManager)
+        public AdministratorService(CivilEngineerCmsDbContext dbContext, UserManager<ApplicationUser> userManager)
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
-            this.roleManager = roleManager;
         }
 
+        /// <summary>
+        /// This method return all employees for choosing administrator
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<SelectEmployeesForAdministratorFormModel>> AllEmployeesForAdministratorAsync()
         {
             IEnumerable<SelectEmployeesForAdministratorFormModel> allEmployees = await this.dbContext
@@ -47,7 +48,12 @@
 
             return allEmployees;
         }
-
+        /// <summary>
+        /// This method save all employees for administrator
+        /// </summary>
+        /// <param name="currentUserId"></param>
+        /// <param name="idList"></param>
+        /// <returns></returns>
         public async Task SaveAllEmployeesForAdministratorAsync(string currentUserId, IEnumerable<string> idList)
         {
             var enumerable = idList.ToList();

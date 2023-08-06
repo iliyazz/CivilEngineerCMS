@@ -20,7 +20,11 @@
             this.dbContext = dbContext;
         }
 
-
+        /// <summary>
+        /// This method return all expenses for project
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<AddAndEditExpensesFormModel> GetExpensesByProjectIdIdAsync(string projectId)
         {
             AddAndEditExpensesFormModel expenses = await this.dbContext
@@ -44,12 +48,21 @@
             };
             return result;
         }
-
+        /// <summary>
+        /// This method check if expense exists by project id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public Task<bool> ExpenseExistsByProjectIdAsync(string projectId)
         {
             return this.dbContext.Expenses.AnyAsync(e => e.ProjectId.ToString() == projectId);
         }
-
+        /// <summary>
+        /// This method create expense
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         public async Task CreateExpenseAsync(string id, AddAndEditExpensesFormModel formModel)
         {
             Expense expense = new Expense
@@ -62,7 +75,11 @@
             await this.dbContext.Expenses.AddAsync(expense);
             await this.dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// This method return expense for edit by project id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public async Task<AddAndEditExpensesFormModel> GetExpenseForEditByProjectIdAsync(string projectId)
         {
             Expense expense = await this.dbContext.Expenses
@@ -76,7 +93,12 @@
             };
             return result;
         }
-
+        /// <summary>
+        /// This method edit expense by project id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         public async Task EditExpenseForEditByProjectIdAsync(string projectId, AddAndEditExpensesFormModel formModel)
         {
             Expense expense = await this.dbContext

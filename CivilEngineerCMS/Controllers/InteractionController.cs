@@ -25,8 +25,11 @@
             this.clientService = clientService;
             this.projectService = projectService;
         }
-
-
+        /// <summary>
+        /// This method return view for all interactions
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> All(string id)
         {
@@ -76,7 +79,11 @@
                 await this.interactionService.AllInteractionsByProjectIdAsync(id);
             return View(viewModel);
         }
-
+        /// <summary>
+        /// This method return view for adding interaction
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Add(string id)
         {
@@ -115,7 +122,12 @@
             };
             return View(formModel);
         }
-
+        /// <summary>
+        /// This method add interaction
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add(string id, AddAndEditInteractionFormModel formModel)
         {
@@ -164,7 +176,12 @@
                 return this.View(formModel);
             }
         }
-
+        /// <summary>
+        /// This method return view for editing interaction
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="interactionId"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Edit(string projectId, string interactionId)
         {
@@ -209,7 +226,13 @@
                 await this.interactionService.GetInteractionForEditByProjectIdAsync(projectId, interactionId);
             return this.View(viewModel);
         }
-
+        /// <summary>
+        /// This method edit interaction
+        /// </summary>
+        /// <param name="interactionId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string interactionId, string projectId,
             AddAndEditInteractionFormModel formModel)

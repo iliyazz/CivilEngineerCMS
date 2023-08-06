@@ -24,7 +24,10 @@ namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
             this.clientService = clientService;
             this.memoryCache = memoryCache;
         }
-
+        /// <summary>
+        /// This method return view for all clients
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> All()
         {
             bool isAdministrator = this.User.IsAdministrator();

@@ -19,7 +19,11 @@ namespace CivilEngineerCMS.Services.Data
         {
             this.dbContext = dbContext;
         }
-
+        /// <summary>
+        /// This method return all interactions by project id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<AddAndEditInteractionFormModel>> AllInteractionsByProjectIdAsync(string id)
         {
             IEnumerable<AddAndEditInteractionFormModel> allInteractionsByProjectIdIdAsync = await dbContext
@@ -39,12 +43,21 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return allInteractionsByProjectIdIdAsync;
         }
-
+        /// <summary>
+        /// This method check if interaction exists by project id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public Task<bool> InteractionExistsByProjectIdAsync(string projectId)
         {
             return dbContext.Interactions.AnyAsync(i => i.ProjectId.ToString() == projectId);
         }
-
+        /// <summary>
+        /// This method create interaction by project id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         public async Task CreateInteractionAsync(string id, AddAndEditInteractionFormModel formModel)
         {
             Interaction interaction = new Interaction
@@ -59,7 +72,12 @@ namespace CivilEngineerCMS.Services.Data
             await dbContext.Interactions.AddAsync(interaction);
             await dbContext.SaveChangesAsync();
         }
-
+        /// <summary>
+        /// This method return interaction for edit by project id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="interactionId"></param>
+        /// <returns></returns>
         public async Task<AddAndEditInteractionFormModel> GetInteractionForEditByProjectIdAsync(string projectId, string interactionId)
         {
             Interaction interaction = await dbContext.Interactions
@@ -77,7 +95,12 @@ namespace CivilEngineerCMS.Services.Data
             };
             return result;
         }
-
+        /// <summary>
+        /// This method Edit interaction by project id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         public async Task EditInteractionByProjectIdAsync(string id, AddAndEditInteractionFormModel formModel)
         {
             Interaction interaction = await this.dbContext

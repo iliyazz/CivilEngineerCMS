@@ -19,8 +19,10 @@
         {
             this.homeService = homeService;
         }
-
-
+        /// <summary>
+        /// This method return index view with 5 projects for index page
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
@@ -32,13 +34,20 @@
 
             return View(viewModel);
         }
-
+        /// <summary>
+        /// This method return view for privacy page
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
         }
-
+        /// <summary>
+        /// This method return view for error page
+        /// </summary>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statusCode)

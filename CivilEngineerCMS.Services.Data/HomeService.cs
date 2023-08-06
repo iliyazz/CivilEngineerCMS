@@ -16,7 +16,10 @@
         {
             this.dbContext = dbContext;
         }
-
+        /// <summary>
+        /// This method return all projects for index page
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<IndexViewModel>> AllIndexProjectsAsync()
         {
             IEnumerable<IndexViewModel> allProjects = await this.dbContext

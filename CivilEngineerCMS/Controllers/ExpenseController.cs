@@ -25,8 +25,11 @@
             this.clientService = clientService;
             this.projectService = projectService;
         }
-
-
+        /// <summary>
+        /// This method return details for expense
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Details(string id)
         {
             string userId = this.User.GetId();
@@ -71,7 +74,11 @@
             var viewModel = await this.expensesService.GetExpensesByProjectIdIdAsync(id);
             return View(viewModel);
         }
-
+        /// <summary>
+        /// This method return view for add expense
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Add(string id)
         {
@@ -104,7 +111,12 @@
             };
             return View();
         }
-
+        /// <summary>
+        /// This method add expense
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add(string id, AddAndEditExpensesFormModel formModel)
         {
@@ -149,7 +161,11 @@
                 return this.View(formModel);
             }
         }
-
+        /// <summary>
+        /// This method return view for edit expense
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -178,7 +194,12 @@
             AddAndEditExpensesFormModel viewModel = await this.expensesService.GetExpenseForEditByProjectIdAsync(id);
             return this.View(viewModel);
         }
-
+        /// <summary>
+        /// This method edit expense
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="formModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string id, AddAndEditExpensesFormModel formModel)
         {
