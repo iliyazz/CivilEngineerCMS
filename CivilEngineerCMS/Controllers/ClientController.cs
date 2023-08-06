@@ -14,6 +14,7 @@
 
     using static CivilEngineerCMS.Common.EntityValidationConstants;
     using static Common.NotificationMessagesConstants;
+    using static Common.GeneralApplicationConstants;
 
     public class ClientController : BaseController
     {
@@ -99,7 +100,7 @@
 
                 this.TempData[SuccessMessage] =
                     $"Client {formModel.FirstName} {formModel.LastName} added successfully.";
-                return this.RedirectToAction("All", "Client");
+                return this.RedirectToAction("All", "Client", new{Area = AdminAreaName});
             }
             catch (Exception _)
             {
@@ -203,7 +204,7 @@
 
                 this.TempData[SuccessMessage] =
                     $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
-                return this.RedirectToAction("All", "Client");
+                return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
             catch (Exception _)
             {
@@ -288,7 +289,7 @@
 
                 this.TempData[WarningMessage] =
                     $"Client {formModel.FirstName} {formModel.LastName} deleted successfully.";
-                return this.RedirectToAction("All", "Client");
+                return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
             catch (Exception _)
             {

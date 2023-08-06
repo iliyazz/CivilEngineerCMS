@@ -9,6 +9,7 @@
     using ViewModels.Employee;
 
     using static Common.NotificationMessagesConstants;
+    using static Common.GeneralApplicationConstants;
 
     public class EmployeeController : BaseController
     {
@@ -103,7 +104,8 @@
 
                 this.TempData[SuccessMessage] =
                     $"Employee {formModel.FirstName} {formModel.LastName} added successfully.";
-                return this.RedirectToAction("All");
+                return this.RedirectToAction("All", "Employee", new{Area = AdminAreaName});
+                //"All", "Client", new{Area = AdminAreaName}
             }
             catch (Exception _)
             {
@@ -288,7 +290,7 @@
 
                 this.TempData[WarningMessage] =
                     $"Employee {formModel.FirstName} {formModel.LastName} deleted successfully.";
-                return this.RedirectToAction("All", "Employee");
+                return this.RedirectToAction("All", "Employee", new { Area = AdminAreaName });
             }
             catch (Exception _)
             {

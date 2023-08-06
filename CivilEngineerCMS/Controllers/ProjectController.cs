@@ -10,6 +10,7 @@
     using ViewModels.Project;
 
     using static Common.NotificationMessagesConstants;
+    using static Common.GeneralApplicationConstants;
 
     public class ProjectController : BaseController
     {
@@ -98,7 +99,7 @@
                 await this.projectService.CreateProjectAsync(formModel);
 
                 this.TempData[SuccessMessage] = $"Project {formModel.Name} added successfully.";
-                return this.RedirectToAction("All");
+                return this.RedirectToAction("All","Project", new{Area = AdminAreaName});
             }
             catch (Exception _)
             {
@@ -261,7 +262,7 @@
             formModel.Clients = await this.clientService.AllClientsAsync();
             if (this.User.IsAdministrator())
             {
-                return this.RedirectToAction("All");
+                return this.RedirectToAction("All","Project", new { Area = AdminAreaName });
             }
 
             return this.RedirectToAction("Mine", "Employee");
@@ -377,7 +378,11 @@
 
                 this.TempData[WarningMessage] =
                     $"Project {formModel.Name} deleted successfully.";
-                return this.RedirectToAction("All", "Project");
+                if (this.User.IsAdministrator())
+                {
+                    return this.RedirectToAction("All", "Project", new { Area = AdminAreaName }); 
+                }
+                return this.RedirectToAction("Mine", "Employee");
             }
             catch (Exception _)
             {
