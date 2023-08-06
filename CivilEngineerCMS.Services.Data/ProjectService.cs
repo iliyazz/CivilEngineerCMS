@@ -161,6 +161,7 @@
                     ProjectStartDate = x.ProjectCreatedDate.ToString("dd.MM.yyyy"),
                     ProjectEndDate = x.ProjectEndDate.ToString("dd.MM.yyyy"),
                     Status = x.Status,
+                    UrlPicturePath = x.UrlPicturePath,
                     Employees = x.ProjectsEmployees.Where(p => p.ProjectId.ToString() == projectId).Select(pe =>
                         new DetailsEmployeeViewModel
                         {
@@ -187,6 +188,7 @@
                 ProjectStartDate = project.ProjectStartDate,
                 ProjectEndDate = project.ProjectEndDate,
                 Status = project.Status,
+                UrlPicturePath = project.UrlPicturePath,
                 Employees = project.Employees
             };
             return result;
