@@ -57,7 +57,7 @@ iliyaz.softuni@gmail.com
 password: 123456Admin-+
 
 
-password for next users are: 123456User-+
+password for next users is: 123456User-+
 <br>
 client1@abv.bg
 <br>
