@@ -17,7 +17,7 @@ namespace CivilEngineerCMS.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.18")
+                .HasAnnotation("ProductVersion", "6.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -40,7 +40,9 @@ namespace CivilEngineerCMS.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -98,7 +100,7 @@ namespace CivilEngineerCMS.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ILIYAZ.SOFTUNI@GMAIL.COM",
                             NormalizedUserName = "ILIYAZ.SOFTUNI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMUBS2mCMeWPbeaAPzfizF8E1akOQplqw5TirNuaaHLc6mPHRg7dDuy1OVnir7e7yA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELA8jWQDQZbvZ1tx24tdgEqJwbUIEC02CK6EFqT+27eGWgVa+/in9HxzhwEdNuLk2A==",
                             PhoneNumber = "+359123456789",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "LJW7J33EVBQOCAMXUDU6OLJIC5NFDMBG",
@@ -145,7 +147,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Employee", b =>
@@ -191,7 +193,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Expense", b =>
@@ -218,7 +220,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Expenses", (string)null);
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Interaction", b =>
@@ -258,7 +260,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Interactions", (string)null);
+                    b.ToTable("Interactions");
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.Project", b =>
@@ -314,7 +316,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("ManagerId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("CivilEngineerCMS.Data.Models.ProjectEmployee", b =>
@@ -329,7 +331,7 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("ProjectsEmployees", (string)null);
+                    b.ToTable("ProjectsEmployees");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

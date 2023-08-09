@@ -6,12 +6,16 @@
 [**Civil Engineer Customer Management System - Course Project**](https://github.com/iliyazz/CivilEngineerCMS)
 ***
 
+
+Application is hosted on Azure: https://cmsprojects.azurewebsites.net/ 
+
+
 This is educational project for SoftUni's ASP.NET Advanced course, built using ASP.NET MVC, Entity framework core, C#, Microsoft SQL Server, JavaScript, HTML, CSS, Bootstrap.
 
 The application is a Civil Engineer Customer Management System for consulting and design firms. The purpose of the application is to help with the organization of work of the company and at the same time to enable the client to monitor the work process.
 There are three types of application users: employees, customers, and administrators.
 Only those registered as employees can be administrators.
-The application has one seed account for admin with username: iliyaz.softuni@gmail.com and initial password: 123456.
+The application has one seed account for admin with username: iliyaz.softuni@gmail.com and initial password: 123456Admin-+.
 
 The sequence of operation when initializing the application:
 Any user can freely register in the application with email and password.
@@ -46,13 +50,20 @@ Administrators have access to and can work with all projects, employees and cust
 
 In the main folder there is a script for seeding the database: CivilEngineerCMS-seed data in database.sql
 
+
 Registered users in application are:
+
 iliyaz.softuni@gmail.com
+password: 123456Admin-+
+
+
+password for next users are: 123456User-+
 client1@abv.bg
 client2@abv.bg
 client3@abv.bg
 client4@abv.bg
-client5@abv.bg this user is soft deleted
+client5@abv.bg
+client6@abv.bg
 client7@abv.bg
 client8@abv.bg
 employee1@abv.bg
@@ -62,6 +73,6 @@ employee4@abv.bg
 employee5@abv.bg
 employee6@abv.bg
 employee7@abv.bg
+employee8@abv.bg
+employee9@abv.bg
 forRecapture@abv.bg
-
-Password for every one of users is: 123456

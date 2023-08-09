@@ -18,7 +18,12 @@ namespace CivilEngineerCMS.Data.Configurations
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder
+                .Property(c => c.EmailConfirmed)
+                .HasDefaultValue(true);
+            builder
                 .HasData(GenerateApplicationUser());
+
+ 
         }
 
         private ApplicationUser[] GenerateApplicationUser()
@@ -45,7 +50,10 @@ namespace CivilEngineerCMS.Data.Configurations
             };
             PasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
 
-            applicationUser.PasswordHash = passwordHasher.HashPassword(applicationUser, "123456");
+
+
+            //applicationUser.PasswordHash = passwordHasher.HashPassword(applicationUser, "123456User-+");
+            applicationUser.PasswordHash = passwordHasher.HashPassword(applicationUser, "123456Admin-+");
 
 
             applicationUsers.Add(applicationUser);

@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilEngineerCMS.Services.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilEngineerCMS.WebApi", "CivilEngineerCMS.WebApi\CivilEngineerCMS.WebApi.csproj", "{EAC1BB5F-7F92-43A8-939B-7D305FF14C84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CivilEngineerCMS.Tests", "CivilEngineerCMS.Tests\CivilEngineerCMS.Tests.csproj", "{F5BD38BB-0945-4F66-95A6-237AFF1E4CBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CivilEngineerCMS.Tests", "CivilEngineerCMS.Tests\CivilEngineerCMS.Tests.csproj", "{F5BD38BB-0945-4F66-95A6-237AFF1E4CBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
