@@ -206,7 +206,7 @@
 
                 this.TempData[SuccessMessage] =
                     $"Employee {formModel.FirstName} {formModel.LastName} edited successfully.";
-                return this.RedirectToAction("All", "Employee");
+                return this.RedirectToAction("All", "Employee", new { Area = AdminAreaName });
             }
             catch (Exception _)
             {

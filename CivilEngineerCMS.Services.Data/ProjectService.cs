@@ -132,7 +132,7 @@
             project.UrlPicturePath = formModel.UrlPicturePath;
             project.Status = formModel.Status;
             project.ProjectEndDate =
-                DateTime.ParseExact(formModel.ProjectEndDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                DateTime.ParseExact(formModel.ProjectEndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             await this.dbContext.SaveChangesAsync();
         }
         /// <summary>

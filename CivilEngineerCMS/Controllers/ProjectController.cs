@@ -216,6 +216,8 @@
             {
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
+                formModel.Employees = await this.employeeService.AllEmployeesByProjectIdAsync(id);
+
                 return this.View(formModel);
             }
 
@@ -260,6 +262,8 @@
             this.TempData[SuccessMessage] = $"Project {formModel.Name} edited successfully.";
             formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
             formModel.Clients = await this.clientService.AllClientsAsync();
+            formModel.Employees = await this.employeeService.AllEmployeesByProjectIdAsync(id);
+
             if (this.User.IsAdministrator())
             {
                 return this.RedirectToAction("All","Project", new { Area = AdminAreaName });
