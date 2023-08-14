@@ -54,10 +54,10 @@ In the main folder there is a script for seeding the database: CivilEngineerCMS-
 Registered users in application are:
 
 iliyaz.softuni@gmail.com
-password: 123456Admin-+
 
 
-password for next users is: 123456User-+
+
+
 <br>
 client1@abv.bg
 <br>
