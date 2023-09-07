@@ -128,11 +128,11 @@
             var projectImageContentType = currentProject.ContentType;
 
 
-            if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
-            {
-                var file = File(projectImage, projectImageContentType, projectImageName);
-                return file;
-            }
+            //if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
+            //{
+            //    var file = File(projectImage, projectImageContentType, projectImageName);
+            //    return file;
+            //}
 
             var result = new AddAndEditProjectFormModel
             {
