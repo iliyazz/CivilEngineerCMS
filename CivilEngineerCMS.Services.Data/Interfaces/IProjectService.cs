@@ -3,6 +3,7 @@
     using CivilEngineerCMS.Data.Models;
     using CivilEngineerCMS.Services.Data.Models.Project;
     using CivilEngineerCMS.Web.ViewModels.Employee;
+    using Microsoft.AspNetCore.Http;
 
     using Models.Statistics;
 
@@ -12,7 +13,7 @@
     public interface IProjectService
     {
         bool StatusExists(string id);
-        Task CreateProjectAsync(AddAndEditProjectFormModel formModel);
+        Task CreateProjectAsync(AddAndEditProjectFormModel formModel/*, string uniqueFileName*/);
         Task<AddAndEditProjectFormModel> GetProjectForEditByIdAsync(string projectId);
         Task<bool> IsManagerOfProjectAsync(string projectId, string managerId);
         Task EditProjectByIdAsync(string projectId, AddAndEditProjectFormModel formModel);
@@ -27,5 +28,8 @@
         Task<Project> GetProjectByIdAsync(string projectId);
         Task<string> GetManagerIdByProjectIdAsync(string projectId);
         Task<bool> IsEmployeeOfProjectAsync(string projectId, string employeeId);
+        string GetContentType(string fileName);
+        string CreateUniqueFileExtension(string fileName);
+        Task<byte[]> GetByteArrayFromImage(IFormFile file);
     }
 }

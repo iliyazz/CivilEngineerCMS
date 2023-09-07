@@ -54,6 +54,15 @@
         [MaxLength(UrlMaxLength)]
         public string? UrlPicturePath { get; set; }
 
+        [MaxLength(ImageNameMaxLength)]
+        public string? ImageName { get; set; }
+
+        public string? ContentType { get; set; }
+
+        public byte[]? ImageContent { get; set; }
+
+
+
         [Required]
         public ProjectStatusEnums Status { get; set; }
         public DateTime ProjectCreatedDate { get; set; }

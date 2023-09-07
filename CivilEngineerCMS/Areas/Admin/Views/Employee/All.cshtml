@@ -45,7 +45,7 @@ else
             if (em.IsActive)
             {
                 <tr onclick="location.href = '@Url.Action("Details", "Employee", new { id = @em.Id, Area = "" })'" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
-                    <th scope="row">@rowNumber</th>
+                    <td @* scope="row" *@>@rowNumber</td>
                     <td>@em.FirstName</td>
                     <td>@em.LastName</td>
                     <td>@em.JobTitle</td>
@@ -68,7 +68,7 @@ else
             else
             {
                 <tr>
-                    <th scope="row">@rowNumber</th>
+                    <td @* scope="row" *@>@rowNumber</td>
                     <td>@em.FirstName</td>
                     <td>@em.LastName</td>
                     <td>@em.JobTitle</td>

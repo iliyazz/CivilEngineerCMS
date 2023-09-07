@@ -149,6 +149,8 @@
                 ManagerId = employee1Id,
                 Status = (ProjectStatusEnums)1,
                 ProjectEndDate = "2023-12-15",
+
+
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);

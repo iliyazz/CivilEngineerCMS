@@ -9,6 +9,7 @@
             public const int DescriptionMinLength = 10;
             public const int DescriptionMaxLength = 1000;
             public const int UrlMaxLength = 2048;
+            public const int ImageNameMaxLength = 250;
         }
 
         public static class Client

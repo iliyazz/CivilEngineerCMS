@@ -1,5 +1,7 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
+    using CivilEngineerCMS.Data;
+
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
@@ -9,21 +11,31 @@
     using ViewModels.Employee;
     using ViewModels.Project;
 
-    using static Common.NotificationMessagesConstants;
     using static Common.GeneralApplicationConstants;
+    using static Common.NotificationMessagesConstants;
 
     public class ProjectController : BaseController
     {
         private readonly IProjectService projectService;
         private readonly IClientService clientService;
         private readonly IEmployeeService employeeService;
+        private readonly ILogger<ProjectController> logger;
+        private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly CivilEngineerCmsDbContext dbContext;
 
-        public ProjectController(IProjectService projectService, IEmployeeService employeeService,
-            IClientService clientService)
+        public ProjectController(IProjectService projectService,
+            IEmployeeService employeeService,
+            IClientService clientService, 
+            ILogger<ProjectController> logger,
+            IWebHostEnvironment hostingEnvironment,
+            CivilEngineerCmsDbContext dbContext)
         {
             this.projectService = projectService;
             this.clientService = clientService;
             this.employeeService = employeeService;
+            this.logger = logger;
+            this.hostingEnvironment = hostingEnvironment;
+            this.dbContext = dbContext;
         }
         /// <summary>
         /// This method return view for create project
@@ -87,6 +99,7 @@
                     "Project End Date cannot be before start date.");
             }
 
+
             if (!this.ModelState.IsValid)
             {
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
@@ -96,7 +109,21 @@
 
             try
             {
-                await this.projectService.CreateProjectAsync(formModel);
+                //string uniqueFileName = string.Empty;
+
+
+                //if (formModel.ImageContent != null)
+                //{
+                //    //write file to disk
+                //    uniqueFileName = projectService.CreateUniqueFileExtension(formModel.ImageContent.FileName);
+                //    //var uploads = Path.Combine(this.hostingEnvironment.WebRootPath, "imageContent");
+                //    //var filePath = Path.Combine(uploads, uniqueFileName);
+                //    //await formModel.ImageContent.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                //}
+
+
+
+                await this.projectService.CreateProjectAsync(formModel/*, uniqueFileName*/);
 
                 this.TempData[SuccessMessage] = $"Project {formModel.Name} added successfully.";
                 return this.RedirectToAction("All","Project", new{Area = AdminAreaName});
@@ -188,6 +215,10 @@
 
             try
             {
+                var file = ViewData["file"]/* as string*/;
+
+
+
                 AddAndEditProjectFormModel formModel = await this.projectService.GetProjectForEditByIdAsync(id);
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
@@ -496,6 +527,64 @@
                 this.TempData[ErrorMessage] =
                     "An error occurred while adding employee to project. Please try again later or contact administrator!";
                 return this.RedirectToAction("Mine", "Employee", new { id });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetImageContent(string id)
+        {
+            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+            if (!projectExists)
+            {
+                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+
+            var project = await this.projectService.GetProjectForEditByIdAsync(id);
+
+
+
+
+
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerInProject = false;
+            if (isEmployee)
+            {
+                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+                isManagerInProject = employeeId == managerId;
+            }
+
+            if (!(this.User.IsAdministrator() || isManagerInProject))
+            {
+                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+            try
+            {
+                var currentProject = await this.projectService.GetProjectByIdAsync(id);
+                var projectImage = currentProject.ImageContent;
+                var projectImageName = currentProject.ImageName;
+                var projectImageContentType = currentProject.ContentType;
+
+
+                if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
+                {
+                    var file = File(projectImage, projectImageContentType, projectImageName);
+                    return file;
+                }
+                return this.RedirectToAction("Details", "Project", new { id });
+
+
+            }
+            catch (Exception e)
+            {
+                this.TempData[ErrorMessage] =
+                    "An error occurred while editing the project. Please try again later or contact administrator!";
+                return GeneralError();
             }
         }
     }

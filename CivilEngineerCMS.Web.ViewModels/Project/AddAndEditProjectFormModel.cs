@@ -4,11 +4,14 @@
 
     using CivilEngineerCMS.Common;
 
+    using System.Web;
+
     using Client;
     using Employee;
     using Manager;
 
     using static CivilEngineerCMS.Common.EntityValidationConstants.Project;
+    using Microsoft.AspNetCore.Http;
 
     public class AddAndEditProjectFormModel
     {
@@ -32,6 +35,16 @@
         [MaxLength(UrlMaxLength)]
         [Display(Name = "Image link")]
         public string? UrlPicturePath { get; set; }
+
+        [MaxLength(ImageNameMaxLength)]
+        public string? ImageName { get; set; }
+
+        public string? ContentType { get; set; }
+        
+        public IFormFile? ImageContent { get; set; }
+
+
+
 
         [Required]
         [Display(Name = "Project Status")]

@@ -60,7 +60,7 @@ else
         @foreach (var interaction in interactions)
         {
             rowNumber++;
-            @if (isEmployeeInProject || isManagerOfProject || isAdministrator)
+            @if (@* isEmployeeInProject || *@ isManagerOfProject || isAdministrator)
             {
                 <tr onclick="location.href = '@Url.Action("Edit", "Interaction", new { projectId = interaction.ProjectId.ToString(), interactionId = interaction.Id.ToString() })'" type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
                     <th scope="row">@rowNumber</th>

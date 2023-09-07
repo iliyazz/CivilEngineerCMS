@@ -4,6 +4,7 @@ using CivilEngineerCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CivilEngineerCMS.Data.Migrations
 {
     [DbContext(typeof(CivilEngineerCmsDbContext))]
-    partial class CivilEngineerCmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230905172342_AddPictureInProject2")]
+    partial class AddPictureInProject2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,7 +102,7 @@ namespace CivilEngineerCMS.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ILIYAZ.SOFTUNI@GMAIL.COM",
                             NormalizedUserName = "ILIYAZ.SOFTUNI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGgEQwJPgs8rE1zowMlQztjtsgWiB2BCeonOeW9uXq12UIIJW3aUrmk2KXFq4BqN3A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMGIXzyootB0xpstvsmoU5zXgX4Nm7n4HT7syAlxh8d2s9q6TPz9ko5ZcZQLRMjUIg==",
                             PhoneNumber = "+359123456789",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "LJW7J33EVBQOCAMXUDU6OLJIC5NFDMBG",
@@ -274,9 +276,6 @@ namespace CivilEngineerCMS.Data.Migrations
 
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ContentType")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()

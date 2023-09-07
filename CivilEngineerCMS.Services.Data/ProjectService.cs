@@ -9,7 +9,10 @@
 
     using Interfaces;
 
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
 
     using Models.Project;
     using Models.Statistics;
@@ -23,6 +26,7 @@
     public class ProjectService : IProjectService
     {
         private readonly CivilEngineerCmsDbContext dbContext;
+
 
         public ProjectService(CivilEngineerCmsDbContext dbContext)
         {
@@ -39,8 +43,30 @@
         /// </summary>
         /// <param name="formModel"></param>
         /// <returns></returns>
-        public async Task CreateProjectAsync(AddAndEditProjectFormModel formModel)
+        public async Task CreateProjectAsync(AddAndEditProjectFormModel formModel/*, string uniqueFileName*/)
         {
+
+            //save file name to database
+            byte[]? imageContent = null;
+            string? uniqueFileNameWithExtension = null;
+            if (formModel.ImageContent != null)
+            {
+                 imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
+                 uniqueFileNameWithExtension = this.CreateUniqueFileExtension(formModel.ImageContent.FileName);
+            }
+            //string uniqueFileName = string.Empty;
+
+
+            //if (formModel.ImageContent != null)
+            //{
+            //    //write file to disk
+            //    uniqueFileName = CreateUniqueFileExtension(formModel.ImageContent.FileName);
+            //    //var uploads = Path.Combine(this.hostingEnvironment.WebRootPath, "imageContent");
+            //    //var filePath = Path.Combine(uploads, uniqueFileName);
+            //    //await formModel.ImageContent.CopyToAsync(new FileStream(filePath, FileMode.Create));
+            //}
+
+            //save file name to database
             Project project = new Project
             {
                 Name = formModel.Name,
@@ -50,7 +76,18 @@
                 UrlPicturePath = formModel.UrlPicturePath,
                 Status = formModel.Status,
                 ProjectEndDate = DateTime.Parse(formModel.ProjectEndDate),
+                ImageName = uniqueFileNameWithExtension == null ? null : uniqueFileNameWithExtension,
+                ImageContent = imageContent == null ? null : imageContent,
+                ContentType = formModel.ImageContent == null ? null : formModel.ImageContent.ContentType,
             };
+
+            //save file name to database
+            //if (formModel.ImageContent != null)
+            //{
+            //    project.ImageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
+            //}
+
+
             await this.dbContext.Projects.AddAsync(project);
             await this.dbContext.SaveChangesAsync();
         }
@@ -85,7 +122,17 @@
                 .ThenInclude(x => x.Employee)
                 .Where(x => x.IsActive)
                 .FirstAsync(x => x.Id.ToString() == id);
+            var currentProject = await this.GetProjectByIdAsync(id);
+            var projectImage = currentProject.ImageContent;
+            var projectImageName = currentProject.ImageName;
+            var projectImageContentType = currentProject.ContentType;
 
+
+            if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
+            {
+                var file = File(projectImage, projectImageContentType, projectImageName);
+                return file;
+            }
 
             var result = new AddAndEditProjectFormModel
             {
@@ -96,6 +143,8 @@
                 UrlPicturePath = project.UrlPicturePath,
                 Status = project.Status,
                 ProjectEndDate = project.ProjectEndDate.ToString("dd/MM/yyyy"),
+                ImageName = project.ImageName,
+                //ImageContent = project.ImageContent,
 
                 Employees = project.ProjectsEmployees.Where(pe => pe.ProjectId.ToString() == id).Select(t =>
                     new AllEmployeeViewModel
@@ -442,6 +491,49 @@
                 .ProjectsEmployees
                 .AnyAsync(pe => pe.ProjectId.ToString() == projectId && pe.EmployeeId.ToString() == employeeId);
             return isEmployeeOfProject;
+        }
+        /// <summary>
+        /// This method return a content type of a file
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public string GetContentType(string fileName)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            string contentType;
+            if (!provider.TryGetContentType(fileName, out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            return contentType;
+        }
+
+        /// <summary>
+        /// This method will generate a unique filename
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public string CreateUniqueFileExtension(string fileName)
+        {
+            fileName = Path.GetFileNameWithoutExtension(fileName);
+            string UniqueFileName = Path.GetFileNameWithoutExtension(fileName)
+                + "_"
+                + Guid.NewGuid().ToString().Substring(0, 8)
+                + Path.GetExtension(fileName);
+            return UniqueFileName;
+        }
+        /// <summary>
+        /// Convert IFormFile to byte array
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public async Task<byte[]> GetByteArrayFromImage(IFormFile file)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
     }
 }

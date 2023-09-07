@@ -21,7 +21,7 @@ else
             Total online users: <b>@OnLineUsersMiddleware.GetOnLineUsersCount()</b>
         </h5>
     </div>
-    <table class="table table-hover">
+    <table class="table table-hover  table-bordered">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -42,13 +42,13 @@ else
         @foreach (var cl in clients)
         {
             rowNumber++;
-@*                var clientCondition = string.Empty;
-*@
             clientCondition = cl.IsActive ? "Yes" : "No";
             @if (cl.IsActive)
             {
-                <tr onclick="location.href = '@Url.Action("Details", "Client", new { id = @cl.Id.ToString(), Area = "" })' " type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
-                    <th scope="row">@rowNumber</th>
+                <tr onclick="location.href = '@Url.Action("Details", "Client", new { id = @cl.Id.ToString(), Area = "" })' " type="submit" data - toggle="tooltip"  placement="top" title="Click for details" role="button">
+                    <td @* scope="row" *@>@rowNumber</td>
+                    
+
                     <td>@cl.FirstName</td>
                     <td>@cl.LastName</td>
                     <td>@cl.PhoneNumber</td>
@@ -71,7 +71,7 @@ else
             else
             {
                 <tr>
-                    <th scope="row">@rowNumber</th>
+                    <td @* scope="row" *@>@rowNumber</td>
                     <td>@cl.FirstName</td>
                     <td>@cl.LastName</td>
                     <td>@cl.PhoneNumber</td>
