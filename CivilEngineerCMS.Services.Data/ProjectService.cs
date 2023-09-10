@@ -1,7 +1,5 @@
 ﻿namespace CivilEngineerCMS.Services.Data
 {
-    using System.Globalization;
-
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
 
@@ -12,10 +10,11 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.StaticFiles;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
 
     using Models.Project;
     using Models.Statistics;
+
+    using System.Globalization;
 
     using Web.ViewModels.Employee;
     using Web.ViewModels.Project;
@@ -43,7 +42,7 @@
         /// </summary>
         /// <param name="formModel"></param>
         /// <returns></returns>
-        public async Task CreateProjectAsync(AddAndEditProjectFormModel formModel/*, string uniqueFileName*/)
+        public async Task CreateProjectAsync(AddAndEditProjectFormModel formModel)
         {
 
             //save file name to database
@@ -122,10 +121,11 @@
                 .ThenInclude(x => x.Employee)
                 .Where(x => x.IsActive)
                 .FirstAsync(x => x.Id.ToString() == id);
-            var currentProject = await this.GetProjectByIdAsync(id);
-            var projectImage = currentProject.ImageContent;
-            var projectImageName = currentProject.ImageName;
-            var projectImageContentType = currentProject.ContentType;
+
+            //var currentProject = await this.GetProjectByIdAsync(id);
+            //var projectImage = currentProject.ImageContent;
+            //var projectImageName = currentProject.ImageName;
+            //var projectImageContentType = currentProject.ContentType;
 
 
             //if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
@@ -133,6 +133,18 @@
             //    var file = File(projectImage, projectImageContentType, projectImageName);
             //    return file;
             //}
+            //save file name to database
+            //byte[]? imageContent = null;
+            //string? uniqueFileNameWithExtension = null;
+            //if (formModel.ImageContent != null)
+            //{
+            //    imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
+            //    uniqueFileNameWithExtension = this.CreateUniqueFileExtension(formModel.ImageContent.FileName);
+            //}
+
+
+
+
 
             var result = new AddAndEditProjectFormModel
             {
@@ -144,8 +156,15 @@
                 Status = project.Status,
                 ProjectEndDate = project.ProjectEndDate.ToString("dd/MM/yyyy"),
                 ImageName = project.ImageName,
+                ContentType = project.ContentType,
                 //ImageContent = project.ImageContent,
 
+
+                /*
+                ImageName = uniqueFileNameWithExtension == null ? null : uniqueFileNameWithExtension,
+                ImageContent = imageContent == null ? null : imageContent,
+                ContentType = formModel.ImageContent == null ? null : formModel.ImageContent.ContentType,
+                 */
                 Employees = project.ProjectsEmployees.Where(pe => pe.ProjectId.ToString() == id).Select(t =>
                     new AllEmployeeViewModel
                     {
@@ -157,6 +176,21 @@
                         PhoneNumber = t.Employee.PhoneNumber,
                     }).ToList()
             };
+            //if(project.ImageContent != null)
+            //{
+            //    //var name = project.ImageName;
+            //    //var fileName = project.ImageName;
+            //    //var contentType = project.ContentType;
+            //    var byteArray = project.ImageContent;
+            //    var stream = new MemoryStream(byteArray.Length);
+            //    byteArray.CopyTo(stream);
+            //    var bytes = stream.ToArray();
+            //}
+
+
+
+
+
             return result;
         }
         /// <summary>
@@ -174,6 +208,16 @@
                 .Where(x => x.IsActive)
                 .FirstAsync(x => x.Id.ToString() == projectId);
 
+            byte[]? imageContent = null;
+            string? uniqueFileNameWithExtension = null;
+            if (formModel.ImageContent != null)
+            {
+                imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
+                uniqueFileNameWithExtension = this.CreateUniqueFileExtension(formModel.ImageContent.FileName);
+            }
+
+
+
             project.Name = formModel.Name;
             project.Description = formModel.Description;
             project.ClientId = formModel.ClientId;
@@ -182,6 +226,11 @@
             project.Status = formModel.Status;
             project.ProjectEndDate =
                 DateTime.ParseExact(formModel.ProjectEndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            project.ImageName = uniqueFileNameWithExtension == null ? null : uniqueFileNameWithExtension;
+            project.ImageContent = imageContent == null ? null : imageContent;
+            project.ContentType = formModel.ImageContent == null ? null : formModel.ImageContent.ContentType;
+
+
             await this.dbContext.SaveChangesAsync();
         }
         /// <summary>
@@ -210,7 +259,8 @@
                     ProjectStartDate = x.ProjectCreatedDate.ToString("dd.MM.yyyy"),
                     ProjectEndDate = x.ProjectEndDate.ToString("dd.MM.yyyy"),
                     Status = x.Status,
-                    UrlPicturePath = x.UrlPicturePath,
+                    //UrlPicturePath = x.UrlPicturePath,
+                    ImageContent = x.ImageContent,
                     Employees = x.ProjectsEmployees.Where(p => p.ProjectId.ToString() == projectId).Select(pe =>
                         new DetailsEmployeeViewModel
                         {
@@ -225,6 +275,22 @@
                     ).ToList()
                 })
                 .FirstAsync();
+
+            var imageData = project.ImageContent;
+
+            //byte[] bytes = project.ImageContent;
+            //string contentType = "image/jpeg";
+            //string imageSrc = string.Format("data:{0};base64,{1}", contentType, Convert.ToBase64String(bytes));
+            //byte[]? imageContent = null;
+            //string? uniqueFileNameWithExtension = null;
+            //if (project.ImageContent != null)
+            //{
+            //    imageContent = await this.GetByteArrayFromImage(project.ImageContent);
+            //    uniqueFileNameWithExtension = this.CreateUniqueFileExtension(project.ImageContent.FileName);
+            //}
+
+
+
             var result = new DetailsProjectViewModel()
             {
                 Id = project.Id,
@@ -237,9 +303,15 @@
                 ProjectStartDate = project.ProjectStartDate,
                 ProjectEndDate = project.ProjectEndDate,
                 Status = project.Status,
-                UrlPicturePath = project.UrlPicturePath,
-                Employees = project.Employees
+                //UrlPicturePath = project.UrlPicturePath,
+                Employees = project.Employees,
+                ImageName = project.ImageName,
+                ImageContent = project.ImageContent,
+                
             };
+
+            
+            //result.ImageContent = imageSrc;
             return result;
         }
         /// <summary>

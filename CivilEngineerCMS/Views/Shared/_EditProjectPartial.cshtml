@@ -1,10 +1,25 @@
 ﻿@using CivilEngineerCMS.Common
 @model AddAndEditProjectFormModel
+@{
+    int imageNameLength = 0;
+    int imageContentTypeSlashIndex = 0;
+    string imageName = string.Empty;
+    int imageContentTypeLength = 0;
+    if (Model.ImageName != null && Model.ContentType != null)
+    {
+        imageNameLength = Model.ImageName.Length;
+        imageContentTypeSlashIndex = Model.ContentType.IndexOf('/');
+        imageContentTypeLength = Model.ContentType.Length;
+        imageName = Model.ImageName.Substring(0, imageNameLength - GeneralApplicationConstants.imageGeneratedSufixLength);
+        string imageFileExtension = Model.ContentType.Substring(imageContentTypeSlashIndex + 1, imageContentTypeLength - imageContentTypeSlashIndex-1);
+        imageName += "." + imageFileExtension;
+    }
+}
 
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" placeholder="Title...">
@@ -52,16 +67,17 @@
                 </select>
                 <span asp-validation-for="ClientId" class="small text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ImageName"></label>
-                <input asp-for="ImageName" class="form-control" readonly="true">
 
-                
-                <a class="btn btn-primary" asp-action="GetImageContent" asp-controller="Project" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">Download</a>
+            <div class="form-group mb-2">
+                <label asp-for="ImageContent">Replace Image</label>
+                <input asp-for="ImageContent" type="file" class="form-control" placeholder="ImageContent">
             </div>
+            @if(!string.IsNullOrEmpty(imageName))
+            {
+                <div><a class="btn btn-primary" asp-action="GetImageContent" asp-controller="Project" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">Download</a>: @imageName</div>
+            }
 
             <div>
-
                 <h4 class="mt-4">Employees in project</h4>
                 @if (!Model.Employees.Any())
                 {
@@ -121,6 +137,7 @@
                 <tr>
                 <td>@Model.ImageName</td>
                     <td><a class="btn btn-primary" asp-action="GetImageContent" asp-controller="Project" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">Download</a></td>
+                    <td><a class="btn btn-primary" asp-action="GetFileStreamResult" asp-controller="Project" asp-route-fileName="@Model.ImageContent"></a></td>
                 </tr>
             }
         </tbody>

@@ -5,6 +5,7 @@
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Net.Http.Headers;
 
     using Services.Data.Interfaces;
 
@@ -586,6 +587,18 @@
                     "An error occurred while editing the project. Please try again later or contact administrator!";
                 return GeneralError();
             }
+        }
+
+        [HttpGet]
+        public FileStreamResult GetFileStreamResult(string filename) //download file
+        {
+            string path = "wwwroot/attachment/" + filename;
+            var stream = new MemoryStream(System.IO.File.ReadAllBytes(path));
+            string contentType = projectService.GetContentType(filename);
+            return new FileStreamResult(stream, new MediaTypeHeaderValue(contentType))
+            {
+                FileDownloadName = filename
+            };
         }
     }
 }

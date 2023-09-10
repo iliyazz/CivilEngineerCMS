@@ -2,6 +2,7 @@
 {
     using CivilEngineerCMS.Common;
     using Employee;
+    using Microsoft.AspNetCore.Http;
 
     public class DetailsProjectViewModel
     {
@@ -12,7 +13,7 @@
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public string? UrlPicturePath { get; set; }
+        //public string? UrlPicturePath { get; set; }
         public ProjectStatusEnums Status { get; set; }
         public string ProjectStartDate { get; set; } = null!;
         public string ProjectEndDate { get; set; } = null!;
@@ -20,7 +21,8 @@
         public string ClientName { get; set; } = null!;
         public string ClientPhone { get; set; } = null!;
         public string ClientEmail { get; set; } = null!;
-
+        public byte[]? ImageContent { get; set; }
+        public string ImageName { get; set; } = null!;
         public IEnumerable<DetailsEmployeeViewModel> Employees { get; set; }
     }
 }

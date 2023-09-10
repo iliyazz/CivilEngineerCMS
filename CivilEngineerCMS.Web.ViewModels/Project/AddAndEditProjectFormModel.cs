@@ -43,9 +43,6 @@
         
         public IFormFile? ImageContent { get; set; }
 
-
-
-
         [Required]
         [Display(Name = "Project Status")]
         public ProjectStatusEnums Status { get; set; }
