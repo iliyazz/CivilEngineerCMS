@@ -1,4 +1,6 @@
-﻿namespace CivilEngineerCMS.Web.Controllers
+﻿using CivilEngineerCMS.Common;
+
+namespace CivilEngineerCMS.Web.Controllers
 {
     using CivilEngineerCMS.Data;
 
@@ -98,6 +100,21 @@
             {
                 this.ModelState.AddModelError(nameof(formModel.ProjectEndDate),
                     "Project End Date cannot be before start date.");
+            }
+
+            if (formModel.ImageContent != null)
+            {
+                if (formModel.ImageContent.Length > GeneralApplicationConstants.ImageMaxSizeInBytes)
+                {
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent), NotificationMessagesConstants.ExceedingMaxSizeMessage);
+                    this.TempData[ErrorMessage] = NotificationMessagesConstants.ExceedingMaxSizeMessage;
+                }
+
+                if (!projectService.IfFileIsImage(formModel.ImageContent))
+                {
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent), NotificationMessagesConstants.InvalidFileExtensionMessage);
+                    this.TempData[ErrorMessage] = NotificationMessagesConstants.InvalidFileExtensionMessage;
+                }
             }
 
 
@@ -244,6 +261,20 @@
         [HttpPost]
         public async Task<IActionResult> Edit(string id, AddAndEditProjectFormModel formModel)
         {
+            if (formModel.ImageContent != null)
+            {
+                if (formModel.ImageContent.Length > GeneralApplicationConstants.ImageMaxSizeInBytes)
+                {
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent), NotificationMessagesConstants.ExceedingMaxSizeMessage);
+                    this.TempData[ErrorMessage] = NotificationMessagesConstants.ExceedingMaxSizeMessage;
+                }
+
+                if (!projectService.IfFileIsImage(formModel.ImageContent))
+                {
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent), NotificationMessagesConstants.InvalidFileExtensionMessage);
+                    this.TempData[ErrorMessage] = NotificationMessagesConstants.InvalidFileExtensionMessage;
+                }
+            }
             if (!this.ModelState.IsValid)
             {
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
@@ -279,6 +310,8 @@
                 this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
             }
+
+
 
             try
             {

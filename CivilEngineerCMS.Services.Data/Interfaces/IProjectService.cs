@@ -31,5 +31,6 @@
         string GetContentType(string fileName);
         string CreateUniqueFileExtension(string fileName);
         Task<byte[]> GetByteArrayFromImage(IFormFile file);
+        bool IfFileIsImage(IFormFile file);
     }
 }

@@ -28,11 +28,11 @@
                 </select>
                 <span asp-validation-for="Status" class="small text-danger"></span>
             </div>
-            <div class="form-group">
+@*             <div class="form-group">
                 <label asp-for="UrlPicturePath"></label>
                 <input asp-for="UrlPicturePath" class="form-control" placeholder="Your fine URL here...">
                 <span asp-validation-for="UrlPicturePath" class="small text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="ManagerId"></label>
                 <select asp-for="ManagerId" class="form-control">
@@ -55,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ImageContent">Image</label>
-                <input asp-for="ImageContent" type="file" class="form-control" placeholder="ImageContent">
+                <input asp-for="ImageContent" type="file" accept=".jpg,.JPG,.jpeg,JPEG" class="form-control" placeholder="ImageContent">
             </div>
 
             <div class="text-center">

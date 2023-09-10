@@ -13,6 +13,7 @@
         public const string OnLineClientsCacheKey = "OnLineClientsCache";
         public const string OnLineEmployeesCacheKey = "OnLineEmployeesCache";
         public const int OnLineUsersCacheExpirationInMinutes = 5;
-        public const int imageGeneratedSufixLength = 9;
+        public const int ImageGeneratedSufixLength = 9;
+        public const int ImageMaxSizeInBytes = 5 * 1024 * 1024;
     }
 }

@@ -14,7 +14,9 @@
     using Models.Project;
     using Models.Statistics;
 
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
 
     using Web.ViewModels.Employee;
     using Web.ViewModels.Project;
@@ -45,6 +47,9 @@
         public async Task CreateProjectAsync(AddAndEditProjectFormModel formModel)
         {
 
+            
+
+
             //save file name to database
             byte[]? imageContent = null;
             string? uniqueFileNameWithExtension = null;
@@ -72,7 +77,7 @@
                 Description = formModel.Description,
                 ClientId = formModel.ClientId,
                 ManagerId = formModel.ManagerId,
-                UrlPicturePath = formModel.UrlPicturePath,
+                //UrlPicturePath = formModel.UrlPicturePath,
                 Status = formModel.Status,
                 ProjectEndDate = DateTime.Parse(formModel.ProjectEndDate),
                 ImageName = uniqueFileNameWithExtension == null ? null : uniqueFileNameWithExtension,
@@ -152,7 +157,7 @@
                 Description = project.Description,
                 ClientId = project.ClientId,
                 ManagerId = project.ManagerId,
-                UrlPicturePath = project.UrlPicturePath,
+                //UrlPicturePath = project.UrlPicturePath,
                 Status = project.Status,
                 ProjectEndDate = project.ProjectEndDate.ToString("dd/MM/yyyy"),
                 ImageName = project.ImageName,
@@ -222,7 +227,7 @@
             project.Description = formModel.Description;
             project.ClientId = formModel.ClientId;
             project.ManagerId = formModel.ManagerId;
-            project.UrlPicturePath = formModel.UrlPicturePath;
+            //project.UrlPicturePath = formModel.UrlPicturePath;
             project.Status = formModel.Status;
             project.ProjectEndDate =
                 DateTime.ParseExact(formModel.ProjectEndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -606,6 +611,21 @@
                 await file.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
             }
+        }
+
+        public bool IfFileIsImage(IFormFile file)
+        {
+            using var reader = new BinaryReader(file.OpenReadStream());
+            var signatures = new List<string>
+            {
+                "FF-D8-FF", //jpg
+                "89-50-4E-47-0D-0A-1A-0A", //png
+                "47-49-46-38-37-61", //gif
+                "47-49-46-38-39-61" //gif
+            };
+            var headerBytes = reader.ReadBytes(8);
+            var fileSignature = BitConverter.ToString(headerBytes);
+            return signatures.Contains(fileSignature);
         }
     }
 }

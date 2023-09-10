@@ -24,13 +24,16 @@
         {
             IEnumerable<IndexViewModel> allProjects = await this.dbContext
                 .Projects
-                .Where(p => !string.IsNullOrWhiteSpace(p.UrlPicturePath))
+                //.Where(p => !string.IsNullOrWhiteSpace(p.UrlPicturePath))
+                .Where(p => p.ImageContent != null)
                 .OrderBy(x => Guid.NewGuid())
                 .Select(p => new IndexViewModel
                 {
                     Id = p.Id.ToString(),
                     Name = p.Name,
-                    UrlPicturePath = p.UrlPicturePath,
+                    //UrlPicturePath = p.UrlPicturePath,
+                    ImageContent = p.ImageContent,
+                    ImageName = p.ImageName,
                 })
                 .Take(5)
                 .ToListAsync();

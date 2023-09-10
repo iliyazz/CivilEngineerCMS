@@ -10,7 +10,7 @@
         imageNameLength = Model.ImageName.Length;
         imageContentTypeSlashIndex = Model.ContentType.IndexOf('/');
         imageContentTypeLength = Model.ContentType.Length;
-        imageName = Model.ImageName.Substring(0, imageNameLength - GeneralApplicationConstants.imageGeneratedSufixLength);
+        imageName = Model.ImageName.Substring(0, imageNameLength - GeneralApplicationConstants.ImageGeneratedSufixLength);
         string imageFileExtension = Model.ContentType.Substring(imageContentTypeSlashIndex + 1, imageContentTypeLength - imageContentTypeSlashIndex-1);
         imageName += "." + imageFileExtension;
     }
