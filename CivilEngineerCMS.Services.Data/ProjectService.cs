@@ -1,4 +1,6 @@
-﻿namespace CivilEngineerCMS.Services.Data
+﻿using CloudinaryDotNet.Actions;
+
+namespace CivilEngineerCMS.Services.Data
 {
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
@@ -27,11 +29,13 @@
     public class ProjectService : IProjectService
     {
         private readonly CivilEngineerCmsDbContext dbContext;
+        //private readonly ICloudinaryService cloudinaryService;
 
 
-        public ProjectService(CivilEngineerCmsDbContext dbContext)
+        public ProjectService(CivilEngineerCmsDbContext dbContext/*, ICloudinaryService cloudinaryService*/)
         {
             this.dbContext = dbContext;
+            //this.cloudinaryService = cloudinaryService;
         }
 
         public bool StatusExists(string id)
@@ -53,6 +57,8 @@
             //save file name to database
             byte[]? imageContent = null;
             string? uniqueFileNameWithExtension = null;
+
+
             if (formModel.ImageContent != null)
             {
                  imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
@@ -84,6 +90,7 @@
                 ImageContent = imageContent == null ? null : imageContent,
                 ContentType = formModel.ImageContent == null ? null : formModel.ImageContent.ContentType,
             };
+
 
             //save file name to database
             //if (formModel.ImageContent != null)
@@ -213,12 +220,13 @@
                 .Where(x => x.IsActive)
                 .FirstAsync(x => x.Id.ToString() == projectId);
 
-            byte[]? imageContent = null;
-            string? uniqueFileNameWithExtension = null;
             if (formModel.ImageContent != null)
             {
-                imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
-                uniqueFileNameWithExtension = this.CreateUniqueFileExtension(formModel.ImageContent.FileName);
+                var imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
+                var uniqueFileNameWithExtension = this.CreateUniqueFileExtension(formModel.ImageContent.FileName);
+                project.ImageContent = imageContent;
+                project.ImageName =  uniqueFileNameWithExtension;
+                project.ContentType = formModel.ImageContent.ContentType;
             }
 
 
@@ -231,10 +239,6 @@
             project.Status = formModel.Status;
             project.ProjectEndDate =
                 DateTime.ParseExact(formModel.ProjectEndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            project.ImageName = uniqueFileNameWithExtension == null ? null : uniqueFileNameWithExtension;
-            project.ImageContent = imageContent == null ? null : imageContent;
-            project.ContentType = formModel.ImageContent == null ? null : formModel.ImageContent.ContentType;
-
 
             await this.dbContext.SaveChangesAsync();
         }
@@ -618,6 +622,7 @@
             using var reader = new BinaryReader(file.OpenReadStream());
             var signatures = new List<string>
             {
+                "FF-D8-FF-E0-00-10-4A-46",
                 "FF-D8-FF", //jpg
                 "89-50-4E-47-0D-0A-1A-0A", //png
                 "47-49-46-38-37-61", //gif

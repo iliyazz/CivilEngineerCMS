@@ -75,6 +75,7 @@
             @if(!string.IsNullOrEmpty(imageName))
             {
                 <div><a class="btn btn-primary" asp-action="GetImageContent" asp-controller="Project" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">Download</a>: @imageName</div>
+                <div><a class="btn btn-primary" asp-action="DeleteImage" asp-controller="Project" asp-route-id="@Url.ActionContext.RouteData.Values["id"]" asp-area="Admin">Delete</a>: @imageName</div>
             }
 
             <div>

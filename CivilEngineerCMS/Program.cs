@@ -1,5 +1,6 @@
 using CivilEngineerCMS.Data;
 using CivilEngineerCMS.Data.Models;
+using CivilEngineerCMS.Services.Data;
 using CivilEngineerCMS.Services.Data.Interfaces;
 using CivilEngineerCMS.Web.Infrastructure.Extensions;
 using CivilEngineerCMS.Web.Infrastructure.ModelBinders;
@@ -8,12 +9,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using dotenv.net;
+
 using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+Account cloudinaryCredentials = new Account(
+    builder.Configuration.GetValue<string>("Cloudinary:CloudName"),
+    builder.Configuration.GetValue<string>("Cloudinary:ApiKey"),
+    builder.Configuration.GetValue<string>("Cloudinary:ApiSecret"));
+Cloudinary cloudinary = new Cloudinary(cloudinaryCredentials);
+builder.Services.AddSingleton(cloudinary);
+builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
+
 
 builder.Services.AddDbContext<CivilEngineerCmsDbContext>(options =>
     options.UseSqlServer(connectionString));

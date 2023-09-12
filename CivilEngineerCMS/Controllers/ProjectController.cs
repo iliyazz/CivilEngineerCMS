@@ -1,4 +1,5 @@
 ﻿using CivilEngineerCMS.Common;
+using CloudinaryDotNet.Actions;
 
 namespace CivilEngineerCMS.Web.Controllers
 {
@@ -25,13 +26,14 @@ namespace CivilEngineerCMS.Web.Controllers
         private readonly ILogger<ProjectController> logger;
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly CivilEngineerCmsDbContext dbContext;
+        private readonly ICloudinaryService cloudinaryService;
 
         public ProjectController(IProjectService projectService,
             IEmployeeService employeeService,
-            IClientService clientService, 
+            IClientService clientService,
             ILogger<ProjectController> logger,
             IWebHostEnvironment hostingEnvironment,
-            CivilEngineerCmsDbContext dbContext)
+            CivilEngineerCmsDbContext dbContext, ICloudinaryService cloudinaryService)
         {
             this.projectService = projectService;
             this.clientService = clientService;
@@ -39,7 +41,9 @@ namespace CivilEngineerCMS.Web.Controllers
             this.logger = logger;
             this.hostingEnvironment = hostingEnvironment;
             this.dbContext = dbContext;
+            this.cloudinaryService = cloudinaryService;
         }
+
         /// <summary>
         /// This method return view for create project
         /// </summary>
@@ -62,6 +66,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             return this.View(formModel);
         }
+
         /// <summary>
         /// This method create project
         /// </summary>
@@ -106,20 +111,33 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 if (formModel.ImageContent.Length > GeneralApplicationConstants.ImageMaxSizeInBytes)
                 {
-                    this.ModelState.AddModelError(nameof(formModel.ImageContent), NotificationMessagesConstants.ExceedingMaxSizeMessage);
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent),
+                        NotificationMessagesConstants.ExceedingMaxSizeMessage);
                     this.TempData[ErrorMessage] = NotificationMessagesConstants.ExceedingMaxSizeMessage;
                 }
 
                 if (!projectService.IfFileIsImage(formModel.ImageContent))
                 {
-                    this.ModelState.AddModelError(nameof(formModel.ImageContent), NotificationMessagesConstants.InvalidFileExtensionMessage);
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent),
+                        NotificationMessagesConstants.InvalidFileExtensionMessage);
+                    this.TempData[ErrorMessage] = NotificationMessagesConstants.InvalidFileExtensionMessage;
+                }
+
+                if (!cloudinaryService.IsFileValid(formModel.ImageContent))
+                {
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent),
+                        NotificationMessagesConstants.InvalidFileExtensionMessage);
                     this.TempData[ErrorMessage] = NotificationMessagesConstants.InvalidFileExtensionMessage;
                 }
             }
 
 
+
+
+
             if (!this.ModelState.IsValid)
             {
+
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
                 return this.View(formModel);
@@ -139,12 +157,18 @@ namespace CivilEngineerCMS.Web.Controllers
                 //    //await formModel.ImageContent.CopyToAsync(new FileStream(filePath, FileMode.Create));
                 //}
 
+                if (formModel.ImageContent != null)
+                {
+                    ImageUploadResult uploadResult =
+                        await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects");
+                    formModel.UrlPicturePath = uploadResult.Url.ToString();
 
+                }
 
-                await this.projectService.CreateProjectAsync(formModel/*, uniqueFileName*/);
+                await this.projectService.CreateProjectAsync(formModel /*, uniqueFileName*/);
 
                 this.TempData[SuccessMessage] = $"Project {formModel.Name} added successfully.";
-                return this.RedirectToAction("All","Project", new{Area = AdminAreaName});
+                return this.RedirectToAction("All", "Project", new { Area = AdminAreaName });
             }
             catch (Exception _)
             {
@@ -155,6 +179,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 return this.View(formModel);
             }
         }
+
         /// <summary>
         /// This method return view for all employees in project
         /// </summary>
@@ -197,6 +222,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 return this.RedirectToAction("Mine", "Employee");
             }
         }
+
         /// <summary>
         /// This method return view for edit project
         /// </summary>
@@ -233,7 +259,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
-                var file = ViewData["file"]/* as string*/;
+                var file = ViewData["file"] /* as string*/;
 
 
 
@@ -252,6 +278,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 return this.RedirectToAction("Mine", "Employee");
             }
         }
+
         /// <summary>
         /// This method edit project
         /// </summary>
@@ -265,16 +292,19 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 if (formModel.ImageContent.Length > GeneralApplicationConstants.ImageMaxSizeInBytes)
                 {
-                    this.ModelState.AddModelError(nameof(formModel.ImageContent), NotificationMessagesConstants.ExceedingMaxSizeMessage);
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent),
+                        NotificationMessagesConstants.ExceedingMaxSizeMessage);
                     this.TempData[ErrorMessage] = NotificationMessagesConstants.ExceedingMaxSizeMessage;
                 }
 
                 if (!projectService.IfFileIsImage(formModel.ImageContent))
                 {
-                    this.ModelState.AddModelError(nameof(formModel.ImageContent), NotificationMessagesConstants.InvalidFileExtensionMessage);
+                    this.ModelState.AddModelError(nameof(formModel.ImageContent),
+                        NotificationMessagesConstants.InvalidFileExtensionMessage);
                     this.TempData[ErrorMessage] = NotificationMessagesConstants.InvalidFileExtensionMessage;
                 }
             }
+
             if (!this.ModelState.IsValid)
             {
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
@@ -331,11 +361,12 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (this.User.IsAdministrator())
             {
-                return this.RedirectToAction("All","Project", new { Area = AdminAreaName });
+                return this.RedirectToAction("All", "Project", new { Area = AdminAreaName });
             }
 
             return this.RedirectToAction("Mine", "Employee");
         }
+
         /// <summary>
         /// This method return view for project details
         /// </summary>
@@ -361,6 +392,7 @@ namespace CivilEngineerCMS.Web.Controllers
             DetailsProjectViewModel viewModel = await this.projectService.DetailsByIdProjectAsync(projectId);
             return this.View(viewModel);
         }
+
         /// <summary>
         /// This method return view for delete project
         /// </summary>
@@ -406,6 +438,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 return GeneralError();
             }
         }
+
         /// <summary>
         /// This method delete project
         /// </summary>
@@ -449,8 +482,9 @@ namespace CivilEngineerCMS.Web.Controllers
                     $"Project {formModel.Name} deleted successfully.";
                 if (this.User.IsAdministrator())
                 {
-                    return this.RedirectToAction("All", "Project", new { Area = AdminAreaName }); 
+                    return this.RedirectToAction("All", "Project", new { Area = AdminAreaName });
                 }
+
                 return this.RedirectToAction("Mine", "Employee");
             }
             catch (Exception _)
@@ -460,6 +494,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 return this.RedirectToAction("All", "Project");
             }
         }
+
         /// <summary>
         /// This method return general error
         /// </summary>
@@ -471,6 +506,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             return this.RedirectToAction("Index", "Home");
         }
+
         /// <summary>
         /// This method return view for manage employees in project
         /// </summary>
@@ -517,6 +553,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 return this.RedirectToAction("Mine", "Employee", new { id });
             }
         }
+
         /// <summary>
         /// This method manage employees in project
         /// </summary>
@@ -605,11 +642,13 @@ namespace CivilEngineerCMS.Web.Controllers
                 var projectImageContentType = currentProject.ContentType;
 
 
-                if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
+                if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) ||
+                    projectImage != null)
                 {
                     var file = File(projectImage, projectImageContentType, projectImageName);
                     return file;
                 }
+
                 return this.RedirectToAction("Details", "Project", new { id });
 
 
@@ -633,5 +672,6 @@ namespace CivilEngineerCMS.Web.Controllers
                 FileDownloadName = filename
             };
         }
+
     }
 }
