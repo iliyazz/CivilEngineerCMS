@@ -61,6 +61,8 @@
 
         public byte[]? ImageContent { get; set; }
 
+        public string? PublicId { get; set; }
+
 
 
         [Required]

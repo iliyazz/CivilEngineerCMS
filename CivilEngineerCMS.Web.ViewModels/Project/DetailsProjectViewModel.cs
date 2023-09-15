@@ -23,6 +23,7 @@
         public string ClientEmail { get; set; } = null!;
         public byte[]? ImageContent { get; set; }
         public string ImageName { get; set; } = null!;
+        public string? UrlPicturePath { get; set; }
         public IEnumerable<DetailsEmployeeViewModel> Employees { get; set; }
     }
 }

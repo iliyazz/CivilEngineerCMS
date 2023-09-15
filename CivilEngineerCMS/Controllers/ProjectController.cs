@@ -161,11 +161,13 @@ namespace CivilEngineerCMS.Web.Controllers
                 {
                     ImageUploadResult uploadResult =
                         await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects");
-                    formModel.UrlPicturePath = uploadResult.Url.ToString();
+                    formModel.PublicId = uploadResult.PublicId;
+                    formModel.UrlPicturePath = uploadResult.Url.AbsolutePath;
 
+                    //formModel.UrlPicturePath = uploadResult.SecureUrl.AbsolutePath;
                 }
 
-                await this.projectService.CreateProjectAsync(formModel /*, uniqueFileName*/);
+                await this.projectService.CreateProjectAsync(formModel);
 
                 this.TempData[SuccessMessage] = $"Project {formModel.Name} added successfully.";
                 return this.RedirectToAction("All", "Project", new { Area = AdminAreaName });
@@ -259,7 +261,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
-                var file = ViewData["file"] /* as string*/;
+                //var file = ViewData["file"] /* as string*/;
 
 
 
@@ -267,6 +269,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
                 formModel.Employees = await this.employeeService.AllEmployeesByProjectIdAsync(id);
+
 
 
                 return this.View(formModel);
@@ -345,6 +348,13 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
+                if (formModel.ImageContent != null && formModel.ImageName != project.ImageName)
+                {
+                    ImageUploadResult uploadResult = await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects");
+                    formModel.PublicId = uploadResult.PublicId;
+                    formModel.UrlPicturePath = uploadResult.Url.AbsoluteUri;
+                }
+
                 await this.projectService.EditProjectByIdAsync(id, formModel);
             }
             catch (Exception e)
@@ -456,7 +466,7 @@ namespace CivilEngineerCMS.Web.Controllers
             }
 
 
-            var project = await this.projectService.GetProjectForEditByIdAsync(id);
+            var currentProject = await this.projectService.GetProjectForEditByIdAsync(id);
 
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
@@ -476,6 +486,15 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
+                if (currentProject.PublicId != null)
+                {
+                    //currentProject.UrlPicturePath = null;
+                    await this.cloudinaryService.DeletePhotoAsync(currentProject.PublicId);
+                    currentProject.UrlPicturePath = null;
+                    currentProject.PublicId = null;
+                    currentProject.ImageName = null;
+                }
+
                 await this.projectService.DeleteProjectByIdAsync(id);
 
                 this.TempData[WarningMessage] =
@@ -673,5 +692,76 @@ namespace CivilEngineerCMS.Web.Controllers
             };
         }
 
+        
+        public async Task<IActionResult> DeleteImage(string id)
+        {
+            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+            if (!projectExists)
+            {
+                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+
+            //var project = await this.projectService.GetProjectForEditByIdAsync(id);
+
+
+
+
+
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isManagerInProject = false;
+            if (isEmployee)
+            {
+                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+                isManagerInProject = employeeId == managerId;
+            }
+
+            if (!(this.User.IsAdministrator() || isManagerInProject))
+            {
+                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                return this.RedirectToAction("Mine", "Employee");
+            }
+
+            try
+            {
+                var currentProject = await this.projectService.GetProjectByIdAsync(id);
+                //currentProject.ImageContent = null;
+                //currentProject.ImageName = null;
+                //currentProject.ContentType = null;
+                if (currentProject.PublicId != null)
+                {
+                    //currentProject.UrlPicturePath = null;
+                    await this.cloudinaryService.DeletePhotoAsync(currentProject.PublicId);
+                    currentProject.UrlPicturePath = null;
+                    currentProject.PublicId = null;
+                    currentProject.ImageName = null;
+                }
+
+                //dbContext.Update(currentProject);
+                await dbContext.SaveChangesAsync();
+
+
+                //if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
+                //{
+                //    var file = File(projectImage, projectImageContentType, projectImageName);
+                //    return file;
+                //}
+                return this.RedirectToAction("Details", "Project", new { id });
+
+
+            }
+            catch (Exception e)
+            {
+                this.TempData[ErrorMessage] =
+                    "An error occurred while editing the project. Please try again later or contact administrator!";
+                return GeneralError();
+
+            }
+        }
+
     }
+
 }

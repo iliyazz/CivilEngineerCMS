@@ -46,9 +46,9 @@
                         <p class="card-text">Project status: @Model.Status</p>
                         <p class="card-text">Project start date: @Model.ProjectStartDate</p>
                         <p class="card-text">Project end date: @Model.ProjectEndDate</p>
-                        @if(Model.ImageContent != null)
+                        @if(!string.IsNullOrWhiteSpace(Model.UrlPicturePath))
                         {
-                            <img class="d-block w-50 mb-2" style="height:500px" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.ImageContent)" alt="@Model.ImageName">
+                            <img class="d-block w-50 mb-2" style="height:500px" src="@Model.UrlPicturePath" alt="@Model.ImageName">
                         }
 
                         <div class="form-check-inline">

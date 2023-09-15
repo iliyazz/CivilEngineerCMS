@@ -58,71 +58,71 @@
             return this.View(queryModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteImage(string id)
-        {
-            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
-            if (!projectExists)
-            {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
-                return this.RedirectToAction("Mine", "Employee");
-            }
+        //    [HttpPost]
+        //    public async Task<IActionResult> DeleteImage(string id)
+        //    {
+        //        bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
+        //        if (!projectExists)
+        //        {
+        //            this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+        //            return this.RedirectToAction("Mine", "Employee");
+        //        }
 
 
-            //var project = await this.projectService.GetProjectForEditByIdAsync(id);
+        //        //var project = await this.projectService.GetProjectForEditByIdAsync(id);
 
 
 
 
 
-            string userId = this.User.GetId();
-            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
-            bool isManagerInProject = false;
-            if (isEmployee)
-            {
-                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
-                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
-                isManagerInProject = employeeId == managerId;
-            }
+        //        string userId = this.User.GetId();
+        //        bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+        //        bool isManagerInProject = false;
+        //        if (isEmployee)
+        //        {
+        //            string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
+        //            string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
+        //            isManagerInProject = employeeId == managerId;
+        //        }
 
-            if (!(this.User.IsAdministrator() || isManagerInProject))
-            {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
-                return this.RedirectToAction("Mine", "Employee");
-            }
+        //        if (!(this.User.IsAdministrator() || isManagerInProject))
+        //        {
+        //            this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+        //            return this.RedirectToAction("Mine", "Employee");
+        //        }
 
-            try
-            {
-                var currentProject = await this.projectService.GetProjectByIdAsync(id);
-                currentProject.ImageContent = null;
-                currentProject.ImageName = null;
-                currentProject.ContentType = null;
-                if (currentProject.UrlPicturePath != null)
-                {
-                    await this.cloudinaryService.DeletePhotoAsync(currentProject.UrlPicturePath);
-                }
+        //        try
+        //        {
+        //            var currentProject = await this.projectService.GetProjectByIdAsync(id);
+        //            currentProject.ImageContent = null;
+        //            currentProject.ImageName = null;
+        //            currentProject.ContentType = null;
+        //            if (currentProject.UrlPicturePath != null)
+        //            {
+        //                await this.cloudinaryService.DeletePhotoAsync(currentProject.UrlPicturePath);
+        //            }
 
-                //dbContext.Update(currentProject);
-                await dbContext.SaveChangesAsync();
-
-
-                //if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
-                //{
-                //    var file = File(projectImage, projectImageContentType, projectImageName);
-                //    return file;
-                //}
-                return this.RedirectToAction("Details", "Project", new { id });
+        //            //dbContext.Update(currentProject);
+        //            await dbContext.SaveChangesAsync();
 
 
-            }
-            catch (Exception e)
-            {
-                this.TempData[ErrorMessage] =
-                    "An error occurred while editing the project. Please try again later or contact administrator!";
-                return GeneralError();
+        //            //if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
+        //            //{
+        //            //    var file = File(projectImage, projectImageContentType, projectImageName);
+        //            //    return file;
+        //            //}
+        //            return this.RedirectToAction("Details", "Project", new { id });
 
-            }
-        }
+
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            this.TempData[ErrorMessage] =
+        //                "An error occurred while editing the project. Please try again later or contact administrator!";
+        //            return GeneralError();
+
+        //        }
+        //    }
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =

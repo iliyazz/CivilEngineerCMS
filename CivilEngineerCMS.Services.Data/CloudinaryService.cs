@@ -25,6 +25,7 @@ namespace CivilEngineerCMS.Services.Data
                 {
                     File = new FileDescription(formFile.FileName, stream),
                     Folder = folder,
+                    //Type = Image,
                     //Transformation = new Transformation().Height(500).Width(500).Crop("fill")
                 };
                 uploadResult = await this.cloudinary.UploadAsync(uploadParams);
@@ -43,16 +44,28 @@ namespace CivilEngineerCMS.Services.Data
                 {
                     File = new FileDescription(file.ToString(), stream),
                     Folder = folder,
+                    //Type = "upload",
+                    //Type = "private",
+                    
+
+
+
                     //Transformation = new Transformation().Height(500).Width(500).Crop("fill")
                 };
                 uploadResult = await this.cloudinary.UploadAsync(uploadParams);
+
             }
             return uploadResult;
         }
-
+        
         public async Task<DeletionResult> DeletePhotoAsync(string publicId)
         {
-            DeletionParams deletionParams = new DeletionParams(publicId);
+            DeletionParams deletionParams = new DeletionParams(publicId)
+            {
+                PublicId = publicId,
+                Type = "upload",
+                ResourceType = ResourceType.Image
+            };
             DeletionResult result = await this.cloudinary.DestroyAsync(deletionParams);
             return result;
         }

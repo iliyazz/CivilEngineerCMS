@@ -227,6 +227,8 @@ namespace CivilEngineerCMS.Services.Data
                 project.ImageContent = imageContent;
                 project.ImageName =  uniqueFileNameWithExtension;
                 project.ContentType = formModel.ImageContent.ContentType;
+                project.UrlPicturePath = formModel.UrlPicturePath;
+                project.PublicId = formModel.PublicId;
             }
 
 
@@ -235,7 +237,8 @@ namespace CivilEngineerCMS.Services.Data
             project.Description = formModel.Description;
             project.ClientId = formModel.ClientId;
             project.ManagerId = formModel.ManagerId;
-            //project.UrlPicturePath = formModel.UrlPicturePath;
+            project.UrlPicturePath = formModel.UrlPicturePath;
+            project.PublicId = formModel.PublicId;
             project.Status = formModel.Status;
             project.ProjectEndDate =
                 DateTime.ParseExact(formModel.ProjectEndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -268,8 +271,9 @@ namespace CivilEngineerCMS.Services.Data
                     ProjectStartDate = x.ProjectCreatedDate.ToString("dd.MM.yyyy"),
                     ProjectEndDate = x.ProjectEndDate.ToString("dd.MM.yyyy"),
                     Status = x.Status,
-                    //UrlPicturePath = x.UrlPicturePath,
-                    ImageContent = x.ImageContent,
+                    UrlPicturePath = x.UrlPicturePath,
+                    //ImageContent = x.ImageContent,
+                    //ImageContent = cloudinaryService.GetImageUrl(x.ImageName),
                     Employees = x.ProjectsEmployees.Where(p => p.ProjectId.ToString() == projectId).Select(pe =>
                         new DetailsEmployeeViewModel
                         {
@@ -312,7 +316,7 @@ namespace CivilEngineerCMS.Services.Data
                 ProjectStartDate = project.ProjectStartDate,
                 ProjectEndDate = project.ProjectEndDate,
                 Status = project.Status,
-                //UrlPicturePath = project.UrlPicturePath,
+                UrlPicturePath = project.UrlPicturePath,
                 Employees = project.Employees,
                 ImageName = project.ImageName,
                 ImageContent = project.ImageContent,
@@ -356,7 +360,7 @@ namespace CivilEngineerCMS.Services.Data
                     ManagerName = p.Manager.FirstName + " " + p.Manager.LastName,
                     ProjectStartDate = p.ProjectCreatedDate.ToString("dd.MM.yyyy"),
                     ProjectEndDate = p.ProjectEndDate.ToString("dd.MM.yyyy"),
-                    Status = p.Status
+                    Status = p.Status,
                 })
                 .FirstAsync();
             return projectToDelete;

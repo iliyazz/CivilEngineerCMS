@@ -37,6 +37,9 @@
         [Display(Name = "Image link")]
         public string? UrlPicturePath { get; set; }
 
+        [MaxLength(UrlMaxLength)]
+        public string? PublicId { get; set; }
+
         [MaxLength(ImageNameMaxLength)]
         public string? ImageName { get; set; }
 
