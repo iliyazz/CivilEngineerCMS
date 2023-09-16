@@ -1,7 +1,9 @@
 ﻿using CivilEngineerCMS.Common;
 using CivilEngineerCMS.Services.Data.Interfaces;
+
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+
 using Microsoft.AspNetCore.Http;
 
 namespace CivilEngineerCMS.Services.Data
@@ -15,11 +17,16 @@ namespace CivilEngineerCMS.Services.Data
             this.cloudinary = cloudinary;
         }
 
-        public async Task<ImageUploadResult> UploadPhotoAsync(IFormFile formFile, string folder)
+        public async Task<ImageUploadResult> UploadPhotoAsync(IFormFile formFile, string folder, string publicId)
         {
             ImageUploadResult uploadResult = new ImageUploadResult();
             if (formFile.Length > 0)
             {
+                if (!string.IsNullOrEmpty(publicId))
+                {
+                    await DeletePhotoAsync(publicId);
+                }
+
                 await using Stream stream = formFile.OpenReadStream();
                 ImageUploadParams uploadParams = new ImageUploadParams
                 {
@@ -33,8 +40,13 @@ namespace CivilEngineerCMS.Services.Data
             return uploadResult;
         }
 
-        public async Task<ImageUploadResult> UploadPhotoAsync(byte[] file, string folder)
+        public async Task<ImageUploadResult> UploadPhotoAsync(byte[] file, string folder, string publicId)
         {
+            if (!string.IsNullOrEmpty(publicId))
+            {
+                await DeletePhotoAsync(publicId);
+            }
+
             byte[] imageBytes = file;
             ImageUploadResult uploadResult = new ImageUploadResult();
             if (imageBytes.Length > 0)
@@ -95,5 +107,12 @@ namespace CivilEngineerCMS.Services.Data
 
             return true;
         }
+
+
+        //public string DownloadPhoto(string publicId)
+        //{
+        //    var url =  this.cloudinary.Api.UrlImgUp.BuildUrl(publicId);
+        //    return url;
+        //}
     }
 }

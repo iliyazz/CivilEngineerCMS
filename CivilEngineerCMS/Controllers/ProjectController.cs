@@ -1,4 +1,5 @@
 ﻿using CivilEngineerCMS.Common;
+
 using CloudinaryDotNet.Actions;
 
 namespace CivilEngineerCMS.Web.Controllers
@@ -145,26 +146,13 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
-                //string uniqueFileName = string.Empty;
-
-
-                //if (formModel.ImageContent != null)
-                //{
-                //    //write file to disk
-                //    uniqueFileName = projectService.CreateUniqueFileExtension(formModel.ImageContent.FileName);
-                //    //var uploads = Path.Combine(this.hostingEnvironment.WebRootPath, "imageContent");
-                //    //var filePath = Path.Combine(uploads, uniqueFileName);
-                //    //await formModel.ImageContent.CopyToAsync(new FileStream(filePath, FileMode.Create));
-                //}
 
                 if (formModel.ImageContent != null)
                 {
                     ImageUploadResult uploadResult =
-                        await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects");
+                        await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects", null);
                     formModel.PublicId = uploadResult.PublicId;
                     formModel.UrlPicturePath = uploadResult.Url.AbsolutePath;
-
-                    //formModel.UrlPicturePath = uploadResult.SecureUrl.AbsolutePath;
                 }
 
                 await this.projectService.CreateProjectAsync(formModel);
@@ -261,15 +249,10 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
-                //var file = ViewData["file"] /* as string*/;
-
-
-
                 AddAndEditProjectFormModel formModel = await this.projectService.GetProjectForEditByIdAsync(id);
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
                 formModel.Employees = await this.employeeService.AllEmployeesByProjectIdAsync(id);
-
 
 
                 return this.View(formModel);
@@ -348,9 +331,9 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
-                if (formModel.ImageContent != null && formModel.ImageName != project.ImageName)
+                if (formModel.PublicId == null || formModel.ImageName != project.ImageName)
                 {
-                    ImageUploadResult uploadResult = await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects");
+                    ImageUploadResult uploadResult = await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects", project.PublicId);
                     formModel.PublicId = uploadResult.PublicId;
                     formModel.UrlPicturePath = uploadResult.Url.AbsoluteUri;
                 }
@@ -486,14 +469,6 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
-                if (currentProject.PublicId != null)
-                {
-                    //currentProject.UrlPicturePath = null;
-                    await this.cloudinaryService.DeletePhotoAsync(currentProject.PublicId);
-                    currentProject.UrlPicturePath = null;
-                    currentProject.PublicId = null;
-                    currentProject.ImageName = null;
-                }
 
                 await this.projectService.DeleteProjectByIdAsync(id);
 
@@ -620,65 +595,7 @@ namespace CivilEngineerCMS.Web.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetImageContent(string id)
-        {
-            bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
-            if (!projectExists)
-            {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
-                return this.RedirectToAction("Mine", "Employee");
-            }
 
-
-            var project = await this.projectService.GetProjectForEditByIdAsync(id);
-
-
-
-
-
-            string userId = this.User.GetId();
-            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
-            bool isManagerInProject = false;
-            if (isEmployee)
-            {
-                string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(userId);
-                string managerId = await projectService.GetManagerIdByProjectIdAsync(id);
-                isManagerInProject = employeeId == managerId;
-            }
-
-            if (!(this.User.IsAdministrator() || isManagerInProject))
-            {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
-                return this.RedirectToAction("Mine", "Employee");
-            }
-
-            try
-            {
-                var currentProject = await this.projectService.GetProjectByIdAsync(id);
-                var projectImage = currentProject.ImageContent;
-                var projectImageName = currentProject.ImageName;
-                var projectImageContentType = currentProject.ContentType;
-
-
-                if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) ||
-                    projectImage != null)
-                {
-                    var file = File(projectImage, projectImageContentType, projectImageName);
-                    return file;
-                }
-
-                return this.RedirectToAction("Details", "Project", new { id });
-
-
-            }
-            catch (Exception e)
-            {
-                this.TempData[ErrorMessage] =
-                    "An error occurred while editing the project. Please try again later or contact administrator!";
-                return GeneralError();
-            }
-        }
 
         [HttpGet]
         public FileStreamResult GetFileStreamResult(string filename) //download file
@@ -701,14 +618,6 @@ namespace CivilEngineerCMS.Web.Controllers
                 this.TempData[ErrorMessage] = "Project with provided id does not exist.";
                 return this.RedirectToAction("Mine", "Employee");
             }
-
-
-            //var project = await this.projectService.GetProjectForEditByIdAsync(id);
-
-
-
-
-
             string userId = this.User.GetId();
             bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
             bool isManagerInProject = false;
@@ -728,30 +637,18 @@ namespace CivilEngineerCMS.Web.Controllers
             try
             {
                 var currentProject = await this.projectService.GetProjectByIdAsync(id);
-                //currentProject.ImageContent = null;
-                //currentProject.ImageName = null;
-                //currentProject.ContentType = null;
+
                 if (currentProject.PublicId != null)
                 {
-                    //currentProject.UrlPicturePath = null;
                     await this.cloudinaryService.DeletePhotoAsync(currentProject.PublicId);
                     currentProject.UrlPicturePath = null;
                     currentProject.PublicId = null;
                     currentProject.ImageName = null;
                 }
 
-                //dbContext.Update(currentProject);
                 await dbContext.SaveChangesAsync();
 
-
-                //if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
-                //{
-                //    var file = File(projectImage, projectImageContentType, projectImageName);
-                //    return file;
-                //}
                 return this.RedirectToAction("Details", "Project", new { id });
-
-
             }
             catch (Exception e)
             {
@@ -761,7 +658,5 @@ namespace CivilEngineerCMS.Web.Controllers
 
             }
         }
-
     }
-
 }

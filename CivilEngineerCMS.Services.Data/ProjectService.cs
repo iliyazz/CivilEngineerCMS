@@ -1,7 +1,9 @@
-﻿using CloudinaryDotNet.Actions;
-
-namespace CivilEngineerCMS.Services.Data
+﻿namespace CivilEngineerCMS.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
 
@@ -16,10 +18,6 @@ namespace CivilEngineerCMS.Services.Data
     using Models.Project;
     using Models.Statistics;
 
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-
     using Web.ViewModels.Employee;
     using Web.ViewModels.Project;
     using Web.ViewModels.Project.Enums;
@@ -29,13 +27,11 @@ namespace CivilEngineerCMS.Services.Data
     public class ProjectService : IProjectService
     {
         private readonly CivilEngineerCmsDbContext dbContext;
-        //private readonly ICloudinaryService cloudinaryService;
 
 
-        public ProjectService(CivilEngineerCmsDbContext dbContext/*, ICloudinaryService cloudinaryService*/)
+        public ProjectService(CivilEngineerCmsDbContext dbContext)
         {
             this.dbContext = dbContext;
-            //this.cloudinaryService = cloudinaryService;
         }
 
         public bool StatusExists(string id)
@@ -54,7 +50,6 @@ namespace CivilEngineerCMS.Services.Data
             
 
 
-            //save file name to database
             byte[]? imageContent = null;
             string? uniqueFileNameWithExtension = null;
 
@@ -64,39 +59,19 @@ namespace CivilEngineerCMS.Services.Data
                  imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
                  uniqueFileNameWithExtension = this.CreateUniqueFileExtension(formModel.ImageContent.FileName);
             }
-            //string uniqueFileName = string.Empty;
 
 
-            //if (formModel.ImageContent != null)
-            //{
-            //    //write file to disk
-            //    uniqueFileName = CreateUniqueFileExtension(formModel.ImageContent.FileName);
-            //    //var uploads = Path.Combine(this.hostingEnvironment.WebRootPath, "imageContent");
-            //    //var filePath = Path.Combine(uploads, uniqueFileName);
-            //    //await formModel.ImageContent.CopyToAsync(new FileStream(filePath, FileMode.Create));
-            //}
-
-            //save file name to database
             Project project = new Project
             {
                 Name = formModel.Name,
                 Description = formModel.Description,
                 ClientId = formModel.ClientId,
                 ManagerId = formModel.ManagerId,
-                //UrlPicturePath = formModel.UrlPicturePath,
                 Status = formModel.Status,
                 ProjectEndDate = DateTime.Parse(formModel.ProjectEndDate),
-                ImageName = uniqueFileNameWithExtension == null ? null : uniqueFileNameWithExtension,
-                ImageContent = imageContent == null ? null : imageContent,
-                ContentType = formModel.ImageContent == null ? null : formModel.ImageContent.ContentType,
+                ImageName = uniqueFileNameWithExtension,
+                ContentType = formModel.ImageContent?.ContentType,
             };
-
-
-            //save file name to database
-            //if (formModel.ImageContent != null)
-            //{
-            //    project.ImageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
-            //}
 
 
             await this.dbContext.Projects.AddAsync(project);
@@ -134,29 +109,6 @@ namespace CivilEngineerCMS.Services.Data
                 .Where(x => x.IsActive)
                 .FirstAsync(x => x.Id.ToString() == id);
 
-            //var currentProject = await this.GetProjectByIdAsync(id);
-            //var projectImage = currentProject.ImageContent;
-            //var projectImageName = currentProject.ImageName;
-            //var projectImageContentType = currentProject.ContentType;
-
-
-            //if (!string.IsNullOrEmpty(projectImageName) || !string.IsNullOrWhiteSpace(projectImageContentType) || projectImage != null)
-            //{
-            //    var file = File(projectImage, projectImageContentType, projectImageName);
-            //    return file;
-            //}
-            //save file name to database
-            //byte[]? imageContent = null;
-            //string? uniqueFileNameWithExtension = null;
-            //if (formModel.ImageContent != null)
-            //{
-            //    imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
-            //    uniqueFileNameWithExtension = this.CreateUniqueFileExtension(formModel.ImageContent.FileName);
-            //}
-
-
-
-
 
             var result = new AddAndEditProjectFormModel
             {
@@ -164,19 +116,13 @@ namespace CivilEngineerCMS.Services.Data
                 Description = project.Description,
                 ClientId = project.ClientId,
                 ManagerId = project.ManagerId,
-                //UrlPicturePath = project.UrlPicturePath,
                 Status = project.Status,
                 ProjectEndDate = project.ProjectEndDate.ToString("dd/MM/yyyy"),
                 ImageName = project.ImageName,
                 ContentType = project.ContentType,
-                //ImageContent = project.ImageContent,
+                PublicId = project.PublicId,
 
 
-                /*
-                ImageName = uniqueFileNameWithExtension == null ? null : uniqueFileNameWithExtension,
-                ImageContent = imageContent == null ? null : imageContent,
-                ContentType = formModel.ImageContent == null ? null : formModel.ImageContent.ContentType,
-                 */
                 Employees = project.ProjectsEmployees.Where(pe => pe.ProjectId.ToString() == id).Select(t =>
                     new AllEmployeeViewModel
                     {
@@ -188,19 +134,6 @@ namespace CivilEngineerCMS.Services.Data
                         PhoneNumber = t.Employee.PhoneNumber,
                     }).ToList()
             };
-            //if(project.ImageContent != null)
-            //{
-            //    //var name = project.ImageName;
-            //    //var fileName = project.ImageName;
-            //    //var contentType = project.ContentType;
-            //    var byteArray = project.ImageContent;
-            //    var stream = new MemoryStream(byteArray.Length);
-            //    byteArray.CopyTo(stream);
-            //    var bytes = stream.ToArray();
-            //}
-
-
-
 
 
             return result;
@@ -222,9 +155,7 @@ namespace CivilEngineerCMS.Services.Data
 
             if (formModel.ImageContent != null)
             {
-                var imageContent = await this.GetByteArrayFromImage(formModel.ImageContent);
                 var uniqueFileNameWithExtension = this.CreateUniqueFileExtension(formModel.ImageContent.FileName);
-                project.ImageContent = imageContent;
                 project.ImageName =  uniqueFileNameWithExtension;
                 project.ContentType = formModel.ImageContent.ContentType;
                 project.UrlPicturePath = formModel.UrlPicturePath;
@@ -272,8 +203,6 @@ namespace CivilEngineerCMS.Services.Data
                     ProjectEndDate = x.ProjectEndDate.ToString("dd.MM.yyyy"),
                     Status = x.Status,
                     UrlPicturePath = x.UrlPicturePath,
-                    //ImageContent = x.ImageContent,
-                    //ImageContent = cloudinaryService.GetImageUrl(x.ImageName),
                     Employees = x.ProjectsEmployees.Where(p => p.ProjectId.ToString() == projectId).Select(pe =>
                         new DetailsEmployeeViewModel
                         {
@@ -289,20 +218,7 @@ namespace CivilEngineerCMS.Services.Data
                 })
                 .FirstAsync();
 
-            var imageData = project.ImageContent;
-
-            //byte[] bytes = project.ImageContent;
-            //string contentType = "image/jpeg";
-            //string imageSrc = string.Format("data:{0};base64,{1}", contentType, Convert.ToBase64String(bytes));
-            //byte[]? imageContent = null;
-            //string? uniqueFileNameWithExtension = null;
-            //if (project.ImageContent != null)
-            //{
-            //    imageContent = await this.GetByteArrayFromImage(project.ImageContent);
-            //    uniqueFileNameWithExtension = this.CreateUniqueFileExtension(project.ImageContent.FileName);
-            //}
-
-
+            //var imageData = project.ImageContent;
 
             var result = new DetailsProjectViewModel()
             {
@@ -322,9 +238,7 @@ namespace CivilEngineerCMS.Services.Data
                 ImageContent = project.ImageContent,
                 
             };
-
             
-            //result.ImageContent = imageSrc;
             return result;
         }
         /// <summary>
@@ -626,7 +540,7 @@ namespace CivilEngineerCMS.Services.Data
             using var reader = new BinaryReader(file.OpenReadStream());
             var signatures = new List<string>
             {
-                "FF-D8-FF-E0-00-10-4A-46",
+                "FF-D8-FF-E0-00-10-4A-46", //jpg
                 "FF-D8-FF", //jpg
                 "89-50-4E-47-0D-0A-1A-0A", //png
                 "47-49-46-38-37-61", //gif

@@ -59,7 +59,7 @@
 
         public string? ContentType { get; set; }
 
-        public byte[]? ImageContent { get; set; }
+        //public byte[]? ImageContent { get; set; }
 
         public string? PublicId { get; set; }
 
