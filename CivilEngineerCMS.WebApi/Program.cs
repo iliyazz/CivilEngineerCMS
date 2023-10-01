@@ -4,8 +4,9 @@ using CivilEngineerCMS.Services.Data.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 
 // Add services to the container.
 builder.Services.AddDbContext<CivilEngineerCmsDbContext>(option => option.UseSqlServer(connectionString));
