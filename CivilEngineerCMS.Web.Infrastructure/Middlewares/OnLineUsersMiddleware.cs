@@ -38,14 +38,14 @@
                 if (!context.Request.Cookies.TryGetValue(this.cookieName, out string userId))
                 {
                     // First login after being offline
-                    userId = context.User.GetId()!;
+                    userId = context.User.GetId().ToUpper()!;
 
                     context.Response.Cookies.Append(this.cookieName, userId, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(30) });
                 }
 
                 memoryCache.GetOrCreate(userId, cacheEntry =>
                 {
-                    if (!AllKeys.TryAdd(userId, true))
+                    if (!AllKeys.TryAdd(userId.ToUpper(), true))
                     {
                         // Adding key failed to the concurrent dictionary so we have an error
                         cacheEntry.AbsoluteExpiration = DateTimeOffset.MinValue;
@@ -64,9 +64,9 @@
                 // User has just logged out
                 if (context.Request.Cookies.TryGetValue(this.cookieName, out string userId))
                 {
-                    if (!AllKeys.TryRemove(userId, out _))
+                    if (!AllKeys.TryRemove(userId.ToUpper(), out _))
                     {
-                        AllKeys.TryUpdate(userId, false, true);
+                        AllKeys.TryUpdate(userId.ToUpper(), false, true);
                     }
 
                     context.Response.Cookies.Delete(this.cookieName);
@@ -82,7 +82,9 @@
         /// <returns></returns>
         public static bool CheckIfUserIsOnline(string userId)
         {
-            bool valueTaken = AllKeys.TryGetValue(userId.ToLower(), out bool success);
+            //bool valueTaken = AllKeys.TryGetValue(userId.ToLower(), out bool success);
+            bool valueTaken = AllKeys.TryGetValue(userId.ToUpper(), out bool success);
+
 
             return success && valueTaken;
         }
@@ -97,9 +99,9 @@
         {
             string keyStr = (string)key; //UserId
 
-            if (!AllKeys.TryRemove(keyStr, out _))
+            if (!AllKeys.TryRemove(keyStr.ToUpper(), out _))
             {
-                AllKeys.TryUpdate(keyStr, false, true);
+                AllKeys.TryUpdate(keyStr.ToUpper(), false, true);
             }
         }
         /// <summary>

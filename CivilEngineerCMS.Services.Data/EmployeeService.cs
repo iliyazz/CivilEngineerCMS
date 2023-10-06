@@ -364,5 +364,7 @@ namespace CivilEngineerCMS.Services.Data
                 .ToListAsync();
             return allProjectsByManagerIdAsync;
         }
+
+        
     }
 }

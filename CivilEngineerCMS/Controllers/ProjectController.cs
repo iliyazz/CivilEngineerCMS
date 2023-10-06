@@ -381,10 +381,49 @@ namespace CivilEngineerCMS.Web.Controllers
                 this.ModelState.AddModelError(string.Empty, "Project does not exist.");
                 return this.RedirectToAction("All", "Project");
             }
+            var currentUserId = this.User.GetId();
+            var isClient = await clientService.IsClientByUserIdAsync(currentUserId);
+
+
+            try
+            {
+                var isAdministrator = this.User.IsAdministrator();
+
+                if (!isAdministrator)
+                {
+                    string employeeId = await employeeService.GetEmployeeIdByUserIdAsync(currentUserId);
+                    string managerId = await projectService.GetManagerIdByProjectIdAsync(projectId);
+
+                    bool isEmployeeOfProject = await projectService.IsEmployeeOfProjectAsync(projectId, employeeId);
+
+                    bool isManagerOfProject = await projectService.IsManagerOfProjectAsync(projectId, employeeId);
+
+
+                    if (!(isEmployeeOfProject || isManagerOfProject))
+                    {
+                        NotAuthorized();
+                        return this.RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                NotAuthorized();
+                return this.RedirectToAction("Index", "Home");
+            }
+
+
 
             DetailsProjectViewModel viewModel = await this.projectService.DetailsByIdProjectAsync(projectId);
             return this.View(viewModel);
         }
+
+        private void NotAuthorized()
+        {
+            this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+            this.ModelState.AddModelError(string.Empty, "You are not authorized to view this page.");
+        }
+
 
         /// <summary>
         /// This method return view for delete project
@@ -416,7 +455,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                this.TempData[ErrorMessage] = "You must be manager of project you want to delete.";
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -463,7 +502,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                this.TempData[ErrorMessage] = "You must be manager of project you want to delete.";
                 return this.RedirectToAction("Mine", "Employee");
             }
 

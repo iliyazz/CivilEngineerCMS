@@ -116,22 +116,23 @@
         [HttpGet]
         public async Task<IActionResult> Details()
         {
-            var clientId = (string?)Url.ActionContext.RouteData.Values["id"];
-            if (clientId == null)
+            var isAdministrator = this.User.IsAdministrator();
+            if (!isAdministrator)
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.ModelState.AddModelError(string.Empty, "You are not authorized to view this page.");
+                return this.RedirectToAction("Index", "Home");
+            }
+            string? clientIdRoutData = (string?)Url.ActionContext.RouteData.Values["id"];
+
+            if (string.IsNullOrWhiteSpace(clientIdRoutData) || !await clientService.ClientExistsByIdAsync(clientIdRoutData))
             {
                 this.TempData[ErrorMessage] = "Client does not exist.";
                 this.ModelState.AddModelError(string.Empty, "Client does not exist.");
-                return this.RedirectToAction("All", "Client");
+                return this.RedirectToAction("All", "Client",new { Area = AdminAreaName });
             }
 
-            if (!await clientService.ClientExistsByIdAsync(clientId))
-            {
-                this.TempData[ErrorMessage] = "Client does not exist.";
-                this.ModelState.AddModelError(string.Empty, "Client does not exist.");
-                return this.RedirectToAction("All", "Client");
-            }
-
-            DetailsClientViewModel viewModel = await this.clientService.DetailsClientAsync(clientId);
+            DetailsClientViewModel viewModel = await this.clientService.DetailsClientAsync(clientIdRoutData);
             return this.View(viewModel);
         }
         /// <summary>
@@ -153,7 +154,7 @@
             if (!clientExists)
             {
                 this.TempData[ErrorMessage] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All", "Client");
+                return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
 
             try
@@ -166,7 +167,7 @@
             catch (Exception _)
             {
                 this.TempData[ErrorMessage] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All", "Client");
+                return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
         }
         /// <summary>
@@ -195,7 +196,7 @@
             if (!clientExists)
             {
                 this.TempData[ErrorMessage] = "Client with provided id does not exist.";
-                return this.RedirectToAction("All", "Client");
+                return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
 
             try
