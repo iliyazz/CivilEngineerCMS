@@ -3,6 +3,7 @@ using CivilEngineerCMS.Data.Models;
 using CivilEngineerCMS.Services.Data;
 using CivilEngineerCMS.Services.Data.Interfaces;
 using CivilEngineerCMS.Web.Infrastructure.Extensions;
+using CivilEngineerCMS.Web.Infrastructure.Middlewares;
 using CivilEngineerCMS.Web.Infrastructure.ModelBinders;
 
 using Microsoft.AspNetCore.Identity;

@@ -1,48 +1,39 @@
-﻿using CivilEngineerCMS.Common;
+﻿namespace CivilEngineerCMS.WebApi.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CivilEngineerCMS.WebApi.Controllers
+using Services.Data.Interfaces;
+using Services.Data.Models.Statistics;
+
+
+[ApiController]
+public class StatisticsApiController : ControllerBase
 {
-    using Microsoft.AspNetCore.Authorization;
-    using System.Data;
+    private readonly IProjectService projectService;
 
-    using Microsoft.AspNetCore.Mvc;
-    using Services.Data.Interfaces;
-    using Services.Data.Models.Statistics;
-    using static GeneralApplicationConstants;
+    public StatisticsApiController(IProjectService projectService)
+    {
+        this.projectService = projectService;
+    }
+
 
 
     [Route("api/statistics")]
-    [ApiController]
-    public class StatisticsApiController : ControllerBase
+    [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(StatisticsServiceModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetStatistics()
     {
-        private readonly IProjectService projectService;
-
-        public StatisticsApiController(IProjectService projectService)
+        try
         {
-            this.projectService = projectService;
+            StatisticsServiceModel serviceModel = await this.projectService.GetStatisticsAsync();
+            return this.Ok(serviceModel);
         }
-
-        [Authorize(Roles = AdministratorRoleName)]
-        [HttpGet]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(StatisticsServiceModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetStatistics()
+        catch (Exception)
         {
-
-            try
-            {
-                StatisticsServiceModel serviceModel = await this.projectService.GetStatisticsAsync();
-                return this.Ok(serviceModel);
-            }
-            catch (Exception)
-            {
-               return this.BadRequest();
-            }
-
-
+            return this.BadRequest();
         }
     }
 }

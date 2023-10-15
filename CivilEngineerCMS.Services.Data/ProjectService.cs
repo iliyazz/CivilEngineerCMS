@@ -1,4 +1,6 @@
-﻿namespace CivilEngineerCMS.Services.Data
+﻿using System.Security.Claims;
+
+namespace CivilEngineerCMS.Services.Data
 {
     using System.Collections.Generic;
     using System.Globalization;
@@ -383,6 +385,7 @@
         /// <returns></returns>
         public async Task<StatisticsServiceModel> GetStatisticsAsync()
         {
+
             var result =  new StatisticsServiceModel()
             {
                 TotalActiveProjects = await this.dbContext
@@ -549,6 +552,31 @@
             var headerBytes = reader.ReadBytes(8);
             var fileSignature = BitConverter.ToString(headerBytes);
             return signatures.Contains(fileSignature);
+        }
+
+        public async Task<IEnumerable<ProjectAllViewModel>> AllProjectsAsyncApi()
+        {
+            IEnumerable<ProjectAllViewModel> allProjectsAsyncApi = await this.dbContext
+                .Projects
+                .Where(p => p.IsActive)
+                .OrderBy(p => p.Name)
+                .Select(p => new ProjectAllViewModel
+                {
+                    Id = p.Id.ToString(),
+                    ProjectName = p.Name,
+                    Description = p.Description,
+                    ManagerName = $"{p.Manager.FirstName} {p.Manager.LastName}",
+                    ClientEmail = p.Client.User.Email,
+                    ManagerPhoneNumber = p.Manager.PhoneNumber,
+                    ManagerEmail = p.Manager.User.Email,
+                    ProjectCreatedDate = p.ProjectCreatedDate,
+                    ProjectEndDate = p.ProjectEndDate,
+                    ClientName = $"{p.Client.FirstName} {p.Client.LastName}",
+                    Status = p.Status.ToString(),
+                    ClientPhoneNumber = p.Client.PhoneNumber
+                })
+                .ToListAsync();
+            return allProjectsAsyncApi;
         }
     }
 }
