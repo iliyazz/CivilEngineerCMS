@@ -18,6 +18,7 @@
             this.Id = Guid.NewGuid();
             this.ProjectsEmployees = new HashSet<ProjectEmployee>();
             this.Interactions = new HashSet<Interaction>();
+            this.Expenses = new HashSet<Expense>();
         }
         /// <summary>
         /// Primary key of the Project entity.
@@ -73,6 +74,8 @@
         public bool IsActive { get; set; }
 
         public virtual ICollection<Interaction> Interactions { get; set; }
+
+        public virtual ICollection<Expense> Expenses { get; set; }
 
     }
 }

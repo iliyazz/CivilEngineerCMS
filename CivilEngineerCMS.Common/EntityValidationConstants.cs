@@ -43,6 +43,9 @@
             public const int AmountMaxValue = 100000000;
             public const int TotalAmountMinValue = 0;
             public const int TotalAmountMaxValue = 100000000;
+            public const int VATValue= 20;
+            public const long InvoiceNumberMinValue = 1000000000;
+            public const long InvoiceNumberMaxValue = 9999999999;
         }
 
         public static class Interaction

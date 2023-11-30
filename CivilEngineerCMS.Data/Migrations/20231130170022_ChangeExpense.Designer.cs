@@ -4,6 +4,7 @@ using CivilEngineerCMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CivilEngineerCMS.Data.Migrations
 {
     [DbContext(typeof(CivilEngineerCmsDbContext))]
-    partial class CivilEngineerCmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231130170022_ChangeExpense")]
+    partial class ChangeExpense
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,7 +102,7 @@ namespace CivilEngineerCMS.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ILIYAZ.SOFTUNI@GMAIL.COM",
                             NormalizedUserName = "ILIYAZ.SOFTUNI@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDzsPqxQQMQAEMeEC/Dr100vtZJN8e5bXFf9vtPudSfmFi+7gzAHOSpVa4w4s2qtnQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE/VPxSOZtOZbsDB8it0ODM5Mf+CNGMg+6E54xeb4AfQYXhX5lY4VMOcXYJ+S75jjw==",
                             PhoneNumber = "+359123456789",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "LJW7J33EVBQOCAMXUDU6OLJIC5NFDMBG",
@@ -210,8 +212,8 @@ namespace CivilEngineerCMS.Data.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<long>("InvoiceNumber")
-                        .HasColumnType("bigint");
+                    b.Property<int>("InvoiceNumber")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
