@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Expenses.AddAndEditExpensesFormModel>
+﻿@* @model IEnumerable<CivilEngineerCMS.Web.ViewModels.Expenses.AddAndEditExpensesFormModel>
 @using CivilEngineerCMS.Services.Data.Interfaces
 @using CivilEngineerCMS.Web.Infrastructure.Extensions
 @inject IEmployeeService EmployeeService
@@ -67,7 +67,7 @@ else
             @foreach (var expense in expenses)
             {
                 rowNumber++;
-                @if (@* isEmployeeInProject || *@ isManagerOfProject || isAdministrator)
+                @if (isManagerOfProject || isAdministrator)
                 {
                     <tr onclick="location.href = '@Url.Action("Edit", "Expense", new { projectId = expense.ProjectId.ToString(), expenseId = expense.Id.ToString() })'" type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
                         <th scope="row">@rowNumber</th>
@@ -90,4 +90,4 @@ else
             }
         </tbody>
     </table>
-}
+} *@

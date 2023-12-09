@@ -58,8 +58,8 @@
                                 <a class="ml-2 mb-2 btn btn-danger" asp-area="" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id.ToString()">Delete</a>
                                 <a class="ml-2 mb-2 btn btn-warning" asp-area="" asp-controller="Project" asp-action="ManageEmployeesInProject" asp-route-id="@Model.Id.ToString()">Manage employees in project</a>
                                 <a class="ml-2 mb-2 btn btn-info" asp-area="" asp-controller="Expense" asp-action="Details" asp-route-id="@Model.Id.ToString()">Expense details</a>
-                                <a class="ml-2 mb-2 btn btn-info" asp-area="" asp-controller="Expense" asp-action="All" asp-route-id="@Model.Id.ToString()">All expense</a>
-                            }
+@*                                 <a class="ml-2 mb-2 btn btn-info" asp-area="" asp-controller="Expense" asp-action="All" asp-route-id="@Model.Id.ToString()">All expense</a>
+ *@                            }
                             <a class="ml-2 mb-2 btn btn-info" asp-area="" asp-controller="Interaction" asp-action="All" asp-route-id="@Model.Id.ToString()">Interactions</a>
                             @if (isAdministrator)
                             {

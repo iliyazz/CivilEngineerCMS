@@ -44,11 +44,11 @@
         public DateTime Date { get; set; }
 
 
-        /// <summary>
-        /// Invoice number of the Expense entity.
-        /// </summary>
-        [Range(InvoiceNumberMinValue, InvoiceNumberMaxValue)]
-        public long InvoiceNumber { get; set; }
+        ///// <summary>
+        ///// Invoice number of the Expense entity.
+        ///// </summary>
+        //[Range(InvoiceNumberMinValue, InvoiceNumberMaxValue)]
+        //public long InvoiceNumber { get; set; }
 
 
 

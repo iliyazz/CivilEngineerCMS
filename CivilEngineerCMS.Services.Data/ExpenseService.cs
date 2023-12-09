@@ -71,6 +71,7 @@
             //    .Sum(e => e.Amount);
             ////remaining payment
 
+            //formModel.InvoiceNumber = 1000000000;
 
             Expense expense = new Expense
             {
@@ -78,7 +79,7 @@
                 Amount = formModel.Amount,
                 TotalAmount = formModel.TotalAmount,
                 Date = DateTime.UtcNow,
-                InvoiceNumber = formModel.InvoiceNumber,
+                //InvoiceNumber = formModel.InvoiceNumber,
             };
             await this.dbContext.Expenses.AddAsync(expense);
             await this.dbContext.SaveChangesAsync();
@@ -153,7 +154,7 @@
                     Amount = e.Amount,
                     TotalAmount = e.TotalAmount,
                     Date = e.Date,
-                    InvoiceNumber = e.InvoiceNumber,
+                    //InvoiceNumber = e.InvoiceNumber,
                 })
                 .ToListAsync();
             return allExpensesByProjectIdIdAsync;

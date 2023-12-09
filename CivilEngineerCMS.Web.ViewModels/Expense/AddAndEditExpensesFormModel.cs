@@ -17,10 +17,10 @@
 
         public DateTime Date { get; set; }
 
-        [Range(InvoiceNumberMinValue, InvoiceNumberMaxValue)]
-        public long InvoiceNumber { get; set; }
+        //[Range(InvoiceNumberMinValue, InvoiceNumberMaxValue)]
+        //public long InvoiceNumber { get; set; }
 
-        decimal remainingPaiment = 0;
+        //decimal remainingPaiment = 0;
     }
 }
 
