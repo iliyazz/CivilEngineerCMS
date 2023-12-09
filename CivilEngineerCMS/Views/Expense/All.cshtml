@@ -1,0 +1,93 @@
+﻿@model IEnumerable<CivilEngineerCMS.Web.ViewModels.Expenses.AddAndEditExpensesFormModel>
+@using CivilEngineerCMS.Services.Data.Interfaces
+@using CivilEngineerCMS.Web.Infrastructure.Extensions
+@inject IEmployeeService EmployeeService
+@inject IProjectService ProjectService
+@inject IClientService ClientService
+@{
+    ViewData["Title"] = "All espenses about project";
+    string userId = User.GetId();
+    bool isEmployee = await EmployeeService.IsEmployeeAsync(userId);
+    bool isEmployeeInProject = false;
+    bool isManagerOfProject = false;
+    bool isAdministrator = this.User.IsAdministrator();
+    bool isClient = await ClientService.IsClientByUserIdAsync(userId);
+    var expenses = Model.ToList();
+    bool isAnyExpenses = expenses.Any();
+
+    if (isEmployee)
+    {
+        var projectId = expenses.First().ProjectId.ToString();
+        var employeeId = await EmployeeService.GetEmployeeIdByUserIdAsync(User.GetId());
+        isEmployeeInProject = await EmployeeService.IsEmployeeInProjectAsync(projectId, employeeId);
+        var managerId = await EmployeeService.GetManagerIdByUserIdAsync(User.GetId());
+        isManagerOfProject = await ProjectService.IsManagerOfProjectAsync(projectId, managerId);
+    }
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+<hr />
+
+
+@if (!isAnyExpenses)
+{
+    <h3 class="text-center">No expenses yet!</h3>
+    <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
+}
+else
+{
+    <div class="text-center">
+        @if (isManagerOfProject || isAdministrator)
+        {
+            <a class="btn btn-success" asp-area="" asp-controller="Expense" asp-action="Add" asp-route-id="@Model.First().ProjectId.ToString()">Add Expense</a>
+            <a class="btn btn-info" asp-area="" asp-controller="Project" asp-action="Details" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
+        }
+        @if (isClient)
+        {
+            <a class="btn btn-info" asp-area="" asp-controller="Client" asp-action="Mine" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
+        }
+
+    </div>
+
+    <hr />
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">InvoiceNumber</th>
+                <th scope="col">Expense date</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Total amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int rowNumber = 0;
+            }
+            @foreach (var expense in expenses)
+            {
+                rowNumber++;
+                @if (@* isEmployeeInProject || *@ isManagerOfProject || isAdministrator)
+                {
+                    <tr onclick="location.href = '@Url.Action("Edit", "Expense", new { projectId = expense.ProjectId.ToString(), expenseId = expense.Id.ToString() })'" type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
+                        <th scope="row">@rowNumber</th>
+                        <td>@expense.InvoiceNumber</td>
+                        <td>@expense.Date</td>
+                        <td>@expense.Amount</td>
+                        <td>@expense.TotalAmount</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <th scope="row">@rowNumber</th>
+                        <td>@expense.InvoiceNumber</td>
+                        <td>@expense.Date</td>
+                        <td>@expense.Amount</td>
+                        <td>@expense.TotalAmount</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

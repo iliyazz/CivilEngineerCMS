@@ -9,5 +9,6 @@
         Task CreateExpenseAsync(string id, AddAndEditExpensesFormModel formModel);
         Task<AddAndEditExpensesFormModel> GetExpenseForEditByProjectIdAsync(string projectId);
         Task EditExpenseForEditByProjectIdAsync(string projectId, AddAndEditExpensesFormModel formModel);
+        Task<IEnumerable<AddAndEditExpensesFormModel>> AllExpensesByProjectAdAsync(string projectId);
     }
 }

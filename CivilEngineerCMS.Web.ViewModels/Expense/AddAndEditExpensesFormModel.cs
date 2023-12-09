@@ -6,6 +6,7 @@
 
     public class AddAndEditExpensesFormModel
     {
+        public Guid Id { get; set; }
         public Guid ProjectId { get; set; }
 
         [Range(AmountMinValue, AmountMaxValue)]
@@ -16,6 +17,10 @@
 
         public DateTime Date { get; set; }
 
+        [Range(InvoiceNumberMinValue, InvoiceNumberMaxValue)]
+        public long InvoiceNumber { get; set; }
+
+        decimal remainingPaiment = 0;
     }
 }
 

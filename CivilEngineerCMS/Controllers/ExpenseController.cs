@@ -1,5 +1,7 @@
 ﻿namespace CivilEngineerCMS.Web.Controllers
 {
+    using CivilEngineerCMS.Web.ViewModels.Interaction;
+
     using Infrastructure.Extensions;
 
     using Microsoft.AspNetCore.Mvc;
@@ -244,6 +246,53 @@
                     "An error occurred while editing the expense. Please try again later or contact administrator!");
                 return this.View(formModel);
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> All(string id)
+        {
+            string userId = this.User.GetId();
+            bool isEmployee = await this.employeeService.IsEmployeeAsync(userId);
+            bool isClient = await this.clientService.IsClientByUserIdAsync(userId);
+            bool isAdministrator = this.User.IsAdministrator();
+            bool isClientOfProject = false;
+            if (isClient)
+            {
+                string clientIdByUserId = await this.clientService.GetClientIdByUserIdAsync(userId);
+                string clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(id);
+                isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId,
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            bool isManagerOfProject = false;
+            bool isEmployeeOfProject = false;
+            if (isEmployee)
+            {
+                string employeeId = await this.employeeService.GetEmployeeIdByUserIdAsync(userId);
+                isManagerOfProject = await this.projectService.IsManagerOfProjectAsync(id, employeeId);
+                isEmployeeOfProject = await this.projectService.IsEmployeeOfProjectAsync(id, employeeId);
+            }
+
+            if (!(isEmployeeOfProject || isManagerOfProject || isClientOfProject || isAdministrator))
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view expenses to this project.";
+                return RedirectToAction("Index", "home");
+            }
+
+            if ((isEmployeeOfProject || isManagerOfProject || isAdministrator)
+                && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
+            {
+                this.TempData[InfoMessage] = "There are no expenses about this project. Create the first one.";
+                return RedirectToAction("Add", "Expenses", new { id = id });
+            }
+
+            if (isClientOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
+            {
+                this.TempData[InfoMessage] = "There are no expenses about this project.";
+                return RedirectToAction("Mine", "Client", new { id = id });
+            }
+
+            IEnumerable<AddAndEditExpensesFormModel> viewModel = await this.expensesService.AllExpensesByProjectAdAsync(id);
+            return View(viewModel);
         }
     }
 }

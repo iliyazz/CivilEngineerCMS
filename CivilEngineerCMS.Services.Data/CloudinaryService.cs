@@ -20,7 +20,7 @@ namespace CivilEngineerCMS.Services.Data
         public async Task<ImageUploadResult> UploadPhotoAsync(IFormFile formFile, string folder, string publicId)
         {
             ImageUploadResult uploadResult = new ImageUploadResult();
-            if (formFile.Length > 0)
+            if (formFile != null && formFile.Length > 0)
             {
                 if (!string.IsNullOrEmpty(publicId))
                 {

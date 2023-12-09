@@ -123,6 +123,8 @@ namespace CivilEngineerCMS.Services.Data
                 ImageName = project.ImageName,
                 ContentType = project.ContentType,
                 PublicId = project.PublicId,
+                UrlPicturePath = project.UrlPicturePath,
+
 
 
                 Employees = project.ProjectsEmployees.Where(pe => pe.ProjectId.ToString() == id).Select(t =>
@@ -174,7 +176,7 @@ namespace CivilEngineerCMS.Services.Data
             project.PublicId = formModel.PublicId;
             project.Status = formModel.Status;
             project.ProjectEndDate =
-                DateTime.ParseExact(formModel.ProjectEndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime.ParseExact(formModel.ProjectEndDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
             await this.dbContext.SaveChangesAsync();
         }

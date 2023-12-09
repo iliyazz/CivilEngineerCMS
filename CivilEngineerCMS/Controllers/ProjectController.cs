@@ -331,12 +331,28 @@ namespace CivilEngineerCMS.Web.Controllers
 
             try
             {
-                if (formModel.PublicId == null || formModel.ImageName != project.ImageName)
+                if(formModel.ImageContent == null && project.UrlPicturePath != null)
                 {
-                    ImageUploadResult uploadResult = await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects", project.PublicId);
-                    formModel.PublicId = uploadResult.PublicId;
-                    formModel.UrlPicturePath = uploadResult.Url.AbsoluteUri;
+                    formModel.ImageName = project.ImageName;
+                    formModel.ContentType = project.ContentType;
+                    formModel.UrlPicturePath = project.UrlPicturePath;
+                    formModel.PublicId = project.PublicId;
                 }
+                else if (formModel.PublicId == null || formModel.ImageName != project.ImageName)
+                    {
+                        if (formModel.ImageContent != null)
+                        {
+                            ImageUploadResult uploadResult = await this.cloudinaryService.UploadPhotoAsync(formModel.ImageContent, "CMS/projects", project.PublicId);
+                            formModel.PublicId = uploadResult.PublicId;
+                            formModel.UrlPicturePath = uploadResult.Url.AbsoluteUri;
+                        }
+                    }
+                //else
+                //{
+                //    formModel.ImageContent = project.ImageContent;
+                //}
+
+
 
                 await this.projectService.EditProjectByIdAsync(id, formModel);
             }
