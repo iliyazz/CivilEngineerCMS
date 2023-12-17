@@ -56,8 +56,9 @@
             bool resultTrue = projectService.StatusExists("NotYetStarted");
             bool resultFalse = projectService.StatusExists("Incorrect");
 
-            Assert.IsTrue(resultTrue);
-            Assert.IsFalse(resultFalse);
+            Assert.That(resultTrue, Is.True);
+            Assert.That(resultFalse, Is.False);
+
             return Task.CompletedTask;
         }
 
@@ -254,8 +255,8 @@
             bool clientIdActualTrue = await projectService.IsManagerOfProjectAsync(projectId, managerId.ToString());
             bool clientIdActualFalse = await projectService.IsManagerOfProjectAsync(projectId, clientId.ToString());
 
-            Assert.IsTrue(clientIdActualTrue);
-            Assert.IsFalse(clientIdActualFalse);
+            Assert.That(clientIdActualTrue, Is.True);
+            Assert.That(clientIdActualFalse, Is.False);
         }
 
         [Test]

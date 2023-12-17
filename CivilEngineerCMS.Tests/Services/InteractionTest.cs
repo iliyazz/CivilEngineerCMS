@@ -6,6 +6,7 @@
     using CivilEngineerCMS.Web.ViewModels.Employee;
     using CivilEngineerCMS.Web.ViewModels.Project;
 
+
     using Microsoft.AspNetCore.Identity;
 
     using Moq;
@@ -139,13 +140,13 @@
 
             IEnumerable<AddAndEditInteractionFormModel> result = await interactionService.AllInteractionsByProjectIdAsync(project.Id.ToString());
             var ineraction1 =  result.FirstOrDefault(x => x.Type == "Phone call 1");
-            
-            Assert.AreEqual(2, result.Count());
-            Assert.AreEqual("Phone call 1", ineraction1.Type);
-            Assert.AreEqual("TestInteractionDescription1", ineraction1.Description);
-            Assert.AreEqual("Message1 about design", ineraction1.Message);
-            Assert.AreEqual("https://localhost:7255/images/1.jpg", ineraction1.UrlPath);
-            Assert.AreEqual(DateTime.Parse("15.08.2023"), ineraction1.Date);
+            //AreEqual(2, result.Count());
+            Assert.That(2, Is.EqualTo(result.Count()));
+            Assert.That("Phone call 1", Is.EqualTo(ineraction1.Type));
+            Assert.That("TestInteractionDescription1", Is.EqualTo(ineraction1.Description));
+            Assert.That("Message1 about design", Is.EqualTo(ineraction1.Message));
+            Assert.That("https://localhost:7255/images/1.jpg", Is.EqualTo(ineraction1.UrlPath));
+            Assert.That(DateTime.Parse("15.08.2023"), Is.EqualTo(ineraction1.Date));
         }
 
         [Test]
@@ -239,7 +240,7 @@
             await interactionService.CreateInteractionAsync(project.Id.ToString(), modelInteraction2);
 
             bool result = await interactionService.InteractionExistsByProjectIdAsync(project.Id.ToString());
-            Assert.True(result);
+            Assert.That(result = true);
         }
 
         [Test]
@@ -250,7 +251,7 @@
             string projectId = "B1E231F4-7057-45DE-825A-DA8740BB5E6B";
 
             bool result = await interactionService.InteractionExistsByProjectIdAsync(projectId);
-            Assert.False(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -321,7 +322,8 @@
             await data.SaveChangesAsync();
 
             bool result = await interactionService.InteractionExistsByProjectIdAsync(project.Id.ToString());
-            Assert.False(result);
+            //Assert.False(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]

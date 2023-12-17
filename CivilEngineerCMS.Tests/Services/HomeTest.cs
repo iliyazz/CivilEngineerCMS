@@ -117,8 +117,9 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject1);
-            var project1 = data.Projects.FirstOrDefault();
+            var project1 = data.Projects.FirstOrDefault(p => p.Name == "TestProjectName1");
             project1.IsActive = true;
+            project1.UrlPicturePath = "TestUrl1";
 
             //Project2 info
             var managerId2 = employee.Id;
@@ -134,10 +135,11 @@
                 UrlPicturePath = "TestUrl2",
 
             };
-            projectService = new ProjectService(data);
+            //projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject2);
-            var project2 = data.Projects.FirstOrDefault();
+            var project2 = data.Projects.FirstOrDefault(p => p.Name == "TestProjectName2");
             project2.IsActive = true;
+            project2.UrlPicturePath = "TestUrl2";
 
             await data.SaveChangesAsync();
 
