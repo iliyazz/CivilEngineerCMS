@@ -1,11 +1,8 @@
-﻿using System.Net;
-using System.Security.Claims;
-using System.Web.Http;
+﻿//using System.Web.Http;
+
 using CivilEngineerCMS.Data.Models;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Memory;
-using NuGet.Protocol;
 
 namespace CivilEngineerCMS.WebApi.Controllers;
 

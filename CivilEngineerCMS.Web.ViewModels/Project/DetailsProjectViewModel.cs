@@ -1,8 +1,8 @@
 ﻿namespace CivilEngineerCMS.Web.ViewModels.Project
 {
     using CivilEngineerCMS.Common;
+
     using Employee;
-    using Microsoft.AspNetCore.Http;
 
     public class DetailsProjectViewModel
     {
