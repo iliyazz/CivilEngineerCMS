@@ -16,20 +16,22 @@
         private readonly IEmployeeService employeeService;
         private readonly IClientService clientService;
         private readonly IProjectService projectService;
+        private readonly ILogger<InteractionController> logger;
 
         public InteractionController(IInteractionService interactionService, IEmployeeService employeeService,
-            IClientService clientService, IProjectService projectService)
+            IClientService clientService, IProjectService projectService, ILogger<InteractionController> logger)
         {
             this.interactionService = interactionService;
             this.employeeService = employeeService;
             this.clientService = clientService;
             this.projectService = projectService;
+            this.logger = logger;
         }
         /// <summary>
-        /// This method return view for all interactions
+        /// Returns a view listing all interactions for the specified project.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the project whose interactions are displayed.</param>
+        /// <returns>A view with all project interactions, or a redirect if the user is not authorized or no interactions exist yet.</returns>
         [HttpGet]
         public async Task<IActionResult> All(string id)
         {
@@ -80,10 +82,10 @@
             return View(viewModel);
         }
         /// <summary>
-        /// This method return view for adding interaction
+        /// Returns the form view for adding a new interaction to the specified project.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the project the interaction belongs to.</param>
+        /// <returns>The add interaction form view, or a redirect if the user is not authorized to add interactions.</returns>
         [HttpGet]
         public async Task<IActionResult> Add(string id)
         {
@@ -123,11 +125,11 @@
             return View(formModel);
         }
         /// <summary>
-        /// This method add interaction
+        /// Creates a new interaction record for the specified project from the submitted form data.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the project the interaction belongs to.</param>
+        /// <param name="formModel">The form model containing the interaction data.</param>
+        /// <returns>Redirects to the interaction list on success, or returns the form view with errors on failure.</returns>
         [HttpPost]
         public async Task<IActionResult> Add(string id, AddAndEditInteractionFormModel formModel)
         {
@@ -169,19 +171,20 @@
                 this.TempData[SuccessMessage] = $"Interaction added successfully.";
                 return this.RedirectToAction("All", "Interaction", new { id = id });
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error creating interaction for project {ProjectId}.", id);
                 this.ModelState.AddModelError(string.Empty,
                     "An error occurred while adding the interaction. Please try again later or contact administrator!");
                 return this.View(formModel);
             }
         }
         /// <summary>
-        /// This method return view for editing interaction
+        /// Returns the edit form view for the specified interaction within a project.
         /// </summary>
-        /// <param name="projectId"></param>
-        /// <param name="interactionId"></param>
-        /// <returns></returns>
+        /// <param name="projectId">The unique identifier of the project the interaction belongs to.</param>
+        /// <param name="interactionId">The unique identifier of the interaction to edit.</param>
+        /// <returns>The edit interaction form view, or a redirect if the user is not authorized or the interaction does not exist.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(string projectId, string interactionId)
         {
@@ -206,12 +209,7 @@
             if (!(isManagerOfProject || isAdministrator))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
-                if (isManagerOfProject)
-                {
-                    return RedirectToAction("Mine", "Employee");
-                }
-
-                return RedirectToAction("All", "Project");
+                return RedirectToAction("Mine", "Employee");
             }
 
 
@@ -227,12 +225,12 @@
             return this.View(viewModel);
         }
         /// <summary>
-        /// This method edit interaction
+        /// Processes the submitted edit form and updates the specified interaction record.
         /// </summary>
-        /// <param name="interactionId"></param>
-        /// <param name="projectId"></param>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="interactionId">The unique identifier of the interaction to update.</param>
+        /// <param name="projectId">The unique identifier of the project the interaction belongs to.</param>
+        /// <param name="formModel">The form model containing the updated interaction data.</param>
+        /// <returns>Redirects to the interaction list on success, or returns the form view with errors on failure.</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string interactionId, string projectId,
             AddAndEditInteractionFormModel formModel)
@@ -263,12 +261,7 @@
             if (!(isManagerOfProject || isAdministrator))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
-                if (isManagerOfProject)
-                {
-                    return RedirectToAction("Mine", "Employee");
-                }
-
-                return RedirectToAction("All", "Project");
+                return RedirectToAction("Mine", "Employee");
             }
 
             bool isInteractionExists = await this.interactionService.InteractionExistsByProjectIdAsync(projectId);
@@ -285,8 +278,9 @@
                 this.TempData[SuccessMessage] = $"Interaction edited successfully.";
                 return this.RedirectToAction("All", "Interaction", new { id = projectId });
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error editing interaction {InteractionId} for project {ProjectId}.", interactionId, projectId);
                 this.ModelState.AddModelError(string.Empty,
                     "An error occurred while editing the interaction. Please try again later or contact administrator!");
                 return this.View(formModel);

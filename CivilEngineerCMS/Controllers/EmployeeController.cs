@@ -21,9 +21,9 @@
         }
 
         /// <summary>
-        /// This method return all projects where the current employee is manager
+        /// Returns all projects where the current user acts as a manager.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A view with the list of managed projects, or a redirect to the home page if the user is not a manager.</returns>
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
@@ -41,9 +41,9 @@
             return this.View(viewModel);
         }
         /// <summary>
-        /// This method return all projects where the current employee is worker
+        /// Returns all projects to which the current user is assigned as an employee (worker).
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A view with the list of assigned projects, or a redirect to the home page if the user is not an employee.</returns>
         [HttpGet]
         public async Task<IActionResult> MineByEmployeeId()
         {
@@ -61,9 +61,9 @@
             return this.View(viewModel);
         }
         /// <summary>
-        /// This method return view for create employee
+        /// Returns the form view for creating a new employee.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The create employee form view, or a redirect to the home page if the user is not an administrator.</returns>
         [HttpGet]
         public IActionResult Create()
         {
@@ -79,10 +79,10 @@
             return this.View(formModel);
         }
         /// <summary>
-        /// This method create employee
+        /// Creates a new employee from the submitted form data.
         /// </summary>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="formModel">The form model containing the new employee's data.</param>
+        /// <returns>Redirects to the employee list on success, or returns the form view with validation errors on failure.</returns>
         [HttpPost]
         public async Task<IActionResult> Create(CreateEmployeeFormModel formModel)
         {
@@ -115,9 +115,9 @@
             }
         }
         /// <summary>
-        /// This method return details for employee
+        /// Returns the details view for the employee identified by the route id value.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The employee details view, or a redirect to the employee list if the employee does not exist.</returns>
         [HttpGet]
         public async Task<IActionResult> Details()
         {
@@ -140,10 +140,10 @@
             return this.View(viewModel);
         }
         /// <summary>
-        /// This method return view for edit employee
+        /// Returns the edit form view for the specified employee.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the employee to edit.</param>
+        /// <returns>The edit employee form view, or a redirect if the user is not authorized or the employee does not exist.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -173,11 +173,11 @@
             }
         }
         /// <summary>
-        /// This method edit employee
+        /// Processes the submitted edit form and updates the specified employee's data.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the employee to update.</param>
+        /// <param name="formModel">The form model containing the updated employee data.</param>
+        /// <returns>Redirects to the employee list on success, or returns the form view with errors on failure.</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string id, EditEmployeeFormModel formModel)
         {
@@ -216,9 +216,9 @@
             }
         }
         /// <summary>
-        /// This method return general error
+        /// Sets a generic error message and redirects to the home page.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A redirect result to the home page.</returns>
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
@@ -227,10 +227,10 @@
             return this.RedirectToAction("Index", "Home");
         }
         /// <summary>
-        /// this method return view for delete employee
+        /// Returns the delete confirmation view for the specified employee.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the employee to delete.</param>
+        /// <returns>The delete confirmation view, or a redirect if the user is not authorized or the employee does not exist.</returns>
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -262,11 +262,11 @@
             }
         }
         /// <summary>
-        /// This method delete employee
+        /// Deletes the specified employee permanently.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the employee to delete.</param>
+        /// <param name="formModel">The pre-delete view model containing the employee's display data.</param>
+        /// <returns>Redirects to the employee list on success, or to the home page on unexpected error.</returns>
         [HttpPost]
         public async Task<IActionResult> Delete(string id, EmployeePreDeleteViewModel formModel)
         {

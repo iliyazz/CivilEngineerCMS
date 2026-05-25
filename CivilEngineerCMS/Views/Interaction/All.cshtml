@@ -1,18 +1,18 @@
-﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@using CivilEngineerCMS.Services.Data.Interfaces
 @using CivilEngineerCMS.Web.Infrastructure.Extensions
 @model IEnumerable<CivilEngineerCMS.Web.ViewModels.Interaction.AddAndEditInteractionFormModel>
 @inject IEmployeeService EmployeeService
 @inject IProjectService ProjectService
 @inject IClientService ClientService
 @{
-    ViewData["Title"] = "All interactions about project";
+    ViewData["Title"] = "Project Interactions";
     var interactions = Model.ToList();
     var isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
     bool isEmployeeInProject = false;
     bool isManagerOfProject = false;
     bool isAdministrator = this.User.IsAdministrator();
     bool isClient = await ClientService.IsClientByUserIdAsync(User.GetId());
-    if (isEmployee)
+    if (isEmployee && interactions.Any())
     {
         var projectId = interactions.First().ProjectId.ToString();
         var employeeId = await EmployeeService.GetEmployeeIdByUserIdAsync(User.GetId());
@@ -22,65 +22,82 @@
     }
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr/>
+<div class="page-header">
+    <h2><i class="bi bi-chat-dots me-2"></i>Project Interactions</h2>
+    <p>All interactions and communications logged for this project.</p>
+    <div class="page-header-actions">
+        @if ((isEmployeeInProject || isManagerOfProject || isAdministrator) && interactions.Any())
+        {
+            <a class="btn btn-success btn-sm"
+               asp-area="" asp-controller="Interaction" asp-action="Add" asp-route-id="@interactions.First().ProjectId.ToString()">
+                <i class="bi bi-plus-lg me-1"></i>Add Interaction
+            </a>
+            <a class="btn btn-outline-secondary btn-sm"
+               asp-area="" asp-controller="Project" asp-action="Details" asp-route-id="@interactions.First().ProjectId.ToString()">
+                <i class="bi bi-arrow-left me-1"></i>Back to Project
+            </a>
+        }
+        @if (isClient && interactions.Any())
+        {
+            <a class="btn btn-outline-secondary btn-sm"
+               asp-area="" asp-controller="Client" asp-action="Mine">
+                <i class="bi bi-arrow-left me-1"></i>My Projects
+            </a>
+        }
+    </div>
+</div>
 
 @if (!interactions.Any())
 {
-    <h3 class="text-center">No interaction yet!</h3>
-    <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
+    <div class="empty-state">
+        <span class="empty-icon"><i class="bi bi-chat-square-dots"></i></span>
+        <h4>No interactions yet</h4>
+        <p>No communications have been logged for this project.</p>
+        <a class="btn btn-outline-secondary" href="javascript:history.back();">
+            <i class="bi bi-arrow-left me-1"></i>Back
+        </a>
+    </div>
 }
 else
 {
-    <div class="text-center">
-        @if (isEmployeeInProject || isManagerOfProject || isAdministrator)
-        {
-            <a class="btn btn-success" asp-area="" asp-controller="Interaction" asp-action="Add" asp-route-id="@Model.First().ProjectId.ToString()">Add interaction</a>
-            <a class="btn btn-info" asp-area="" asp-controller="Project" asp-action="Details" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
-        }
-        @if (isClient)
-        {
-            <a class="btn btn-info" asp-area="" asp-controller="Client" asp-action="Mine" asp-route-id="@Model.First().ProjectId.ToString()">Cancel</a>
-        }
-
+    <div class="table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int rowNumber = 0; }
+                @foreach (var interaction in interactions)
+                {
+                    rowNumber++;
+                    @if (isManagerOfProject || isAdministrator)
+                    {
+                        <tr onclick="location.href='@Url.Action("Edit", "Interaction", new { projectId = interaction.ProjectId.ToString(), interactionId = interaction.Id.ToString() })'">
+                            <td class="fw-600">@rowNumber</td>
+                            <td>@interaction.Date.ToString("dd.MM.yyyy")</td>
+                            <td><span class="badge-status badge-pending">@interaction.Type</span></td>
+                            <td>@interaction.Description</td>
+                            <td>@interaction.Message</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style="cursor:default;">
+                            <td class="fw-600">@rowNumber</td>
+                            <td>@interaction.Date.ToString("dd.MM.yyyy")</td>
+                            <td><span class="badge-status badge-pending">@interaction.Type</span></td>
+                            <td>@interaction.Description</td>
+                            <td>@interaction.Message</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
     </div>
-    <hr/>
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Interaction date</th>
-            <th scope="col">Type of interaction</th>
-            <th scope="col">Description</th>
-            <th scope="col">Message</th>
-        </tr>
-        </thead>
-        <tbody>
-        @{ int rowNumber = 0; }
-        @foreach (var interaction in interactions)
-        {
-            rowNumber++;
-            @if (@* isEmployeeInProject || *@ isManagerOfProject || isAdministrator)
-            {
-                <tr onclick="location.href = '@Url.Action("Edit", "Interaction", new { projectId = interaction.ProjectId.ToString(), interactionId = interaction.Id.ToString() })'" type="submit" data - toggle="tooltip" data - placement="top" title="Click for details" role="button">
-                    <th scope="row">@rowNumber</th>
-                    <td>@interaction.Date</td>
-                    <td>@interaction.Type</td>
-                    <td>@interaction.Description</td>
-                    <td>@interaction.Message</td>
-                </tr>
-            }
-            else
-            {
-                <tr >
-                    <th scope="row">@rowNumber</th>
-                    <td>@interaction.Date</td>
-                    <td>@interaction.Type</td>
-                    <td>@interaction.Description</td>
-                    <td>@interaction.Message</td>
-                </tr>
-            }
-        }
-        </tbody>
-    </table>
 }

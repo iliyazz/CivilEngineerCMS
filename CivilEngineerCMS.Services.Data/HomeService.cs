@@ -26,7 +26,7 @@
                 .Projects
                 //.Where(p => !string.IsNullOrWhiteSpace(p.UrlPicturePath))
                 .Where(p => p.UrlPicturePath != null)
-                .OrderBy(x => Guid.NewGuid())
+                .OrderBy(x => EF.Functions.Random())
                 .Select(p => new IndexViewModel
                 {
                     Id = p.Id.ToString(),

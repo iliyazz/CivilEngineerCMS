@@ -1,62 +1,69 @@
-﻿@using CivilEngineerCMS.Common
+@using CivilEngineerCMS.Common
 @model AddAndEditProjectFormModel
 
-
-
-<div class="row">
-    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label asp-for="Name"></label>
-                <input asp-for="Name" class="form-control" placeholder="Title...">
-                <span asp-validation-for="Name" class="small text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-folder-plus me-2"></i>Project Details
             </div>
-            <div class="form-group">
-                <label asp-for="Description"></label>
-                <input asp-for="Description" class="form-control" placeholder="Description...">
-                <span asp-validation-for="Description" class="small text-danger"></span>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Name"><i class="bi bi-type me-1"></i>Project Title</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter project title..." />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Description"><i class="bi bi-card-text me-1"></i>Description</label>
+                        <input asp-for="Description" class="form-control" placeholder="Brief project description..." />
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" asp-for="ProjectEndDate"><i class="bi bi-calendar-x me-1"></i>End Date</label>
+                        <input type="date" asp-for="ProjectEndDate" class="form-control" />
+                        <span asp-validation-for="ProjectEndDate" class="text-danger small"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" asp-for="Status"><i class="bi bi-activity me-1"></i>Status</label>
+                        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<ProjectStatusEnums>()">
+                            <option selected="selected" value="">— Select status —</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger small"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" asp-for="ManagerId"><i class="bi bi-person-badge me-1"></i>Manager</label>
+                        <select asp-for="ManagerId" class="form-select">
+                            @foreach (var manager in Model.Managers)
+                            {
+                                <option value="@manager.Id">@manager.FullName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="ManagerId" class="text-danger small"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" asp-for="ClientId"><i class="bi bi-briefcase me-1"></i>Client</label>
+                        <select asp-for="ClientId" class="form-select">
+                            @foreach (var client in Model.Clients)
+                            {
+                                <option value="@client.Id">@client.FullName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="ClientId" class="text-danger small"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" asp-for="ImageContent"><i class="bi bi-image me-1"></i>Project Image</label>
+                        <input asp-for="ImageContent" type="file" accept=".jpg,.JPG,.jpeg,.JPEG" class="form-control" />
+                        <small class="text-muted">JPEG format only</small>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-end mt-4">
+                        <a class="btn btn-outline-secondary" href="javascript:history.back();">
+                            <i class="bi bi-x me-1"></i>Cancel
+                        </a>
+                        <input class="btn btn-primary" type="submit" value="Save Project" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="ProjectEndDate"></label>
-                <input type="date" asp-for="ProjectEndDate" class="form-control" placeholder="Project end date" value=@DateTime.Now.ToString("dd/MM/yyyy")>
-                <span asp-validation-for="ProjectEndDate" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status"></label>
-                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectStatusEnums>()">
-                    <option selected="selected" value="">Please select</option>
-                </select>
-                <span asp-validation-for="Status" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ManagerId"></label>
-                <select asp-for="ManagerId" class="form-control">
-                    @foreach (var manager in Model.Managers)
-                    {
-                        <option value="@manager.Id">@manager.FullName</option>
-                    }
-                </select>
-                <span asp-validation-for="ManagerId" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClientId"></label>
-                <select asp-for="ClientId" class="form-control">
-                    @foreach (var client in Model.Clients)
-                    {
-                        <option value="@client.Id">@client.FullName</option>
-                    }
-                </select>
-                <span asp-validation-for="ClientId" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageContent">Image</label>
-                <input asp-for="ImageContent" type="file" accept=".jpg,.JPG,.jpeg,JPEG" class="form-control" placeholder="ImageContent">
-            </div>
-
-            <div class="text-center">
-                <input class="btn btn-primary mt-3" type="submit" value="Save"/>
-            </div>
-
-        </form>
+        </div>
     </div>
 </div>

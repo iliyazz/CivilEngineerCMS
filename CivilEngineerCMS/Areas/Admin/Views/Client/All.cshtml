@@ -1,97 +1,86 @@
-﻿@using CivilEngineerCMS.Services.Data.Interfaces
+@using CivilEngineerCMS.Services.Data.Interfaces
 @using CivilEngineerCMS.Web.Infrastructure.Middlewares
 @model IEnumerable<CivilEngineerCMS.Web.ViewModels.Client.AllClientViewModel>
 @inject IClientService ClientService
 @{
-    ViewData["Title"] = "All clients";
+    ViewData["Title"] = "All Clients";
     var clients = Model.ToList();
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr/>
+<div class="page-header">
+    <h2><i class="bi bi-briefcase me-2"></i>All Clients</h2>
+    <p>Overview of all registered clients and their online status.</p>
+    <div class="page-header-actions">
+        <a class="btn btn-success btn-sm" asp-area="" asp-controller="Client" asp-action="Create">
+            <i class="bi bi-person-vcard me-1"></i>Add Client
+        </a>
+    </div>
+</div>
 
 @if (!clients.Any())
 {
-    <h3 class="text-center">No clients yet!</h3>
+    <div class="empty-state">
+        <span class="empty-icon"><i class="bi bi-briefcase"></i></span>
+        <h4>No clients registered</h4>
+        <p>Add the first client to get started.</p>
+    </div>
 }
 else
 {
-    <div>
-        <h5 class="text-center text-success">
-            Total online users: <b>@OnLineUsersMiddleware.GetOnLineUsersCount()</b>
-        </h5>
+    <div class="mb-3">
+        <span class="badge-status badge-active">
+            <i class="bi bi-wifi me-1"></i>@OnLineUsersMiddleware.GetOnLineUsersCount() online now
+        </span>
     </div>
-    <table class="table table-hover  table-bordered">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First name</th>
-            <th scope="col">Last name</th>
-            <th scope="col">Phone number</th>
-            <th scope="col">Email</th>
-            <th scope="col">Address</th>
-            <th scope="col">Is active</th>
-            <th scope="col">Online clients</th>
-        </tr>
-        </thead>
-        <tbody>
-        @{
-            int rowNumber = 0;
-            var clientCondition = string.Empty;
-        }
-        @foreach (var cl in clients)
-        {
-            rowNumber++;
-            clientCondition = cl.IsActive ? "Yes" : "No";
-            @if (cl.IsActive)
-            {
-                <tr onclick="location.href = '@Url.Action("Details", "Client", new { id = @cl.Id.ToString(), Area = "" })' " type="submit" data - toggle="tooltip"  placement="top" title="Click for details" role="button">
-                    <td @* scope="row" *@>@rowNumber</td>
-                    
-
-                    <td>@cl.FirstName</td>
-                    <td>@cl.LastName</td>
-                    <td>@cl.PhoneNumber</td>
-                    <td>@cl.Email</td>
-                    <td>@cl.Address</td>
-                        <td class="text-success">@clientCondition</td>
-                    <td>
-                        @if (OnLineUsersMiddleware.CheckIfUserIsOnline(cl.UserId.ToString()))
-                        {
-                            <span class="text-success">Online</span>
-                        }
-                        else
-                        {
-                            <span class="text-danger">Offline</span>
-                        }
-
-                    </td>
-                </tr>
-            }
-            else
-            {
+    <div class="table-wrapper">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td @* scope="row" *@>@rowNumber</td>
-                    <td>@cl.FirstName</td>
-                    <td>@cl.LastName</td>
-                    <td>@cl.PhoneNumber</td>
-                    <td>@cl.Email</td>
-                    <td>@cl.Address</td>
-                        <td class="text-danger">@clientCondition</td>
-                    <td>
-                        @if (OnLineUsersMiddleware.CheckIfUserIsOnline(cl.UserId.ToString()))
-                        {
-                            <span class="text-success">Online</span>
-                        }
-                        else
-                        {
-                            <span class="text-danger">Offline</span>
-                        }
-
-                    </td>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th class="text-center">Active</th>
+                    <th class="text-center">Status</th>
                 </tr>
-            }
-        }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @{ int rowNumber = 0; }
+                @foreach (var cl in clients)
+                {
+                    rowNumber++;
+                    <tr onclick="location.href='@Url.Action("Details", "Client", new { id = cl.Id.ToString(), area = "" })'">
+                        <td class="fw-600">@rowNumber</td>
+                        <td>@cl.FirstName</td>
+                        <td>@cl.LastName</td>
+                        <td>@cl.PhoneNumber</td>
+                        <td>@cl.Email</td>
+                        <td>@cl.Address</td>
+                        <td class="text-center">
+                            @if (cl.IsActive)
+                            {
+                                <span class="badge-status badge-active">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge-status badge-cancelled">Inactive</span>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (OnLineUsersMiddleware.CheckIfUserIsOnline(cl.UserId.ToString()))
+                            {
+                                <span class="badge-online"><i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>Online</span>
+                            }
+                            else
+                            {
+                                <span class="badge-offline">Offline</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }

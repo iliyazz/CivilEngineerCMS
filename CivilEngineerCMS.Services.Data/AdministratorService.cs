@@ -29,7 +29,7 @@
         /// <returns></returns>
         public async Task<IEnumerable<SelectEmployeesForAdministratorFormModel>> AllEmployeesForAdministratorAsync()
         {
-            IEnumerable<SelectEmployeesForAdministratorFormModel> allEmployees = await this.dbContext
+            var allEmployees = await this.dbContext
                 .Employees
                 .Where(x => x.IsActive)
                 .Include(x => x.User)
@@ -40,11 +40,15 @@
                     LastName = e.LastName,
                     JobTitle = e.JobTitle,
                     Email = e.User.Email,
-                    IsChecked = this.userManager.IsInRoleAsync(e.User, AdministratorRoleName).GetAwaiter().GetResult(),
                     UserId = e.UserId
                 })
                 .ToListAsync();
 
+            foreach (var employee in allEmployees)
+            {
+                var user = await this.userManager.FindByEmailAsync(employee.Email);
+                employee.IsChecked = await this.userManager.IsInRoleAsync(user, AdministratorRoleName);
+            }
 
             return allEmployees;
         }

@@ -1,51 +1,64 @@
-﻿@model IEnumerable<MineClientManagerProjectViewModel>
-
+@model IEnumerable<MineClientManagerProjectViewModel>
 @{
-    ViewData["Title"] = "My projects";
+    ViewData["Title"] = "My Projects";
     var projects = Model.ToList();
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr/>
+<div class="page-header">
+    <h2><i class="bi bi-collection me-2"></i>My Projects</h2>
+    <p>Projects assigned to you as the client.</p>
+</div>
 
 @if (!projects.Any())
 {
-    <h3 class="text-center">No project yet!</h3>
+    <div class="empty-state">
+        <span class="empty-icon"><i class="bi bi-folder2-open"></i></span>
+        <h4>No projects yet</h4>
+        <p>No projects have been assigned to you yet.</p>
+    </div>
 }
 else
 {
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Project title</th>
-            <th scope="col">Manager name</th>
-            <th scope="col">Manager phone number</th>
-            <th scope="col">Project create date</th>
-            <th scope="col">Project end date</th>
-        </tr>
-        </thead>
-        <tbody>
-        @{ int rowNumber = 0; }
-        @foreach (var p in projects)
-        {
-            rowNumber++;
-            <tr>
-                <th scope="row">@rowNumber</th>
-                <td>@p.ProjectName</td>
-                <td>@p.ManagerName</td>
-                <td>@p.ManagerPhoneNumber</td>
-                <td>@p.ProjectCreatedDate.ToString("dd/MM/yyyy")</td>
-                <td>@p.ProjectEndDate.ToString("dd/MM/yyyy")</td>
-                <td>
-                        <a class="ml-2 mb-2 btn btn-info" asp-area="" asp-controller="Expense" asp-action="Details" asp-route-id="@p.ProjectId">Expense</a>
-                        <a class="ml-2 mb-2 btn btn-info" asp-area="" asp-controller="Interaction" asp-action="All" asp-route-id="@p.ProjectId">Interactions</a>
-                        <a class="ml-2 mb-2 btn btn-info" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="@p.ProjectId">Cancel</a>
-                    </td>
-
-
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Project Title</th>
+                    <th>Manager</th>
+                    <th>Manager Phone</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int rowNumber = 0; }
+                @foreach (var p in projects)
+                {
+                    rowNumber++;
+                    <tr>
+                        <td class="fw-600">@rowNumber</td>
+                        <td class="fw-600">@p.ProjectName</td>
+                        <td>@p.ManagerName</td>
+                        <td>@p.ManagerPhoneNumber</td>
+                        <td>@p.ProjectCreatedDate.ToString("dd/MM/yyyy")</td>
+                        <td>@p.ProjectEndDate.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">
+                            <div class="d-flex gap-1 justify-content-center">
+                                <a class="btn btn-primary btn-sm"
+                                   asp-area="" asp-controller="Expense" asp-action="Details" asp-route-id="@p.ProjectId">
+                                    <i class="bi bi-currency-euro me-1"></i>Expenses
+                                </a>
+                                <a class="btn btn-info btn-sm"
+                                   asp-area="" asp-controller="Interaction" asp-action="All" asp-route-id="@p.ProjectId">
+                                    <i class="bi bi-chat-dots me-1"></i>Interactions
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }

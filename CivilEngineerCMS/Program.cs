@@ -31,7 +31,7 @@ builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 
 
 builder.Services.AddDbContext<CivilEngineerCmsDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlite(connectionString));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     {

@@ -27,9 +27,9 @@
             this.userManager = userManager;
         }
         /// <summary>
-        /// This method return all projects for current client
+        /// Returns all projects associated with the currently logged-in client.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A view with the list of the client's projects, or a redirect to the home page if the user is not a client.</returns>
         public async Task<IActionResult> Mine()
         {
             string userId = this.User.GetId();
@@ -46,9 +46,9 @@
         }
 
         /// <summary>
-        /// This method return view for creating new client
+        /// Returns the form view for creating a new client.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The create client form view, or a redirect to the home page if the user is not an administrator.</returns>
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -75,10 +75,10 @@
             return this.View();
         }
         /// <summary>
-        /// This method create new client
+        /// Creates a new client from the submitted form data.
         /// </summary>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="formModel">The form model containing the new client's data.</param>
+        /// <returns>Redirects to the client list on success, or returns the form view with validation errors on failure.</returns>
         [HttpPost]
         public async Task<IActionResult> Create(CreateClientFormModel formModel)
         {
@@ -110,9 +110,9 @@
             }
         }
         /// <summary>
-        /// This method return details for client
+        /// Returns the details view for the client identified by the route id value.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The client details view, or a redirect if the user is not authorized or the client does not exist.</returns>
         [HttpGet]
         public async Task<IActionResult> Details()
         {
@@ -136,10 +136,10 @@
             return this.View(viewModel);
         }
         /// <summary>
-        /// This method return view for editing client
+        /// Returns the edit form view for the specified client.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the client to edit.</param>
+        /// <returns>The edit client form view, or a redirect if the user is not authorized or the client does not exist.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -171,11 +171,11 @@
             }
         }
         /// <summary>
-        /// This method edit client
+        /// Processes the submitted edit form and updates the specified client's data.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the client to update.</param>
+        /// <param name="formModel">The form model containing the updated client data.</param>
+        /// <returns>Redirects to the client list on success, or returns the form view with errors on failure.</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string id, EditClientFormModel formModel)
         {
@@ -215,9 +215,9 @@
             }
         }
         /// <summary>
-        /// This method return general error
+        /// Sets a generic error message and redirects to the home page.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A redirect result to the home page.</returns>
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
@@ -226,10 +226,10 @@
             return this.RedirectToAction("Index", "Home");
         }
         /// <summary>
-        /// This method return view for deleting client
+        /// Returns the delete confirmation view for the specified client.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the client to delete.</param>
+        /// <returns>The delete confirmation view, or a redirect if the user is not authorized or the client does not exist.</returns>
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -259,13 +259,14 @@
                 this.TempData[ErrorMessage] = "Client with provided id does not exist.";
                 return GeneralError();
             }
-        }/// <summary>
-        /// This method delete client
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        }
 
+        /// <summary>
+        /// Deletes the specified client permanently.
+        /// </summary>
+        /// <param name="id">The unique identifier of the client to delete.</param>
+        /// <param name="formModel">The pre-delete view model containing the client's display data.</param>
+        /// <returns>Redirects to the client list on success, or to the home page on unexpected error.</returns>
         [HttpPost]
         public async Task<IActionResult> Delete(string id, ClientPreDeleteViewModel formModel)
         {

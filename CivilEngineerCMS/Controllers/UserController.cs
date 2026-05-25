@@ -32,9 +32,9 @@ namespace CivilEngineerCMS.Web.Controllers
         }
 
         /// <summary>
-        /// This method return view for register
+        /// Returns the user registration form view.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The registration form view.</returns>
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
@@ -42,10 +42,10 @@ namespace CivilEngineerCMS.Web.Controllers
             return this.View();
         }
         /// <summary>
-        /// This method register new user
+        /// Registers a new application user using the submitted form data.
         /// </summary>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="formModel">The form model containing the new user's email and password.</param>
+        /// <returns>Redirects to the home page on success, or returns the registration form with errors on failure.</returns>
         [AllowAnonymous]
         [HttpPost]
         [ValidateRecaptcha(Action =nameof(Register), ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
@@ -79,10 +79,10 @@ namespace CivilEngineerCMS.Web.Controllers
             return this.RedirectToAction("Index", "Home");
         }
         /// <summary>
-        /// This method return view for login
+        /// Returns the login form view, clearing any existing external authentication session.
         /// </summary>
-        /// <param name="returnUrl"></param>
-        /// <returns></returns>
+        /// <param name="returnUrl">The URL to redirect to after a successful login. If null, defaults to the home page.</param>
+        /// <returns>The login form view pre-populated with the return URL.</returns>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Login(string? returnUrl = null)
@@ -96,10 +96,10 @@ namespace CivilEngineerCMS.Web.Controllers
             return this.View(formModel);
         }
         /// <summary>
-        /// This method login user
+        /// Authenticates the user with the provided credentials and signs them in.
         /// </summary>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="formModel">The form model containing the user's email, password, and remember-me preference.</param>
+        /// <returns>Redirects to the return URL (or home) on success, or returns the login form with an error message on failure.</returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginFormModel formModel)
@@ -117,7 +117,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 return this.View(formModel);
 
             }
-            return this.Redirect(formModel.ReturnUrl ?? "/Home/Index");
+            return this.LocalRedirect(formModel.ReturnUrl ?? "/Home/Index");
 
         }
 

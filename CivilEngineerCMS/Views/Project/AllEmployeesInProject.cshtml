@@ -1,41 +1,56 @@
-﻿@model IEnumerable<AllEmployeeViewModel>
+@model IEnumerable<AllEmployeeViewModel>
 @{
-    ViewBag.Title = "All employees in project";
+    ViewData["Title"] = "All Employees in Project";
     var employees = Model.ToList();
 }
-<h2 class="text-center">@ViewBag.Title</h2>
-<hr/>
 
+<div class="page-header">
+    <h2><i class="bi bi-people me-2"></i>Project Team</h2>
+    <p>All employees currently assigned to this project.</p>
+    <div class="page-header-actions">
+        <a class="btn btn-outline-secondary btn-sm" href="javascript:history.back();">
+            <i class="bi bi-arrow-left me-1"></i>Back
+        </a>
+    </div>
+</div>
 
-<section id="projectListStyle">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">FirstName</th>
-            <th scope="col">LastName</th>
-            <th scope="col">JobTitle</th>
-            <th scope="col">Email</th>
-            <th scope="col">PhoneNumber</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        @{
-            int rowNumber = 0;
-        }
-        @foreach (var e in employees)
-        {
-            rowNumber++;
-            <tr>
-                <th scope="row">@rowNumber</th>
-                <td>@e.FirstName</td>
-                <td>@e.LastName</td>
-                <td>@e.JobTitle</td>
-                <td>@e.Email</td>
-                <td>@e.PhoneNumber</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-</section>
+@if (!employees.Any())
+{
+    <div class="empty-state">
+        <span class="empty-icon"><i class="bi bi-people"></i></span>
+        <h4>No employees assigned</h4>
+        <p>No team members have been added to this project yet.</p>
+    </div>
+}
+else
+{
+    <div class="table-wrapper">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Job Title</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int rowNumber = 0; }
+                @foreach (var e in employees)
+                {
+                    rowNumber++;
+                    <tr style="cursor:default;">
+                        <td class="fw-600">@rowNumber</td>
+                        <td>@e.FirstName</td>
+                        <td>@e.LastName</td>
+                        <td><span class="badge-status badge-pending">@e.JobTitle</span></td>
+                        <td>@e.Email</td>
+                        <td>@e.PhoneNumber</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

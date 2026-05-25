@@ -1,4 +1,4 @@
-﻿@using static CivilEngineerCMS.Common.GeneralApplicationConstants;
+@using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 @using CivilEngineerCMS.Data
 @using CivilEngineerCMS.Services.Data.Interfaces
 @using CivilEngineerCMS.Web.Infrastructure.Extensions
@@ -12,98 +12,141 @@
     bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
     bool isAdministrator = User.IsAdministrator();
 }
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - CivilEngineerCMS</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Civil Engineer CMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
-<partial name="_NotificationsPartial"/>
+<partial name="_NotificationsPartial" />
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Civil Engineer CMS</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-building-check"></i> Civil Engineer CMS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                    aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
                     </li>
 
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
                         if (isAdministrator)
                         {
-                            <div
-                                class="dropdown">
-                                <button class="btn btn-outline-info dropdown-toggle border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Administrator
+                            <li class="nav-item dropdown">
+                                <button class="nav-link-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-shield-check"></i> Administrator
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Administrator" asp-action="ManageAdministrators">Manage administrators</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Project" asp-action="All">All projects</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Employee" asp-action="All">All employees</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Client" asp-action="All">All clients</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="Create">Create Employee</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Create">Create client</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Project" asp-action="Add">Add project</a></li>
-                                </ul></div>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Administrator" asp-action="ManageAdministrators">
+                                            <i class="bi bi-people"></i> Manage administrators
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Project" asp-action="All">
+                                            <i class="bi bi-folder2-open"></i> All projects
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Employee" asp-action="All">
+                                            <i class="bi bi-person-badge"></i> All employees
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Client" asp-action="All">
+                                            <i class="bi bi-briefcase"></i> All clients
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="Create">
+                                            <i class="bi bi-person-plus"></i> Create employee
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Create">
+                                            <i class="bi bi-person-vcard"></i> Create client
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-area="" asp-controller="Project" asp-action="Add">
+                                            <i class="bi bi-plus-circle"></i> Add project
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                         }
                         @if (isEmployee)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="Mine">My manager's projects</a>
+                                <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Mine">
+                                    <i class="bi bi-diagram-3"></i> Manager projects
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">My employee's projects</a>
+                                <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">
+                                    <i class="bi bi-person-workspace"></i> My projects
+                                </a>
                             </li>
                         }
                         @if (isClient)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark btn btn-outline-info border-0" asp-area="" asp-controller="Client" asp-action="Mine">My client's' projects</a>
+                                <a class="nav-link" asp-area="" asp-controller="Client" asp-action="Mine">
+                                    <i class="bi bi-collection"></i> My projects
+                                </a>
                             </li>
                         }
                     }
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
                 </ul>
-
-                <partial name="_LoginPartial"/>
+                <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>
 </header>
-<div class="container">
+
+<div class="container py-3">
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; Civil Engineer Customer Management System @ReleaseYear
-        @if (DateTime.UtcNow.Year > ReleaseYear)
-        {
-            @Html.Raw($" - {DateTime.UtcNow.Year}")
-            ;
-        }
+<footer class="footer">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span>
+            <i class="bi bi-building-check me-1"></i>
+            <strong>Civil Engineer CMS</strong> &copy; @ReleaseYear
+            @if (DateTime.UtcNow.Year > ReleaseYear)
+            {
+                @Html.Raw($"&ndash; {DateTime.UtcNow.Year}")
+            }
+        </span>
+        <a asp-area="" asp-controller="Home" asp-action="Privacy">
+            <i class="bi bi-shield-lock me-1"></i>Privacy
+        </a>
     </div>
 </footer>
-
 
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

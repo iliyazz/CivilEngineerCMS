@@ -1,4 +1,5 @@
 ﻿namespace CivilEngineerCMS.WebApi.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Services.Data.Interfaces;
@@ -6,6 +7,7 @@ using Services.Data.Models.Statistics;
 
 
 [ApiController]
+[Authorize]
 public class StatisticsApiController : ControllerBase
 {
     private readonly IProjectService projectService;

@@ -1,64 +1,96 @@
-﻿@model AddAndEditExpensesFormModel
+@model AddAndEditExpensesFormModel
 @using CivilEngineerCMS.Services.Data.Interfaces
 @using CivilEngineerCMS.Web.Infrastructure.Extensions
 @inject IEmployeeService EmployeeService
 @inject IProjectService ProjectService
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Expense Details";
     string userId = User.GetId();
     bool isEmployee = await EmployeeService.IsEmployeeAsync(userId);
     bool isManagerOfProject = false;
     bool isAdministrator = this.User.IsAdministrator();
 
-    if(isEmployee)
+    if (isEmployee)
     {
         var managerId = await ProjectService.GetManagerIdByProjectIdAsync(Model.ProjectId.ToString());
-        isManagerOfProject = false;
         if (isEmployee)
         {
             isManagerOfProject = await ProjectService.IsManagerOfProjectAsync(Model.ProjectId.ToString(), managerId);
-
         }
     }
-
-
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
-<div justify-content: center>
-    <div style="display: inline">
-        <div class="row" align="center">
-            <div class="card col-12 border-0">
-                <p>Last date of movement on account: <b>@Model.Date.ToString("dd.MM.yyyy")</b></p>
-                <p></p>
-                <div class="card" align="center">
-                    <div class="card-body" align="center">
-                        <p class="card-text">Paid money so far: <b>@Model.Amount €</b></p>
-                        <p class="card-text">Total needed money: <b>@Model.TotalAmount €</b></p>
-                        <div class="form-check-inline">
-                            @if (isAdministrator || isManagerOfProject || isEmployee)
-                            {
-                                <a class="btn btn-warning" asp-area="" asp-controller="Expense" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
-                                if (isAdministrator)
-                                {
-                                    <a class="ml-2 btn btn-info" asp-area="Admin" asp-controller="Project" asp-action="All">Cancel</a>
-                                }
-                                else if (isManagerOfProject)
-                                {
-                                    <a class="ml-2 btn btn-info" asp-area="" asp-controller="Employee" asp-action="Mine">Cancel</a>
-                                }
-                                else
-                                {
-                                    <a class="ml-2 btn btn-info" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">Cancel</a>
-                                }
-                            }
-                            else
-                            {
-                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Client" asp-action="Mine">Cancel</a>
-                            }
-                        </div>
-                    </div>
+<div class="page-header">
+    <h2><i class="bi bi-currency-euro me-2"></i>Project Expenses</h2>
+    <p>Financial summary for this project.</p>
+    <div class="page-header-actions">
+        @if (isAdministrator || isManagerOfProject || isEmployee)
+        {
+            <a class="btn btn-warning btn-sm" asp-area="" asp-controller="Expense" asp-action="Edit" asp-route-id="@Model.ProjectId">
+                <i class="bi bi-pencil me-1"></i>Edit
+            </a>
+        }
+        @if (isAdministrator)
+        {
+            <a class="btn btn-outline-secondary btn-sm" asp-area="Admin" asp-controller="Project" asp-action="All">
+                <i class="bi bi-arrow-left me-1"></i>All Projects
+            </a>
+        }
+        else if (isManagerOfProject)
+        {
+            <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Employee" asp-action="Mine">
+                <i class="bi bi-arrow-left me-1"></i>My Projects
+            </a>
+        }
+        else if (isEmployee)
+        {
+            <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">
+                <i class="bi bi-arrow-left me-1"></i>My Projects
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Client" asp-action="Mine">
+                <i class="bi bi-arrow-left me-1"></i>My Projects
+            </a>
+        }
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="di-label"><i class="bi bi-calendar me-1"></i>Last Transaction</div>
+                <div class="di-value">@Model.Date.ToString("dd.MM.yyyy")</div>
+            </div>
+            <div class="detail-item">
+                <div class="di-label"><i class="bi bi-cash-stack me-1"></i>Paid So Far</div>
+                <div class="di-value" style="color:var(--success);">@Model.Amount €</div>
+            </div>
+            <div class="detail-item">
+                <div class="di-label"><i class="bi bi-calculator me-1"></i>Total Required</div>
+                <div class="di-value" style="color:var(--primary);">@Model.TotalAmount €</div>
+            </div>
+            <div class="detail-item">
+                <div class="di-label"><i class="bi bi-percent me-1"></i>Remaining</div>
+                <div class="di-value" style="color:var(--accent);">@(Model.TotalAmount - Model.Amount) €</div>
+            </div>
+        </div>
+
+        @{
+            double pct = Model.TotalAmount > 0 ? Math.Min(100, (double)Model.Amount / (double)Model.TotalAmount * 100) : 0;
+        }
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-600">Payment Progress</span>
+                    <span class="fw-600">@pct.ToString("0")%</span>
+                </div>
+                <div class="progress" style="height:12px;border-radius:8px;">
+                    <div class="progress-bar" role="progressbar"
+                         style="width:@pct.ToString("0")%;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:8px;"
+                         aria-valuenow="@pct" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>

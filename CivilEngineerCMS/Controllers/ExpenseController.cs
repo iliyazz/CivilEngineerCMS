@@ -18,20 +18,22 @@
         private readonly IEmployeeService employeeService;
         private readonly IClientService clientService;
         private readonly IProjectService projectService;
+        private readonly ILogger<ExpenseController> logger;
 
         public ExpenseController(IExpenseService expensesService, IEmployeeService employeeService,
-            IClientService clientService, IProjectService projectService)
+            IClientService clientService, IProjectService projectService, ILogger<ExpenseController> logger)
         {
             this.expensesService = expensesService;
             this.employeeService = employeeService;
             this.clientService = clientService;
             this.projectService = projectService;
+            this.logger = logger;
         }
         /// <summary>
-        /// This method return details for expense
+        /// Returns the expense details view for the specified project.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the project whose expenses are displayed.</param>
+        /// <returns>The expense details view, or a redirect if the user is not authorized or no expenses exist for the project.</returns>
         public async Task<IActionResult> Details(string id)
         {
             string userId = this.User.GetId();
@@ -77,10 +79,10 @@
             return View(viewModel);
         }
         /// <summary>
-        /// This method return view for add expense
+        /// Returns the form view for adding an expense record to the specified project.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the project the expense belongs to.</param>
+        /// <returns>The add expense form view, or a redirect if the user is not authorized or an expense already exists for the project.</returns>
         [HttpGet]
         public async Task<IActionResult> Add(string id)
         {
@@ -114,11 +116,11 @@
             return View();
         }
         /// <summary>
-        /// This method add expense
+        /// Creates a new expense record for the specified project from the submitted form data.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the project the expense belongs to.</param>
+        /// <param name="formModel">The form model containing expense data.</param>
+        /// <returns>Redirects to the expense details view on success, or returns the form view with errors on failure.</returns>
         [HttpPost]
         public async Task<IActionResult> Add(string id, AddAndEditExpensesFormModel formModel)
         {
@@ -156,18 +158,19 @@
                 this.TempData[SuccessMessage] = $"Expense added successfully.";
                 return this.RedirectToAction("Details", "Expense", new { id = id });
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error creating expense for project {ProjectId}.", id);
                 this.ModelState.AddModelError(string.Empty,
                     "An error occurred while adding the expense. Please try again later or contact administrator!");
                 return this.View(formModel);
             }
         }
         /// <summary>
-        /// This method return view for edit expense
+        /// Returns the edit form view for the expense record associated with the specified project.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the project whose expense is being edited.</param>
+        /// <returns>The edit expense form view, or a redirect if the user is not authorized or the expense does not exist.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -197,11 +200,11 @@
             return this.View(viewModel);
         }
         /// <summary>
-        /// This method edit expense
+        /// Processes the submitted edit form and updates the expense record for the specified project.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="formModel"></param>
-        /// <returns></returns>
+        /// <param name="id">The unique identifier of the project whose expense is being updated.</param>
+        /// <param name="formModel">The form model containing the updated expense data.</param>
+        /// <returns>Redirects to the expense details view on success, or returns the form view with errors on failure.</returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string id, AddAndEditExpensesFormModel formModel)
         {
@@ -241,8 +244,9 @@
                 this.TempData[SuccessMessage] = $"Expense edited successfully.";
                 return this.RedirectToAction("Details", "Expense", new { id = id });
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error editing expense for project {ProjectId}.", id);
                 this.ModelState.AddModelError(string.Empty,
                     "An error occurred while editing the expense. Please try again later or contact administrator!");
                 return this.View(formModel);

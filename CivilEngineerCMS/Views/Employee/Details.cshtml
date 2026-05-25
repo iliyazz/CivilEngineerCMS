@@ -1,33 +1,42 @@
-﻿@model DetailsEmployeeViewModel
-
+@model DetailsEmployeeViewModel
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Employee Details";
 }
 
-<h2 class="text-center">@ViewData["Title"]</h2>
-<hr />
-<div justify-content: center>
-    <div style="display: inline">
-        <div class="row" align="center">
-            <div class="card col-12 border-0">
-                <p style="font-size: 25px;">
-                    <u>@Model.FirstName @Model.LastName</u>
-                </p>
-                <p>Address <b>@Model.Address</b></p>
-                <p></p>
-                <div class="card" align="center">
-                    <div class="card-body" align="center">
-                        <h5 class="card-title">Employee Info</h5>
-                        <p class="card-text">Job title: @Model.JobTitle</p>
-                        <p class="card-text">Email: @Model.Email</p>
-                        <p class="card-text">Phone Number: @Model.PhoneNumber</p>
-                        <div class="form-check-inline">
-                            <a class="btn btn-warning" asp-area="" asp-controller="Employee" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-                            <a class="ml-2 btn btn-danger" asp-area="" asp-controller="Employee" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
-                            <a class="ml-2 btn btn-info" href="javascript: history.back();">Cancel</a>
-                        </div>
-                    </div>
-                </div>
+<div class="page-header">
+    <h2><i class="bi bi-person-badge me-2"></i>@Model.FirstName @Model.LastName</h2>
+    <p><i class="bi bi-briefcase me-1"></i>@Model.JobTitle</p>
+    <div class="page-header-actions">
+        <a class="btn btn-warning btn-sm" asp-area="" asp-controller="Employee" asp-action="Edit" asp-route-id="@Model.Id">
+            <i class="bi bi-pencil me-1"></i>Edit
+        </a>
+        <a class="btn btn-danger btn-sm" asp-area="" asp-controller="Employee" asp-action="Delete" asp-route-id="@Model.Id">
+            <i class="bi bi-trash me-1"></i>Delete
+        </a>
+        <a class="btn btn-outline-secondary btn-sm" href="javascript:history.back();">
+            <i class="bi bi-arrow-left me-1"></i>Back
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="detail-grid">
+            <div class="detail-item">
+                <div class="di-label"><i class="bi bi-briefcase me-1"></i>Job Title</div>
+                <div class="di-value">@Model.JobTitle</div>
+            </div>
+            <div class="detail-item">
+                <div class="di-label"><i class="bi bi-envelope me-1"></i>Email</div>
+                <div class="di-value">@Model.Email</div>
+            </div>
+            <div class="detail-item">
+                <div class="di-label"><i class="bi bi-telephone me-1"></i>Phone</div>
+                <div class="di-value">@Model.PhoneNumber</div>
+            </div>
+            <div class="detail-item">
+                <div class="di-label"><i class="bi bi-geo-alt me-1"></i>Address</div>
+                <div class="di-value">@Model.Address</div>
             </div>
         </div>
     </div>

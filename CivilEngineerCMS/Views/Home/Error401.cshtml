@@ -1,19 +1,19 @@
-﻿@{
-    ViewData["Title"] = "Error";
+@{
+    ViewData["Title"] = "Access Denied";
 }
-<div class="row">
-    <div class="col-3"></div>
-    <div class="col-6">
-        <br>
-        <div class="row">
-            <div class="col-10">
-                <img src="https://media.istockphoto.com/photos/rubber-stamp-picture-id545992942?k=6&m=545992942&s=612x612&w=0&h=XD1kddQeDrbG9DEQQxGNf6_3snw4gdFZv8GqSFta6Is=" alt="Alternative image" class="img-thumbnail">
-                <div class="text-left h4">
-                    <p>Oops, you don't have access here.</p>
-                </div>
-                <div class="text-left h4"> Go back to <a asp-area="" asp-controller="Home" asp-action="Index">Home</a> Page</div>
-            </div>
+
+<div class="error-wrapper">
+    <div>
+        <div class="error-code">401</div>
+        <div class="error-message">
+            <h2><i class="bi bi-shield-lock-fill me-2 text-danger"></i>Access Denied</h2>
+            <p>You don't have permission to view this page.<br>Please log in with an authorised account.</p>
+            <a class="btn btn-primary btn-lg me-2" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-house-door me-1"></i>Back to Home
+            </a>
+            <a class="btn btn-outline-primary btn-lg" asp-area="" asp-controller="User" asp-action="Login">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Login
+            </a>
         </div>
     </div>
-    <div class="col-3"></div>
 </div>

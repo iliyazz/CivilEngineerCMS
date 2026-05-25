@@ -20,9 +20,9 @@
             this.homeService = homeService;
         }
         /// <summary>
-        /// This method return index view with 5 projects for index page
+        /// Returns the home index view with the latest projects. Redirects administrators to the admin area.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The index view with a collection of recent projects, or a redirect to the admin home page for administrators.</returns>
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
@@ -35,19 +35,19 @@
             return View(viewModel);
         }
         /// <summary>
-        /// This method return view for privacy page
+        /// Returns the privacy policy page view.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The privacy view.</returns>
         [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();
         }
         /// <summary>
-        /// This method return view for error page
+        /// Returns the appropriate error view based on the HTTP status code.
         /// </summary>
-        /// <param name="statusCode"></param>
-        /// <returns></returns>
+        /// <param name="statusCode">The HTTP status code received (e.g. 400, 401, 404).</param>
+        /// <returns>A specific error view for known status codes (400, 401, 404), or the generic error view for all others.</returns>
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statusCode)

@@ -1,71 +1,96 @@
-﻿@using CivilEngineerCMS.Services.Data.Interfaces;
+@using CivilEngineerCMS.Services.Data.Interfaces;
 @using CivilEngineerCMS.Web.Infrastructure.Extensions;
 @inject IEmployeeService EmployeeService;
 @inject IAdministratorService AdministratorService;
-
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Admin Dashboard";
     bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
-
 }
-<div class="mt-4 p-5 bg-light text-center">
-    <h2 class="display-4"><b>Hello, Admin!</b></h2>
-    <p class="lead mb-1 mt-3">
-        This is your administrator area - you can <b>read</b>, <b>create</b>,
-        <b>delete</b> and <b>edit</b> clients, employees, administrators and projects.
-        <br />
-    </p>
-    <p class="lead mt-1">
-        You can also see <b>all clients, employees, administrators and projects</b> in the system.
-    </p>
-    <hr class="my-4">
-    <div class="mb-3">
-        <a asp-area="Admin" asp-controller="Administrator" asp-action="ManageAdministrators" class="btn btn-primary btn-lg mb-2 me-2">Manage administrators</a>
+
+<div class="page-header">
+    <h2><i class="bi bi-shield-check me-2"></i>Administrator Dashboard</h2>
+    <p>Welcome back! Manage all projects, employees, clients, and system settings from here.</p>
+</div>
+
+<!-- Quick Actions -->
+<div class="mb-4">
+    <div class="section-header">
+        <h4><i class="bi bi-grid me-2"></i>Quick Actions</h4>
     </div>
-    <hr />
-    <div class="mb-3">
-        <a asp-area="Admin" asp-controller="Client" asp-action="All" class="btn btn-primary btn-lg mb-2 me-2">All clients</a>
-        <a asp-area="Admin" asp-controller="Employee" asp-action="All" class="btn btn-primary btn-lg mb-2 me-2">All employees</a>
-        <a asp-area="Admin" asp-controller="Project" asp-action="All" class="btn btn-primary btn-lg mb-2 me-2">All projects</a>
-    </div>
-    <hr />
-    <div class="mb-3">
-        <a asp-area="" asp-controller="Client" asp-action="Create" class="btn btn-primary btn-lg mb-2 me-2">Create client</a>
-        <a asp-area="" asp-controller="Employee" asp-action="Create" class="btn btn-primary btn-lg mb-2 me-2">Create employee</a>
-        <a asp-area="" asp-controller="Project" asp-action="Add" class="btn btn-primary btn-lg mb-2 me-2">Create project</a>
+    <div class="action-grid">
+        <a class="action-item" asp-area="Admin" asp-controller="Administrator" asp-action="ManageAdministrators">
+            <i class="bi bi-people-fill"></i>
+            <span>Manage Admins</span>
+        </a>
+        <a class="action-item" asp-area="Admin" asp-controller="Project" asp-action="All">
+            <i class="bi bi-folder2-open"></i>
+            <span>All Projects</span>
+        </a>
+        <a class="action-item" asp-area="Admin" asp-controller="Employee" asp-action="All">
+            <i class="bi bi-person-badge"></i>
+            <span>All Employees</span>
+        </a>
+        <a class="action-item" asp-area="Admin" asp-controller="Client" asp-action="All">
+            <i class="bi bi-briefcase"></i>
+            <span>All Clients</span>
+        </a>
+        <a class="action-item" asp-area="" asp-controller="Employee" asp-action="Create">
+            <i class="bi bi-person-plus"></i>
+            <span>Add Employee</span>
+        </a>
+        <a class="action-item" asp-area="" asp-controller="Client" asp-action="Create">
+            <i class="bi bi-person-vcard"></i>
+            <span>Add Client</span>
+        </a>
+        <a class="action-item" asp-area="" asp-controller="Project" asp-action="Add">
+            <i class="bi bi-plus-circle"></i>
+            <span>New Project</span>
+        </a>
+        @if (isEmployee)
+        {
+            <a class="action-item" asp-area="" asp-controller="Employee" asp-action="Mine">
+                <i class="bi bi-diagram-3"></i>
+                <span>Manager Projects</span>
+            </a>
+            <a class="action-item" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">
+                <i class="bi bi-person-workspace"></i>
+                <span>My Projects</span>
+            </a>
+        }
     </div>
 </div>
 
-<hr />
-<div class="mt-4 p-2 bg-light text-center">
-    @if (isEmployee)
-    {
-        <div class="mb-1">
-
-            <h2 class="display-4"><b>Employees functions</b></h2>
-
-            <a asp-area="" asp-controller="Employee" asp-action="Mine" class="btn btn-info btn-lg mb-2 me-2">My manager's projects</a>
-            <a asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId" class="btn btn-info btn-lg mb-2 me-2">My employee's projects</a>
-        </div>
-
-    }
+<!-- Statistics -->
+<div class="section-header">
+    <h4><i class="bi bi-bar-chart me-2"></i>System Statistics</h4>
 </div>
-
-
-    <div class="mb-3"></div>
-    <div class="row">
-        <div class="col-12 text-center">
-        <button class="buttonStatistic" id="statistics_btn">Show statistics</button>
+<div class="text-center mb-3">
+    <button class="buttonStatistic" id="statistics_btn">
+        <i class="bi bi-graph-up me-2"></i>Load Statistics
+    </button>
+</div>
+<div class="d-none" id="statistics_box">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-label"><i class="bi bi-folder2 me-1"></i>Total Projects</div>
+                <div class="stat-value" id="total_projects">—</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card" style="border-left-color:var(--success);">
+                <div class="stat-label"><i class="bi bi-activity me-1"></i>Active Projects</div>
+                <div class="stat-value" style="color:var(--success);" id="total_active_projects">—</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card" style="border-left-color:var(--accent);">
+                <div class="stat-label"><i class="bi bi-people me-1"></i>Total Clients</div>
+                <div class="stat-value" style="color:var(--accent);" id="total_clients">—</div>
+            </div>
         </div>
     </div>
-    <div class="mt-4 p-5 bg-light d-none" id="statistics_box">
-        <div class="row">
-            <h2 class="col-md-4 text-center" id="total_projects"></h2>
-            <h2 class="col-md-4 text-center" id="total_active_projects"></h2>
-            <h2 class="col-md-4 text-center" id="total_clients"></h2>
-        </div>
-    </div>
-
+</div>
 
 @section Scripts {
     <script>statistics();</script>
