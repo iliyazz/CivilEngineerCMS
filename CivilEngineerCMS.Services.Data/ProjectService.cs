@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 
 namespace CivilEngineerCMS.Services.Data
 {
@@ -48,10 +48,6 @@ namespace CivilEngineerCMS.Services.Data
         /// <returns></returns>
         public async Task CreateProjectAsync(AddAndEditProjectFormModel formModel)
         {
-
-            
-
-
             byte[]? imageContent = null;
             string? uniqueFileNameWithExtension = null;
 
@@ -90,7 +86,8 @@ namespace CivilEngineerCMS.Services.Data
             Project project = await this.dbContext
                 .Projects
                 .Where(x => x.IsActive)
-                .FirstAsync(x => x.Id.ToString() == projectId);
+                .FirstOrDefaultAsync(x => x.Id.ToString() == projectId)
+                ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
             bool isManagerOfProject = string.Equals(project.ManagerId.ToString(), managerId,
                 StringComparison.CurrentCultureIgnoreCase);
             return isManagerOfProject;
@@ -109,7 +106,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Include(x => x.ProjectsEmployees)
                 .ThenInclude(x => x.Employee)
                 .Where(x => x.IsActive)
-                .FirstAsync(x => x.Id.ToString() == id);
+                .FirstOrDefaultAsync(x => x.Id.ToString() == id)
+                ?? throw new InvalidOperationException($"Project with id {id} was not found.");
 
 
             var result = new AddAndEditProjectFormModel
@@ -155,7 +153,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Include(x => x.Manager)
                 .Include(x => x.ProjectsEmployees)
                 .Where(x => x.IsActive)
-                .FirstAsync(x => x.Id.ToString() == projectId);
+                .FirstOrDefaultAsync(x => x.Id.ToString() == projectId)
+                ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
 
             if (formModel.ImageContent != null)
             {
@@ -220,7 +219,8 @@ namespace CivilEngineerCMS.Services.Data
                         }
                     ).ToList()
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
 
             //var imageData = project.ImageContent;
 
@@ -240,9 +240,9 @@ namespace CivilEngineerCMS.Services.Data
                 Employees = project.Employees,
                 ImageName = project.ImageName,
                 ImageContent = project.ImageContent,
-                
+
             };
-            
+
             return result;
         }
         /// <summary>
@@ -280,7 +280,8 @@ namespace CivilEngineerCMS.Services.Data
                     ProjectEndDate = p.ProjectEndDate.ToString("dd.MM.yyyy"),
                     Status = p.Status,
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
             return projectToDelete;
         }
         /// <summary>
@@ -293,7 +294,8 @@ namespace CivilEngineerCMS.Services.Data
             Project projectToDelete = await this.dbContext
                 .Projects
                 .Where(x => x.IsActive)
-                .FirstAsync(x => x.Id.ToString() == id);
+                .FirstOrDefaultAsync(x => x.Id.ToString() == id)
+                ?? throw new InvalidOperationException($"Project with id {id} was not found.");
             projectToDelete.IsActive = false;
             await this.dbContext.SaveChangesAsync();
         }
@@ -442,7 +444,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Where(x => x.IsActive)
                 .Include(x => x.ProjectsEmployees)
                 .ThenInclude(x => x.Employee)
-                .FirstAsync(x => x.Id.ToString() == projectId);
+                .FirstOrDefaultAsync(x => x.Id.ToString() == projectId)
+                ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
 
             project.ProjectsEmployees.Clear();
 
@@ -467,7 +470,8 @@ namespace CivilEngineerCMS.Services.Data
             Project project = await this.dbContext
                 .Projects
                 .Where(p => p.IsActive && p.Id.ToString() == projectId)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
             return project;
         }
         /// <summary>
@@ -481,7 +485,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Projects
                 .Where(p => p.IsActive && p.Id.ToString() == projectId)
                 .Select(p => p.ManagerId.ToString())
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
         }
         /// <summary>
         /// This method check if employee is employee of project

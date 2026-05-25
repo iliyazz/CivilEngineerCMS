@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CivilEngineerCMS.Services.Data
 {
@@ -170,7 +170,8 @@ namespace CivilEngineerCMS.Services.Data
                     Email = e.User.Email,
                     Address = e.Address
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
 
             var result = new DetailsEmployeeViewModel
             {
@@ -195,7 +196,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Employees
                 .Include(e => e.User)
                 .Where(e => e.Id.ToString() == employeeId && e.IsActive)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
             string email = employee.User.Email;
             var result = new EditEmployeeFormModel
             {
@@ -220,7 +222,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Employees
                 .Include(e => e.User)
                 .Where(e => e.Id.ToString() == employeeId && e.IsActive)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
             employee.FirstName = formModel.FirstName;
             employee.LastName = formModel.LastName;
             employee.PhoneNumber = formModel.PhoneNumber;
@@ -241,7 +244,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Employees
                 .Include(c => c.User)
                 .Where(c => c.IsActive)
-                .FirstAsync(c => c.Id.ToString() == employeeId);
+                .FirstOrDefaultAsync(c => c.Id.ToString() == employeeId)
+                ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
             return new EmployeePreDeleteViewModel
             {
                 FirstName = employee.FirstName,
@@ -263,7 +267,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Employees
                 .Where(c => c.IsActive)
                 .Include(c => c.User)
-                .FirstAsync(c => c.Id.ToString() == employeeId);
+                .FirstOrDefaultAsync(c => c.Id.ToString() == employeeId)
+                ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
             employeeToDelete.IsActive = false;
 
             Guid userId = employeeToDelete.User.Id;
@@ -338,7 +343,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Employees
                 .Where(e => e.IsActive && e.UserId.ToString() == userId)
                 .Select(e => e.Id.ToString())
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Employee with user id {userId} was not found.");
         }
         /// <summary>
         /// This method return all projects for employee with id
@@ -365,6 +371,6 @@ namespace CivilEngineerCMS.Services.Data
             return allProjectsByManagerIdAsync;
         }
 
-        
+
     }
 }

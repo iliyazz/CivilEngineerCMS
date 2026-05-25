@@ -1,4 +1,4 @@
-﻿namespace CivilEngineerCMS.Web.Controllers
+namespace CivilEngineerCMS.Web.Controllers
 {
     using Infrastructure.Extensions;
 
@@ -14,10 +14,12 @@
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService employeeService;
+        private readonly ILogger<EmployeeController> logger;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, ILogger<EmployeeController> logger)
         {
             this.employeeService = employeeService;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -105,10 +107,10 @@
                 this.TempData[SuccessMessage] =
                     $"Employee {formModel.FirstName} {formModel.LastName} added successfully.";
                 return this.RedirectToAction("All", "Employee", new{Area = AdminAreaName});
-                //"All", "Client", new{Area = AdminAreaName}
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error creating employee {FirstName} {LastName}.", formModel.FirstName, formModel.LastName);
                 this.ModelState.AddModelError(string.Empty,
                     "An error occurred while adding the employee. Please try again later or contact administrator!");
                 return this.View(formModel);
@@ -166,8 +168,9 @@
                 EditEmployeeFormModel viewModel = await this.employeeService.GetEmployeeForEditByIdAsync(id.ToString());
                 return this.View(viewModel);
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error loading employee {EmployeeId} for edit.", id);
                 this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
                 return this.RedirectToAction("All", "Employee");
             }
@@ -208,8 +211,9 @@
                     $"Employee {formModel.FirstName} {formModel.LastName} edited successfully.";
                 return this.RedirectToAction("All", "Employee", new { Area = AdminAreaName });
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error editing employee {EmployeeId}.", id);
                 this.TempData[ErrorMessage] =
                     "An error occurred while editing the employee. Please try again later or contact administrator!";
                 return this.View(formModel);
@@ -256,8 +260,9 @@
                     $"You are going to delete employee {viewModel.FirstName} {viewModel.LastName}.";
                 return this.View(viewModel);
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error loading employee {EmployeeId} for delete.", id);
                 return GeneralError();
             }
         }
@@ -292,8 +297,9 @@
                     $"Employee {formModel.FirstName} {formModel.LastName} deleted successfully.";
                 return this.RedirectToAction("All", "Employee", new { Area = AdminAreaName });
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error deleting employee {EmployeeId}.", id);
                 this.TempData[ErrorMessage] =
                     "An error occurred while deleting the employee. Please try again later or contact administrator!";
                 return GeneralError();

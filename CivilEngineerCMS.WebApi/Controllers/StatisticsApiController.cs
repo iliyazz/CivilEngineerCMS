@@ -1,4 +1,4 @@
-﻿namespace CivilEngineerCMS.WebApi.Controllers;
+namespace CivilEngineerCMS.WebApi.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +11,12 @@ using Services.Data.Models.Statistics;
 public class StatisticsApiController : ControllerBase
 {
     private readonly IProjectService projectService;
+    private readonly ILogger<StatisticsApiController> logger;
 
-    public StatisticsApiController(IProjectService projectService)
+    public StatisticsApiController(IProjectService projectService, ILogger<StatisticsApiController> logger)
     {
         this.projectService = projectService;
+        this.logger = logger;
     }
 
 
@@ -23,8 +25,7 @@ public class StatisticsApiController : ControllerBase
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType(typeof(StatisticsServiceModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetStatistics()
     {
@@ -33,9 +34,10 @@ public class StatisticsApiController : ControllerBase
             StatisticsServiceModel serviceModel = await this.projectService.GetStatisticsAsync();
             return this.Ok(serviceModel);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return this.BadRequest();
+            this.logger.LogError(ex, "Error retrieving statistics.");
+            return this.StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

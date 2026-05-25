@@ -1,4 +1,4 @@
-﻿namespace CivilEngineerCMS.Services.Data
+namespace CivilEngineerCMS.Services.Data
 {
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
@@ -47,6 +47,7 @@
             foreach (var employee in allEmployees)
             {
                 var user = await this.userManager.FindByEmailAsync(employee.Email);
+                if (user == null) continue;
                 employee.IsChecked = await this.userManager.IsInRoleAsync(user, AdministratorRoleName);
             }
 
@@ -68,6 +69,7 @@
                 foreach (var employee in allEmployees)
                 {
                     var user = await this.userManager.FindByEmailAsync(employee.Email);
+                    if (user == null) continue;
                     if (enumerable.Any(s => s == employee.UserId.ToString()))
                     {
                         await userManager.AddToRoleAsync(user, AdministratorRoleName);

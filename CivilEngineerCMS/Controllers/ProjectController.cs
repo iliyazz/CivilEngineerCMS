@@ -206,8 +206,9 @@ namespace CivilEngineerCMS.Web.Controllers
 
                 return this.View(projectEmployees);
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error loading employees for project {ProjectId}.", id);
                 this.TempData[ErrorMessage] =
                     "An error occurred while editing the project. Please try again later or contact administrator!";
                 return this.RedirectToAction("Mine", "Employee");

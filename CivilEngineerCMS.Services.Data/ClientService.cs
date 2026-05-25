@@ -1,4 +1,4 @@
-﻿using CivilEngineerCMS.Services.Data.Interfaces;
+using CivilEngineerCMS.Services.Data.Interfaces;
 
 namespace CivilEngineerCMS.Services.Data
 {
@@ -139,7 +139,8 @@ namespace CivilEngineerCMS.Services.Data
                     Email = c.User.Email,
                     Address = c.Address
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
 
             var result = new DetailsClientViewModel
             {
@@ -174,7 +175,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Clients
                 .Include(c => c.User)
                 .Where(c => c.Id.ToString() == clientId && c.IsActive)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
             string email = client.User.Email;
             var result = new EditClientFormModel
             {
@@ -197,7 +199,8 @@ namespace CivilEngineerCMS.Services.Data
             Client client = await this.dbContext.Clients
                 .Include(c => c.User)
                 .Where(c => c.Id.ToString() == clientId && c.IsActive)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
             client.FirstName = formModel.FirstName;
             client.LastName = formModel.LastName;
             client.PhoneNumber = formModel.PhoneNumber;
@@ -216,7 +219,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Clients
                 .Include(c => c.User)
                 .Where(c => c.IsActive)
-                .FirstAsync(c => c.Id.ToString() == clientId);
+                .FirstOrDefaultAsync(c => c.Id.ToString() == clientId)
+                ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
             return new ClientPreDeleteViewModel
             {
                 FirstName = client.FirstName,
@@ -237,7 +241,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Clients
                 .Where(c => c.IsActive)
                 .Include(c => c.User)
-                .FirstAsync(c => c.Id.ToString() == clientId);
+                .FirstOrDefaultAsync(c => c.Id.ToString() == clientId)
+                ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
             clientToDelete.IsActive = false;
 
             Guid userId = clientToDelete.User.Id;
@@ -294,7 +299,8 @@ namespace CivilEngineerCMS.Services.Data
                 .Clients
                 .Where(c => c.IsActive && c.UserId.ToString() == userId)
                 .Select(c => c.Id.ToString())
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Client with user id {userId} was not found.");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CivilEngineerCMS.Services.Data.Interfaces;
+using CivilEngineerCMS.Services.Data.Interfaces;
 
 namespace CivilEngineerCMS.Services.Data
 {
@@ -82,7 +82,8 @@ namespace CivilEngineerCMS.Services.Data
         {
             Interaction interaction = await dbContext.Interactions
                 .Where(i => i.ProjectId.ToString() == projectId && i.Id.ToString() == interactionId)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Interaction with id {interactionId} was not found.");
             AddAndEditInteractionFormModel result = new AddAndEditInteractionFormModel
             {
                 Id = interaction.Id,
@@ -106,7 +107,8 @@ namespace CivilEngineerCMS.Services.Data
             Interaction interaction = await this.dbContext
                 .Interactions
                 .Where(i => i.Id.ToString() == id)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Interaction with id {id} was not found.");
             interaction.Type = formModel.Type;
             interaction.Description = formModel.Description;
             interaction.Message = formModel.Message;
@@ -116,4 +118,3 @@ namespace CivilEngineerCMS.Services.Data
         }
     }
 }
-

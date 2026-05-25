@@ -1,4 +1,4 @@
-﻿namespace CivilEngineerCMS.Web.Infrastructure.Extensions
+namespace CivilEngineerCMS.Web.Infrastructure.Extensions
 {
     using System.Reflection;
 
@@ -70,9 +70,11 @@
                     IdentityRole<Guid> role = new IdentityRole<Guid>(AdministratorRoleName);
                     await roleManager.CreateAsync(role);
 
-                    ApplicationUser adminUser = await userManager.FindByEmailAsync(email);
-
-                    await userManager.AddToRoleAsync(adminUser, AdministratorRoleName);
+                    ApplicationUser? adminUser = await userManager.FindByEmailAsync(email);
+                    if (adminUser != null)
+                    {
+                        await userManager.AddToRoleAsync(adminUser, AdministratorRoleName);
+                    }
                 })
                 .GetAwaiter()
                 .GetResult();

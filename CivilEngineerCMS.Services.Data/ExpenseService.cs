@@ -1,4 +1,4 @@
-﻿namespace CivilEngineerCMS.Services.Data
+namespace CivilEngineerCMS.Services.Data
 {
     using CivilEngineerCMS.Data;
     using CivilEngineerCMS.Data.Models;
@@ -37,7 +37,8 @@
                     TotalAmount = e.TotalAmount,
                     Date = e.Date,
                 })
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Expense for project id {projectId} was not found.");
 
             var result = new AddAndEditExpensesFormModel
             {
@@ -65,45 +66,16 @@
         /// <returns></returns>
         public async Task CreateExpenseAsync(string id, AddAndEditExpensesFormModel formModel)
         {
-            //decimal totalPaidAmount = 0;
-            //totalPaidAmount = this.dbContext.Expenses
-            //    .Where(e => e.ProjectId.ToString() == id)
-            //    .Sum(e => e.Amount);
-            ////remaining payment
-
-            //formModel.InvoiceNumber = 1000000000;
-
             Expense expense = new Expense
             {
                 ProjectId = Guid.Parse(id),
                 Amount = formModel.Amount,
                 TotalAmount = formModel.TotalAmount,
                 Date = DateTime.UtcNow,
-                //InvoiceNumber = formModel.InvoiceNumber,
             };
             await this.dbContext.Expenses.AddAsync(expense);
             await this.dbContext.SaveChangesAsync();
         }
-        /*
-        public async Task CreateInteractionAsync(string id, AddAndEditInteractionFormModel formModel)
-        {
-            Interaction interaction = new Interaction
-            {
-                ProjectId = Guid.Parse(id),
-                Date = formModel.Date,
-                Description = formModel.Description,
-                Message = formModel.Message,
-                UrlPath = formModel.UrlPath,
-                Type = formModel.Type,
-            };
-            await dbContext.Interactions.AddAsync(interaction);
-            await dbContext.SaveChangesAsync();
-        }
-         */
-
-
-
-
 
         /// <summary>
         /// This method return expense for edit by project id
@@ -114,7 +86,8 @@
         {
             Expense expense = await this.dbContext.Expenses
                 .Where(e => e.ProjectId.ToString() == projectId)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Expense for project id {projectId} was not found.");
             AddAndEditExpensesFormModel result = new AddAndEditExpensesFormModel
             {
                 Amount = expense.Amount,
@@ -134,7 +107,8 @@
             Expense expense = await this.dbContext
                 .Expenses
                 .Where(e => e.ProjectId.ToString() == projectId)
-                .FirstAsync();
+                .FirstOrDefaultAsync()
+                ?? throw new InvalidOperationException($"Expense for project id {projectId} was not found.");
             expense.Amount = formModel.Amount;
             expense.TotalAmount = formModel.TotalAmount;
             expense.Date = DateTime.UtcNow;
@@ -154,7 +128,6 @@
                     Amount = e.Amount,
                     TotalAmount = e.TotalAmount,
                     Date = e.Date,
-                    //InvoiceNumber = e.InvoiceNumber,
                 })
                 .ToListAsync();
             return allExpensesByProjectIdIdAsync;

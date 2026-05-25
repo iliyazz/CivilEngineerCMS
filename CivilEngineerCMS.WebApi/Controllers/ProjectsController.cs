@@ -1,4 +1,4 @@
-﻿//using System.Web.Http;
+//using System.Web.Http;
 
 using CivilEngineerCMS.Data.Models;
 
@@ -45,6 +45,10 @@ public class ProjectsController : ControllerBase
         if (result.Succeeded)
         {
             var user = await this.userManager.FindByNameAsync(credentials.Username);
+            if (user == null)
+            {
+                return Unauthorized("Authentication failed");
+            }
             var isAdmin = await this.userManager.IsInRoleAsync(user, "Administrator");
             var isEmployee = await this.employeeService.IsEmployeeAsync(user.Id.ToString());
             var isClient = await this.clientService.IsClientByUserIdAsync(user.Id.ToString());

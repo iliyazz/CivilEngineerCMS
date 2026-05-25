@@ -1,4 +1,4 @@
-﻿namespace CivilEngineerCMS.Web.Controllers
+namespace CivilEngineerCMS.Web.Controllers
 {
     using Data.Models;
 
@@ -20,11 +20,14 @@
     {
         private readonly IClientService clientService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<ClientController> logger;
 
-        public ClientController(IClientService clientService, UserManager<ApplicationUser> userManager)
+        public ClientController(IClientService clientService, UserManager<ApplicationUser> userManager,
+            ILogger<ClientController> logger)
         {
             this.clientService = clientService;
             this.userManager = userManager;
+            this.logger = logger;
         }
         /// <summary>
         /// Returns all projects associated with the currently logged-in client.
@@ -102,8 +105,9 @@
                     $"Client {formModel.FirstName} {formModel.LastName} added successfully.";
                 return this.RedirectToAction("All", "Client", new{Area = AdminAreaName});
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error creating client {FirstName} {LastName}.", formModel.FirstName, formModel.LastName);
                 this.ModelState.AddModelError(string.Empty,
                     "An error occurred while adding the client. Please try again later or contact administrator!");
                 return this.View(formModel);
@@ -164,8 +168,9 @@
                     $"You are going to edit client {viewModel.FirstName} {viewModel.LastName}.";
                 return this.View(viewModel);
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error loading client {ClientId} for edit.", id);
                 this.TempData[ErrorMessage] = "Client with provided id does not exist.";
                 return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
@@ -207,8 +212,9 @@
                     $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
                 return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error editing client {ClientId}.", id);
                 this.TempData[ErrorMessage] =
                     "An error occurred while editing the client. Please try again later or contact administrator!";
                 return this.View(formModel);
@@ -254,8 +260,9 @@
                     $"You are going to delete client {viewModel.FirstName} {viewModel.LastName}.";
                 return this.View(viewModel);
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error loading client {ClientId} for delete.", id);
                 this.TempData[ErrorMessage] = "Client with provided id does not exist.";
                 return GeneralError();
             }
@@ -293,8 +300,9 @@
                     $"Client {formModel.FirstName} {formModel.LastName} deleted successfully.";
                 return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
-            catch (Exception _)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error deleting client {ClientId}.", id);
                 this.TempData[ErrorMessage] =
                     "An error occurred while deleting the client. Please try again later or contact administrator!";
                 return GeneralError();

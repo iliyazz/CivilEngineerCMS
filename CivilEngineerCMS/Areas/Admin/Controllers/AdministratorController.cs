@@ -1,4 +1,4 @@
-﻿namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
+namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
 {
     using Infrastructure.Extensions;
 
@@ -14,11 +14,13 @@
     public class AdministratorController : BaseAdminController
     {
         private readonly IAdministratorService administratorService;
+        private readonly ILogger<AdministratorController> logger;
 
-
-        public AdministratorController(IAdministratorService administratorService)
+        public AdministratorController(IAdministratorService administratorService,
+            ILogger<AdministratorController> logger)
         {
             this.administratorService = administratorService;
+            this.logger = logger;
         }
         /// <summary>
         /// This method return view for manage administrators
@@ -40,8 +42,9 @@
                     await this.administratorService.AllEmployeesForAdministratorAsync();
                 return this.View(employees);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error loading employees for administrator management.");
                 return this.GeneralError();
             }
         }
@@ -66,8 +69,9 @@
                 this.TempData[SuccessMessage] = "Successfully updated administrators!";
                 return this.RedirectToAction("Index", "Home");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                this.logger.LogError(ex, "Error saving administrator role assignments.");
                 return this.GeneralError();
             }
         }

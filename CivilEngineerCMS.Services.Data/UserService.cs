@@ -1,4 +1,4 @@
-﻿namespace CivilEngineerCMS.Services.Data
+namespace CivilEngineerCMS.Services.Data
 {
     using System.Security.Claims;
 
@@ -29,6 +29,7 @@
         public async Task AddClaimToUserAsync(string userId, string claimType, string claimValue)
         {
             var user = await this.userManager.FindByIdAsync(userId);
+            if (user == null) throw new InvalidOperationException($"User with id {userId} was not found.");
             await this.userManager.AddClaimAsync(user, new Claim(claimType, claimValue));
         }
         /// <summary>
@@ -40,6 +41,7 @@
         public async Task<Claim?> GetClaimValueByUserIdAsync(string userId, string claimType)
         {
             var user = await this.userManager.FindByIdAsync(userId);
+            if (user == null) return null;
             Claim? claim = (await this.userManager.GetClaimsAsync(user)).FirstOrDefault(x => x.Type == claimType);
             return claim;
         }
