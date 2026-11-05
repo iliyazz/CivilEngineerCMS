@@ -1,0 +1,6 @@
+<Project>
+  <!-- Single source of truth for the application version (shown in README too). -->
+  <PropertyGroup>
+    <Version>1.1.0</Version>
+  </PropertyGroup>
+</Project>

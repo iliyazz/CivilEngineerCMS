@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using dotenv.net;
 
 using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 
@@ -75,6 +74,14 @@ builder.Services.AddControllersWithViews()
 
 
 WebApplication app = builder.Build();
+
+// Create the SQLite database (or apply pending migrations) on startup,
+// so the app runs without a committed .db file.
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    CivilEngineerCmsDbContext dbContext = scope.ServiceProvider.GetRequiredService<CivilEngineerCmsDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

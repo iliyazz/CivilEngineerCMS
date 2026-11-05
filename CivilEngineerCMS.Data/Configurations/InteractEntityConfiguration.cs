@@ -15,7 +15,7 @@
         {
             builder
                 .Property(i => i.Date)
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder
                 .HasOne(i => i.Project)
                 .WithMany(p => p.Interactions)

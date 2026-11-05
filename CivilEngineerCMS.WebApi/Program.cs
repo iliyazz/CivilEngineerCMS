@@ -13,7 +13,7 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 
 
 // Add services to the container.
-builder.Services.AddDbContext<CivilEngineerCmsDbContext>(option => option.UseSqlServer(connectionString));
+builder.Services.AddDbContext<CivilEngineerCmsDbContext>(option => option.UseSqlite(connectionString));
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -83,12 +83,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("CivilEngineerCmsDev");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 
 app.MapControllers();
-
-app.UseCors("CivilEngineerCmsDev");
 
 app.Run();
