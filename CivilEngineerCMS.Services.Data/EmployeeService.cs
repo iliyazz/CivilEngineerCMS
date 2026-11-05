@@ -40,7 +40,7 @@ namespace CivilEngineerCMS.Services.Data
         /// <returns></returns>
         public async Task<bool> EmployeeExistsByIdAsync(string id)
         {
-            bool result = await this.dbContext.Employees.AnyAsync(e => e.Id.ToString() == id && e.IsActive);
+            bool result = await this.dbContext.Employees.AnyAsync(e => e.Id == id.ToGuidOrEmpty() && e.IsActive);
             return result;
         }
         /// <summary>
@@ -76,7 +76,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<MineManagerProjectViewModel> allProjectsByManagerIdAsync = await this.dbContext
                 .Projects
-                .Where(p => p.Manager.Id.ToString() == id && p.IsActive)
+                .Where(p => p.Manager.Id == id.ToGuidOrEmpty() && p.IsActive)
                 .OrderBy(p => p.Name)
                 .Select(p => new MineManagerProjectViewModel
                 {
@@ -119,7 +119,7 @@ namespace CivilEngineerCMS.Services.Data
             Employee? manager = await this.dbContext
                 .Employees
                 .Where(e => e.IsActive)
-                .FirstOrDefaultAsync(e => e.UserId.ToString() == userId);
+                .FirstOrDefaultAsync(e => e.UserId == userId.ToGuidOrEmpty());
             if (manager == null)
             {
                 return null;
@@ -159,7 +159,7 @@ namespace CivilEngineerCMS.Services.Data
             DetailsEmployeeViewModel employee = await this.dbContext
                 .Employees
                 .Include(e => e.User)
-                .Where(e => e.Id.ToString() == employeeId && e.IsActive)
+                .Where(e => e.Id == employeeId.ToGuidOrEmpty() && e.IsActive)
                 .Select(e => new DetailsEmployeeViewModel()
                 {
                     Id = e.Id,
@@ -195,7 +195,7 @@ namespace CivilEngineerCMS.Services.Data
             Employee employee = await this.dbContext
                 .Employees
                 .Include(e => e.User)
-                .Where(e => e.Id.ToString() == employeeId && e.IsActive)
+                .Where(e => e.Id == employeeId.ToGuidOrEmpty() && e.IsActive)
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
             string email = employee.User.Email ?? string.Empty;
@@ -221,7 +221,7 @@ namespace CivilEngineerCMS.Services.Data
             Employee employee = await this.dbContext
                 .Employees
                 .Include(e => e.User)
-                .Where(e => e.Id.ToString() == employeeId && e.IsActive)
+                .Where(e => e.Id == employeeId.ToGuidOrEmpty() && e.IsActive)
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
             employee.FirstName = formModel.FirstName;
@@ -244,7 +244,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Employees
                 .Include(c => c.User)
                 .Where(c => c.IsActive)
-                .FirstOrDefaultAsync(c => c.Id.ToString() == employeeId)
+                .FirstOrDefaultAsync(c => c.Id == employeeId.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
             return new EmployeePreDeleteViewModel
             {
@@ -267,7 +267,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Employees
                 .Where(c => c.IsActive)
                 .Include(c => c.User)
-                .FirstOrDefaultAsync(c => c.Id.ToString() == employeeId)
+                .FirstOrDefaultAsync(c => c.Id == employeeId.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
             employeeToDelete.IsActive = false;
 
@@ -293,7 +293,7 @@ namespace CivilEngineerCMS.Services.Data
             IEnumerable<AllEmployeeViewModel> allEmployeesByProjectIdAsync = await this.dbContext
                 .ProjectsEmployees
                 .Include(e => e.Employee)
-                .Where(e => e.ProjectId.ToString() == projectId)
+                .Where(e => e.ProjectId == projectId.ToGuidOrEmpty())
                 .Select(e => new AllEmployeeViewModel
                 {
                     Id = e.Employee.Id,
@@ -316,7 +316,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             bool isEmployeeInProject = await this.dbContext
                 .ProjectsEmployees
-                .AnyAsync(x => x.ProjectId.ToString() == projectId && x.EmployeeId.ToString() == employeeId);
+                .AnyAsync(x => x.ProjectId == projectId.ToGuidOrEmpty() && x.EmployeeId == employeeId.ToGuidOrEmpty());
             return isEmployeeInProject;
         }
         /// <summary>
@@ -329,7 +329,7 @@ namespace CivilEngineerCMS.Services.Data
             return await this.dbContext
                 .Employees
                 .Where(e => e.IsActive)
-                .AnyAsync(e => e.UserId.ToString() == userId);
+                .AnyAsync(e => e.UserId == userId.ToGuidOrEmpty());
 
         }
         /// <summary>
@@ -341,7 +341,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             return await this.dbContext
                 .Employees
-                .Where(e => e.IsActive && e.UserId.ToString() == userId)
+                .Where(e => e.IsActive && e.UserId == userId.ToGuidOrEmpty())
                 .Select(e => e.Id.ToString())
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Employee with user id {userId} was not found.");
@@ -356,7 +356,7 @@ namespace CivilEngineerCMS.Services.Data
             IEnumerable<MineManagerProjectViewModel> allProjectsByManagerIdAsync = await this.dbContext
                 .Projects
                 .Include(p => p.ProjectsEmployees)
-                .Where(p => p.IsActive && p.ProjectsEmployees.Any(pe => pe.EmployeeId.ToString() == id))
+                .Where(p => p.IsActive && p.ProjectsEmployees.Any(pe => pe.EmployeeId == id.ToGuidOrEmpty()))
                 .OrderBy(p => p.Name)
                 .Select(p => new MineManagerProjectViewModel
                 {

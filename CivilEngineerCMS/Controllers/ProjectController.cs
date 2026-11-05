@@ -192,7 +192,7 @@ namespace CivilEngineerCMS.Web.Controllers
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
             bool isAdministrator = this.User.IsAdministrator();
 
-            if (!(this.User.IsAdministrator() || project.ManagerId.ToString() == projectManagerUserId))
+            if (!(this.User.IsAdministrator() || string.Equals(project.ManagerId.ToString(), projectManagerUserId, StringComparison.OrdinalIgnoreCase)))
             {
                 this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");

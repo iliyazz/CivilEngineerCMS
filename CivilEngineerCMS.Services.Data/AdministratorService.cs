@@ -70,7 +70,7 @@ namespace CivilEngineerCMS.Services.Data
                 {
                     var user = await this.userManager.FindByEmailAsync(employee.Email);
                     if (user == null) continue;
-                    if (enumerable.Any(s => s == employee.UserId.ToString()))
+                    if (enumerable.Any(s => s.ToGuidOrEmpty() == employee.UserId))
                     {
                         await userManager.AddToRoleAsync(user, AdministratorRoleName);
                     }

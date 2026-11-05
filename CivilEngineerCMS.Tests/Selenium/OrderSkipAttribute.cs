@@ -35,7 +35,7 @@ namespace CivilEngineerCMS.Tests.Selenium
             rememberMeCheckBox.Click();
             IWebElement submitLoginButton = driver.FindElement(By.Id("login-submit"));
             submitLoginButton.Click();
-            IWebElement buttonMyManagersProjects = driver.FindElement(By.LinkText("My manager's projects"));
+            IWebElement buttonMyManagersProjects = driver.FindElement(By.LinkText("Manager projects"));
             buttonMyManagersProjects.Click();
             IWebElement buttonDetails = driver.FindElement(By.LinkText("Details"));
             buttonDetails.Click();
@@ -82,7 +82,7 @@ namespace CivilEngineerCMS.Tests.Selenium
             rememberMeCheckBox.Click();
             IWebElement submitLoginButton = driver.FindElement(By.Id("login-submit"));
             submitLoginButton.Click();
-            IWebElement buttonMyManagersProjects = driver.FindElement(By.LinkText("My manager's projects"));
+            IWebElement buttonMyManagersProjects = driver.FindElement(By.LinkText("Manager projects"));
             buttonMyManagersProjects.Click();
             IWebElement buttonDetails = driver.FindElement(By.LinkText("Details"));
             buttonDetails.Click();
@@ -129,7 +129,7 @@ namespace CivilEngineerCMS.Tests.Selenium
             rememberMeCheckBox.Click();
             IWebElement submitLoginButton = driver.FindElement(By.Id("login-submit"));
             submitLoginButton.Click();
-            IWebElement buttonMyManagersProjects = driver.FindElement(By.LinkText("My manager's projects"));
+            IWebElement buttonMyManagersProjects = driver.FindElement(By.LinkText("Manager projects"));
             buttonMyManagersProjects.Click();
             IWebElement buttonDetails = driver.FindElement(By.LinkText("Details"));
             buttonDetails.Click();
@@ -176,7 +176,7 @@ namespace CivilEngineerCMS.Tests.Selenium
         //    rememberMeCheckBox.Click();
         //    IWebElement submitLoginButton = driver.FindElement(By.Id("login-submit"));
         //    submitLoginButton.Click();
-        //    IWebElement buttonMyManagersProjects = driver.FindElement(By.LinkText("My manager's projects"));
+        //    IWebElement buttonMyManagersProjects = driver.FindElement(By.LinkText("Manager projects"));
         //    buttonMyManagersProjects.Click();
         //    IWebElement buttonDetails = driver.FindElement(By.LinkText("Details"));
         //    buttonDetails.Click();

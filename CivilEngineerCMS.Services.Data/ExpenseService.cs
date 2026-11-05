@@ -29,7 +29,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             AddAndEditExpensesFormModel expenses = await this.dbContext
                 .Expenses
-                .Where(e => e.ProjectId.ToString() == projectId)
+                .Where(e => e.ProjectId == projectId.ToGuidOrEmpty())
                 .Select(e => new AddAndEditExpensesFormModel
                 {
                     ProjectId = e.ProjectId,
@@ -56,7 +56,7 @@ namespace CivilEngineerCMS.Services.Data
         /// <returns></returns>
         public Task<bool> ExpenseExistsByProjectIdAsync(string projectId)
         {
-            return this.dbContext.Expenses.AnyAsync(e => e.ProjectId.ToString() == projectId);
+            return this.dbContext.Expenses.AnyAsync(e => e.ProjectId == projectId.ToGuidOrEmpty());
         }
         /// <summary>
         /// This method create expense
@@ -85,7 +85,7 @@ namespace CivilEngineerCMS.Services.Data
         public async Task<AddAndEditExpensesFormModel> GetExpenseForEditByProjectIdAsync(string projectId)
         {
             Expense expense = await this.dbContext.Expenses
-                .Where(e => e.ProjectId.ToString() == projectId)
+                .Where(e => e.ProjectId == projectId.ToGuidOrEmpty())
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Expense for project id {projectId} was not found.");
             AddAndEditExpensesFormModel result = new AddAndEditExpensesFormModel
@@ -106,7 +106,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             Expense expense = await this.dbContext
                 .Expenses
-                .Where(e => e.ProjectId.ToString() == projectId)
+                .Where(e => e.ProjectId == projectId.ToGuidOrEmpty())
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Expense for project id {projectId} was not found.");
             expense.Amount = formModel.Amount;
@@ -119,7 +119,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<AddAndEditExpensesFormModel> allExpensesByProjectIdIdAsync = await this.dbContext
                 .Expenses
-                .Where(e => e.ProjectId.ToString() == projectId)
+                .Where(e => e.ProjectId == projectId.ToGuidOrEmpty())
                 .OrderBy(x => x.Date)
                 .Select(e => new AddAndEditExpensesFormModel
                 {
