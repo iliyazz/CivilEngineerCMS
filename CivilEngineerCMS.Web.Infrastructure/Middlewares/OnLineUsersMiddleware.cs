@@ -35,10 +35,10 @@
         {
             if (context.User.Identity?.IsAuthenticated ?? false)
             {
-                if (!context.Request.Cookies.TryGetValue(this.cookieName, out string userId))
+                if (!context.Request.Cookies.TryGetValue(this.cookieName, out string? userId) || userId is null)
                 {
                     // First login after being offline
-                    userId = context.User.GetId().ToUpper()!;
+                    userId = context.User.GetId().ToUpper();
 
                     context.Response.Cookies.Append(this.cookieName, userId, new CookieOptions() { HttpOnly = true, MaxAge = TimeSpan.FromDays(30) });
                 }
@@ -62,7 +62,7 @@
             else
             {
                 // User has just logged out
-                if (context.Request.Cookies.TryGetValue(this.cookieName, out string userId))
+                if (context.Request.Cookies.TryGetValue(this.cookieName, out string? userId) && userId is not null)
                 {
                     if (!AllKeys.TryRemove(userId.ToUpper(), out _))
                     {
@@ -95,7 +95,7 @@
         /// <param name="value"></param>
         /// <param name="reason"></param>
         /// <param name="state"></param>
-        private void RemoveKeyWhenExpired(object key, object value, EvictionReason reason, object state)
+        private void RemoveKeyWhenExpired(object key, object? value, EvictionReason reason, object? state)
         {
             string keyStr = (string)key; //UserId
 

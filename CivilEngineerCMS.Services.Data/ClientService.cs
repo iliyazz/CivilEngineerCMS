@@ -67,7 +67,7 @@ namespace CivilEngineerCMS.Services.Data
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     PhoneNumber = c.PhoneNumber,
-                    Email = c.User.Email,
+                    Email = c.User.Email ?? string.Empty,
                     Address = c.Address,
                 })
                 .ToListAsync();
@@ -89,7 +89,7 @@ namespace CivilEngineerCMS.Services.Data
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     PhoneNumber = c.PhoneNumber,
-                    Email = c.User.Email,
+                    Email = c.User.Email ?? string.Empty,
                     Address = c.Address,
                     UserId = c.UserId,
                     IsActive = c.IsActive
@@ -136,7 +136,7 @@ namespace CivilEngineerCMS.Services.Data
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     PhoneNumber = c.PhoneNumber,
-                    Email = c.User.Email,
+                    Email = c.User.Email ?? string.Empty,
                     Address = c.Address
                 })
                 .FirstOrDefaultAsync()
@@ -177,7 +177,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Where(c => c.Id.ToString() == clientId && c.IsActive)
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
-            string email = client.User.Email;
+            string email = client.User.Email ?? string.Empty;
             var result = new EditClientFormModel
             {
                 FirstName = client.FirstName,
@@ -227,7 +227,7 @@ namespace CivilEngineerCMS.Services.Data
                 LastName = client.LastName,
                 PhoneNumber = client.PhoneNumber,
                 Address = client.Address,
-                Email = client.User.Email
+                Email = client.User.Email ?? string.Empty
             };
         }
         /// <summary>
@@ -262,7 +262,7 @@ namespace CivilEngineerCMS.Services.Data
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        public async Task<string> GetClientIdByProjectIdAsync(string projectId)
+        public async Task<string?> GetClientIdByProjectIdAsync(string projectId)
         {
             var project = await this.dbContext
                 .Projects

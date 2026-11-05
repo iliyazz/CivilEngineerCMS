@@ -39,7 +39,7 @@ namespace CivilEngineerCMS.Services.Data
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     JobTitle = e.JobTitle,
-                    Email = e.User.Email,
+                    Email = e.User.Email ?? string.Empty,
                     UserId = e.UserId
                 })
                 .ToListAsync();

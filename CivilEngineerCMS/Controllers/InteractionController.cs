@@ -44,7 +44,7 @@
             if (isClient)
             {
                 string clientIdByUserId = await this.clientService.GetClientIdByUserIdAsync(userId);
-                string clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(id);
+                string? clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(id);
                 isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId,
                     StringComparison.CurrentCultureIgnoreCase);
             }

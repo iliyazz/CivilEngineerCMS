@@ -16,7 +16,7 @@ namespace CivilEngineerCMS.Tests.Selenium
     [TestFixture]
     public class ParallelTesting
     {
-        IWebDriver driverFirefox;
+        IWebDriver? driverFirefox = null;
 
 
         [Test, Category("UAT Testing"), Category("Module")]

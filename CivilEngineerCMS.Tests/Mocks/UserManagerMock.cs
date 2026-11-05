@@ -10,8 +10,8 @@
         public static Mock<UserManager<ApplicationUser>> MockUserManager()
         {
 
-            Mock<UserManager<ApplicationUser>> userManager = new Mock<UserManager<ApplicationUser>>(Mock.Of<IUserStore<ApplicationUser>>(), null, null, null, null, null,
-                null, null, null);
+            Mock<UserManager<ApplicationUser>> userManager = new Mock<UserManager<ApplicationUser>>(Mock.Of<IUserStore<ApplicationUser>>(), null!, null!, null!, null!, null!,
+                null!, null!, null!);
 
             userManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(new ApplicationUser());
 
@@ -50,6 +50,11 @@
                 .ReturnsAsync((ApplicationUser user, string givenPassword) =>
                 {
                     PasswordHasher<ApplicationUser> hasher = new PasswordHasher<ApplicationUser>();
+
+                    if (user.PasswordHash is null)
+                    {
+                        return false;
+                    }
 
                     PasswordVerificationResult result =
                         hasher.VerifyHashedPassword(user, user.PasswordHash, givenPassword);

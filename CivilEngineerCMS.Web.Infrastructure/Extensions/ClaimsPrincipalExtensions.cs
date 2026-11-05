@@ -13,7 +13,8 @@
         /// <returns></returns>
         public static string GetId(this ClaimsPrincipal user)
         {
-            return user.FindFirstValue(ClaimTypes.NameIdentifier);
+            // Anonymous users have no NameIdentifier claim (views call this for them too).
+            return user.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
         }
         /// <summary>
         /// This method is used to check if the current user is an administrator.

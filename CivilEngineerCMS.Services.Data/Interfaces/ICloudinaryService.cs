@@ -6,9 +6,9 @@ namespace CivilEngineerCMS.Services.Data.Interfaces
 
     public interface ICloudinaryService
     {
-        Task<ImageUploadResult> UploadPhotoAsync(IFormFile file, string folder, string publicId);
+        Task<ImageUploadResult> UploadPhotoAsync(IFormFile file, string folder, string? publicId);
 
-        Task<ImageUploadResult> UploadPhotoAsync(byte[] file, string folder, string publicId);
+        Task<ImageUploadResult> UploadPhotoAsync(byte[] file, string folder, string? publicId);
 
         Task<DeletionResult> DeletePhotoAsync(string publicId);
 

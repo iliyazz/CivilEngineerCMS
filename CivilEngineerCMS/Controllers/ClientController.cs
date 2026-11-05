@@ -70,7 +70,7 @@ namespace CivilEngineerCMS.Web.Controllers
                     .Select(u => new AllUsersSelectViewModelForClient
                     {
                         Id = u.Id,
-                        Email = u.Email
+                        Email = u.Email ?? string.Empty
                     })
                     .ToListAsync()
             };

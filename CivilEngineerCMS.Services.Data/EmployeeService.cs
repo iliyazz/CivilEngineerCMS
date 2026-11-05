@@ -59,7 +59,7 @@ namespace CivilEngineerCMS.Services.Data
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     JobTitle = e.JobTitle,
-                    Email = e.User.Email,
+                    Email = e.User.Email ?? string.Empty,
                     PhoneNumber = e.PhoneNumber,
                     IsActive = e.IsActive,
                     UserId = e.UserId
@@ -114,7 +114,7 @@ namespace CivilEngineerCMS.Services.Data
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<string> GetManagerIdByUserIdAsync(string userId)
+        public async Task<string?> GetManagerIdByUserIdAsync(string userId)
         {
             Employee? manager = await this.dbContext
                 .Employees
@@ -167,7 +167,7 @@ namespace CivilEngineerCMS.Services.Data
                     LastName = e.LastName,
                     JobTitle = e.JobTitle,
                     PhoneNumber = e.PhoneNumber,
-                    Email = e.User.Email,
+                    Email = e.User.Email ?? string.Empty,
                     Address = e.Address
                 })
                 .FirstOrDefaultAsync()
@@ -198,7 +198,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Where(e => e.Id.ToString() == employeeId && e.IsActive)
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Employee with id {employeeId} was not found.");
-            string email = employee.User.Email;
+            string email = employee.User.Email ?? string.Empty;
             var result = new EditEmployeeFormModel
             {
                 FirstName = employee.FirstName,
@@ -253,7 +253,7 @@ namespace CivilEngineerCMS.Services.Data
                 JobTitle = employee.JobTitle,
                 PhoneNumber = employee.PhoneNumber,
                 Address = employee.Address,
-                Email = employee.User.Email
+                Email = employee.User.Email ?? string.Empty
             };
         }
         /// <summary>
@@ -300,7 +300,7 @@ namespace CivilEngineerCMS.Services.Data
                     FirstName = e.Employee.FirstName,
                     LastName = e.Employee.LastName,
                     JobTitle = e.Employee.JobTitle,
-                    Email = e.Employee.User.Email,
+                    Email = e.Employee.User.Email ?? string.Empty,
                     PhoneNumber = e.Employee.PhoneNumber,
                 })
                 .ToListAsync();

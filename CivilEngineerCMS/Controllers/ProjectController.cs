@@ -410,7 +410,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 if (isClient)
                 {
                     string clientIdByUserId = await this.clientService.GetClientIdByUserIdAsync(currentUserId);
-                    string clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(projectId);
+                    string? clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(projectId);
                     bool isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId,
                         StringComparison.CurrentCultureIgnoreCase);
                     if (!isClientOfProject)

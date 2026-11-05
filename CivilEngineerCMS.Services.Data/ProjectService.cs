@@ -200,7 +200,7 @@ namespace CivilEngineerCMS.Services.Data
                     Description = x.Description,
                     ClientName = x.Client.FirstName + " " + x.Client.LastName,
                     ClientPhone = x.Client.PhoneNumber,
-                    ClientEmail = x.Client.User.Email,
+                    ClientEmail = x.Client.User.Email ?? string.Empty,
                     ManagerName = x.Manager.FirstName + " " + x.Manager.LastName,
                     ProjectStartDate = x.ProjectCreatedDate.ToString("dd.MM.yyyy"),
                     ProjectEndDate = x.ProjectEndDate.ToString("dd.MM.yyyy"),
@@ -213,7 +213,7 @@ namespace CivilEngineerCMS.Services.Data
                             FirstName = pe.Employee.FirstName,
                             LastName = pe.Employee.LastName,
                             PhoneNumber = pe.Employee.PhoneNumber,
-                            Email = pe.Employee.User.Email,
+                            Email = pe.Employee.User.Email ?? string.Empty,
                             Address = pe.Employee.Address,
                             JobTitle = pe.Employee.JobTitle,
                         }
@@ -365,9 +365,9 @@ namespace CivilEngineerCMS.Services.Data
                     ProjectName = p.Name,
                     Description = p.Description,
                     ManagerName = $"{p.Manager.FirstName} {p.Manager.LastName}",
-                    ClientEmail = p.Client.User.Email,
+                    ClientEmail = p.Client.User.Email ?? string.Empty,
                     ManagerPhoneNumber = p.Manager.PhoneNumber,
-                    ManagerEmail = p.Manager.User.Email,
+                    ManagerEmail = p.Manager.User.Email ?? string.Empty,
                     ProjectCreatedDate = p.ProjectCreatedDate,
                     ProjectEndDate = p.ProjectEndDate,
                     ClientName = $"{p.Client.FirstName} {p.Client.LastName}",
@@ -424,7 +424,7 @@ namespace CivilEngineerCMS.Services.Data
                     LastName = e.LastName,
                     JobTitle = e.JobTitle,
                     PhoneNumber = e.PhoneNumber,
-                    Email = e.User.Email,
+                    Email = e.User.Email ?? string.Empty,
                     IsChecked = e.ProjectsEmployees.Any(pe => pe.EmployeeId == e.Id && pe.ProjectId.ToString() == projectId)
                 })
                 .ToListAsync();
@@ -509,8 +509,7 @@ namespace CivilEngineerCMS.Services.Data
         public string GetContentType(string fileName)
         {
             var provider = new FileExtensionContentTypeProvider();
-            string contentType;
-            if (!provider.TryGetContentType(fileName, out contentType))
+            if (!provider.TryGetContentType(fileName, out string? contentType))
             {
                 contentType = "application/octet-stream";
             }
@@ -573,9 +572,9 @@ namespace CivilEngineerCMS.Services.Data
                     ProjectName = p.Name,
                     Description = p.Description,
                     ManagerName = $"{p.Manager.FirstName} {p.Manager.LastName}",
-                    ClientEmail = p.Client.User.Email,
+                    ClientEmail = p.Client.User.Email ?? string.Empty,
                     ManagerPhoneNumber = p.Manager.PhoneNumber,
-                    ManagerEmail = p.Manager.User.Email,
+                    ManagerEmail = p.Manager.User.Email ?? string.Empty,
                     ProjectCreatedDate = p.ProjectCreatedDate,
                     ProjectEndDate = p.ProjectEndDate,
                     ClientName = $"{p.Client.FirstName} {p.Client.LastName}",

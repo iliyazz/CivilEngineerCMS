@@ -18,7 +18,8 @@ using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 Account cloudinaryCredentials = new Account(
     builder.Configuration.GetValue<string>("Cloudinary:CloudName"),
@@ -112,20 +113,17 @@ if (app.Environment.IsDevelopment())
     app.SeedAdministrator(DevelopmentAdminEmail);
 }
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-               name: "areaRoute",
-                      pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "areaRoute",
+    pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-    endpoints.MapControllerRoute(
-               name: "default",
-                      pattern: "/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "/{controller=Home}/{action=Index}/{id?}");
 
-    endpoints.MapDefaultControllerRoute();
+app.MapDefaultControllerRoute();
 
-    endpoints.MapRazorPages();
-});
+app.MapRazorPages();
 
 
 
