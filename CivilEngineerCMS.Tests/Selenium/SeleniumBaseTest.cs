@@ -3,7 +3,7 @@ using OpenQA.Selenium.Firefox;
 
 namespace CivilEngineerCMS.Tests.Selenium
 {
-    public class SeleniumBaseTest
+    public abstract class SeleniumBaseTest
     {
         public IWebDriver driver;
 

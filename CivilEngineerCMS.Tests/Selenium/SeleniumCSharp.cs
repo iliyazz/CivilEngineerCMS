@@ -2,7 +2,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using NUnit.Framework;
-using OpenQA.Selenium.DevTools.V118.Page;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 

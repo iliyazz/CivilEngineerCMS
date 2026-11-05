@@ -18,7 +18,7 @@ namespace CivilEngineerCMS.Tests.Selenium
     public class OrderSkipAttribute
     {
 
-        [Test, Order(3), Category("OrderSkipAttribute")]
+        [Test, DependsOnTest(nameof(TestMethod3), AllowFailure = true), Category("OrderSkipAttribute")]
         public void TestMethod1()
         {
             IWebDriver driver = new ChromeDriver();
@@ -65,7 +65,7 @@ namespace CivilEngineerCMS.Tests.Selenium
 
             driver.Close();
         }
-        [Test,Order(0), Category("OrderSkipAttribute")]
+        [Test, Category("OrderSkipAttribute")]
         public void TestMethod2()
         {
             IWebDriver driver = new FirefoxDriver();
@@ -112,7 +112,7 @@ namespace CivilEngineerCMS.Tests.Selenium
 
             driver.Close();
         }
-        [Test, Order(1), Category("OrderSkipAttribute")]
+        [Test, DependsOnTest(nameof(TestMethod2), AllowFailure = true), Category("OrderSkipAttribute")]
         public void TestMethod3()
         {
             IWebDriver driver = new EdgeDriver();
