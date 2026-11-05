@@ -411,8 +411,8 @@ namespace CivilEngineerCMS.Web.Controllers
                 {
                     string clientIdByUserId = await this.clientService.GetClientIdByUserIdAsync(currentUserId);
                     string? clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(projectId);
-                    bool isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId,
-                        StringComparison.CurrentCultureIgnoreCase);
+                    bool isClientOfProject = clientIdByProjectId != null &&
+                        string.Equals(clientIdByUserId, clientIdByProjectId, StringComparison.OrdinalIgnoreCase);
                     if (!isClientOfProject)
                     {
                         NotAuthorized();

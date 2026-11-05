@@ -45,8 +45,8 @@
             {
                 string clientIdByUserId = await this.clientService.GetClientIdByUserIdAsync(userId);
                 string? clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(id);
-                isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId,
-                    StringComparison.CurrentCultureIgnoreCase);
+                isClientOfProject = clientIdByProjectId != null &&
+                    string.Equals(clientIdByUserId, clientIdByProjectId, StringComparison.OrdinalIgnoreCase);
             }
 
             bool isManagerOfProject = false;
