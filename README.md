@@ -12,7 +12,7 @@
 Application is hosted on Azure: https://cmsprojects.azurewebsites.net/ 
 
 
-This is educational project for SoftUni's ASP.NET Advanced course, built using ASP.NET MVC, Entity framework core, C#, SQLite, JavaScript, HTML, CSS, Bootstrap.
+This is educational project for SoftUni's ASP.NET Advanced course, built using .NET 10, ASP.NET Core MVC, Entity Framework Core 10, C#, SQLite, JavaScript, HTML, CSS, Bootstrap.
 
 The application is a Civil Engineer Customer Management System for consulting and design firms. The purpose of the application is to help with the organization of work of the company and at the same time to enable the client to monitor the work process.
 There are three types of application users: employees, customers, and administrators.
@@ -50,6 +50,11 @@ Employees can only access and work on the projects they are attached to.
 Managers only have access to and can work with the projects they are managers of.
 Administrators have access to and can work with all projects, employees and customers.
 
+## Requirements
+
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) (all projects target `net10.0`; .NET 10 is an LTS release supported until November 2028)
+- Visual Studio 2026 / JetBrains Rider / VS Code with C# Dev Kit, or just the `dotnet` CLI
+
 ## Running locally
 
 1. `dotnet run --project CivilEngineerCMS`
@@ -60,6 +65,11 @@ The Web API (`CivilEngineerCMS.WebApi`) uses the same database file (`../CivilEn
 
 In the main folder there is a legacy script for seeding the database: `CivilEngineerCMS-seed data in database.sql`. It was written for the earlier SQL Server version and needs adapting before use with SQLite.
 
+## Tests
+
+- Unit tests (EF Core InMemory): `dotnet test CivilEngineerCMS.Tests --filter "FullyQualifiedName~CivilEngineerCMS.Tests.Services"`
+- Selenium UI tests (`CivilEngineerCMS.Tests.Selenium`) need the app running on `https://localhost:7255` with the seed data loaded, and Firefox, Chrome and Edge installed.
+
 ## Changelog
 
 ### 1.1.0
@@ -69,6 +79,10 @@ In the main folder there is a legacy script for seeding the database: `CivilEngi
 - Fixed Production lockout settings (they were under the `Password` section and were ignored).
 - Web API: switched to SQLite, added a connection string, fixed CORS middleware order, returns 403 instead of 200 for users without access.
 - Removed obsolete ASP.NET Core 2.2 packages and unused packages (SQL Server provider, Microsoft.Graph, Swashbuckle.Core, dotenv.net, IE/Opera drivers, MSTest, unofficial QualityTools).
+- Migrated from .NET 8 to .NET 10 (LTS); Microsoft packages updated to 10.0.x, third-party packages to their latest versions (NUnit 5, Swashbuckle 10, Selenium 4.52).
+- Fixed ids being compared as case-sensitive strings on SQLite, which prevented employees and clients from being recognized.
+- Admin seed uses a static password hash, as required by EF Core 9+ migrations.
+- Fixed all nullable reference warnings; the build has no warnings.
 
 
 Registered users in application are:
