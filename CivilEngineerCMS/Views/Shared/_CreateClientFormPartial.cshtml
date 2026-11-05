@@ -1,7 +1,4 @@
-﻿@using CivilEngineerCMS.Data.Models
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> userManager
-@model CreateClientFormModel
+﻿@model CreateClientFormModel
 
 
 <div class="row">
@@ -30,7 +27,7 @@
             <div class="form-group">
                 <label asp-for="UserId"></label>
                 <select asp-for="UserId" class="form-control">
-                    @foreach (var u in userManager.Users)
+                    @foreach (var u in Model.Users)
                     {
                         <option value="@u.Id">@u.Email</option>
                     }

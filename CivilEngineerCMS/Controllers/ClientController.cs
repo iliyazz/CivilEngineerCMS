@@ -65,17 +65,22 @@ namespace CivilEngineerCMS.Web.Controllers
 
             CreateClientFormModel formModel = new CreateClientFormModel
             {
-                Users = await this.userManager
-                    .Users
-                    .Select(u => new AllUsersSelectViewModelForClient
-                    {
-                        Id = u.Id,
-                        Email = u.Email ?? string.Empty
-                    })
-                    .ToListAsync()
+                Users = await this.GetUsersForSelectAsync()
             };
 
-            return this.View();
+            return this.View(formModel);
+        }
+
+        private async Task<List<AllUsersSelectViewModelForClient>> GetUsersForSelectAsync()
+        {
+            return await this.userManager
+                .Users
+                .Select(u => new AllUsersSelectViewModelForClient
+                {
+                    Id = u.Id,
+                    Email = u.Email ?? string.Empty
+                })
+                .ToListAsync();
         }
         /// <summary>
         /// Creates a new client from the submitted form data.
@@ -94,6 +99,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!this.ModelState.IsValid)
             {
+                formModel.Users = await this.GetUsersForSelectAsync();
                 return this.View(formModel);
             }
 
@@ -110,6 +116,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 this.logger.LogError(ex, "Error creating client {FirstName} {LastName}.", formModel.FirstName, formModel.LastName);
                 this.ModelState.AddModelError(string.Empty,
                     "An error occurred while adding the client. Please try again later or contact administrator!");
+                formModel.Users = await this.GetUsersForSelectAsync();
                 return this.View(formModel);
             }
         }
