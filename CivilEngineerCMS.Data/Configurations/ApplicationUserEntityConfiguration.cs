@@ -3,7 +3,6 @@
 
 namespace CivilEngineerCMS.Data.Configurations
 {
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -46,14 +45,12 @@ namespace CivilEngineerCMS.Data.Configurations
                 PhoneNumberConfirmed = true,
                 TwoFactorEnabled = false,
                 LockoutEnd = null,
-                LockoutEnabled = false
+                LockoutEnabled = false,
+                // Static hash of "123456Admin-+". HasData values must be deterministic:
+                // PasswordHasher uses a random salt, which EF Core 9+ rejects as a
+                // pending model change (PendingModelChangesWarning) on Migrate().
+                PasswordHash = "AQAAAAIAAYagAAAAEBw9DMRq+1dp9W8kBKDK5fuGTHgMREmsjX7kdmztT2J4TmsXzpx8FT2lKT68bB/mZg=="
             };
-            PasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
-
-
-
-            //applicationUser.PasswordHash = passwordHasher.HashPassword(applicationUser, "123456User-+");
-            applicationUser.PasswordHash = passwordHasher.HashPassword(applicationUser, "123456Admin-+");
 
 
             applicationUsers.Add(applicationUser);

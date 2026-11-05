@@ -17,7 +17,7 @@ namespace CivilEngineerCMS.Services.Data
             this.cloudinary = cloudinary;
         }
 
-        public async Task<ImageUploadResult> UploadPhotoAsync(IFormFile formFile, string folder, string publicId)
+        public async Task<ImageUploadResult> UploadPhotoAsync(IFormFile formFile, string folder, string? publicId)
         {
             ImageUploadResult uploadResult = new ImageUploadResult();
             if (formFile != null && formFile.Length > 0)
@@ -40,7 +40,7 @@ namespace CivilEngineerCMS.Services.Data
             return uploadResult;
         }
 
-        public async Task<ImageUploadResult> UploadPhotoAsync(byte[] file, string folder, string publicId)
+        public async Task<ImageUploadResult> UploadPhotoAsync(byte[] file, string folder, string? publicId)
         {
             if (!string.IsNullOrEmpty(publicId))
             {

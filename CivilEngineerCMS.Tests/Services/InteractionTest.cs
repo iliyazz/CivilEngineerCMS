@@ -24,7 +24,7 @@
         private ExpenseService expenseService;
         private InteractionService interactionService;
         private Mock<UserManager<ApplicationUser>> userManager;
-        public ApplicationUser applicationUser { get; set; }
+        public ApplicationUser applicationUser { get; set; } = null!;
 
         [SetUp]
         public void SetUp()
@@ -71,7 +71,7 @@
             };
             clientService = new ClientService(data, userManager, userService);
             await clientService.CreateClientAsync(modelClient);
-            var client = data.Clients.FirstOrDefault();
+            var client = data.Clients.First();
             client.IsActive = true;
 
             //Employee info
@@ -93,7 +93,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(modelEmployee);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
 
             //Project info
@@ -110,7 +110,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project = await data.Projects.FirstOrDefaultAsync(x => x.Name == "TestProjectName1");
+            var project = await data.Projects.FirstAsync(x => x.Name == "TestProjectName1");
             project.IsActive = true;
 
             await data.SaveChangesAsync();
@@ -139,13 +139,13 @@
             await interactionService.CreateInteractionAsync(project.Id.ToString(), modelInteraction2);
 
             IEnumerable<AddAndEditInteractionFormModel> result = await interactionService.AllInteractionsByProjectIdAsync(project.Id.ToString());
-            var ineraction1 =  result.FirstOrDefault(x => x.Type == "Phone call 1");
+            var ineraction1 =  result.First(x => x.Type == "Phone call 1");
             //AreEqual(2, result.Count());
-            Assert.That(2, Is.EqualTo(result.Count()));
-            Assert.That("Phone call 1", Is.EqualTo(ineraction1.Type));
-            Assert.That("TestInteractionDescription1", Is.EqualTo(ineraction1.Description));
-            Assert.That("Message1 about design", Is.EqualTo(ineraction1.Message));
-            Assert.That("https://localhost:7255/images/1.jpg", Is.EqualTo(ineraction1.UrlPath));
+            Assert.That(result.Count(), Is.EqualTo(2));
+            Assert.That(ineraction1.Type, Is.EqualTo("Phone call 1"));
+            Assert.That(ineraction1.Description, Is.EqualTo("TestInteractionDescription1"));
+            Assert.That(ineraction1.Message, Is.EqualTo("Message1 about design"));
+            Assert.That(ineraction1.UrlPath, Is.EqualTo("https://localhost:7255/images/1.jpg"));
             Assert.That(DateTime.Parse("15.08.2023"), Is.EqualTo(ineraction1.Date));
         }
 
@@ -172,7 +172,7 @@
             };
             clientService = new ClientService(data, userManager, userService);
             await clientService.CreateClientAsync(modelClient);
-            var client = data.Clients.FirstOrDefault();
+            var client = data.Clients.First();
             client.IsActive = true;
 
             //Employee info
@@ -194,7 +194,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(modelEmployee);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
 
             //Project info
@@ -211,7 +211,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project = await data.Projects.FirstOrDefaultAsync(x => x.Name == "TestProjectName1");
+            var project = await data.Projects.FirstAsync(x => x.Name == "TestProjectName1");
             project.IsActive = true;
 
             await data.SaveChangesAsync();
@@ -277,7 +277,7 @@
             };
             clientService = new ClientService(data, userManager, userService);
             await clientService.CreateClientAsync(modelClient);
-            var client = data.Clients.FirstOrDefault();
+            var client = data.Clients.First();
             client.IsActive = true;
 
             //Employee info
@@ -299,7 +299,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(modelEmployee);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
 
             //Project info
@@ -316,7 +316,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project = await data.Projects.FirstOrDefaultAsync(x => x.Name == "TestProjectName1");
+            var project = await data.Projects.FirstAsync(x => x.Name == "TestProjectName1");
             project.IsActive = true;
 
             await data.SaveChangesAsync();
@@ -349,7 +349,7 @@
             };
             clientService = new ClientService(data, userManager, userService);
             await clientService.CreateClientAsync(modelClient);
-            var client = data.Clients.FirstOrDefault();
+            var client = data.Clients.First();
             client.IsActive = true;
 
             //Employee info
@@ -371,7 +371,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(modelEmployee);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
 
             //Project info
@@ -388,7 +388,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project = await data.Projects.FirstOrDefaultAsync(x => x.Name == "TestProjectName1");
+            var project = await data.Projects.FirstAsync(x => x.Name == "TestProjectName1");
             project.IsActive = true;
 
             await data.SaveChangesAsync();
@@ -415,7 +415,7 @@
 
             await interactionService.CreateInteractionAsync(project.Id.ToString(), modelInteraction1);
             await interactionService.CreateInteractionAsync(project.Id.ToString(), modelInteraction2);
-            var result = await this.dbContext.Interactions.FirstOrDefaultAsync(x => x.Type == "Phone call 1");
+            var result = await this.dbContext.Interactions.FirstAsync(x => x.Type == "Phone call 1");
             var interaction1Id = result.Id.ToString();
 
             var interaction1 = await interactionService.GetInteractionForEditByProjectIdAsync(project.Id.ToString(), interaction1Id);
@@ -450,7 +450,7 @@
             };
             clientService = new ClientService(data, userManager, userService);
             await clientService.CreateClientAsync(modelClient);
-            var client = data.Clients.FirstOrDefault();
+            var client = data.Clients.First();
             client.IsActive = true;
 
             //Employee info
@@ -472,7 +472,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(modelEmployee);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
 
             //Project info
@@ -489,7 +489,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project = await data.Projects.FirstOrDefaultAsync(x => x.Name == "TestProjectName1");
+            var project = await data.Projects.FirstAsync(x => x.Name == "TestProjectName1");
             project.IsActive = true;
 
             await data.SaveChangesAsync();
@@ -527,10 +527,10 @@
                 UrlPath = "https://localhost:7255/images/3.jpg",
             };
 
-            var result1 = await this.dbContext.Interactions.FirstOrDefaultAsync(x => x.Type == "Phone call 1");
+            var result1 = await this.dbContext.Interactions.FirstAsync(x => x.Type == "Phone call 1");
             var interaction1Id = result1.Id.ToString();
             await interactionService.EditInteractionByProjectIdAsync(interaction1Id, modelInteraction3);
-            var result3 = await this.dbContext.Interactions.FirstOrDefaultAsync(x => x.Type == "Phone call 3");
+            var result3 = await this.dbContext.Interactions.FirstAsync(x => x.Type == "Phone call 3");
 
             Assert.That(result3.Description, Is.EqualTo(modelInteraction3.Description));
             Assert.That(result3.Message, Is.EqualTo(modelInteraction3.Message));

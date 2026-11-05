@@ -396,3 +396,12 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Local SQLite databases
+*.db
+*.db-shm
+*.db-wal
+
+# Uploaded test images
+CivilEngineerCMS/wwwroot/imageContent/*
+!CivilEngineerCMS/wwwroot/imageContent/.gitkeep

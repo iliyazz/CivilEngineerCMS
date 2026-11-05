@@ -5,7 +5,7 @@ namespace CivilEngineerCMS.Tests.Utilities
 {
     public class BrowserUtility
     {
-        public IWebDriver Init(IWebDriver driver)
+        public IWebDriver Init(IWebDriver? driver)
         {
             driver = new FirefoxDriver();
             driver.Manage().Window.Maximize();

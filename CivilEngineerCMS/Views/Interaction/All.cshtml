@@ -18,7 +18,7 @@
         var employeeId = await EmployeeService.GetEmployeeIdByUserIdAsync(User.GetId());
         isEmployeeInProject = await EmployeeService.IsEmployeeInProjectAsync(projectId, employeeId);
         var managerId = await EmployeeService.GetManagerIdByUserIdAsync(User.GetId());
-        isManagerOfProject = await ProjectService.IsManagerOfProjectAsync(projectId, managerId);
+        isManagerOfProject = managerId != null && await ProjectService.IsManagerOfProjectAsync(projectId, managerId);
     }
 }
 

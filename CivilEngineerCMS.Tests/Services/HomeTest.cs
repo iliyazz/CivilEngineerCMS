@@ -30,7 +30,7 @@
         private ProjectService projectService;
         private HomeService homeService;
         private Mock<UserManager<ApplicationUser>> userManager;
-        public ApplicationUser applicationUser { get; set; }
+        public ApplicationUser applicationUser { get; set; } = null!;
 
         [SetUp]
         public void SetUp()
@@ -77,7 +77,7 @@
             };
             clientService = new ClientService(data, userManager, userService);
             await clientService.CreateClientAsync(modelClient);
-            var client = data.Clients.FirstOrDefault();
+            var client = data.Clients.First();
             client.IsActive = true;
 
             //Employee info
@@ -99,7 +99,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(modelEmployee);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
 
             //Project1 info
@@ -117,7 +117,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject1);
-            var project1 = data.Projects.FirstOrDefault(p => p.Name == "TestProjectName1");
+            var project1 = data.Projects.First(p => p.Name == "TestProjectName1");
             project1.IsActive = true;
             project1.UrlPicturePath = "TestUrl1";
 
@@ -137,7 +137,7 @@
             };
             //projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject2);
-            var project2 = data.Projects.FirstOrDefault(p => p.Name == "TestProjectName2");
+            var project2 = data.Projects.First(p => p.Name == "TestProjectName2");
             project2.IsActive = true;
             project2.UrlPicturePath = "TestUrl2";
 

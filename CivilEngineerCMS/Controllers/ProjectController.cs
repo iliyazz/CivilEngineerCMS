@@ -192,7 +192,7 @@ namespace CivilEngineerCMS.Web.Controllers
             var projectManagerUserId = await this.employeeService.GetManagerIdByUserIdAsync(currentUserId);
             bool isAdministrator = this.User.IsAdministrator();
 
-            if (!(this.User.IsAdministrator() || project.ManagerId.ToString() == projectManagerUserId))
+            if (!(this.User.IsAdministrator() || string.Equals(project.ManagerId.ToString(), projectManagerUserId, StringComparison.OrdinalIgnoreCase)))
             {
                 this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
                 return this.RedirectToAction("Mine", "Employee");
@@ -410,9 +410,9 @@ namespace CivilEngineerCMS.Web.Controllers
                 if (isClient)
                 {
                     string clientIdByUserId = await this.clientService.GetClientIdByUserIdAsync(currentUserId);
-                    string clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(projectId);
-                    bool isClientOfProject = string.Equals(clientIdByUserId, clientIdByProjectId,
-                        StringComparison.CurrentCultureIgnoreCase);
+                    string? clientIdByProjectId = await this.clientService.GetClientIdByProjectIdAsync(projectId);
+                    bool isClientOfProject = clientIdByProjectId != null &&
+                        string.Equals(clientIdByUserId, clientIdByProjectId, StringComparison.OrdinalIgnoreCase);
                     if (!isClientOfProject)
                     {
                         NotAuthorized();

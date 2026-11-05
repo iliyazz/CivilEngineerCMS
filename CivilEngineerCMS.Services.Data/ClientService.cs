@@ -34,7 +34,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<MineClientManagerProjectViewModel> allProjectsByUserIdAsync = await dbContext
                 .Projects
-                .Where(p => p.Client.UserId.ToString() == userId && p.IsActive)
+                .Where(p => p.Client.UserId == userId.ToGuidOrEmpty() && p.IsActive)
                 .OrderBy(pn => pn.Name)
                 .Select(p => new MineClientManagerProjectViewModel
                 {
@@ -67,7 +67,7 @@ namespace CivilEngineerCMS.Services.Data
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     PhoneNumber = c.PhoneNumber,
-                    Email = c.User.Email,
+                    Email = c.User.Email ?? string.Empty,
                     Address = c.Address,
                 })
                 .ToListAsync();
@@ -89,7 +89,7 @@ namespace CivilEngineerCMS.Services.Data
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     PhoneNumber = c.PhoneNumber,
-                    Email = c.User.Email,
+                    Email = c.User.Email ?? string.Empty,
                     Address = c.Address,
                     UserId = c.UserId,
                     IsActive = c.IsActive
@@ -129,14 +129,14 @@ namespace CivilEngineerCMS.Services.Data
             DetailsClientViewModel client = await this.dbContext
                 .Clients
                 .Include(c => c.User)
-                .Where(c => c.Id.ToString() == clientId && c.IsActive)
+                .Where(c => c.Id == clientId.ToGuidOrEmpty() && c.IsActive)
                 .Select(c => new DetailsClientViewModel()
                 {
                     Id = c.Id,
                     FirstName = c.FirstName,
                     LastName = c.LastName,
                     PhoneNumber = c.PhoneNumber,
-                    Email = c.User.Email,
+                    Email = c.User.Email ?? string.Empty,
                     Address = c.Address
                 })
                 .FirstOrDefaultAsync()
@@ -162,7 +162,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             return await this.dbContext
                 .Clients
-                .AnyAsync(c => c.Id.ToString() == id && c.IsActive);
+                .AnyAsync(c => c.Id == id.ToGuidOrEmpty() && c.IsActive);
         }
         /// <summary>
         /// This method return client for edit by id
@@ -174,10 +174,10 @@ namespace CivilEngineerCMS.Services.Data
             Client client = await this.dbContext
                 .Clients
                 .Include(c => c.User)
-                .Where(c => c.Id.ToString() == clientId && c.IsActive)
+                .Where(c => c.Id == clientId.ToGuidOrEmpty() && c.IsActive)
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
-            string email = client.User.Email;
+            string email = client.User.Email ?? string.Empty;
             var result = new EditClientFormModel
             {
                 FirstName = client.FirstName,
@@ -198,7 +198,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             Client client = await this.dbContext.Clients
                 .Include(c => c.User)
-                .Where(c => c.Id.ToString() == clientId && c.IsActive)
+                .Where(c => c.Id == clientId.ToGuidOrEmpty() && c.IsActive)
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
             client.FirstName = formModel.FirstName;
@@ -219,7 +219,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Clients
                 .Include(c => c.User)
                 .Where(c => c.IsActive)
-                .FirstOrDefaultAsync(c => c.Id.ToString() == clientId)
+                .FirstOrDefaultAsync(c => c.Id == clientId.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
             return new ClientPreDeleteViewModel
             {
@@ -227,7 +227,7 @@ namespace CivilEngineerCMS.Services.Data
                 LastName = client.LastName,
                 PhoneNumber = client.PhoneNumber,
                 Address = client.Address,
-                Email = client.User.Email
+                Email = client.User.Email ?? string.Empty
             };
         }
         /// <summary>
@@ -241,7 +241,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Clients
                 .Where(c => c.IsActive)
                 .Include(c => c.User)
-                .FirstOrDefaultAsync(c => c.Id.ToString() == clientId)
+                .FirstOrDefaultAsync(c => c.Id == clientId.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Client with id {clientId} was not found.");
             clientToDelete.IsActive = false;
 
@@ -262,13 +262,13 @@ namespace CivilEngineerCMS.Services.Data
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        public async Task<string> GetClientIdByProjectIdAsync(string projectId)
+        public async Task<string?> GetClientIdByProjectIdAsync(string projectId)
         {
             var project = await this.dbContext
                 .Projects
                 .Where(x => x.IsActive)
                 .Include(x => x.Client)
-                .FirstOrDefaultAsync(x => x.Id.ToString() == projectId);
+                .FirstOrDefaultAsync(x => x.Id == projectId.ToGuidOrEmpty());
             if (project == null || project.ClientId.ToString() == string.Empty)
             {
                 return null;
@@ -286,7 +286,7 @@ namespace CivilEngineerCMS.Services.Data
             return await this.dbContext
                 .Clients
                 .Where(c => c.IsActive)
-                .AnyAsync(c => c.UserId.ToString() == userId);
+                .AnyAsync(c => c.UserId == userId.ToGuidOrEmpty());
         }
         /// <summary>
         /// This method return client id by user id
@@ -297,7 +297,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             return await this.dbContext
                 .Clients
-                .Where(c => c.IsActive && c.UserId.ToString() == userId)
+                .Where(c => c.IsActive && c.UserId == userId.ToGuidOrEmpty())
                 .Select(c => c.Id.ToString())
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Client with user id {userId} was not found.");

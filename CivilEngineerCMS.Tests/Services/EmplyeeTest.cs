@@ -25,7 +25,7 @@
         private EmployeeService employeeService;
         private ProjectService projectService;
         private Mock<UserManager<ApplicationUser>> userManager;
-        public ApplicationUser applicationUser { get; set; }
+        public ApplicationUser applicationUser { get; set; } = null!;
 
         [SetUp]
         public void SetUp()
@@ -74,7 +74,7 @@
             await employeeService.CreateEmployeeAsync(modelEmployee);
             await data.SaveChangesAsync();
 
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == modelEmployee.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == modelEmployee.UserId);
             var employee1Id = employee1.Id.ToString();
             employee1.IsActive = true;
             
@@ -113,7 +113,7 @@
             await employeeService.CreateEmployeeAsync(modelEmployee);
             await data.SaveChangesAsync();
 
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == modelEmployee.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == modelEmployee.UserId);
             var employee1Id = employee1.Id.ToString();
             employee1.IsActive = false;
 
@@ -148,7 +148,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == model.UserId);
             employee1.IsActive = true;
             await data.SaveChangesAsync();
 
@@ -171,7 +171,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee2 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee2 = data.Employees.First(x => x.UserId == model.UserId);
             employee2.IsActive = true;
             await data.SaveChangesAsync();
 
@@ -214,7 +214,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == model.UserId);
             employee1.IsActive = true;
             var employee1Id = employee1.Id.ToString();
             await data.SaveChangesAsync();
@@ -238,7 +238,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee2 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee2 = data.Employees.First(x => x.UserId == model.UserId);
             employee2.IsActive = true;
             var employee2Id = employee2.Id.ToString();
             await data.SaveChangesAsync();
@@ -263,7 +263,7 @@
             await clientService.CreateClientAsync(modelClient);
             await data.SaveChangesAsync();
 
-            var client1 = data.Clients.FirstOrDefault(x => x.UserId == modelClient.UserId);
+            var client1 = data.Clients.First(x => x.UserId == modelClient.UserId);
             client1.IsActive = true;
 
             //Client2 info
@@ -286,7 +286,7 @@
             await clientService.CreateClientAsync(modelClient);
             await data.SaveChangesAsync();
 
-            var client2 = data.Clients.FirstOrDefault(x => x.UserId == modelClient.UserId);
+            var client2 = data.Clients.First(x => x.UserId == modelClient.UserId);
             client2.IsActive = true;
 
             //Project1 info
@@ -302,7 +302,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project1 = data.Projects.FirstOrDefault(x => x.Name == "TestProjectName1");
+            var project1 = data.Projects.First(x => x.Name == "TestProjectName1");
             project1.IsActive = true;
             project1.ProjectCreatedDate = DateTime.Parse("2023-12-15");
             await data.SaveChangesAsync();
@@ -320,7 +320,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project2 = data.Projects.FirstOrDefault(x => x.Name == "TestProjectName2");
+            var project2 = data.Projects.First(x => x.Name == "TestProjectName2");
             project2.IsActive = true;
             project2.ProjectCreatedDate = DateTime.Parse("2023-12-15");
 
@@ -357,7 +357,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee1 = data.Employees.FirstOrDefault();
+            var employee1 = data.Employees.First();
             //var employee1Id = employee1.Id.ToString();
             employee1.IsActive = true;
             //await data.SaveChangesAsync();
@@ -380,7 +380,7 @@
                 JobTitle = "Surveyor2"
             };
             await employeeService.CreateEmployeeAsync(model);
-            var employee2 = data.Employees.LastOrDefault();
+            var employee2 = data.Employees.Last();
             //var employee2Id = employee2.Id.ToString();
             employee2.IsActive = true;
             await data.SaveChangesAsync();
@@ -433,11 +433,11 @@
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
             var employee1UserId = model.UserId.ToString();
-            var employee1 = data.Employees.FirstOrDefault();
+            var employee1 = data.Employees.First();
             employee1.IsActive = true;
             await data.SaveChangesAsync();
             string employee1IdExpected = employee1.Id.ToString();
-            string employee1IdActual = await employeeService.GetManagerIdByUserIdAsync(employee1UserId);
+            string? employee1IdActual = await employeeService.GetManagerIdByUserIdAsync(employee1UserId);
             Assert.That(employee1IdActual, Is.EqualTo(employee1IdExpected));
         }
 
@@ -487,7 +487,7 @@
 
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
             await data.SaveChangesAsync();
             string employeeId = employee.Id.ToString();
@@ -523,7 +523,7 @@
 
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
             await data.SaveChangesAsync();
             string employeeId = employee.Id.ToString();
@@ -560,7 +560,7 @@
 
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
             await data.SaveChangesAsync();
             string employeeId = employee.Id.ToString();
@@ -605,7 +605,7 @@
 
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
             await data.SaveChangesAsync();
             string employeeId = employee.Id.ToString();
@@ -643,7 +643,7 @@
 
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee = data.Employees.FirstOrDefault();
+            var employee = data.Employees.First();
             employee.IsActive = true;
             await data.SaveChangesAsync();
             string employeeId = employee.Id.ToString();
@@ -679,7 +679,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == model.UserId);
             employee1.IsActive = true;
             await data.SaveChangesAsync();
             var employee1Id = employee1.Id;
@@ -704,7 +704,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee2 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee2 = data.Employees.First(x => x.UserId == model.UserId);
             employee2.IsActive = true;
             await data.SaveChangesAsync();
             var employee2Id = employee2.Id;
@@ -730,7 +730,7 @@
             await clientService.CreateClientAsync(modelClient);
             await data.SaveChangesAsync();
 
-            var client1 = data.Clients.FirstOrDefault(x => x.UserId == modelClient.UserId);
+            var client1 = data.Clients.First(x => x.UserId == modelClient.UserId);
             client1.IsActive = true;
 
             //Project1 info
@@ -745,7 +745,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project1 = data.Projects.FirstOrDefault(x => x.Name == "TestProjectName1");
+            var project1 = data.Projects.First(x => x.Name == "TestProjectName1");
             project1.IsActive = true;
             project1.ProjectCreatedDate = DateTime.Parse("2023-12-15");
             await data.SaveChangesAsync();
@@ -769,8 +769,8 @@
 
             IEnumerable<AllEmployeeViewModel> result = await employeeService.AllEmployeesByProjectIdAsync(project1Id.ToString());
 
-            var employee1Actual = result.FirstOrDefault(x => x.Id == employee1Id);
-            var employee2Actual = result.FirstOrDefault(x => x.Id == employee2Id);
+            var employee1Actual = result.First(x => x.Id == employee1Id);
+            var employee2Actual = result.First(x => x.Id == employee2Id);
 
             Assert.That(result.Count(), Is.EqualTo(2));
             Assert.That(employee1Actual.FirstName, Is.EqualTo(employee1.FirstName));
@@ -810,7 +810,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == model.UserId);
             employee1.IsActive = true;
             await data.SaveChangesAsync();
             var employee1Id = employee1.Id;
@@ -835,7 +835,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee2 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee2 = data.Employees.First(x => x.UserId == model.UserId);
             employee2.IsActive = true;
             await data.SaveChangesAsync();
             var employee2Id = employee2.Id;
@@ -861,7 +861,7 @@
             await clientService.CreateClientAsync(modelClient);
             await data.SaveChangesAsync();
 
-            var client1 = data.Clients.FirstOrDefault(x => x.UserId == modelClient.UserId);
+            var client1 = data.Clients.First(x => x.UserId == modelClient.UserId);
             client1.IsActive = true;
 
             //Project1 info
@@ -876,7 +876,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project1 = data.Projects.FirstOrDefault(x => x.Name == "TestProjectName1");
+            var project1 = data.Projects.First(x => x.Name == "TestProjectName1");
             project1.IsActive = true;
             project1.ProjectCreatedDate = DateTime.Parse("2023-12-15");
             await data.SaveChangesAsync();
@@ -918,7 +918,7 @@
             await employeeService.CreateEmployeeAsync(modelEmployee);
             await data.SaveChangesAsync();
 
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == modelEmployee.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == modelEmployee.UserId);
             employee1.IsActive = true;
 
             await data.SaveChangesAsync();
@@ -945,7 +945,7 @@
             await employeeService.CreateEmployeeAsync(modelEmployee);
             await data.SaveChangesAsync();
 
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == modelEmployee.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == modelEmployee.UserId);
             employee1.IsActive = false;
 
             await data.SaveChangesAsync();
@@ -980,11 +980,11 @@
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
             var employee1UserId = model.UserId.ToString();
-            var employee1 = data.Employees.FirstOrDefault();
+            var employee1 = data.Employees.First();
             employee1.IsActive = true;
             await data.SaveChangesAsync();
             string employee1IdExpected = employee1.Id.ToString();
-            string employee1IdActual = await employeeService.GetEmployeeIdByUserIdAsync(employee1UserId);
+            string? employee1IdActual = await employeeService.GetEmployeeIdByUserIdAsync(employee1UserId);
             Assert.That(employee1IdActual, Is.EqualTo(employee1IdExpected));
         }
 
@@ -1013,7 +1013,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee1 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee1 = data.Employees.First(x => x.UserId == model.UserId);
             employee1.IsActive = true;
             await data.SaveChangesAsync();
             var employee1Id = employee1.Id;
@@ -1038,7 +1038,7 @@
             };
             employeeService = new EmployeeService(data, userManager, userService);
             await employeeService.CreateEmployeeAsync(model);
-            var employee2 = data.Employees.FirstOrDefault(x => x.UserId == model.UserId);
+            var employee2 = data.Employees.First(x => x.UserId == model.UserId);
             employee2.IsActive = true;
             await data.SaveChangesAsync();
             var employee2Id = employee2.Id;
@@ -1064,7 +1064,7 @@
             await clientService.CreateClientAsync(modelClient);
             await data.SaveChangesAsync();
 
-            var client1 = data.Clients.FirstOrDefault(x => x.UserId == modelClient.UserId);
+            var client1 = data.Clients.First(x => x.UserId == modelClient.UserId);
             client1.IsActive = true;
 
             //Project1 info
@@ -1079,7 +1079,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project1 = data.Projects.FirstOrDefault(x => x.Name == "TestProjectName1");
+            var project1 = data.Projects.First(x => x.Name == "TestProjectName1");
             project1.IsActive = true;
             project1.ProjectCreatedDate = DateTime.Parse("2023-12-15");
             await data.SaveChangesAsync();
@@ -1097,7 +1097,7 @@
             };
             projectService = new ProjectService(data);
             await projectService.CreateProjectAsync(modelProject);
-            var project2 = data.Projects.FirstOrDefault(x => x.Name == "TestProjectName2");
+            var project2 = data.Projects.First(x => x.Name == "TestProjectName2");
             project2.IsActive = true;
             project2.ProjectCreatedDate = DateTime.Parse("2023-12-15");
             var project2Id = project2.Id;

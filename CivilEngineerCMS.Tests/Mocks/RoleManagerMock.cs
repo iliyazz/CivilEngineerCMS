@@ -9,7 +9,7 @@
     {
         public static Mock<RoleManager<IdentityRole<Guid>>> MockRoleManager()
         {
-            Mock<RoleManager<IdentityRole<Guid>>> roleManager = new Mock<RoleManager<IdentityRole<Guid>>>(Mock.Of<IRoleStore<IdentityRole<Guid>>>(), null, null, null, null);
+            Mock<RoleManager<IdentityRole<Guid>>> roleManager = new Mock<RoleManager<IdentityRole<Guid>>>(Mock.Of<IRoleStore<IdentityRole<Guid>>>(), null!, null!, null!, null!);
             roleManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(new IdentityRole<Guid>());
             roleManager.Setup(x => x.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(new IdentityRole<Guid>());
             roleManager.Setup(x => x.CreateAsync(It.IsAny<IdentityRole<Guid>>())).ReturnsAsync(IdentityResult.Success);

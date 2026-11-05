@@ -17,7 +17,7 @@
         {
             builder
                 .Property(p => p.ProjectCreatedDate)
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder
                 .HasOne(p => p.Client)
                 .WithMany(c => c.Projects)

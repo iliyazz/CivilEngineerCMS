@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore;
 
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using dotenv.net;
 
 using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 Account cloudinaryCredentials = new Account(
     builder.Configuration.GetValue<string>("Cloudinary:CloudName"),
@@ -76,6 +76,14 @@ builder.Services.AddControllersWithViews()
 
 WebApplication app = builder.Build();
 
+// Create the SQLite database (or apply pending migrations) on startup,
+// so the app runs without a committed .db file.
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    CivilEngineerCmsDbContext dbContext = scope.ServiceProvider.GetRequiredService<CivilEngineerCmsDbContext>();
+    dbContext.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -105,20 +113,17 @@ if (app.Environment.IsDevelopment())
     app.SeedAdministrator(DevelopmentAdminEmail);
 }
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-               name: "areaRoute",
-                      pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "areaRoute",
+    pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-    endpoints.MapControllerRoute(
-               name: "default",
-                      pattern: "/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "/{controller=Home}/{action=Index}/{id?}");
 
-    endpoints.MapDefaultControllerRoute();
+app.MapDefaultControllerRoute();
 
-    endpoints.MapRazorPages();
-});
+app.MapRazorPages();
 
 
 

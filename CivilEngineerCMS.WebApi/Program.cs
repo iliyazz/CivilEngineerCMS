@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 
 // Add services to the container.
-builder.Services.AddDbContext<CivilEngineerCmsDbContext>(option => option.UseSqlServer(connectionString));
+builder.Services.AddDbContext<CivilEngineerCmsDbContext>(option => option.UseSqlite(connectionString));
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -83,12 +84,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("CivilEngineerCmsDev");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 
 app.MapControllers();
-
-app.UseCors("CivilEngineerCmsDev");
 
 app.Run();

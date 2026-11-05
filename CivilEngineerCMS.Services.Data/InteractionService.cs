@@ -28,7 +28,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             IEnumerable<AddAndEditInteractionFormModel> allInteractionsByProjectIdIdAsync = await dbContext
                 .Interactions
-                .Where(i => i.ProjectId.ToString() == id)
+                .Where(i => i.ProjectId == id.ToGuidOrEmpty())
                 .OrderBy(x => x.Date)
                 .Select(i => new AddAndEditInteractionFormModel
                 {
@@ -50,7 +50,7 @@ namespace CivilEngineerCMS.Services.Data
         /// <returns></returns>
         public Task<bool> InteractionExistsByProjectIdAsync(string projectId)
         {
-            return dbContext.Interactions.AnyAsync(i => i.ProjectId.ToString() == projectId);
+            return dbContext.Interactions.AnyAsync(i => i.ProjectId == projectId.ToGuidOrEmpty());
         }
         /// <summary>
         /// This method create interaction by project id
@@ -81,7 +81,7 @@ namespace CivilEngineerCMS.Services.Data
         public async Task<AddAndEditInteractionFormModel> GetInteractionForEditByProjectIdAsync(string projectId, string interactionId)
         {
             Interaction interaction = await dbContext.Interactions
-                .Where(i => i.ProjectId.ToString() == projectId && i.Id.ToString() == interactionId)
+                .Where(i => i.ProjectId == projectId.ToGuidOrEmpty() && i.Id == interactionId.ToGuidOrEmpty())
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Interaction with id {interactionId} was not found.");
             AddAndEditInteractionFormModel result = new AddAndEditInteractionFormModel
@@ -106,7 +106,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             Interaction interaction = await this.dbContext
                 .Interactions
-                .Where(i => i.Id.ToString() == id)
+                .Where(i => i.Id == id.ToGuidOrEmpty())
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Interaction with id {id} was not found.");
             interaction.Type = formModel.Type;

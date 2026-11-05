@@ -72,7 +72,8 @@ public class ProjectsController : ControllerBase
             }
 
 
-            return this.Ok("Authentication failed");
+            // Authenticated, but the user is not an administrator, employee or client.
+            return this.StatusCode(StatusCodes.Status403Forbidden, "User has no access to projects.");
 
         }
 

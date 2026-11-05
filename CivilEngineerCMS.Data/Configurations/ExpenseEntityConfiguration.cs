@@ -15,7 +15,7 @@
         {
             builder
                 .Property(e => e.Date)
-                .HasDefaultValueSql("GETDATE()");
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder
                 .Property(e => e.Amount)
                 .HasColumnType("decimal(18,2)");

@@ -86,7 +86,7 @@ namespace CivilEngineerCMS.Services.Data
             Project project = await this.dbContext
                 .Projects
                 .Where(x => x.IsActive)
-                .FirstOrDefaultAsync(x => x.Id.ToString() == projectId)
+                .FirstOrDefaultAsync(x => x.Id == projectId.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
             bool isManagerOfProject = string.Equals(project.ManagerId.ToString(), managerId,
                 StringComparison.CurrentCultureIgnoreCase);
@@ -106,7 +106,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Include(x => x.ProjectsEmployees)
                 .ThenInclude(x => x.Employee)
                 .Where(x => x.IsActive)
-                .FirstOrDefaultAsync(x => x.Id.ToString() == id)
+                .FirstOrDefaultAsync(x => x.Id == id.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Project with id {id} was not found.");
 
 
@@ -125,7 +125,7 @@ namespace CivilEngineerCMS.Services.Data
 
 
 
-                Employees = project.ProjectsEmployees.Where(pe => pe.ProjectId.ToString() == id).Select(t =>
+                Employees = project.ProjectsEmployees.Where(pe => pe.ProjectId == id.ToGuidOrEmpty()).Select(t =>
                     new AllEmployeeViewModel
                     {
                         Id = t.Employee.Id,
@@ -153,7 +153,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Include(x => x.Manager)
                 .Include(x => x.ProjectsEmployees)
                 .Where(x => x.IsActive)
-                .FirstOrDefaultAsync(x => x.Id.ToString() == projectId)
+                .FirstOrDefaultAsync(x => x.Id == projectId.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
 
             if (formModel.ImageContent != null)
@@ -192,7 +192,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Include(x => x.Manager)
                 .Include(x => x.ProjectsEmployees)
                 .ThenInclude(x => x.Employee)
-                .Where(x => x.IsActive && x.Id.ToString() == projectId)
+                .Where(x => x.IsActive && x.Id == projectId.ToGuidOrEmpty())
                 .Select(x => new DetailsProjectViewModel
                 {
                     Id = x.Id,
@@ -200,20 +200,20 @@ namespace CivilEngineerCMS.Services.Data
                     Description = x.Description,
                     ClientName = x.Client.FirstName + " " + x.Client.LastName,
                     ClientPhone = x.Client.PhoneNumber,
-                    ClientEmail = x.Client.User.Email,
+                    ClientEmail = x.Client.User.Email ?? string.Empty,
                     ManagerName = x.Manager.FirstName + " " + x.Manager.LastName,
                     ProjectStartDate = x.ProjectCreatedDate.ToString("dd.MM.yyyy"),
                     ProjectEndDate = x.ProjectEndDate.ToString("dd.MM.yyyy"),
                     Status = x.Status,
                     UrlPicturePath = x.UrlPicturePath,
-                    Employees = x.ProjectsEmployees.Where(p => p.ProjectId.ToString() == projectId).Select(pe =>
+                    Employees = x.ProjectsEmployees.Where(p => p.ProjectId == projectId.ToGuidOrEmpty()).Select(pe =>
                         new DetailsEmployeeViewModel
                         {
                             Id = pe.Employee.Id,
                             FirstName = pe.Employee.FirstName,
                             LastName = pe.Employee.LastName,
                             PhoneNumber = pe.Employee.PhoneNumber,
-                            Email = pe.Employee.User.Email,
+                            Email = pe.Employee.User.Email ?? string.Empty,
                             Address = pe.Employee.Address,
                             JobTitle = pe.Employee.JobTitle,
                         }
@@ -255,7 +255,7 @@ namespace CivilEngineerCMS.Services.Data
             bool result = await this.dbContext
                 .Projects
                 .Where(x => x.IsActive)
-                .AnyAsync(x => x.Id.ToString() == id);
+                .AnyAsync(x => x.Id == id.ToGuidOrEmpty());
             return result;
         }
         /// <summary>
@@ -269,7 +269,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Projects
                 .Include(x => x.Client)
                 .Include(x => x.Manager)
-                .Where(x => x.IsActive && x.Id.ToString() == projectId)
+                .Where(x => x.IsActive && x.Id == projectId.ToGuidOrEmpty())
                 .Select(p => new ProjectPreDeleteViewModel
                 {
                     Name = p.Name,
@@ -294,7 +294,7 @@ namespace CivilEngineerCMS.Services.Data
             Project projectToDelete = await this.dbContext
                 .Projects
                 .Where(x => x.IsActive)
-                .FirstOrDefaultAsync(x => x.Id.ToString() == id)
+                .FirstOrDefaultAsync(x => x.Id == id.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Project with id {id} was not found.");
             projectToDelete.IsActive = false;
             await this.dbContext.SaveChangesAsync();
@@ -365,9 +365,9 @@ namespace CivilEngineerCMS.Services.Data
                     ProjectName = p.Name,
                     Description = p.Description,
                     ManagerName = $"{p.Manager.FirstName} {p.Manager.LastName}",
-                    ClientEmail = p.Client.User.Email,
+                    ClientEmail = p.Client.User.Email ?? string.Empty,
                     ManagerPhoneNumber = p.Manager.PhoneNumber,
-                    ManagerEmail = p.Manager.User.Email,
+                    ManagerEmail = p.Manager.User.Email ?? string.Empty,
                     ProjectCreatedDate = p.ProjectCreatedDate,
                     ProjectEndDate = p.ProjectEndDate,
                     ClientName = $"{p.Client.FirstName} {p.Client.LastName}",
@@ -424,8 +424,8 @@ namespace CivilEngineerCMS.Services.Data
                     LastName = e.LastName,
                     JobTitle = e.JobTitle,
                     PhoneNumber = e.PhoneNumber,
-                    Email = e.User.Email,
-                    IsChecked = e.ProjectsEmployees.Any(pe => pe.EmployeeId == e.Id && pe.ProjectId.ToString() == projectId)
+                    Email = e.User.Email ?? string.Empty,
+                    IsChecked = e.ProjectsEmployees.Any(pe => pe.EmployeeId == e.Id && pe.ProjectId == projectId.ToGuidOrEmpty())
                 })
                 .ToListAsync();
 
@@ -444,7 +444,7 @@ namespace CivilEngineerCMS.Services.Data
                 .Where(x => x.IsActive)
                 .Include(x => x.ProjectsEmployees)
                 .ThenInclude(x => x.Employee)
-                .FirstOrDefaultAsync(x => x.Id.ToString() == projectId)
+                .FirstOrDefaultAsync(x => x.Id == projectId.ToGuidOrEmpty())
                 ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
 
             project.ProjectsEmployees.Clear();
@@ -469,7 +469,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             Project project = await this.dbContext
                 .Projects
-                .Where(p => p.IsActive && p.Id.ToString() == projectId)
+                .Where(p => p.IsActive && p.Id == projectId.ToGuidOrEmpty())
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
             return project;
@@ -483,7 +483,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             return await this.dbContext
                 .Projects
-                .Where(p => p.IsActive && p.Id.ToString() == projectId)
+                .Where(p => p.IsActive && p.Id == projectId.ToGuidOrEmpty())
                 .Select(p => p.ManagerId.ToString())
                 .FirstOrDefaultAsync()
                 ?? throw new InvalidOperationException($"Project with id {projectId} was not found.");
@@ -498,7 +498,7 @@ namespace CivilEngineerCMS.Services.Data
         {
             var isEmployeeOfProject = await this.dbContext
                 .ProjectsEmployees
-                .AnyAsync(pe => pe.ProjectId.ToString() == projectId && pe.EmployeeId.ToString() == employeeId);
+                .AnyAsync(pe => pe.ProjectId == projectId.ToGuidOrEmpty() && pe.EmployeeId == employeeId.ToGuidOrEmpty());
             return isEmployeeOfProject;
         }
         /// <summary>
@@ -509,8 +509,7 @@ namespace CivilEngineerCMS.Services.Data
         public string GetContentType(string fileName)
         {
             var provider = new FileExtensionContentTypeProvider();
-            string contentType;
-            if (!provider.TryGetContentType(fileName, out contentType))
+            if (!provider.TryGetContentType(fileName, out string? contentType))
             {
                 contentType = "application/octet-stream";
             }
@@ -573,9 +572,9 @@ namespace CivilEngineerCMS.Services.Data
                     ProjectName = p.Name,
                     Description = p.Description,
                     ManagerName = $"{p.Manager.FirstName} {p.Manager.LastName}",
-                    ClientEmail = p.Client.User.Email,
+                    ClientEmail = p.Client.User.Email ?? string.Empty,
                     ManagerPhoneNumber = p.Manager.PhoneNumber,
-                    ManagerEmail = p.Manager.User.Email,
+                    ManagerEmail = p.Manager.User.Email ?? string.Empty,
                     ProjectCreatedDate = p.ProjectCreatedDate,
                     ProjectEndDate = p.ProjectEndDate,
                     ClientName = $"{p.Client.FirstName} {p.Client.LastName}",

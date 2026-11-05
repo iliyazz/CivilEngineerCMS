@@ -56,6 +56,3 @@
           # slot-name: 'Production'
           # publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7B83AFA4630140888F33360AF77C2F9A }}
           # package: .
-
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7B83AFA4630140888F33360AF77C2F9A }}
-          package: .

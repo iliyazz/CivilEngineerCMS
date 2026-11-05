@@ -31,8 +31,7 @@ namespace CivilEngineerCMS.Web.Controllers
         {
             string id = this.User.GetId();
             var employeeId = await this.employeeService.GetManagerIdByUserIdAsync(id);
-            bool isEmployee = await this.employeeService.EmployeeExistsByIdAsync(employeeId);
-            if (!isEmployee)
+            if (employeeId == null || !await this.employeeService.EmployeeExistsByIdAsync(employeeId))
             {
                 this.TempData[ErrorMessage] = "You are not authorized to view this page.";
                 return RedirectToAction("Index", "Home");

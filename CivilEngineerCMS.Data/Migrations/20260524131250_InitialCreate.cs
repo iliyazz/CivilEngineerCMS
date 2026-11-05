@@ -217,7 +217,7 @@ namespace CivilEngineerCMS.Data.Migrations
                     ContentType = table.Column<string>(type: "TEXT", nullable: true),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProjectCreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "GETDATE()"),
+                    ProjectCreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     ProjectEndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     IsActive = table.Column<bool>(type: "INTEGER", nullable: false, defaultValue: true),
                     ApplicationUserId = table.Column<Guid>(type: "TEXT", nullable: true)
@@ -252,7 +252,7 @@ namespace CivilEngineerCMS.Data.Migrations
                     ProjectId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Date = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "GETDATE()")
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -275,7 +275,7 @@ namespace CivilEngineerCMS.Data.Migrations
                     Description = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: false),
                     Message = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: false),
                     UrlPath = table.Column<string>(type: "TEXT", maxLength: 2048, nullable: true),
-                    Date = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "GETDATE()")
+                    Date = table.Column<DateTime>(type: "TEXT", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {

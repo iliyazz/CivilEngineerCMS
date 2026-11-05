@@ -11,7 +11,7 @@
         Task<IEnumerable<AllEmployeeViewModel>> AllEmployeesAsync();
         Task<IEnumerable<MineManagerProjectViewModel>> AllProjectsByManagerIdAsync(string id);
         Task<IEnumerable<SelectEmployeesAndManagerForProjectFormModel>> AllEmployeesAndManagersAsync();
-        Task<string> GetManagerIdByUserIdAsync(string userId);
+        Task<string?> GetManagerIdByUserIdAsync(string userId);
         Task CreateEmployeeAsync(CreateEmployeeFormModel formModel);
         Task<DetailsEmployeeViewModel> DetailsEmployeeAsync(string employeeId);
         Task<EditEmployeeFormModel> GetEmployeeForEditByIdAsync(string employeeId);

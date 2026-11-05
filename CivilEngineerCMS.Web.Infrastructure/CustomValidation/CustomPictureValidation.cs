@@ -4,7 +4,7 @@ namespace CivilEngineerCMS.Web.Infrastructure.CustomValidation
 {
     public class CustomPictureValidation : ValidationAttribute
     {
-        public ValidationResult IsValidFile(object value, ValidationContext validationContext)
+        public ValidationResult? IsValidFile(object? value, ValidationContext validationContext)
         {
             var contentType = value as string;
             if (contentType == null)

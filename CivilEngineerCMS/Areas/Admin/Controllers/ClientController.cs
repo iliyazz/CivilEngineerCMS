@@ -37,7 +37,7 @@ namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
 
-            IEnumerable<AllClientViewModel> viewModel = this.memoryCache.Get<IEnumerable<AllClientViewModel>>(OnLineClientsCacheKey);
+            IEnumerable<AllClientViewModel>? viewModel = this.memoryCache.Get<IEnumerable<AllClientViewModel>>(OnLineClientsCacheKey);
             if (viewModel == null)
             {
                 viewModel = await this.clientService.AllClientsForViewAsync();

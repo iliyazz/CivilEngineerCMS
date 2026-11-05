@@ -1,4 +1,6 @@
 # C# Web - May 2023
+
+**Version: 1.1.0** (defined in `Directory.Build.props`)
 🎓 Repository for My course project [*C# Web - May 2023 @ SoftUni*]
 ***
 
@@ -10,7 +12,7 @@
 Application is hosted on Azure: https://cmsprojects.azurewebsites.net/ 
 
 
-This is educational project for SoftUni's ASP.NET Advanced course, built using ASP.NET MVC, Entity framework core, C#, Microsoft SQL Server, JavaScript, HTML, CSS, Bootstrap.
+This is educational project for SoftUni's ASP.NET Advanced course, built using ASP.NET MVC, Entity framework core, C#, SQLite, JavaScript, HTML, CSS, Bootstrap.
 
 The application is a Civil Engineer Customer Management System for consulting and design firms. The purpose of the application is to help with the organization of work of the company and at the same time to enable the client to monitor the work process.
 There are three types of application users: employees, customers, and administrators.
@@ -48,7 +50,25 @@ Employees can only access and work on the projects they are attached to.
 Managers only have access to and can work with the projects they are managers of.
 Administrators have access to and can work with all projects, employees and customers.
 
-In the main folder there is a script for seeding the database: CivilEngineerCMS-seed data in database.sql
+## Running locally
+
+1. `dotnet run --project CivilEngineerCMS`
+2. On startup the app creates `CivilEngineerCMS/civilengineercms.db` (SQLite) and applies all EF Core migrations automatically. The database file is not stored in the repository.
+3. In Development the seed admin account gets the Administrator role.
+
+The Web API (`CivilEngineerCMS.WebApi`) uses the same database file (`../CivilEngineerCMS/civilengineercms.db`).
+
+In the main folder there is a legacy script for seeding the database: `CivilEngineerCMS-seed data in database.sql`. It was written for the earlier SQL Server version and needs adapting before use with SQLite.
+
+## Changelog
+
+### 1.1.0
+- Removed the old SQL Server migrations; a single SQLite `InitialCreate` migration remains.
+- Replaced `GETDATE()` (SQL Server only) with `CURRENT_TIMESTAMP` for default dates.
+- Database is created/migrated automatically on startup; the `.db` file and test images are no longer committed.
+- Fixed Production lockout settings (they were under the `Password` section and were ignored).
+- Web API: switched to SQLite, added a connection string, fixed CORS middleware order, returns 403 instead of 200 for users without access.
+- Removed obsolete ASP.NET Core 2.2 packages and unused packages (SQL Server provider, Microsoft.Graph, Swashbuckle.Core, dotenv.net, IE/Opera drivers, MSTest, unofficial QualityTools).
 
 
 Registered users in application are:
