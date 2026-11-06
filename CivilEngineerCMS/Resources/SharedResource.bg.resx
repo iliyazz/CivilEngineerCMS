@@ -29,6 +29,9 @@
   <data name="{0} online now" xml:space="preserve">
     <value>{0} онлайн в момента</value>
   </data>
+  <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
+    <value>Двуфакторното удостоверяване е изключено. Можете да го включите отново, когато настроите приложение за удостоверяване.</value>
+  </data>
   <data name="A non-empty request body is required." xml:space="preserve">
     <value>Изисква се непразно тяло на заявката.</value>
   </data>
@@ -49,6 +52,12 @@
   </data>
   <data name="Active Projects" xml:space="preserve">
     <value>Активни проекти</value>
+  </data>
+  <data name="Add another service to log in." xml:space="preserve">
+    <value>Добавете друга услуга за вход.</value>
+  </data>
+  <data name="Add authenticator app" xml:space="preserve">
+    <value>Добави приложение за удостоверяване</value>
   </data>
   <data name="Add Client" xml:space="preserve">
     <value>Добави клиент</value>
@@ -161,6 +170,9 @@
   <data name="Are you sure you want to permanently delete this project?" xml:space="preserve">
     <value>Сигурни ли сте, че искате да изтриете този проект завинаги?</value>
   </data>
+  <data name="Authenticator app" xml:space="preserve">
+    <value>Приложение за удостоверяване</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Назад</value>
   </data>
@@ -181,6 +193,15 @@
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Отказ</value>
+  </data>
+  <data name="Change email" xml:space="preserve">
+    <value>Смени имейла</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Смяна на паролата</value>
+  </data>
+  <data name="Change your account settings" xml:space="preserve">
+    <value>Променете настройките на акаунта си</value>
   </data>
   <data name="Check or uncheck employees to add or remove them from this project." xml:space="preserve">
     <value>Отметнете или премахнете отметката на служителите, за да ги добавите към проекта или да ги премахнете от него.</value>
@@ -230,11 +251,23 @@
   <data name="Client with provided id does not exist." xml:space="preserve">
     <value>Клиент с посочения идентификатор не съществува.</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Затвори</value>
+  </data>
   <data name="Close to starting" xml:space="preserve">
     <value>Предстои стартиране</value>
   </data>
+  <data name="Configure authenticator app" xml:space="preserve">
+    <value>Настройка на приложение за удостоверяване</value>
+  </data>
+  <data name="Confirm new password" xml:space="preserve">
+    <value>Потвърдете новата парола</value>
+  </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>Потвърдете паролата</value>
+  </data>
+  <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
+    <value>Изпратихме връзка за потвърждение на новия имейл. Моля, проверете пощата си.</value>
   </data>
   <data name="Create account" xml:space="preserve">
     <value>Създаване на акаунт</value>
@@ -251,6 +284,9 @@
   <data name="Created" xml:space="preserve">
     <value>Създаден</value>
   </data>
+  <data name="Current password" xml:space="preserve">
+    <value>Текуща парола</value>
+  </data>
   <data name="Date" xml:space="preserve">
     <value>Дата</value>
   </data>
@@ -260,11 +296,20 @@
   <data name="Delete client" xml:space="preserve">
     <value>Изтриване на клиент</value>
   </data>
+  <data name="Delete data and close my account" xml:space="preserve">
+    <value>Изтрий данните и закрий акаунта ми</value>
+  </data>
   <data name="Delete Employee" xml:space="preserve">
     <value>Изтриване на служител</value>
   </data>
+  <data name="Delete Personal Data" xml:space="preserve">
+    <value>Изтриване на личните данни</value>
+  </data>
   <data name="Delete Project" xml:space="preserve">
     <value>Изтриване на проект</value>
+  </data>
+  <data name="Deleting this data will permanently remove your account, and this cannot be recovered." xml:space="preserve">
+    <value>Изтриването на тези данни ще премахне акаунта ви завинаги и той не може да бъде възстановен.</value>
   </data>
   <data name="Description" xml:space="preserve">
     <value>Описание</value>
@@ -275,8 +320,26 @@
   <data name="Details" xml:space="preserve">
     <value>Детайли</value>
   </data>
+  <data name="Disable 2FA" xml:space="preserve">
+    <value>Изключи 2FA</value>
+  </data>
+  <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
+    <value>Изключване на двуфакторното удостоверяване (2FA)</value>
+  </data>
+  <data name="Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key used in an authenticator app you should &lt;a href=&quot;{0}&quot;&gt;reset your authenticator keys.&lt;/a&gt;" xml:space="preserve">
+    <value>Изключването на 2FA не променя ключовете в приложенията за удостоверяване. Ако искате да смените ключа в приложението, трябва да &lt;a href=&quot;{0}&quot;&gt;нулирате ключовете за удостоверяване.&lt;/a&gt;</value>
+  </data>
   <data name="Don't have an account?" xml:space="preserve">
     <value>Нямате акаунт?</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Изтегли</value>
+  </data>
+  <data name="Download a two-factor authenticator app like Microsoft Authenticator for &lt;a href=&quot;{0}&quot;&gt;Android&lt;/a&gt; and &lt;a href=&quot;{1}&quot;&gt;iOS&lt;/a&gt; or Google Authenticator for &lt;a href=&quot;{2}&quot;&gt;Android&lt;/a&gt; and &lt;a href=&quot;{3}&quot;&gt;iOS&lt;/a&gt;." xml:space="preserve">
+    <value>Изтеглете приложение за двуфакторно удостоверяване, например Microsoft Authenticator за &lt;a href=&quot;{0}&quot;&gt;Android&lt;/a&gt; и &lt;a href=&quot;{1}&quot;&gt;iOS&lt;/a&gt; или Google Authenticator за &lt;a href=&quot;{2}&quot;&gt;Android&lt;/a&gt; и &lt;a href=&quot;{3}&quot;&gt;iOS&lt;/a&gt;.</value>
+  </data>
+  <data name="Download Your Data" xml:space="preserve">
+    <value>Изтегляне на вашите данни</value>
   </data>
   <data name="e.g. Meeting, Email, Call..." xml:space="preserve">
     <value>напр. Среща, Имейл, Обаждане...</value>
@@ -365,6 +428,9 @@
   <data name="Expenses" xml:space="preserve">
     <value>Плащания</value>
   </data>
+  <data name="External logins" xml:space="preserve">
+    <value>Външни акаунти</value>
+  </data>
   <data name="Featured Projects" xml:space="preserve">
     <value>Избрани проекти</value>
   </data>
@@ -392,6 +458,18 @@
   <data name="First name..." xml:space="preserve">
     <value>Име...</value>
   </data>
+  <data name="Forget this browser" xml:space="preserve">
+    <value>Забрави този браузър</value>
+  </data>
+  <data name="Generate Recovery Codes" xml:space="preserve">
+    <value>Генерирай кодове за възстановяване</value>
+  </data>
+  <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
+    <value>Генериране на кодове за възстановяване (2FA)</value>
+  </data>
+  <data name="Generating new recovery codes does not change the keys used in authenticator apps. If you wish to change the key used in an authenticator app you should &lt;a href=&quot;{0}&quot;&gt;reset your authenticator keys.&lt;/a&gt;" xml:space="preserve">
+    <value>Генерирането на нови кодове за възстановяване не променя ключовете в приложенията за удостоверяване. Ако искате да смените ключа в приложението, трябва да &lt;a href=&quot;{0}&quot;&gt;нулирате ключовете за удостоверяване.&lt;/a&gt;</value>
+  </data>
   <data name="Grant or revoke administrator privileges for employees." xml:space="preserve">
     <value>Предоставяйте или отнемайте администраторски права на служители.</value>
   </data>
@@ -400,6 +478,12 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>Начало</value>
+  </data>
+  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
+    <value>Ако загубите устройството си и нямате кодовете за възстановяване, ще загубите достъп до акаунта си.</value>
+  </data>
+  <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
+    <value>Ако нулирате ключа за удостоверяване, приложението ви няма да работи, докато не го настроите отново.</value>
   </data>
   <data name="Image link" xml:space="preserve">
     <value>Връзка към изображение</value>
@@ -464,6 +548,9 @@
   <data name="Last Transaction" xml:space="preserve">
     <value>Последно плащане</value>
   </data>
+  <data name="Learn how to &lt;a href=&quot;{0}&quot;&gt;enable QR code generation&lt;/a&gt;." xml:space="preserve">
+    <value>Научете как да &lt;a href=&quot;{0}&quot;&gt;включите генерирането на QR код&lt;/a&gt;.</value>
+  </data>
   <data name="Link to file..." xml:space="preserve">
     <value>Връзка към файл...</value>
   </data>
@@ -475,6 +562,9 @@
   </data>
   <data name="Log in" xml:space="preserve">
     <value>Вход</value>
+  </data>
+  <data name="Log in using your {0} account" xml:space="preserve">
+    <value>Влезте с акаунта си в {0}</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Вход</value>
@@ -494,11 +584,20 @@
   <data name="Manage Admins" xml:space="preserve">
     <value>Администратори</value>
   </data>
+  <data name="Manage Email" xml:space="preserve">
+    <value>Управление на имейла</value>
+  </data>
   <data name="Manage Project Team" xml:space="preserve">
     <value>Управление на екипа на проекта</value>
   </data>
   <data name="Manage team" xml:space="preserve">
     <value>Управление на екипа</value>
+  </data>
+  <data name="Manage your account" xml:space="preserve">
+    <value>Управление на акаунта</value>
+  </data>
+  <data name="Manage your external logins" xml:space="preserve">
+    <value>Управление на външните акаунти</value>
   </data>
   <data name="Manager" xml:space="preserve">
     <value>Ръководител</value>
@@ -538,6 +637,12 @@
   </data>
   <data name="Name does not exist." xml:space="preserve">
     <value>Статусът не съществува.</value>
+  </data>
+  <data name="New email" xml:space="preserve">
+    <value>Нов имейл</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>Нова парола</value>
   </data>
   <data name="New Project" xml:space="preserve">
     <value>Нов проект</value>
@@ -599,6 +704,9 @@
   <data name="Offline" xml:space="preserve">
     <value>Офлайн</value>
   </data>
+  <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
+    <value>След като сканирате QR кода или въведете ключа по-горе, приложението за удостоверяване ще ви даде уникален код. Въведете го в полето за потвърждение по-долу.</value>
+  </data>
   <data name="Online" xml:space="preserve">
     <value>Онлайн</value>
   </data>
@@ -650,6 +758,9 @@
   <data name="Payment Progress" xml:space="preserve">
     <value>Напредък на плащанията</value>
   </data>
+  <data name="Personal data" xml:space="preserve">
+    <value>Лични данни</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Телефон</value>
   </data>
@@ -661,6 +772,33 @@
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>Телефон</value>
+  </data>
+  <data name="Please choose your username." xml:space="preserve">
+    <value>Изберете потребителско име.</value>
+  </data>
+  <data name="Please confirm your new password." xml:space="preserve">
+    <value>Потвърдете новата парола.</value>
+  </data>
+  <data name="Please enter new email." xml:space="preserve">
+    <value>Въведете нов имейл.</value>
+  </data>
+  <data name="Please enter the code." xml:space="preserve">
+    <value>Въведете кода.</value>
+  </data>
+  <data name="Please enter your email." xml:space="preserve">
+    <value>Въведете имейла си.</value>
+  </data>
+  <data name="Please enter your new password." xml:space="preserve">
+    <value>Въведете новата парола.</value>
+  </data>
+  <data name="Please enter your old password." xml:space="preserve">
+    <value>Въведете текущата парола.</value>
+  </data>
+  <data name="Please enter your password." xml:space="preserve">
+    <value>Въведете паролата си.</value>
+  </data>
+  <data name="Please enter your phone number." xml:space="preserve">
+    <value>Въведете телефонния си номер.</value>
   </data>
   <data name="Please log in with an authorised account." xml:space="preserve">
     <value>Моля, влезте с акаунт, който има нужните права.</value>
@@ -677,8 +815,14 @@
   <data name="Privacy" xml:space="preserve">
     <value>Поверителност</value>
   </data>
+  <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
+    <value>Политиката за поверителност и бисквитки не е приета.</value>
+  </data>
   <data name="Professional project management for civil engineering teams. Track projects, manage teams, and stay on schedule." xml:space="preserve">
     <value>Професионално управление на проекти за екипи в строителното инженерство. Следете проектите, управлявайте екипите и спазвайте сроковете.</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профил</value>
   </data>
   <data name="Project {0} added successfully." xml:space="preserve">
     <value>Проектът „{0}“ е добавен успешно.</value>
@@ -749,14 +893,23 @@
   <data name="Projects you are assigned to as a team member." xml:space="preserve">
     <value>Проекти, по които работите като член на екипа.</value>
   </data>
+  <data name="Put these codes in a safe place." xml:space="preserve">
+    <value>Съхранявайте тези кодове на сигурно място.</value>
+  </data>
   <data name="Quick Actions" xml:space="preserve">
     <value>Бързи действия</value>
   </data>
   <data name="Record a new financial entry for this project." xml:space="preserve">
     <value>Запишете ново плащане по този проект.</value>
   </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Кодове за възстановяване</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Регистрация</value>
+  </data>
+  <data name="Registered Logins" xml:space="preserve">
+    <value>Регистрирани външни акаунти</value>
   </data>
   <data name="Remaining" xml:space="preserve">
     <value>Остатък</value>
@@ -764,8 +917,23 @@
   <data name="Remember me?" xml:space="preserve">
     <value>Запомни ме</value>
   </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Премахни</value>
+  </data>
+  <data name="Remove this {0} login from your account" xml:space="preserve">
+    <value>Премахнете входа чрез {0} от акаунта си</value>
+  </data>
   <data name="Replace Image" xml:space="preserve">
     <value>Смяна на изображението</value>
+  </data>
+  <data name="Reset authenticator app" xml:space="preserve">
+    <value>Нулирай приложението за удостоверяване</value>
+  </data>
+  <data name="Reset authenticator key" xml:space="preserve">
+    <value>Нулиране на ключа за удостоверяване</value>
+  </data>
+  <data name="Reset recovery codes" xml:space="preserve">
+    <value>Нови кодове за възстановяване</value>
   </data>
   <data name="Review the employee details before permanently deleting their record." xml:space="preserve">
     <value>Прегледайте данните на служителя, преди да изтриете записа завинаги.</value>
@@ -788,6 +956,9 @@
   <data name="Save Team" xml:space="preserve">
     <value>Запази екипа</value>
   </data>
+  <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
+    <value>Сканирайте QR кода или въведете ключа &lt;kbd&gt;{0}&lt;/kbd&gt; в приложението си за двуфакторно удостоверяване. Интервалите и главните/малките букви нямат значение.</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Търси</value>
   </data>
@@ -799,6 +970,18 @@
   </data>
   <data name="Select Team Members" xml:space="preserve">
     <value>Изберете членове на екипа</value>
+  </data>
+  <data name="Send verification email" xml:space="preserve">
+    <value>Изпрати имейл за потвърждение</value>
+  </data>
+  <data name="Set password" xml:space="preserve">
+    <value>Задай парола</value>
+  </data>
+  <data name="Set up authenticator app" xml:space="preserve">
+    <value>Настрой приложение за удостоверяване</value>
+  </data>
+  <data name="Set your password" xml:space="preserve">
+    <value>Задайте парола</value>
   </data>
   <data name="Show statistics" xml:space="preserve">
     <value>Покажи статистиката</value>
@@ -842,6 +1025,21 @@
   <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
     <value>Полето „{0}“ трябва да е между {2} и {1} символа.</value>
   </data>
+  <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
+    <value>Този браузър е забравен. При следващо влизане от него ще ви бъде поискан код за двуфакторно удостоверяване.</value>
+  </data>
+  <data name="The external login was added." xml:space="preserve">
+    <value>Външният акаунт е добавен.</value>
+  </data>
+  <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
+    <value>Външният акаунт не е добавен. Един външен акаунт може да бъде свързан само с един акаунт.</value>
+  </data>
+  <data name="The external login was not removed." xml:space="preserve">
+    <value>Външният акаунт не е премахнат.</value>
+  </data>
+  <data name="The external login was removed." xml:space="preserve">
+    <value>Външният акаунт е премахнат.</value>
+  </data>
   <data name="The field {0} must be a number." xml:space="preserve">
     <value>Полето „{0}“ трябва да е число.</value>
   </data>
@@ -862,6 +1060,9 @@
   </data>
   <data name="The field must be a number." xml:space="preserve">
     <value>Полето трябва да е число.</value>
+  </data>
+  <data name="The new password and confirmation password do not match." xml:space="preserve">
+    <value>Новата парола и потвърждението ѝ не съвпадат.</value>
   </data>
   <data name="The page you're looking for doesn't exist or has been moved." xml:space="preserve">
     <value>Страницата, която търсите, не съществува или е преместена.</value>
@@ -905,8 +1106,17 @@
   <data name="This action is &lt;strong&gt;permanent&lt;/strong&gt; and cannot be undone." xml:space="preserve">
     <value>Това действие е &lt;strong&gt;необратимо&lt;/strong&gt; и не може да бъде отменено.</value>
   </data>
+  <data name="This action only disables 2FA." xml:space="preserve">
+    <value>Това действие само изключва 2FA.</value>
+  </data>
+  <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
+    <value>Това изключва 2FA, докато не потвърдите приложението за удостоверяване. Ако не завършите настройката му, може да загубите достъп до акаунта си.</value>
+  </data>
   <data name="Title..." xml:space="preserve">
     <value>Име...</value>
+  </data>
+  <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
+    <value>За да използвате приложение за удостоверяване, изпълнете следните стъпки:</value>
   </data>
   <data name="Toggle navigation" xml:space="preserve">
     <value>Превключване на навигацията</value>
@@ -926,6 +1136,12 @@
   <data name="Try adjusting your search filters." xml:space="preserve">
     <value>Опитайте да промените филтрите за търсене.</value>
   </data>
+  <data name="Two-factor authentication" xml:space="preserve">
+    <value>Двуфакторно удостоверяване</value>
+  </data>
+  <data name="Two-factor authentication (2FA)" xml:space="preserve">
+    <value>Двуфакторно удостоверяване (2FA)</value>
+  </data>
   <data name="Type" xml:space="preserve">
     <value>Вид</value>
   </data>
@@ -935,14 +1151,35 @@
   <data name="Unexpected error occurred! Please try again later or contact administrator" xml:space="preserve">
     <value>Възникна неочаквана грешка! Опитайте отново по-късно или се свържете с администратор</value>
   </data>
+  <data name="Unexpected error when trying to set phone number." xml:space="preserve">
+    <value>Неочаквана грешка при запазването на телефонния номер.</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>Смени паролата</value>
+  </data>
   <data name="Use &lt;strong&gt;Manage Team&lt;/strong&gt; to add employees to this project." xml:space="preserve">
     <value>Използвайте &lt;strong&gt;Управление на екипа&lt;/strong&gt;, за да добавите служители към проекта.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Потребителско име</value>
   </data>
   <data name="Username '{0}' is already taken." xml:space="preserve">
     <value>Потребителското име „{0}“ вече е заето.</value>
   </data>
   <data name="Username '{0}' is invalid, can only contain letters or digits." xml:space="preserve">
     <value>Потребителското име „{0}“ е невалидно – може да съдържа само букви и цифри.</value>
+  </data>
+  <data name="Verification Code" xml:space="preserve">
+    <value>Код за потвърждение</value>
+  </data>
+  <data name="Verification code is invalid." xml:space="preserve">
+    <value>Кодът за потвърждение е невалиден.</value>
+  </data>
+  <data name="Verification email sent. Please check your email." xml:space="preserve">
+    <value>Изпратихме имейл за потвърждение. Моля, проверете пощата си.</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Потвърди</value>
   </data>
   <data name="Welcome back" xml:space="preserve">
     <value>Добре дошли отново</value>
@@ -983,8 +1220,26 @@
   <data name="You are not authorized to view this page." xml:space="preserve">
     <value>Нямате право да преглеждате тази страница.</value>
   </data>
+  <data name="You can &lt;a href=&quot;{0}&quot;&gt;generate a new set of recovery codes&lt;/a&gt;." xml:space="preserve">
+    <value>Можете да &lt;a href=&quot;{0}&quot;&gt;генерирате нови кодове за възстановяване&lt;/a&gt;.</value>
+  </data>
+  <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
+    <value>Нямате потребителско име и парола за този сайт. Задайте парола, за да можете да влизате без външен акаунт.</value>
+  </data>
   <data name="You don't have permission to view this page." xml:space="preserve">
     <value>Нямате права да преглеждате тази страница.</value>
+  </data>
+  <data name="You have {0} recovery codes left." xml:space="preserve">
+    <value>Остават ви {0} кода за възстановяване.</value>
+  </data>
+  <data name="You have 1 recovery code left." xml:space="preserve">
+    <value>Остава ви 1 код за възстановяване.</value>
+  </data>
+  <data name="You have generated new recovery codes." xml:space="preserve">
+    <value>Генерирахте нови кодове за възстановяване.</value>
+  </data>
+  <data name="You have no recovery codes left." xml:space="preserve">
+    <value>Нямате оставащи кодове за възстановяване.</value>
   </data>
   <data name="You haven't been assigned as manager to any projects." xml:space="preserve">
     <value>Все още не сте ръководител на нито един проект.</value>
@@ -992,10 +1247,40 @@
   <data name="You haven't been assigned to any projects as an employee." xml:space="preserve">
     <value>Все още не сте включени в нито един проект като служител.</value>
   </data>
+  <data name="You must &lt;a href=&quot;{0}&quot;&gt;generate a new set of recovery codes&lt;/a&gt; before you can log in with a recovery code." xml:space="preserve">
+    <value>Трябва да &lt;a href=&quot;{0}&quot;&gt;генерирате нови кодове за възстановяване&lt;/a&gt;, преди да можете да влезете с код за възстановяване.</value>
+  </data>
+  <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
+    <value>Трябва да приемете политиката, преди да включите двуфакторно удостоверяване.</value>
+  </data>
   <data name="You must be manager of project you want to delete." xml:space="preserve">
     <value>Трябва да сте ръководител на проекта, за да го изтриете.</value>
   </data>
   <data name="You must be manager of project you want to edit." xml:space="preserve">
     <value>Трябва да сте ръководител на проекта, за да го редактирате.</value>
+  </data>
+  <data name="You should &lt;a href=&quot;{0}&quot;&gt;generate a new set of recovery codes&lt;/a&gt;." xml:space="preserve">
+    <value>Препоръчваме да &lt;a href=&quot;{0}&quot;&gt;генерирате нови кодове за възстановяване&lt;/a&gt;.</value>
+  </data>
+  <data name="Your account contains personal data that you have given us. This page allows you to download or delete that data." xml:space="preserve">
+    <value>Акаунтът ви съдържа лични данни, които сте ни предоставили. От тази страница можете да ги изтеглите или изтриете.</value>
+  </data>
+  <data name="Your authenticator app has been verified." xml:space="preserve">
+    <value>Приложението за удостоверяване е потвърдено.</value>
+  </data>
+  <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
+    <value>Ключът за удостоверяване е нулиран. Ще трябва да настроите приложението си отново с новия ключ.</value>
+  </data>
+  <data name="Your email is unchanged." xml:space="preserve">
+    <value>Имейлът ви не е променен.</value>
+  </data>
+  <data name="Your password has been changed." xml:space="preserve">
+    <value>Паролата ви е сменена.</value>
+  </data>
+  <data name="Your password has been set." xml:space="preserve">
+    <value>Паролата ви е зададена.</value>
+  </data>
+  <data name="Your profile has been updated" xml:space="preserve">
+    <value>Профилът ви е обновен</value>
   </data>
 </root>
