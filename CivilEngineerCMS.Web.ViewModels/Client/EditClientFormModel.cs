@@ -18,15 +18,17 @@
 
         [Required]
         [Phone]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
         [StringLength(AddressMaxLength, MinimumLength = AddressMinLength)]
+        [Display(Name = "Address")]
         public string Address { get; set; } = null!;
 
         [Required]
         [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; } = null!;
     }
 }

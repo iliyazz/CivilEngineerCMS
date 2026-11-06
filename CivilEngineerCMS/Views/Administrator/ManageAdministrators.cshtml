@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SelectEmployeesForAdministratorFormModel>
 
 @{
-    ViewData["Title"] = "Manage Administrators";
+    ViewData["Title"] = L["Manage Administrators"].Value;
 }
 
 <h2 class="text-center">@ViewData["Title"]</h2>
@@ -10,10 +10,10 @@
     <div style="display: inline">
         <div class="row" align="center">
             <form method="post">
-                <h4 class="mt-2">Employees in project</h4>
+                <h4 class="mt-2">@L["Employees in project"]</h4>
                 @if (!Model.Any())
                 {
-                    <h4 class="mt-2">No employees have been added to the project</h4>
+                    <h4 class="mt-2">@L["No employees have been added to the project"]</h4>
                 }
                 else
                 {
@@ -21,10 +21,10 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First name</th>
-                            <th scope="col">Last name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Job title</th>
+                            <th scope="col">@L["First Name"]</th>
+                            <th scope="col">@L["Last Name"]</th>
+                            <th scope="col">@L["Email"]</th>
+                            <th scope="col">@L["Job Title"]</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -50,8 +50,8 @@
                     </table>
                 }
                 <div class="text-center">
-                    <input class="btn btn-warning mt-3" type="submit" value="Save"/>
-                    <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">Cancel</a>
+                    <input class="btn btn-warning mt-3" type="submit" value="@L["Save"]"/>
+                    <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">@L["Cancel"]</a>
 
                 </div>
             </form>

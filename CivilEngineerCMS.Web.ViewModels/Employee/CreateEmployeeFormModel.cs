@@ -16,27 +16,32 @@
         [Required]
         [MaxLength(FirstNameMaxLength)]
         [MinLength(FirstNameMinLength)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; } = null!;
 
         [Required]
         [MaxLength(LastNameMaxLength)]
         [MinLength(LastNameMinLength)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; } = null!;
 
         [Required]
         [Phone]
         [MaxLength(PhoneNumberMaxLength)]
         [MinLength(PhoneNumberMinLength)]
+        [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; } = null!;
 
         [Required]
         [MaxLength(AddressMaxLength)]
         [MinLength(AddressMinLength)]
+        [Display(Name = "Address")]
         public string Address { get; set; } = null!;
 
         [Required]
         [MaxLength(JobTitleMaxLength)]
         [MinLength(JobTitleMinLength)]
+        [Display(Name = "Job Title")]
         public string JobTitle { get; set; } = null!;
 
         public IEnumerable<AllUsersSelectViewModelForEmployee> Users { get; set; }

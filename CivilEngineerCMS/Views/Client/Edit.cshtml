@@ -1,6 +1,6 @@
 ﻿@model EditClientFormModel
 @{
-    ViewData["Title"] = "Edit Client";
+    ViewData["Title"] = L["Edit Client"].Value;
 }
 
 <h2 class="text-center">@ViewData["Title"]</h2>
@@ -11,32 +11,32 @@
         <form method="post">
             <div class="form-group">
                 <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" placeholder="Firs name...">
+                <input asp-for="FirstName" class="form-control" placeholder="@L["First name..."]">
                 <span asp-validation-for="FirstName" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" placeholder="Last name...">
+                <input asp-for="LastName" class="form-control" placeholder="@L["Last name..."]">
                 <span asp-validation-for="LastName" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number...">
+                <input asp-for="PhoneNumber" class="form-control" placeholder="@L["Phone number..."]">
                 <span asp-validation-for="PhoneNumber" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address"></label>
-                <input asp-for="Address" class="form-control" placeholder="Address...">
+                <input asp-for="Address" class="form-control" placeholder="@L["Address..."]">
                 <span asp-validation-for="Address" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" placeholder="Email...">
+                <input asp-for="Email" class="form-control" placeholder="@L["Email..."]">
                 <span asp-validation-for="Email" class="small text-danger"></span>
             </div>
             <div class="text-center">
-                <input class="btn btn-warning mt-3" type="submit" value="Save" />
-                <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">Cancel</a>
+                <input class="btn btn-warning mt-3" type="submit" value="@L["Save"]" />
+                <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">@L["Cancel"]</a>
             </div>
         </form>
     </div>

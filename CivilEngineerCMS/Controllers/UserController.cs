@@ -112,7 +112,7 @@ namespace CivilEngineerCMS.Web.Controllers
             var result = await this.signInManager.PasswordSignInAsync(formModel.Email, formModel.Password, formModel.RememberMe, false);
             if (!result.Succeeded)
             {
-                this.TempData[ErrorMessage] = "There was an error while logging. Please contact again later or contact an administrator.";
+                this.TempData[ErrorMessage] = this.L["There was an error while logging. Please contact again later or contact an administrator."].Value;
                 this.memoryCache.Remove(OnLineClientsCacheKey);
                 return this.View(formModel);
 

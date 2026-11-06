@@ -33,7 +33,7 @@ namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 

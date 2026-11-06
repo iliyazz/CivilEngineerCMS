@@ -1,6 +1,6 @@
 @model RegisterFormModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = L["Register"].Value;
 }
 
 <div class="auth-wrapper">
@@ -9,37 +9,37 @@
             <div class="brand-icon">
                 <i class="bi bi-building-check"></i>
             </div>
-            <h2>Civil Engineer CMS</h2>
+            <h2>@L["Civil Engineer CMS"]</h2>
         </div>
 
-        <h3>Create account</h3>
-        <p class="subtitle">Fill in your details to get started</p>
+        <h3>@L["Create account"]</h3>
+        <p class="subtitle">@L["Fill in your details to get started"]</p>
 
         <form id="registerForm" method="post">
             <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-3" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="email@example.com" />
-                <label asp-for="Email"><i class="bi bi-envelope me-1"></i>Email address</label>
+                <label asp-for="Email"><i class="bi bi-envelope me-1"></i>@L["Email address"]</label>
                 <span asp-validation-for="Email" class="text-danger small"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
-                <label asp-for="Password"><i class="bi bi-lock me-1"></i>Password</label>
+                <input asp-for="Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="@L["Password"]" />
+                <label asp-for="Password"><i class="bi bi-lock me-1"></i>@L["Password"]</label>
                 <span asp-validation-for="Password" class="text-danger small"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
-                <label asp-for="ConfirmPassword"><i class="bi bi-lock-fill me-1"></i>Confirm password</label>
+                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="@L["Confirm Password"]" />
+                <label asp-for="ConfirmPassword"><i class="bi bi-lock-fill me-1"></i>@L["Confirm Password"]</label>
                 <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
             </div>
             <recaptcha-v3 form-id="registerForm" action="submit" class="w-100 btn btn-primary btn-lg">
-                <i class="bi bi-person-check me-1"></i>Create Account
+                <i class="bi bi-person-check me-1"></i>@L["Create account"]
             </recaptcha-v3>
         </form>
 
         <div class="auth-footer">
-            Already have an account?
-            <a asp-area="" asp-controller="User" asp-action="Login">Sign in</a>
+            @L["Already have an account?"]
+            <a asp-area="" asp-controller="User" asp-action="Login">@L["Sign In"]</a>
         </div>
     </div>
 </div>

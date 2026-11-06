@@ -5,7 +5,7 @@
 @inject IProjectService ProjectService
 @inject IClientService ClientService
 @{
-    ViewData["Title"] = "Project Details";
+    ViewData["Title"] = L["Project Details"].Value;
     string userId = User.GetId();
     bool isManagerInProject = false;
     bool isAdministrator = this.User.IsAdministrator();
@@ -31,43 +31,43 @@
         @if (isManagerInProject || isAdministrator)
         {
             <a class="btn btn-warning btn-sm" asp-area="" asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id.ToString()">
-                <i class="bi bi-pencil me-1"></i>Edit
+                <i class="bi bi-pencil me-1"></i>@L["Edit"]
             </a>
             <a class="btn btn-danger btn-sm" asp-area="" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id.ToString()">
-                <i class="bi bi-trash me-1"></i>Delete
+                <i class="bi bi-trash me-1"></i>@L["Delete"]
             </a>
             <a class="btn btn-warning btn-sm" asp-area="" asp-controller="Project" asp-action="ManageEmployeesInProject" asp-route-id="@Model.Id.ToString()">
-                <i class="bi bi-people me-1"></i>Manage team
+                <i class="bi bi-people me-1"></i>@L["Manage team"]
             </a>
             <a class="btn btn-primary btn-sm" asp-area="" asp-controller="Expense" asp-action="Details" asp-route-id="@Model.Id.ToString()">
-                <i class="bi bi-currency-euro me-1"></i>Expenses
+                <i class="bi bi-currency-euro me-1"></i>@L["Expenses"]
             </a>
         }
         <a class="btn btn-primary btn-sm" asp-area="" asp-controller="Interaction" asp-action="All" asp-route-id="@Model.Id.ToString()">
-            <i class="bi bi-chat-dots me-1"></i>Interactions
+            <i class="bi bi-chat-dots me-1"></i>@L["Interactions"]
         </a>
         @if (isAdministrator)
         {
             <a class="btn btn-outline-secondary btn-sm" asp-area="Admin" asp-controller="Project" asp-action="All">
-                <i class="bi bi-arrow-left me-1"></i>All projects
+                <i class="bi bi-arrow-left me-1"></i>@L["All Projects"]
             </a>
         }
         else if (isManagerInProject)
         {
             <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Employee" asp-action="Mine">
-                <i class="bi bi-arrow-left me-1"></i>Back
+                <i class="bi bi-arrow-left me-1"></i>@L["Back"]
             </a>
         }
         else if (isEmployee)
         {
             <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">
-                <i class="bi bi-arrow-left me-1"></i>Back
+                <i class="bi bi-arrow-left me-1"></i>@L["Back"]
             </a>
         }
         else if (isClient)
         {
             <a class="btn btn-outline-secondary btn-sm" asp-area="" asp-controller="Client" asp-action="Mine">
-                <i class="bi bi-arrow-left me-1"></i>Back
+                <i class="bi bi-arrow-left me-1"></i>@L["Back"]
             </a>
         }
     </div>
@@ -86,37 +86,37 @@
         <!-- Project Info -->
         <div class="detail-grid">
             <div class="detail-item">
-                <div class="di-label"><i class="bi bi-activity me-1"></i>Status</div>
-                <div class="di-value">@Model.Status</div>
+                <div class="di-label"><i class="bi bi-activity me-1"></i>@L["Status"]</div>
+                <div class="di-value">@L[Model.Status.GetDisplayName()]</div>
             </div>
             <div class="detail-item">
-                <div class="di-label"><i class="bi bi-calendar-check me-1"></i>Start Date</div>
+                <div class="di-label"><i class="bi bi-calendar-check me-1"></i>@L["Start Date"]</div>
                 <div class="di-value">@Model.ProjectStartDate</div>
             </div>
             <div class="detail-item">
-                <div class="di-label"><i class="bi bi-calendar-x me-1"></i>End Date</div>
+                <div class="di-label"><i class="bi bi-calendar-x me-1"></i>@L["End Date"]</div>
                 <div class="di-value">@Model.ProjectEndDate</div>
             </div>
             <div class="detail-item">
-                <div class="di-label"><i class="bi bi-person-badge me-1"></i>Manager</div>
+                <div class="di-label"><i class="bi bi-person-badge me-1"></i>@L["Manager"]</div>
                 <div class="di-value">@Model.ManagerName</div>
             </div>
         </div>
 
         <!-- Employees Table -->
         <div class="section-header">
-            <h4><i class="bi bi-people me-2"></i>Project Team</h4>
-            <span class="badge bg-secondary">@Model.Employees.Count() members</span>
+            <h4><i class="bi bi-people me-2"></i>@L["Project Team"]</h4>
+            <span class="badge bg-secondary">@L["{0} members", Model.Employees.Count()]</span>
         </div>
 
         @if (!Model.Employees.Any())
         {
             <div class="empty-state py-4">
                 <span class="empty-icon"><i class="bi bi-people"></i></span>
-                <h4>No team members assigned</h4>
+                <h4>@L["No team members assigned"]</h4>
                 @if (isManagerInProject || isAdministrator)
                 {
-                    <p>Use <strong>Manage Team</strong> to add employees to this project.</p>
+                    <p>@L["Use <strong>Manage Team</strong> to add employees to this project."]</p>
                 }
             </div>
         }
@@ -127,11 +127,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Job Title</th>
-                            <th>Phone</th>
-                            <th>Email</th>
+                            <th>@L["First Name"]</th>
+                            <th>@L["Last Name"]</th>
+                            <th>@L["Job Title"]</th>
+                            <th>@L["Phone"]</th>
+                            <th>@L["Email"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -158,19 +158,19 @@
     <div class="col-lg-4">
         <div class="card mb-3">
             <div class="card-header">
-                <i class="bi bi-briefcase me-2"></i>Client Information
+                <i class="bi bi-briefcase me-2"></i>@L["Client Information"]
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <div class="di-label">Name</div>
+                    <div class="di-label">@L["Name"]</div>
                     <div class="di-value">@Model.ClientName</div>
                 </div>
                 <div class="mb-3">
-                    <div class="di-label">Phone</div>
+                    <div class="di-label">@L["Phone"]</div>
                     <div class="di-value">@Model.ClientPhone</div>
                 </div>
                 <div>
-                    <div class="di-label">Email</div>
+                    <div class="di-label">@L["Email"]</div>
                     <div class="di-value">@Model.ClientEmail</div>
                 </div>
             </div>

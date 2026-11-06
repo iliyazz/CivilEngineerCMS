@@ -26,8 +26,8 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                        <i class="bi bi-gear"></i> Manage account
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="@L["Manage"]">
+                        <i class="bi bi-gear"></i> @L["Manage account"]
                     </a>
                 </li>
                 <li><hr class="dropdown-divider" /></li>
@@ -35,7 +35,7 @@
                     <form asp-area="Identity" asp-page="/Account/Logout"
                           asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                         <button type="submit" class="dropdown-item text-danger">
-                            <i class="bi bi-box-arrow-right"></i> Logout
+                            <i class="bi bi-box-arrow-right"></i> @L["Logout"]
                         </button>
                     </form>
                 </li>
@@ -46,12 +46,12 @@
     {
         <li class="nav-item">
             <a class="nav-link" asp-area="" asp-controller="User" asp-action="Login">
-                <i class="bi bi-box-arrow-in-right"></i> Login
+                <i class="bi bi-box-arrow-in-right"></i> @L["Login"]
             </a>
         </li>
         <li class="nav-item ms-2">
             <a class="btn btn-warning btn-sm" asp-area="" asp-controller="User" asp-action="Register">
-                <i class="bi bi-person-plus"></i> Register
+                <i class="bi bi-person-plus"></i> @L["Register"]
             </a>
         </li>
     }

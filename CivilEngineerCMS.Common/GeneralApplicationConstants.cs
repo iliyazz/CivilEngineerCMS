@@ -15,5 +15,7 @@
         public const int OnLineUsersCacheExpirationInMinutes = 5;
         public const int ImageGeneratedSufixLength = 9;
         public const int ImageMaxSizeInBytes = 5 * 1024 * 1024;
+        public const string DefaultCulture = "bg";
+        public static readonly string[] SupportedCultures = { "bg", "en" };
     }
 }

@@ -20,23 +20,23 @@
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="Name"></label>
-                <input asp-for="Name" class="form-control" placeholder="Title...">
+                <input asp-for="Name" class="form-control" placeholder="@L["Title..."]">
                 <span asp-validation-for="Name" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description"></label>
-                <input asp-for="Description" class="form-control" placeholder="Description...">
+                <input asp-for="Description" class="form-control" placeholder="@L["Description..."]">
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ProjectEndDate"></label>
-                <input asp-for="ProjectEndDate" class="form-control" placeholder="Date" value=@Model.ProjectEndDate/>
+                <input asp-for="ProjectEndDate" class="form-control" placeholder="@L["Date"]" value=@Model.ProjectEndDate/>
                 <span asp-validation-for="ProjectEndDate" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Status"></label>
                 <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ProjectStatusEnums>()">
-                    <option selected="selected" value="">Please select</option>
+                    <option selected="selected" value="">@L["Please select"]</option>
                 </select>
                 <span asp-validation-for="Status" class="small text-danger"></span>
             </div>
@@ -62,22 +62,22 @@
             </div>
 
             <div class="form-group mb-2">
-                <label asp-for="ImageContent">Replace Image</label>
-                <input asp-for="ImageContent" type="file" class="form-control" placeholder="ImageContent">
+                <label asp-for="ImageContent">@L["Replace Image"]</label>
+                <input asp-for="ImageContent" type="file" class="form-control" placeholder="@L["ImageContent"]">
             </div>
             @if(!string.IsNullOrEmpty(imageName))
             {
 @*                 <div><a class="btn btn-primary" asp-action="GetImageContent" asp-controller="Project" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">Download</a>: @imageName</div> *@
 
 
-                <div><a class="btn btn-primary" asp-action="DeleteImage" asp-controller="Project" asp-area="" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">Delete</a>: @imageName</div>
+                <div><a class="btn btn-primary" asp-action="DeleteImage" asp-controller="Project" asp-area="" asp-route-id="@Url.ActionContext.RouteData.Values["id"]">@L["Delete"]</a>: @imageName</div>
             }
 
             <div>
-                <h4 class="mt-4">Employees in project</h4>
+                <h4 class="mt-4">@L["Employees in project"]</h4>
                 @if (!Model.Employees.Any())
                 {
-                    <h4 class="mt-2">No employees have been added to the project</h4>
+                    <h4 class="mt-2">@L["No employees have been added to the project"]</h4>
                 }
                 else
                 {
@@ -85,10 +85,10 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First name</th>
-                            <th scope="col">Last name</th>
-                            <th scope="col">Job title</th>
-                            <th scope="col">PhoneNumber</th>
+                            <th scope="col">@L["First Name"]</th>
+                            <th scope="col">@L["Last Name"]</th>
+                            <th scope="col">@L["Job Title"]</th>
+                            <th scope="col">@L["PhoneNumber"]</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -112,8 +112,8 @@
             </div>
 
             <div class="text-center">
-                <input class="btn btn-warning mt-3" type="submit" value="Save"/>
-                <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">Cancel</a>
+                <input class="btn btn-warning mt-3" type="submit" value="@L["Save"]"/>
+                <a class="btn btn- btn-primary mt-3" href="javascript: history.back();">@L["Cancel"]</a>
 
             </div>
         </form>

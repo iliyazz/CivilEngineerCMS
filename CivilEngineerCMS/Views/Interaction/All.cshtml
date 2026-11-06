@@ -5,7 +5,7 @@
 @inject IProjectService ProjectService
 @inject IClientService ClientService
 @{
-    ViewData["Title"] = "Project Interactions";
+    ViewData["Title"] = L["Project Interactions"].Value;
     var interactions = Model.ToList();
     var isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
     bool isEmployeeInProject = false;
@@ -23,25 +23,25 @@
 }
 
 <div class="page-header">
-    <h2><i class="bi bi-chat-dots me-2"></i>Project Interactions</h2>
-    <p>All interactions and communications logged for this project.</p>
+    <h2><i class="bi bi-chat-dots me-2"></i>@L["Project Interactions"]</h2>
+    <p>@L["All interactions and communications logged for this project."]</p>
     <div class="page-header-actions">
         @if ((isEmployeeInProject || isManagerOfProject || isAdministrator) && interactions.Any())
         {
             <a class="btn btn-success btn-sm"
                asp-area="" asp-controller="Interaction" asp-action="Add" asp-route-id="@interactions.First().ProjectId.ToString()">
-                <i class="bi bi-plus-lg me-1"></i>Add Interaction
+                <i class="bi bi-plus-lg me-1"></i>@L["Add Interaction"]
             </a>
             <a class="btn btn-outline-secondary btn-sm"
                asp-area="" asp-controller="Project" asp-action="Details" asp-route-id="@interactions.First().ProjectId.ToString()">
-                <i class="bi bi-arrow-left me-1"></i>Back to Project
+                <i class="bi bi-arrow-left me-1"></i>@L["Back to Project"]
             </a>
         }
         @if (isClient && interactions.Any())
         {
             <a class="btn btn-outline-secondary btn-sm"
                asp-area="" asp-controller="Client" asp-action="Mine">
-                <i class="bi bi-arrow-left me-1"></i>My Projects
+                <i class="bi bi-arrow-left me-1"></i>@L["My Projects"]
             </a>
         }
     </div>
@@ -51,10 +51,10 @@
 {
     <div class="empty-state">
         <span class="empty-icon"><i class="bi bi-chat-square-dots"></i></span>
-        <h4>No interactions yet</h4>
-        <p>No communications have been logged for this project.</p>
+        <h4>@L["No interactions yet"]</h4>
+        <p>@L["No communications have been logged for this project."]</p>
         <a class="btn btn-outline-secondary" href="javascript:history.back();">
-            <i class="bi bi-arrow-left me-1"></i>Back
+            <i class="bi bi-arrow-left me-1"></i>@L["Back"]
         </a>
     </div>
 }
@@ -65,10 +65,10 @@ else
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Message</th>
+                    <th>@L["Date"]</th>
+                    <th>@L["Type"]</th>
+                    <th>@L["Description"]</th>
+                    <th>@L["Message"]</th>
                 </tr>
             </thead>
             <tbody>

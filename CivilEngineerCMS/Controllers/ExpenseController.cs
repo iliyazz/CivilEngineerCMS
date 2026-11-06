@@ -58,20 +58,20 @@
 
             if (!(isManagerOfProject || isClientOfProject || this.User.IsAdministrator()))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view expenses to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view expenses to this project."].Value;
                 return RedirectToAction("Index", "home");
             }
 
             if ((isManagerOfProject || this.User.IsAdministrator()) &&
                 !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
             {
-                this.TempData[ErrorMessage] = "No payments have been made for this project.";
+                this.TempData[ErrorMessage] = this.L["No payments have been made for this project."].Value;
                 return RedirectToAction("Add", "Expense", new { id = id });
             }
 
             if (isClientOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
             {
-                this.TempData[ErrorMessage] = "No payments have been made for this project.";
+                this.TempData[ErrorMessage] = this.L["No payments have been made for this project."].Value;
                 return RedirectToAction("Mine", "Client", new { id = id });
             }
 
@@ -97,14 +97,14 @@
 
             if (!(isManagerOfProject || this.User.IsAdministrator()))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view expenses to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view expenses to this project."].Value;
                 return RedirectToAction("Index", "home");
             }
 
             bool isExpenseExists = await this.expensesService.ExpenseExistsByProjectIdAsync(id);
             if (isExpenseExists)
             {
-                this.TempData[ErrorMessage] = "Expense already exists.";
+                this.TempData[ErrorMessage] = this.L["Expense already exists."].Value;
                 return RedirectToAction("Details", "Expense", new { id = id });
             }
 
@@ -140,14 +140,14 @@
 
             if (!(isManagerOfProject || this.User.IsAdministrator()))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to add expenses to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to add expenses to this project."].Value;
                 return RedirectToAction("Index", "home");
             }
 
             bool isExpenseExists = await this.expensesService.ExpenseExistsByProjectIdAsync(id);
             if (isExpenseExists)
             {
-                this.TempData[ErrorMessage] = "Expense already exists.";
+                this.TempData[ErrorMessage] = this.L["Expense already exists."].Value;
                 return RedirectToAction("Details", "Expense", new { id = id });
             }
 
@@ -155,14 +155,14 @@
             {
                 await this.expensesService.CreateExpenseAsync(id, formModel);
 
-                this.TempData[SuccessMessage] = $"Expense added successfully.";
+                this.TempData[SuccessMessage] = this.L["Expense added successfully."].Value;
                 return this.RedirectToAction("Details", "Expense", new { id = id });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error creating expense for project {ProjectId}.", id);
                 this.ModelState.AddModelError(string.Empty,
-                    "An error occurred while adding the expense. Please try again later or contact administrator!");
+                    this.L["An error occurred while adding the expense. Please try again later or contact administrator!"].Value);
                 return this.View(formModel);
             }
         }
@@ -185,14 +185,14 @@
 
             if (!(isManagerOfProject || this.User.IsAdministrator()))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to edit expenses to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to edit expenses to this project."].Value;
                 return RedirectToAction("Index", "home");
             }
 
             bool isExpenseExists = await this.expensesService.ExpenseExistsByProjectIdAsync(id);
             if (!isExpenseExists)
             {
-                this.TempData[ErrorMessage] = "Expense does not exist.";
+                this.TempData[ErrorMessage] = this.L["Expense does not exist."].Value;
                 return RedirectToAction("Add", "Expense");
             }
 
@@ -226,14 +226,14 @@
 
             if (!(isManagerOfProject || this.User.IsAdministrator()))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to edit expenses to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to edit expenses to this project."].Value;
                 return RedirectToAction("Index", "home");
             }
 
             bool isExpenseExists = await this.expensesService.ExpenseExistsByProjectIdAsync(id);
             if (!isExpenseExists)
             {
-                this.TempData[ErrorMessage] = "Expense does not exist.";
+                this.TempData[ErrorMessage] = this.L["Expense does not exist."].Value;
                 return RedirectToAction("Add", "Expense");
             }
 
@@ -241,14 +241,14 @@
             {
                 await this.expensesService.EditExpenseForEditByProjectIdAsync(id, formModel);
 
-                this.TempData[SuccessMessage] = $"Expense edited successfully.";
+                this.TempData[SuccessMessage] = this.L["Expense edited successfully."].Value;
                 return this.RedirectToAction("Details", "Expense", new { id = id });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error editing expense for project {ProjectId}.", id);
                 this.ModelState.AddModelError(string.Empty,
-                    "An error occurred while editing the expense. Please try again later or contact administrator!");
+                    this.L["An error occurred while editing the expense. Please try again later or contact administrator!"].Value);
                 return this.View(formModel);
             }
         }
@@ -279,20 +279,20 @@
 
         //    if (!(isEmployeeOfProject || isManagerOfProject || isClientOfProject || isAdministrator))
         //    {
-        //        this.TempData[ErrorMessage] = "You are not authorized to view expenses to this project.";
+        //        this.TempData[ErrorMessage] = this.L["You are not authorized to view expenses to this project."].Value;
         //        return RedirectToAction("Index", "home");
         //    }
 
         //    if ((isEmployeeOfProject || isManagerOfProject || isAdministrator)
         //        && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
         //    {
-        //        this.TempData[InfoMessage] = "There are no expenses about this project. Create the first one.";
+        //        this.TempData[InfoMessage] = this.L["There are no expenses about this project. Create the first one."].Value;
         //        return RedirectToAction("Add", "Expenses", new { id = id });
         //    }
 
         //    if (isClientOfProject && !await this.expensesService.ExpenseExistsByProjectIdAsync(id))
         //    {
-        //        this.TempData[InfoMessage] = "There are no expenses about this project.";
+        //        this.TempData[InfoMessage] = this.L["There are no expenses about this project."].Value;
         //        return RedirectToAction("Mine", "Client", new { id = id });
         //    }
 

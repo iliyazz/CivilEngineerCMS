@@ -32,7 +32,7 @@ namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
         {
             if (!this.User.IsInRole(AdministratorRoleName))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -58,7 +58,7 @@ namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
         {
             if (!this.User.IsInRole(AdministratorRoleName))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -66,7 +66,7 @@ namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
             {
                 string currentUserId = this.User.GetId();
                 await this.administratorService.SaveAllEmployeesForAdministratorAsync(currentUserId, selectedEmployee);
-                this.TempData[SuccessMessage] = "Successfully updated administrators!";
+                this.TempData[SuccessMessage] = this.L["Successfully updated administrators!"].Value;
                 return this.RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
@@ -79,7 +79,7 @@ namespace CivilEngineerCMS.Web.Areas.Admin.Controllers
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+                this.L["Unexpected error occurred! Please try again later or contact administrator"].Value;
 
             return this.RedirectToAction("Index", "Home");
         }

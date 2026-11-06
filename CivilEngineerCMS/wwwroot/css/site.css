@@ -72,6 +72,19 @@ body {
 .navbar .nav-link:hover { color: #fff !important; background: rgba(255,255,255,0.12); }
 
 .navbar-toggler { border-color: rgba(255,255,255,0.3); }
+
+/* Language switcher (БГ / EN) */
+.language-switch { display: flex; align-items: center; margin: 0 0.75rem 0.5rem 0; }
+@media (min-width: 992px) { .language-switch { margin-bottom: 0; } }
+.language-switch .btn {
+  color: rgba(255,255,255,0.82);
+  border: 1px solid rgba(255,255,255,0.35);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.6rem;
+}
+.language-switch .btn:hover { color: #fff; background: rgba(255,255,255,0.12); }
+.language-switch .btn.active { color: var(--primary-dark); background: #fff; border-color: #fff; }
 /* Bootstrap 5.1 sets the icon only under .navbar-light/.navbar-dark, which this navbar does not use */
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
