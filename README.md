@@ -63,7 +63,13 @@ Administrators have access to and can work with all projects, employees and cust
 
 The Web API (`CivilEngineerCMS.WebApi`) uses the same database file (`../CivilEngineerCMS/civilengineercms.db`).
 
-In the main folder there is a legacy script for seeding the database: `CivilEngineerCMS-seed data in database.sql`. It was written for the earlier SQL Server version and needs adapting before use with SQLite.
+In the main folder there is a SQLite script with sample data (users, clients, employees, projects, expenses, interactions): `CivilEngineerCMS-seed data in database.sql`. Run the app once so the database and schema are created, stop it, then load the data, e.g. with the [sqlite3 CLI](https://sqlite.org/download.html):
+
+```
+sqlite3 CivilEngineerCMS/civilengineercms.db < "CivilEngineerCMS-seed data in database.sql"
+```
+
+(or open the `.db` file in DB Browser for SQLite and execute the script). The script runs in a single transaction, so it is applied either completely or not at all; it is meant for a fresh database and fails on a second run because the rows already exist.
 
 ## Tests
 
@@ -82,6 +88,7 @@ In the main folder there is a legacy script for seeding the database: `CivilEngi
 - Migrated from .NET 8 to .NET 10 (LTS); Microsoft packages updated to 10.0.x, third-party packages to their latest versions (NUnit 5, Swashbuckle 10, Selenium 4.52).
 - Fixed ids being compared as case-sensitive strings on SQLite, which prevented employees and clients from being recognized.
 - Admin seed uses a static password hash, as required by EF Core 9+ migrations.
+- Converted the sample-data seed script from T-SQL (SQL Server) to SQLite.
 - Fixed all nullable reference warnings; the build has no warnings.
 
 
