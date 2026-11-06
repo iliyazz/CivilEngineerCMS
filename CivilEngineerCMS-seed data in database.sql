@@ -9,7 +9,9 @@ PRAGMA foreign_keys = ON;
 BEGIN TRANSACTION;
 
 -- AspNetRoles
-INSERT INTO "AspNetRoles" ("Id", "Name", "NormalizedName", "ConcurrencyStamp") VALUES ('42148826-782F-40A6-FBA8-08DB8C81BEC5', 'Administrator', 'ADMINISTRATOR', 'df7b0495-692f-4f0e-8105-fa865520a262');
+-- In Development the app creates the Administrator role on startup (with a random Id),
+-- so insert it only if it is missing and look it up by name below.
+INSERT OR IGNORE INTO "AspNetRoles" ("Id", "Name", "NormalizedName", "ConcurrencyStamp") VALUES ('42148826-782F-40A6-FBA8-08DB8C81BEC5', 'Administrator', 'ADMINISTRATOR', 'df7b0495-692f-4f0e-8105-fa865520a262');
 
 -- AspNetUsers
 INSERT INTO "AspNetUsers" ("Id", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('09BEAA1D-0E57-4481-84AE-08DB807C5EDB', 'client1@abv.bg', 'CLIENT1@ABV.BG', 'client1@abv.bg', 'CLIENT1@ABV.BG', 1, 'AQAAAAEAACcQAAAAEECfPepGk5zTFxY8XOnNmldxlGTxMK+OMV9txx+nauOvKW+6f4HFfPKbeT/hN1C7xA==', 'EGBE7MW3IQ62TDS2UB6RTLZWYKRGI7HK', '0de36425-92a7-4fa2-ac8b-766543dd5292', NULL, 0, 0, NULL, 1, 0);
@@ -33,7 +35,7 @@ INSERT INTO "AspNetUsers" ("Id", "UserName", "NormalizedUserName", "Email", "Nor
 INSERT INTO "AspNetUsers" ("Id", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") VALUES ('9553FDE9-1CD6-43E8-BCAB-C2D669C29A4B', 'client6@abv.bg', 'CLIENT6@ABV.BG', 'client6@abv.bg', 'CLIENT6@ABV.BG', 1, 'AQAAAAEAACcQAAAAEECfPepGk5zTFxY8XOnNmldxlGTxMK+OMV9txx+nauOvKW+6f4HFfPKbeT/hN1C7xA==', 'ZI5PDOOVDSFTKMD7T34EWWNVQLENJ7VE', 'cd13cb00-5b90-4243-a434-d20f8cfa3359', NULL, 0, 0, NULL, 0, 0);
 
 -- AspNetUserRoles
-INSERT INTO "AspNetUserRoles" ("UserId", "RoleId") VALUES ('1E7D4F19-E822-4630-84B0-08DB807C5EDB', '42148826-782F-40A6-FBA8-08DB8C81BEC5');
+INSERT INTO "AspNetUserRoles" ("UserId", "RoleId") SELECT '1E7D4F19-E822-4630-84B0-08DB807C5EDB', "Id" FROM "AspNetRoles" WHERE "NormalizedName" = 'ADMINISTRATOR';
 
 -- AspNetUserClaims
 INSERT INTO "AspNetUserClaims" ("Id", "UserId", "ClaimType", "ClaimValue") VALUES (1, '4FA32242-0E4F-406E-A7C9-37BA26018B8F', 'FullName', 'Nedialka Nedialkova');

@@ -89,6 +89,7 @@ sqlite3 CivilEngineerCMS/civilengineercms.db < "CivilEngineerCMS-seed data in da
 - Fixed ids being compared as case-sensitive strings on SQLite, which prevented employees and clients from being recognized.
 - Admin seed uses a static password hash, as required by EF Core 9+ migrations.
 - Converted the sample-data seed script from T-SQL (SQL Server) to SQLite.
+- Seed script no longer fails when the app has already created the Administrator role on startup.
 - Fixed all nullable reference warnings; the build has no warnings.
 
 
