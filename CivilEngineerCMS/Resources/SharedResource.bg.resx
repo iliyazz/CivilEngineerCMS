@@ -1004,6 +1004,9 @@
   <data name="Start Date" xml:space="preserve">
     <value>Начална дата</value>
   </data>
+  <data name="Statistics could not be loaded. Please try again later." xml:space="preserve">
+    <value>Статистиката не може да бъде заредена. Опитайте отново по-късно.</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Статус</value>
   </data>
