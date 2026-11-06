@@ -43,7 +43,7 @@
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -59,7 +59,7 @@
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+                this.L["Unexpected error occurred! Please try again later or contact administrator"].Value;
 
             return this.RedirectToAction("Index", "Home");
         }

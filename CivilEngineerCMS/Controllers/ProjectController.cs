@@ -55,7 +55,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -79,7 +79,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -87,25 +87,25 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!managerExists)
             {
-                this.ModelState.AddModelError(nameof(formModel.ManagerId), "Manager does not exist.");
+                this.ModelState.AddModelError(nameof(formModel.ManagerId), this.L["Manager does not exist."].Value);
             }
 
             bool clientExists = await this.clientService.ClientExistsByIdAsync(formModel.ClientId.ToString());
             if (!clientExists)
             {
-                this.ModelState.AddModelError(nameof(formModel.ClientId), "Client does not exist.");
+                this.ModelState.AddModelError(nameof(formModel.ClientId), this.L["Client does not exist."].Value);
             }
 
             bool statusExists = this.projectService.StatusExists(formModel.Status.ToString());
             if (!statusExists)
             {
-                this.ModelState.AddModelError(nameof(formModel.Status), "Name does not exist.");
+                this.ModelState.AddModelError(nameof(formModel.Status), this.L["Name does not exist."].Value);
             }
 
             if (DateTime.UtcNow > DateTime.Parse(formModel.ProjectEndDate))
             {
                 this.ModelState.AddModelError(nameof(formModel.ProjectEndDate),
-                    "Project End Date cannot be before start date.");
+                    this.L["Project End Date cannot be before start date."].Value);
             }
 
             if (formModel.ImageContent != null)
@@ -113,22 +113,22 @@ namespace CivilEngineerCMS.Web.Controllers
                 if (formModel.ImageContent.Length > GeneralApplicationConstants.ImageMaxSizeInBytes)
                 {
                     this.ModelState.AddModelError(nameof(formModel.ImageContent),
-                        NotificationMessagesConstants.ExceedingMaxSizeMessage);
-                    this.TempData[ErrorMessage] = NotificationMessagesConstants.ExceedingMaxSizeMessage;
+                        this.L[NotificationMessagesConstants.ExceedingMaxSizeMessage].Value);
+                    this.TempData[ErrorMessage] = this.L[NotificationMessagesConstants.ExceedingMaxSizeMessage].Value;
                 }
 
                 if (!projectService.IfFileIsImage(formModel.ImageContent))
                 {
                     this.ModelState.AddModelError(nameof(formModel.ImageContent),
-                        NotificationMessagesConstants.InvalidFileExtensionMessage);
-                    this.TempData[ErrorMessage] = NotificationMessagesConstants.InvalidFileExtensionMessage;
+                        this.L[NotificationMessagesConstants.InvalidFileExtensionMessage].Value);
+                    this.TempData[ErrorMessage] = this.L[NotificationMessagesConstants.InvalidFileExtensionMessage].Value;
                 }
 
                 if (!cloudinaryService.IsFileValid(formModel.ImageContent))
                 {
                     this.ModelState.AddModelError(nameof(formModel.ImageContent),
-                        NotificationMessagesConstants.InvalidFileExtensionMessage);
-                    this.TempData[ErrorMessage] = NotificationMessagesConstants.InvalidFileExtensionMessage;
+                        this.L[NotificationMessagesConstants.InvalidFileExtensionMessage].Value);
+                    this.TempData[ErrorMessage] = this.L[NotificationMessagesConstants.InvalidFileExtensionMessage].Value;
                 }
             }
 
@@ -157,14 +157,14 @@ namespace CivilEngineerCMS.Web.Controllers
 
                 await this.projectService.CreateProjectAsync(formModel);
 
-                this.TempData[SuccessMessage] = $"Project {formModel.Name} added successfully.";
+                this.TempData[SuccessMessage] = this.L["Project {0} added successfully.", formModel.Name].Value;
                 return this.RedirectToAction("All", "Project", new { Area = AdminAreaName });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error creating project {ProjectName}.", formModel.Name);
                 this.ModelState.AddModelError(string.Empty,
-                    "An error occurred while adding the project. Please try again later or contact administrator!");
+                    this.L["An error occurred while adding the project. Please try again later or contact administrator!"].Value);
                 formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
                 formModel.Clients = await this.clientService.AllClientsAsync();
                 return this.View(formModel);
@@ -182,7 +182,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Project with provided id does not exist."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -194,7 +194,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || string.Equals(project.ManagerId.ToString(), projectManagerUserId, StringComparison.OrdinalIgnoreCase)))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                this.TempData[ErrorMessage] = this.L["You must be manager of project you want to edit."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -210,7 +210,7 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 this.logger.LogError(ex, "Error loading employees for project {ProjectId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while editing the project. Please try again later or contact administrator!";
+                    this.L["An error occurred while editing the project. Please try again later or contact administrator!"].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
         }
@@ -226,7 +226,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Project with provided id does not exist."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -245,7 +245,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                this.TempData[ErrorMessage] = this.L["You must be manager of project you want to edit."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -263,7 +263,7 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 this.logger.LogError(ex, "Error loading employees for project {ProjectId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while editing the project. Please try again later or contact administrator!";
+                    this.L["An error occurred while editing the project. Please try again later or contact administrator!"].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
         }
@@ -282,15 +282,15 @@ namespace CivilEngineerCMS.Web.Controllers
                 if (formModel.ImageContent.Length > GeneralApplicationConstants.ImageMaxSizeInBytes)
                 {
                     this.ModelState.AddModelError(nameof(formModel.ImageContent),
-                        NotificationMessagesConstants.ExceedingMaxSizeMessage);
-                    this.TempData[ErrorMessage] = NotificationMessagesConstants.ExceedingMaxSizeMessage;
+                        this.L[NotificationMessagesConstants.ExceedingMaxSizeMessage].Value);
+                    this.TempData[ErrorMessage] = this.L[NotificationMessagesConstants.ExceedingMaxSizeMessage].Value;
                 }
 
                 if (!projectService.IfFileIsImage(formModel.ImageContent))
                 {
                     this.ModelState.AddModelError(nameof(formModel.ImageContent),
-                        NotificationMessagesConstants.InvalidFileExtensionMessage);
-                    this.TempData[ErrorMessage] = NotificationMessagesConstants.InvalidFileExtensionMessage;
+                        this.L[NotificationMessagesConstants.InvalidFileExtensionMessage].Value);
+                    this.TempData[ErrorMessage] = this.L[NotificationMessagesConstants.InvalidFileExtensionMessage].Value;
                 }
             }
 
@@ -307,7 +307,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Project with provided id does not exist."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -326,7 +326,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                this.TempData[ErrorMessage] = this.L["You must be manager of project you want to edit."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -363,11 +363,11 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 this.logger.LogError(ex, "Error editing project {ProjectId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while editing the project. Please try again later or contact administrator!";
+                    this.L["An error occurred while editing the project. Please try again later or contact administrator!"].Value;
                 return this.View(formModel);
             }
 
-            this.TempData[SuccessMessage] = $"Project {formModel.Name} edited successfully.";
+            this.TempData[SuccessMessage] = this.L["Project {0} edited successfully.", formModel.Name].Value;
             formModel.Managers = await this.employeeService.AllEmployeesAndManagersAsync();
             formModel.Clients = await this.clientService.AllClientsAsync();
             formModel.Employees = await this.employeeService.AllEmployeesByProjectIdAsync(id);
@@ -390,15 +390,15 @@ namespace CivilEngineerCMS.Web.Controllers
             var projectId = (string?)Url.ActionContext.RouteData.Values["id"];
             if (projectId == null)
             {
-                this.TempData[ErrorMessage] = "Project does not exist.";
-                this.ModelState.AddModelError(string.Empty, "Project does not exist.");
+                this.TempData[ErrorMessage] = this.L["Project does not exist."].Value;
+                this.ModelState.AddModelError(string.Empty, this.L["Project does not exist."].Value);
                 return this.RedirectToAction("All", "Project");
             }
 
             if (!await projectService.ProjectExistsByIdAsync(projectId))
             {
-                this.TempData[ErrorMessage] = "Project does not exist.";
-                this.ModelState.AddModelError(string.Empty, "Project does not exist.");
+                this.TempData[ErrorMessage] = this.L["Project does not exist."].Value;
+                this.ModelState.AddModelError(string.Empty, this.L["Project does not exist."].Value);
                 return this.RedirectToAction("All", "Project");
             }
             var currentUserId = this.User.GetId();
@@ -453,8 +453,8 @@ namespace CivilEngineerCMS.Web.Controllers
         /// </summary>
         private void NotAuthorized()
         {
-            this.TempData[ErrorMessage] = "You are not authorized to view this page.";
-            this.ModelState.AddModelError(string.Empty, "You are not authorized to view this page.");
+            this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
+            this.ModelState.AddModelError(string.Empty, this.L["You are not authorized to view this page."].Value);
         }
 
 
@@ -469,7 +469,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Project with provided id does not exist."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -488,14 +488,14 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to delete.";
+                this.TempData[ErrorMessage] = this.L["You must be manager of project you want to delete."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
             try
             {
                 ProjectPreDeleteViewModel viewModel = await this.projectService.GetProjectForPreDeleteByIdAsync(id);
-                this.TempData[WarningMessage] = $"You are going to delete project {viewModel.Name}.";
+                this.TempData[WarningMessage] = this.L["You are going to delete project {0}.", viewModel.Name].Value;
                 return this.View(viewModel);
             }
             catch (Exception ex)
@@ -517,7 +517,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Project with provided id does not exist."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -536,7 +536,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to delete.";
+                this.TempData[ErrorMessage] = this.L["You must be manager of project you want to delete."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -546,7 +546,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 await this.projectService.DeleteProjectByIdAsync(id);
 
                 this.TempData[WarningMessage] =
-                    $"Project {formModel.Name} deleted successfully.";
+                    this.L["Project {0} deleted successfully.", formModel.Name].Value;
                 if (this.User.IsAdministrator())
                 {
                     return this.RedirectToAction("All", "Project", new { Area = AdminAreaName });
@@ -558,7 +558,7 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 this.logger.LogError(ex, "Error deleting project {ProjectId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while deleting the project. Please try again later or contact administrator!";
+                    this.L["An error occurred while deleting the project. Please try again later or contact administrator!"].Value;
                 return this.RedirectToAction("All", "Project");
             }
         }
@@ -570,7 +570,7 @@ namespace CivilEngineerCMS.Web.Controllers
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+                this.L["Unexpected error occurred! Please try again later or contact administrator"].Value;
 
             return this.RedirectToAction("Index", "Home");
         }
@@ -586,7 +586,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Project with provided id does not exist."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -603,7 +603,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                this.TempData[ErrorMessage] = this.L["You must be manager of project you want to edit."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -618,7 +618,7 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 this.logger.LogError(ex, "Error loading employees for project {ProjectId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while adding employee to project. Please try again later or contact administrator!";
+                    this.L["An error occurred while adding employee to project. Please try again later or contact administrator!"].Value;
                 return this.RedirectToAction("Mine", "Employee", new { id });
             }
         }
@@ -635,7 +635,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Project with provided id does not exist."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -652,21 +652,21 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                this.TempData[ErrorMessage] = this.L["You must be manager of project you want to edit."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
             try
             {
                 await this.projectService.SaveAllEmployeesForProjectAsync(id, selectedEmployee);
-                this.TempData[SuccessMessage] = "Employee changed successfully.";
+                this.TempData[SuccessMessage] = this.L["Employee changed successfully."].Value;
                 return this.RedirectToAction("Details", "Project", new { id });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error saving employees for project {ProjectId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while adding employee to project. Please try again later or contact administrator!";
+                    this.L["An error occurred while adding employee to project. Please try again later or contact administrator!"].Value;
                 return this.RedirectToAction("Mine", "Employee", new { id });
             }
         }
@@ -712,7 +712,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool projectExists = await this.projectService.ProjectExistsByIdAsync(id);
             if (!projectExists)
             {
-                this.TempData[ErrorMessage] = "Project with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Project with provided id does not exist."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
             string userId = this.User.GetId();
@@ -727,7 +727,7 @@ namespace CivilEngineerCMS.Web.Controllers
 
             if (!(this.User.IsAdministrator() || isManagerInProject))
             {
-                this.TempData[ErrorMessage] = "You must be manager of project you want to edit.";
+                this.TempData[ErrorMessage] = this.L["You must be manager of project you want to edit."].Value;
                 return this.RedirectToAction("Mine", "Employee");
             }
 
@@ -751,7 +751,7 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 this.logger.LogError(ex, "Error deleting image for project {ProjectId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while editing the project. Please try again later or contact administrator!";
+                    this.L["An error occurred while editing the project. Please try again later or contact administrator!"].Value;
                 return GeneralError();
 
             }

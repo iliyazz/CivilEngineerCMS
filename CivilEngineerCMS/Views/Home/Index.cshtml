@@ -3,7 +3,7 @@
 @model IEnumerable<IndexViewModel>
 @inject IEmployeeService EmployeeService
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = L["Home"].Value;
     var projects = Model.ToList();
     string userId = User.GetId();
     bool isEmployee = await EmployeeService.IsEmployeeAsync(userId);
@@ -14,17 +14,17 @@
 {
     <div class="hero">
         <div class="hero-content">
-            <h1><i class="bi bi-building-check me-2"></i>Civil Engineer CMS</h1>
-            <p class="lead">Professional project management for civil engineering teams. Track projects, manage teams, and stay on schedule.</p>
+            <h1><i class="bi bi-building-check me-2"></i>@L["Civil Engineer CMS"]</h1>
+            <p class="lead">@L["Professional project management for civil engineering teams. Track projects, manage teams, and stay on schedule."]</p>
             @if (!(User.Identity?.IsAuthenticated ?? false))
             {
                 <div class="d-flex gap-3 justify-content-center">
                     <a class="btn btn-warning btn-lg" asp-area="" asp-controller="User" asp-action="Login">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+                        <i class="bi bi-box-arrow-in-right me-1"></i>@L["Sign In"]
                     </a>
                     <a class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.4);"
                        asp-area="" asp-controller="User" asp-action="Register">
-                        <i class="bi bi-person-plus me-1"></i>Register
+                        <i class="bi bi-person-plus me-1"></i>@L["Register"]
                     </a>
                 </div>
             }
@@ -35,7 +35,7 @@
     {
         <div class="mb-4">
             <div class="section-header">
-                <h4><i class="bi bi-images me-2"></i>Featured Projects</h4>
+                <h4><i class="bi bi-images me-2"></i>@L["Featured Projects"]</h4>
             </div>
             <div class="carousel-wrapper">
                 <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -77,11 +77,11 @@
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
+                        <span class="visually-hidden">@L["Previous"]</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
+                        <span class="visually-hidden">@L["Next"]</span>
                     </button>
                 </div>
             </div>
@@ -91,8 +91,8 @@
     {
         <div class="empty-state">
             <span class="empty-icon"><i class="bi bi-folder2-open"></i></span>
-            <h4>No featured projects yet</h4>
-            <p>Projects with uploaded images will be showcased here.</p>
+            <h4>@L["No featured projects yet"]</h4>
+            <p>@L["Projects with uploaded images will be showcased here."]</p>
         </div>
     }
 }

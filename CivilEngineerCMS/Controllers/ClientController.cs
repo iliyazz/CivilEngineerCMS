@@ -39,7 +39,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool clientExists = await this.clientService.IsClientByUserIdAsync(userId);
             if (!clientExists)
             {
-                this.TempData[ErrorMessage] = "Client does not exist.";
+                this.TempData[ErrorMessage] = this.L["Client does not exist."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -58,7 +58,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -93,7 +93,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -108,14 +108,14 @@ namespace CivilEngineerCMS.Web.Controllers
                 await this.clientService.CreateClientAsync(formModel);
 
                 this.TempData[SuccessMessage] =
-                    $"Client {formModel.FirstName} {formModel.LastName} added successfully.";
+                    this.L["Client {0} {1} added successfully.", formModel.FirstName, formModel.LastName].Value;
                 return this.RedirectToAction("All", "Client", new{Area = AdminAreaName});
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error creating client {FirstName} {LastName}.", formModel.FirstName, formModel.LastName);
                 this.ModelState.AddModelError(string.Empty,
-                    "An error occurred while adding the client. Please try again later or contact administrator!");
+                    this.L["An error occurred while adding the client. Please try again later or contact administrator!"].Value);
                 formModel.Users = await this.GetUsersForSelectAsync();
                 return this.View(formModel);
             }
@@ -130,16 +130,16 @@ namespace CivilEngineerCMS.Web.Controllers
             var isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
-                this.ModelState.AddModelError(string.Empty, "You are not authorized to view this page.");
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
+                this.ModelState.AddModelError(string.Empty, this.L["You are not authorized to view this page."].Value);
                 return this.RedirectToAction("Index", "Home");
             }
             string? clientIdRoutData = (string?)Url.ActionContext.RouteData.Values["id"];
 
             if (string.IsNullOrWhiteSpace(clientIdRoutData) || !await clientService.ClientExistsByIdAsync(clientIdRoutData))
             {
-                this.TempData[ErrorMessage] = "Client does not exist.";
-                this.ModelState.AddModelError(string.Empty, "Client does not exist.");
+                this.TempData[ErrorMessage] = this.L["Client does not exist."].Value;
+                this.ModelState.AddModelError(string.Empty, this.L["Client does not exist."].Value);
                 return this.RedirectToAction("All", "Client",new { Area = AdminAreaName });
             }
 
@@ -157,14 +157,14 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id.ToString());
             if (!clientExists)
             {
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Client with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
 
@@ -172,13 +172,13 @@ namespace CivilEngineerCMS.Web.Controllers
             {
                 EditClientFormModel viewModel = await this.clientService.GetClientForEditByIdAsync(id.ToString());
                 this.TempData[WarningMessage] =
-                    $"You are going to edit client {viewModel.FirstName} {viewModel.LastName}.";
+                    this.L["You are going to edit client {0} {1}.", viewModel.FirstName, viewModel.LastName].Value;
                 return this.View(viewModel);
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error loading client {ClientId} for edit.", id);
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Client with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
         }
@@ -194,7 +194,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -207,7 +207,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id);
             if (!clientExists)
             {
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Client with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
 
@@ -216,14 +216,14 @@ namespace CivilEngineerCMS.Web.Controllers
                 await this.clientService.EditClientByIdAsync(id, formModel);
 
                 this.TempData[SuccessMessage] =
-                    $"Client {formModel.FirstName} {formModel.LastName} edited successfully.";
+                    this.L["Client {0} {1} edited successfully.", formModel.FirstName, formModel.LastName].Value;
                 return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error editing client {ClientId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while editing the client. Please try again later or contact administrator!";
+                    this.L["An error occurred while editing the client. Please try again later or contact administrator!"].Value;
                 return this.View(formModel);
             }
         }
@@ -234,7 +234,7 @@ namespace CivilEngineerCMS.Web.Controllers
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+                this.L["Unexpected error occurred! Please try again later or contact administrator"].Value;
 
             return this.RedirectToAction("Index", "Home");
         }
@@ -249,7 +249,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -264,13 +264,13 @@ namespace CivilEngineerCMS.Web.Controllers
                 ClientPreDeleteViewModel viewModel =
                     await this.clientService.GetClientForPreDeleteByIdAsync(id.ToString());
                 this.TempData[WarningMessage] =
-                    $"You are going to delete client {viewModel.FirstName} {viewModel.LastName}.";
+                    this.L["You are going to delete client {0} {1}.", viewModel.FirstName, viewModel.LastName].Value;
                 return this.View(viewModel);
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error loading client {ClientId} for delete.", id);
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Client with provided id does not exist."].Value;
                 return GeneralError();
             }
         }
@@ -287,7 +287,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -295,7 +295,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool clientExists = await this.clientService.ClientExistsByIdAsync(id);
             if (!clientExists)
             {
-                this.TempData[ErrorMessage] = "Client with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Client with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Client");
             }
 
@@ -304,14 +304,14 @@ namespace CivilEngineerCMS.Web.Controllers
                 await this.clientService.DeleteClientByIdAsync(id);
 
                 this.TempData[WarningMessage] =
-                    $"Client {formModel.FirstName} {formModel.LastName} deleted successfully.";
+                    this.L["Client {0} {1} deleted successfully.", formModel.FirstName, formModel.LastName].Value;
                 return this.RedirectToAction("All", "Client", new { Area = AdminAreaName });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error deleting client {ClientId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while deleting the client. Please try again later or contact administrator!";
+                    this.L["An error occurred while deleting the client. Please try again later or contact administrator!"].Value;
                 return GeneralError();
             }
         }

@@ -30,7 +30,7 @@
 
         [Required]
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
-        [Display(Name = "Project Description")]
+        [Display(Name = "Description")]
         public string Description { get; set; } = null!;
 
         [MaxLength(UrlMaxLength)]
@@ -46,26 +46,26 @@
 
         public string? ContentType { get; set; }
 
-        [Display(Name = "Image")]
+        [Display(Name = "Project Image")]
         [DataType(DataType.Upload)]
 
         public IFormFile? ImageContent { get; set; }
 
         [Required]
-        [Display(Name = "Project Status")]
+        [Display(Name = "Status")]
         public ProjectStatusEnums Status { get; set; }
 
         [Required]
-        [Display(Name = "Project End Date")]
+        [Display(Name = "End Date")]
         public string ProjectEndDate { get; set; } = null!;
 
         [Required]
-        [Display(Name = "Project Manager")]
+        [Display(Name = "Manager")]
         public Guid ManagerId { get; set; }
         public IEnumerable<SelectEmployeesAndManagerForProjectFormModel> Managers { get; set; }
 
         [Required]
-        [Display(Name = "Client name")]
+        [Display(Name = "Client")]
         public Guid ClientId { get; set; }
         public IEnumerable<SelectClientForProjectFormModel> Clients { get; set; }
 

@@ -24,10 +24,14 @@
         [Display(Name = "Last Name")]
         public string LastName { get; set; } = null!;
 
-        [Required] [Phone] public string PhoneNumber { get; set; } = null!;
+        [Required]
+        [Phone]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; } = null!;
 
         [Required]
         [StringLength(AddressMaxLength, MinimumLength = AddressMinLength)]
+        [Display(Name = "Address")]
         public string Address { get; set; } = null!;
 
         public IEnumerable<AllUsersSelectViewModelForClient> Users { get; set; }

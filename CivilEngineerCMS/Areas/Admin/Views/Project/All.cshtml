@@ -2,12 +2,12 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ProjectAllQueryModel
 @{
-    ViewData["Title"] = "All Projects";
+    ViewData["Title"] = L["All Projects"].Value;
 }
 
 <div class="page-header">
-    <h2><i class="bi bi-folder2-open me-2"></i>All Projects</h2>
-    <p>Browse, search, and manage all projects in the system.</p>
+    <h2><i class="bi bi-folder2-open me-2"></i>@L["All Projects"]</h2>
+    <p>@L["Browse, search, and manage all projects in the system."]</p>
 </div>
 
 <!-- Filter -->
@@ -15,33 +15,33 @@
     <form method="get">
         <div class="row g-3 align-items-end">
             <div class="col-md-3">
-                <label class="form-label fw-600">Status</label>
+                <label class="form-label fw-600">@L["Status"]</label>
                 <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<ProjectStatusEnums>()">
-                    <option selected="selected" value="">— All statuses —</option>
+                    <option selected="selected" value="">@L["— All statuses —"]</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <label class="form-label fw-600">Search</label>
-                <input asp-for="SearchString" class="form-control" placeholder="Project name, client..." />
+                <label class="form-label fw-600">@L["Search"]</label>
+                <input asp-for="SearchString" class="form-control" placeholder="@L["Project name, client..."]" />
             </div>
             <div class="col-md-3">
-                <label class="form-label fw-600">Sort by</label>
+                <label class="form-label fw-600">@L["Sort by"]</label>
                 <select asp-for="ProjectSorting" class="form-select">
-                    <option value="0">Project Name</option>
-                    <option value="1">Status</option>
-                    <option value="2">Description</option>
-                    <option value="3">Client Name</option>
-                    <option value="4">Client Email</option>
-                    <option value="5">Client Phone</option>
-                    <option value="6">Manager Name</option>
-                    <option value="7">Manager Email</option>
-                    <option value="8">Manager Phone</option>
-                    <option value="9">Not filtered</option>
+                    <option value="0">@L["Project Name"]</option>
+                    <option value="1">@L["Status"]</option>
+                    <option value="2">@L["Description"]</option>
+                    <option value="3">@L["Client Name"]</option>
+                    <option value="4">@L["Client Email"]</option>
+                    <option value="5">@L["Client Phone"]</option>
+                    <option value="6">@L["Manager Name"]</option>
+                    <option value="7">@L["Manager Email"]</option>
+                    <option value="8">@L["Manager Phone"]</option>
+                    <option value="9">@L["Not filtered"]</option>
                 </select>
             </div>
             <div class="col-md-3">
                 <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-search me-1"></i>Search
+                    <i class="bi bi-search me-1"></i>@L["Search"]
                 </button>
             </div>
         </div>
@@ -63,16 +63,16 @@
        asp-route-Status="@Model.Status"
        asp-route-SearchString="@Model.SearchString"
        asp-route-ProjectSorting="@((int)Model.ProjectSorting)">
-        <i class="bi bi-chevron-left me-1"></i>Previous
+        <i class="bi bi-chevron-left me-1"></i>@L["Previous"]
     </a>
-    <span class="text-muted small">Page @Model.CurrentPage of @(maxPage > 0 ? maxPage : 1)</span>
+    <span class="text-muted small">@L["Page {0} of {1}", Model.CurrentPage, maxPage > 0 ? maxPage : 1]</span>
     <a class="btn btn-outline-primary btn-sm @(shouldNextPageBeDisabled ? "disabled" : "")"
        asp-area="Admin" asp-controller="Project" asp-action="All"
        asp-route-currentPage="@(Model.CurrentPage + 1)"
        asp-route-Status="@Model.Status"
        asp-route-SearchString="@Model.SearchString"
        asp-route-ProjectSorting="@((int)Model.ProjectSorting)">
-        Next<i class="bi bi-chevron-right ms-1"></i>
+        @L["Next"]<i class="bi bi-chevron-right ms-1"></i>
     </a>
 </div>
 
@@ -80,8 +80,8 @@
 {
     <div class="empty-state">
         <span class="empty-icon"><i class="bi bi-folder2-open"></i></span>
-        <h4>No projects found</h4>
-        <p>Try adjusting your search filters.</p>
+        <h4>@L["No projects found"]</h4>
+        <p>@L["Try adjusting your search filters."]</p>
     </div>
 }
 else
@@ -91,11 +91,11 @@ else
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Project Title</th>
-                    <th>Client</th>
-                    <th>Manager</th>
-                    <th>Created</th>
-                    <th class="text-center">Actions</th>
+                    <th>@L["Project Title"]</th>
+                    <th>@L["Client"]</th>
+                    <th>@L["Manager"]</th>
+                    <th>@L["Created"]</th>
+                    <th class="text-center">@L["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -116,7 +116,7 @@ else
                         <td class="text-center" onclick="event.stopPropagation();">
                             <a class="btn btn-primary btn-sm"
                                asp-area="" asp-controller="Project" asp-action="Details" asp-route-id="@p.Id">
-                                <i class="bi bi-eye me-1"></i>Details
+                                <i class="bi bi-eye me-1"></i>@L["Details"]
                             </a>
                         </td>
                     </tr>

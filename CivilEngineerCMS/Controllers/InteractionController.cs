@@ -60,20 +60,20 @@
 
             if (!(isEmployeeOfProject || isManagerOfProject || isClientOfProject || isAdministrator))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view interaction to this project."].Value;
                 return RedirectToAction("Index", "home");
             }
 
             if ((isEmployeeOfProject || isManagerOfProject || isAdministrator) &&
                 !await this.interactionService.InteractionExistsByProjectIdAsync(id))
             {
-                this.TempData[InfoMessage] = "There are no interaction about this project. Create the first one.";
+                this.TempData[InfoMessage] = this.L["There are no interaction about this project. Create the first one."].Value;
                 return RedirectToAction("Add", "Interaction", new { id = id });
             }
 
             if (isClientOfProject && !await this.interactionService.InteractionExistsByProjectIdAsync(id))
             {
-                this.TempData[InfoMessage] = "There are no interaction about this project.";
+                this.TempData[InfoMessage] = this.L["There are no interaction about this project."].Value;
                 return RedirectToAction("Mine", "Client", new { id = id });
             }
 
@@ -97,7 +97,7 @@
 
             if (isClient)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to add interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to add interaction to this project."].Value;
                 return RedirectToAction("Mine", "Client");
             }
 
@@ -112,7 +112,7 @@
 
             if (!(isEmployeeOfProject || isManagerOfProject || isAdministrator))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to add interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to add interaction to this project."].Value;
                 return RedirectToAction("Mine", "Employee");
             }
 
@@ -145,7 +145,7 @@
 
             if (isClient)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to add interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to add interaction to this project."].Value;
                 return RedirectToAction("Mine", "Client");
             }
 
@@ -160,7 +160,7 @@
 
             if (!(isEmployeeOfProject || isManagerOfProject || isAdministrator))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to add interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to add interaction to this project."].Value;
                 return RedirectToAction("Mine", "Employee");
             }
 
@@ -168,14 +168,14 @@
             {
                 await this.interactionService.CreateInteractionAsync(id, formModel);
 
-                this.TempData[SuccessMessage] = $"Interaction added successfully.";
+                this.TempData[SuccessMessage] = this.L["Interaction added successfully."].Value;
                 return this.RedirectToAction("All", "Interaction", new { id = id });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error creating interaction for project {ProjectId}.", id);
                 this.ModelState.AddModelError(string.Empty,
-                    "An error occurred while adding the interaction. Please try again later or contact administrator!");
+                    this.L["An error occurred while adding the interaction. Please try again later or contact administrator!"].Value);
                 return this.View(formModel);
             }
         }
@@ -195,7 +195,7 @@
 
             if (isClient)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to edit interaction to this project."].Value;
                 return RedirectToAction("Mine", "Client");
             }
 
@@ -208,7 +208,7 @@
 
             if (!(isManagerOfProject || isAdministrator))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to edit interaction to this project."].Value;
                 return RedirectToAction("Mine", "Employee");
             }
 
@@ -216,7 +216,7 @@
             bool isInteractionExists = await this.interactionService.InteractionExistsByProjectIdAsync(projectId);
             if (!isInteractionExists)
             {
-                this.TempData[ErrorMessage] = "Interaction does not exist.";
+                this.TempData[ErrorMessage] = this.L["Interaction does not exist."].Value;
                 return RedirectToAction("All", "Interaction");
             }
 
@@ -247,7 +247,7 @@
 
             if (isClient)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to edit interaction to this project."].Value;
                 return RedirectToAction("Mine", "Client");
             }
 
@@ -260,14 +260,14 @@
 
             if (!(isManagerOfProject || isAdministrator))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to edit interaction to this project.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to edit interaction to this project."].Value;
                 return RedirectToAction("Mine", "Employee");
             }
 
             bool isInteractionExists = await this.interactionService.InteractionExistsByProjectIdAsync(projectId);
             if (!isInteractionExists)
             {
-                this.TempData[ErrorMessage] = "Interaction does not exist.";
+                this.TempData[ErrorMessage] = this.L["Interaction does not exist."].Value;
                 return RedirectToAction("All", "Interaction");
             }
 
@@ -275,14 +275,14 @@
             {
                 await this.interactionService.EditInteractionByProjectIdAsync(interactionId, formModel);
 
-                this.TempData[SuccessMessage] = $"Interaction edited successfully.";
+                this.TempData[SuccessMessage] = this.L["Interaction edited successfully."].Value;
                 return this.RedirectToAction("All", "Interaction", new { id = projectId });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error editing interaction {InteractionId} for project {ProjectId}.", interactionId, projectId);
                 this.ModelState.AddModelError(string.Empty,
-                    "An error occurred while editing the interaction. Please try again later or contact administrator!");
+                    this.L["An error occurred while editing the interaction. Please try again later or contact administrator!"].Value);
                 return this.View(formModel);
             }
         }

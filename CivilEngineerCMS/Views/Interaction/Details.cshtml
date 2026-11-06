@@ -4,7 +4,7 @@
 @inject IEmployeeService EmployeeService
 @inject IProjectService ProjectService
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = L["Details"].Value;
     string projectId = Model.ProjectId.ToString();
     string employeeId = await EmployeeService.GetEmployeeIdByUserIdAsync(User.GetId());
     bool isAdministrator = this.User.IsAdministrator();
@@ -20,23 +20,23 @@
     <div style="display: inline">
         <div class="row" align="center">
             <div class="card col-12 border-0">
-                <p>Last date of new: <b>@Model.Date.ToString("dd.MM.yyyy")</b></p>
+                <p>@L["Date"]: <b>@Model.Date.ToString("dd.MM.yyyy")</b></p>
                 <p></p>
                 <div class="card" align="center">
                     <div class="card-body" align="center">
-                        <p class="card-text">Type: <b>@Model.Type</b></p>
-                        <p class="card-text">Description: <b>@Model.Description</b></p>
-                        <p class="card-text">Description: <b>@Model.Message</b></p>
-                        <p class="card-text">Description: <b>@Model.UrlPath</b></p>
+                        <p class="card-text">@L["Type"]: <b>@Model.Type</b></p>
+                        <p class="card-text">@L["Description"]: <b>@Model.Description</b></p>
+                        <p class="card-text">@L["Message"]: <b>@Model.Message</b></p>
+                        <p class="card-text">@L["File link"]: <b>@Model.UrlPath</b></p>
                         <div class="form-check-inline">
                             @if (isManagerOfProject || isAdministrator)
                             {
-                                <a class="btn btn-warning" asp-area="" asp-controller="Interaction" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit</a>
-                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Employee" asp-action="Mine">Cancel</a>
+                                <a class="btn btn-warning" asp-area="" asp-controller="Interaction" asp-action="Edit" asp-route-id="@Model.ProjectId">@L["Edit"]</a>
+                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Employee" asp-action="Mine">@L["Cancel"]</a>
                             }
                             @if (isEmployeeInProject)
                             {
-                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Client" asp-action="Mine">Cancel</a>
+                                <a class="ml-2 btn btn-info" asp-area="" asp-controller="Client" asp-action="Mine">@L["Cancel"]</a>
 
                             }
                         </div>

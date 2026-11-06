@@ -1,14 +1,24 @@
+using System.Globalization;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+
 using CivilEngineerCMS.Data;
 using CivilEngineerCMS.Data.Models;
 using CivilEngineerCMS.Services.Data;
 using CivilEngineerCMS.Services.Data.Interfaces;
+using CivilEngineerCMS.Web;
+using CivilEngineerCMS.Web.Localization;
 using CivilEngineerCMS.Web.Infrastructure.Extensions;
+using CivilEngineerCMS.Web.Infrastructure.Localization;
 using CivilEngineerCMS.Web.Infrastructure.Middlewares;
 using CivilEngineerCMS.Web.Infrastructure.ModelBinders;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.WebEncoders;
 
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -51,6 +61,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
             builder.Configuration.GetValue<int>("Identity:Lockout:MaxFailedAccessAttempts");
     })
     .AddRoles<IdentityRole<Guid>>()
+    .AddErrorDescriber<LocalizedIdentityErrorDescriber>()
     .AddEntityFrameworkStores<CivilEngineerCmsDbContext>();
 
 //builder.Services.AddScoped<IHomeService, HomeService>();
@@ -66,11 +77,57 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.AccessDeniedPath = "/Home/Error/401";
 });
 
+// Localization: Bulgarian is the default language, English is available through the language switcher.
+// Texts are keyed by their English wording in Resources/SharedResource.bg.resx.
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    CultureInfo[] supportedCultures = SupportedCultures.Select(c => new CultureInfo(c)).ToArray();
+    options.DefaultRequestCulture = new RequestCulture(DefaultCulture);
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+    // Only an explicit choice (?culture=en or the language cookie) changes the language,
+    // so visitors get the Bulgarian site regardless of their browser settings.
+    options.RequestCultureProviders = new List<IRequestCultureProvider>
+    {
+        new QueryStringRequestCultureProvider(),
+        new CookieRequestCultureProvider()
+    };
+});
+
+// Render Cyrillic as-is instead of HTML-encoding every character.
+builder.Services.Configure<WebEncoderOptions>(options =>
+    options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All));
+
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
         options.ModelBinderProviders.Insert(0, new DecimalModeBinderProvider());
         options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+        options.ModelMetadataDetailsProviders.Add(new DefaultValidationMessagesMetadataProvider());
+    })
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization(options =>
+        options.DataAnnotationLocalizerProvider = (_, factory) => factory.Create(typeof(SharedResource)));
+
+// Localize the model binding messages (e.g. "The value 'x' is not valid for Amount.").
+builder.Services.AddOptions<MvcOptions>()
+    .Configure<IStringLocalizerFactory>((options, factory) =>
+    {
+        IStringLocalizer localizer = factory.Create(typeof(SharedResource));
+        var messages = options.ModelBindingMessageProvider;
+        messages.SetAttemptedValueIsInvalidAccessor((value, field) => localizer["The value '{0}' is not valid for {1}.", value, field]);
+        messages.SetMissingBindRequiredValueAccessor(field => localizer["A value for the '{0}' parameter or property was not provided.", field]);
+        messages.SetMissingKeyOrValueAccessor(() => localizer["A value is required."]);
+        messages.SetMissingRequestBodyRequiredValueAccessor(() => localizer["A non-empty request body is required."]);
+        messages.SetNonPropertyAttemptedValueIsInvalidAccessor(value => localizer["The value '{0}' is not valid.", value]);
+        messages.SetNonPropertyUnknownValueIsInvalidAccessor(() => localizer["The supplied value is invalid."]);
+        messages.SetNonPropertyValueMustBeANumberAccessor(() => localizer["The field must be a number."]);
+        messages.SetUnknownValueIsInvalidAccessor(field => localizer["The supplied value is invalid for {0}.", field]);
+        messages.SetValueIsInvalidAccessor(value => localizer["The value '{0}' is invalid.", value]);
+        messages.SetValueMustBeANumberAccessor(field => localizer["The field {0} must be a number.", field]);
+        messages.SetValueMustNotBeNullAccessor(value => localizer["The value '{0}' is invalid.", value]);
     });
 
 
@@ -100,6 +157,8 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseRequestLocalization();
 
 app.UseRouting();
 

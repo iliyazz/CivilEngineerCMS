@@ -33,7 +33,7 @@ namespace CivilEngineerCMS.Web.Controllers
             var employeeId = await this.employeeService.GetManagerIdByUserIdAsync(id);
             if (employeeId == null || !await this.employeeService.EmployeeExistsByIdAsync(employeeId))
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -53,7 +53,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isEmployee = await this.employeeService.EmployeeExistsByIdAsync(employeeId);
             if (!isEmployee)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return RedirectToAction("Index", "Home");
             }
 
@@ -71,7 +71,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -90,7 +90,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -104,14 +104,14 @@ namespace CivilEngineerCMS.Web.Controllers
                 await this.employeeService.CreateEmployeeAsync(formModel);
 
                 this.TempData[SuccessMessage] =
-                    $"Employee {formModel.FirstName} {formModel.LastName} added successfully.";
+                    this.L["Employee {0} {1} added successfully.", formModel.FirstName, formModel.LastName].Value;
                 return this.RedirectToAction("All", "Employee", new{Area = AdminAreaName});
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error creating employee {FirstName} {LastName}.", formModel.FirstName, formModel.LastName);
                 this.ModelState.AddModelError(string.Empty,
-                    "An error occurred while adding the employee. Please try again later or contact administrator!");
+                    this.L["An error occurred while adding the employee. Please try again later or contact administrator!"].Value);
                 return this.View(formModel);
             }
         }
@@ -125,15 +125,15 @@ namespace CivilEngineerCMS.Web.Controllers
             var employeeId = (string?)Url.ActionContext.RouteData.Values["id"];
             if (employeeId == null)
             {
-                this.TempData[ErrorMessage] = "Employee does not exist.";
-                this.ModelState.AddModelError(string.Empty, "Employee does not exist.");
+                this.TempData[ErrorMessage] = this.L["Employee does not exist."].Value;
+                this.ModelState.AddModelError(string.Empty, this.L["Employee does not exist."].Value);
                 return this.RedirectToAction("All", "Employee");
             }
 
             if (!await employeeService.EmployeeExistsByIdAsync(employeeId))
             {
-                this.TempData[ErrorMessage] = "Employee does not exist.";
-                this.ModelState.AddModelError(string.Empty, "Employee does not exist.");
+                this.TempData[ErrorMessage] = this.L["Employee does not exist."].Value;
+                this.ModelState.AddModelError(string.Empty, this.L["Employee does not exist."].Value);
                 return this.RedirectToAction("All", "Employee");
             }
 
@@ -151,14 +151,14 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
             bool employeeExists = await this.employeeService.EmployeeExistsByIdAsync(id.ToString());
             if (!employeeExists)
             {
-                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Employee with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Employee");
             }
 
@@ -170,7 +170,7 @@ namespace CivilEngineerCMS.Web.Controllers
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error loading employee {EmployeeId} for edit.", id);
-                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Employee with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Employee");
             }
         }
@@ -186,7 +186,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
@@ -198,7 +198,7 @@ namespace CivilEngineerCMS.Web.Controllers
             bool employeeExist = await this.employeeService.EmployeeExistsByIdAsync(id);
             if (!employeeExist)
             {
-                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Employee with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Employee");
             }
 
@@ -207,14 +207,14 @@ namespace CivilEngineerCMS.Web.Controllers
                 await this.employeeService.EditEmployeeByIdAsync(id, formModel);
 
                 this.TempData[SuccessMessage] =
-                    $"Employee {formModel.FirstName} {formModel.LastName} edited successfully.";
+                    this.L["Employee {0} {1} edited successfully.", formModel.FirstName, formModel.LastName].Value;
                 return this.RedirectToAction("All", "Employee", new { Area = AdminAreaName });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error editing employee {EmployeeId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while editing the employee. Please try again later or contact administrator!";
+                    this.L["An error occurred while editing the employee. Please try again later or contact administrator!"].Value;
                 return this.View(formModel);
             }
         }
@@ -225,7 +225,7 @@ namespace CivilEngineerCMS.Web.Controllers
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
-                "Unexpected error occurred! Please try again later or contact administrator";
+                this.L["Unexpected error occurred! Please try again later or contact administrator"].Value;
 
             return this.RedirectToAction("Index", "Home");
         }
@@ -240,14 +240,14 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
             bool employeeExists = await this.employeeService.EmployeeExistsByIdAsync(id.ToString());
             if (!employeeExists)
             {
-                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Employee with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Employee");
             }
 
@@ -256,7 +256,7 @@ namespace CivilEngineerCMS.Web.Controllers
                 EmployeePreDeleteViewModel viewModel =
                     await this.employeeService.GetEmployeeForPreDeleteByIdAsync(id.ToString());
                 this.TempData[WarningMessage] =
-                    $"You are going to delete employee {viewModel.FirstName} {viewModel.LastName}.";
+                    this.L["You are going to delete employee {0} {1}.", viewModel.FirstName, viewModel.LastName].Value;
                 return this.View(viewModel);
             }
             catch (Exception ex)
@@ -277,14 +277,14 @@ namespace CivilEngineerCMS.Web.Controllers
             bool isAdministrator = this.User.IsAdministrator();
             if (!isAdministrator)
             {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page.";
+                this.TempData[ErrorMessage] = this.L["You are not authorized to view this page."].Value;
                 return this.RedirectToAction("Index", "Home");
             }
 
             bool employeeExists = await this.employeeService.EmployeeExistsByIdAsync(id);
             if (!employeeExists)
             {
-                this.TempData[ErrorMessage] = "Employee with provided id does not exist.";
+                this.TempData[ErrorMessage] = this.L["Employee with provided id does not exist."].Value;
                 return this.RedirectToAction("All", "Employee");
             }
 
@@ -293,14 +293,14 @@ namespace CivilEngineerCMS.Web.Controllers
                 await this.employeeService.DeleteEmployeeByIdAsync(id);
 
                 this.TempData[WarningMessage] =
-                    $"Employee {formModel.FirstName} {formModel.LastName} deleted successfully.";
+                    this.L["Employee {0} {1} deleted successfully.", formModel.FirstName, formModel.LastName].Value;
                 return this.RedirectToAction("All", "Employee", new { Area = AdminAreaName });
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "Error deleting employee {EmployeeId}.", id);
                 this.TempData[ErrorMessage] =
-                    "An error occurred while deleting the employee. Please try again later or contact administrator!";
+                    this.L["An error occurred while deleting the employee. Please try again later or contact administrator!"].Value;
                 return GeneralError();
             }
         }

@@ -1,6 +1,6 @@
 @model LoginFormModel
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = L["Log in"].Value;
 }
 
 <div class="auth-wrapper">
@@ -9,22 +9,22 @@
             <div class="brand-icon">
                 <i class="bi bi-building-check"></i>
             </div>
-            <h2>Civil Engineer CMS</h2>
+            <h2>@L["Civil Engineer CMS"]</h2>
         </div>
 
-        <h3>Welcome back</h3>
-        <p class="subtitle">Sign in to your account to continue</p>
+        <h3>@L["Welcome back"]</h3>
+        <p class="subtitle">@L["Sign in to your account to continue"]</p>
 
         <form id="account" method="post">
             <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-3" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Email" class="form-control" autocomplete="username" aria-required="true" placeholder="email@example.com" />
-                <label asp-for="Email"><i class="bi bi-envelope me-1"></i>Email address</label>
+                <label asp-for="Email"><i class="bi bi-envelope me-1"></i>@L["Email address"]</label>
                 <span asp-validation-for="Email" class="text-danger small"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Password" />
-                <label asp-for="Password"><i class="bi bi-lock me-1"></i>Password</label>
+                <input asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="@L["Password"]" />
+                <label asp-for="Password"><i class="bi bi-lock me-1"></i>@L["Password"]</label>
                 <span asp-validation-for="Password" class="text-danger small"></span>
             </div>
             <div class="mb-3">
@@ -34,13 +34,13 @@
                 </div>
             </div>
             <button id="login-submit" type="submit" class="w-100 btn btn-primary btn-lg">
-                <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+                <i class="bi bi-box-arrow-in-right me-1"></i>@L["Sign In"]
             </button>
         </form>
 
         <div class="auth-footer">
-            Don't have an account?
-            <a asp-area="" asp-controller="User" asp-action="Register">Create one now</a>
+            @L["Don't have an account?"]
+            <a asp-area="" asp-controller="User" asp-action="Register">@L["Create one now"]</a>
         </div>
     </div>
 </div>

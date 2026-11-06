@@ -3,58 +3,58 @@
 @inject IEmployeeService EmployeeService;
 @inject IAdministratorService AdministratorService;
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = L["Admin Dashboard"].Value;
     bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
 }
 
 <div class="page-header">
-    <h2><i class="bi bi-shield-check me-2"></i>Administrator Dashboard</h2>
-    <p>Welcome back! Manage all projects, employees, clients, and system settings from here.</p>
+    <h2><i class="bi bi-shield-check me-2"></i>@L["Administrator Dashboard"]</h2>
+    <p>@L["Welcome back! Manage all projects, employees, clients, and system settings from here."]</p>
 </div>
 
 <!-- Quick Actions -->
 <div class="mb-4">
     <div class="section-header">
-        <h4><i class="bi bi-grid me-2"></i>Quick Actions</h4>
+        <h4><i class="bi bi-grid me-2"></i>@L["Quick Actions"]</h4>
     </div>
     <div class="action-grid">
         <a class="action-item" asp-area="Admin" asp-controller="Administrator" asp-action="ManageAdministrators">
             <i class="bi bi-people-fill"></i>
-            <span>Manage Admins</span>
+            <span>@L["Manage Admins"]</span>
         </a>
         <a class="action-item" asp-area="Admin" asp-controller="Project" asp-action="All">
             <i class="bi bi-folder2-open"></i>
-            <span>All Projects</span>
+            <span>@L["All Projects"]</span>
         </a>
         <a class="action-item" asp-area="Admin" asp-controller="Employee" asp-action="All">
             <i class="bi bi-person-badge"></i>
-            <span>All Employees</span>
+            <span>@L["All Employees"]</span>
         </a>
         <a class="action-item" asp-area="Admin" asp-controller="Client" asp-action="All">
             <i class="bi bi-briefcase"></i>
-            <span>All Clients</span>
+            <span>@L["All Clients"]</span>
         </a>
         <a class="action-item" asp-area="" asp-controller="Employee" asp-action="Create">
             <i class="bi bi-person-plus"></i>
-            <span>Add Employee</span>
+            <span>@L["Add Employee"]</span>
         </a>
         <a class="action-item" asp-area="" asp-controller="Client" asp-action="Create">
             <i class="bi bi-person-vcard"></i>
-            <span>Add Client</span>
+            <span>@L["Add Client"]</span>
         </a>
         <a class="action-item" asp-area="" asp-controller="Project" asp-action="Add">
             <i class="bi bi-plus-circle"></i>
-            <span>New Project</span>
+            <span>@L["New Project"]</span>
         </a>
         @if (isEmployee)
         {
             <a class="action-item" asp-area="" asp-controller="Employee" asp-action="Mine">
                 <i class="bi bi-diagram-3"></i>
-                <span>Manager Projects</span>
+                <span>@L["Manager Projects"]</span>
             </a>
             <a class="action-item" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">
                 <i class="bi bi-person-workspace"></i>
-                <span>My Projects</span>
+                <span>@L["My Projects"]</span>
             </a>
         }
     </div>
@@ -62,30 +62,31 @@
 
 <!-- Statistics -->
 <div class="section-header">
-    <h4><i class="bi bi-bar-chart me-2"></i>System Statistics</h4>
+    <h4><i class="bi bi-bar-chart me-2"></i>@L["System Statistics"]</h4>
 </div>
 <div class="text-center mb-3">
-    <button class="buttonStatistic" id="statistics_btn">
-        <i class="bi bi-graph-up me-2"></i>Load Statistics
+    <button class="buttonStatistic" id="statistics_btn"
+            data-show-text="@L["Show statistics"]" data-hide-text="@L["Hide statistics"]">
+        <i class="bi bi-graph-up me-2"></i>@L["Load Statistics"]
     </button>
 </div>
 <div class="d-none" id="statistics_box">
     <div class="row g-3">
         <div class="col-md-4">
             <div class="stat-card">
-                <div class="stat-label"><i class="bi bi-folder2 me-1"></i>Total Projects</div>
+                <div class="stat-label"><i class="bi bi-folder2 me-1"></i>@L["Total Projects"]</div>
                 <div class="stat-value" id="total_projects">—</div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="stat-card" style="border-left-color:var(--success);">
-                <div class="stat-label"><i class="bi bi-activity me-1"></i>Active Projects</div>
+                <div class="stat-label"><i class="bi bi-activity me-1"></i>@L["Active Projects"]</div>
                 <div class="stat-value" style="color:var(--success);" id="total_active_projects">—</div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="stat-card" style="border-left-color:var(--accent);">
-                <div class="stat-label"><i class="bi bi-people me-1"></i>Total Clients</div>
+                <div class="stat-label"><i class="bi bi-people me-1"></i>@L["Total Clients"]</div>
                 <div class="stat-value" style="color:var(--accent);" id="total_clients">—</div>
             </div>
         </div>

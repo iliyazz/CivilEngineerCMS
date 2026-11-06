@@ -13,12 +13,12 @@
         /// <summary>
         /// This property is used to get or set the first name of the client.
         /// </summary>
-        [Display(Name = "First name")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; } = null!;
         /// <summary>
         /// This property is used to get or set the last name of the client.
         /// </summary>
-        [Display(Name = "Last name")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; } = null!;
         /// <summary>
         /// This property is used to get or set the phone number of the client.
@@ -28,10 +28,12 @@
         /// <summary>
         /// This property is used to get or set the email of the client.
         /// </summary>
+        [Display(Name = "Email")]
         public string Email { get; set; } = null!;
         /// <summary>
         /// This property is used to get or set the address of the client.
         /// </summary>
+        [Display(Name = "Address")]
         public string Address { get; set; } = null!;
         /// <summary>
         /// This property is used to check if client is soft deleted.

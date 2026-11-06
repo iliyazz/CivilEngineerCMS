@@ -1,3 +1,4 @@
+@using System.Globalization
 @using static CivilEngineerCMS.Common.GeneralApplicationConstants;
 @using CivilEngineerCMS.Data
 @using CivilEngineerCMS.Services.Data.Interfaces
@@ -11,9 +12,11 @@
     bool isClient = await ClientService.IsClientByUserIdAsync(User.GetId());
     bool isEmployee = await EmployeeService.IsEmployeeAsync(User.GetId());
     bool isAdministrator = User.IsAdministrator();
+    string currentLanguage = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    string languageReturnUrl = $"{Context.Request.PathBase}{Context.Request.Path}{Context.Request.QueryString}";
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@currentLanguage">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,17 +37,17 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                <i class="bi bi-building-check"></i> Civil Engineer CMS
+                <i class="bi bi-building-check"></i> @L["Civil Engineer CMS"]
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
-                    aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarMain" aria-expanded="false" aria-label="@L["Toggle navigation"]">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                            <i class="bi bi-house-door"></i> Home
+                            <i class="bi bi-house-door"></i> @L["Home"]
                         </a>
                     </li>
 
@@ -54,44 +57,44 @@
                         {
                             <li class="nav-item dropdown">
                                 <button class="nav-link-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-shield-check"></i> Administrator
+                                    <i class="bi bi-shield-check"></i> @L["Administrator"]
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Administrator" asp-action="ManageAdministrators">
-                                            <i class="bi bi-people"></i> Manage administrators
+                                            <i class="bi bi-people"></i> @L["Manage Administrators"]
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider" /></li>
                                     <li>
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Project" asp-action="All">
-                                            <i class="bi bi-folder2-open"></i> All projects
+                                            <i class="bi bi-folder2-open"></i> @L["All Projects"]
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Employee" asp-action="All">
-                                            <i class="bi bi-person-badge"></i> All employees
+                                            <i class="bi bi-person-badge"></i> @L["All Employees"]
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Client" asp-action="All">
-                                            <i class="bi bi-briefcase"></i> All clients
+                                            <i class="bi bi-briefcase"></i> @L["All Clients"]
                                         </a>
                                     </li>
                                     <li><hr class="dropdown-divider" /></li>
                                     <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="Employee" asp-action="Create">
-                                            <i class="bi bi-person-plus"></i> Create employee
+                                            <i class="bi bi-person-plus"></i> @L["Create employee"]
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="Client" asp-action="Create">
-                                            <i class="bi bi-person-vcard"></i> Create client
+                                            <i class="bi bi-person-vcard"></i> @L["Create client"]
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-area="" asp-controller="Project" asp-action="Add">
-                                            <i class="bi bi-plus-circle"></i> Add project
+                                            <i class="bi bi-plus-circle"></i> @L["Add Project"]
                                         </a>
                                     </li>
                                 </ul>
@@ -101,12 +104,12 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="Mine">
-                                    <i class="bi bi-diagram-3"></i> Manager projects
+                                    <i class="bi bi-diagram-3"></i> @L["Manager Projects"]
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Employee" asp-action="MineByEmployeeId">
-                                    <i class="bi bi-person-workspace"></i> My projects
+                                    <i class="bi bi-person-workspace"></i> @L["My Projects"]
                                 </a>
                             </li>
                         }
@@ -114,12 +117,21 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Client" asp-action="Mine">
-                                    <i class="bi bi-collection"></i> My projects
+                                    <i class="bi bi-collection"></i> @L["My Projects"]
                                 </a>
                             </li>
                         }
                     }
                 </ul>
+                <form class="language-switch" asp-area="" asp-controller="Language" asp-action="Set" method="post">
+                    <input type="hidden" name="returnUrl" value="@languageReturnUrl" />
+                    <div class="btn-group btn-group-sm" role="group" aria-label="@L["Language"]">
+                        <button type="submit" name="culture" value="bg" lang="bg" title="Български"
+                                class="btn @(currentLanguage == "bg" ? "active" : "")" aria-pressed="@(currentLanguage == "bg" ? "true" : "false")">БГ</button>
+                        <button type="submit" name="culture" value="en" lang="en" title="English"
+                                class="btn @(currentLanguage == "en" ? "active" : "")" aria-pressed="@(currentLanguage == "en" ? "true" : "false")">EN</button>
+                    </div>
+                </form>
                 <partial name="_LoginPartial" />
             </div>
         </div>
@@ -136,14 +148,14 @@
     <div class="container d-flex justify-content-between align-items-center">
         <span>
             <i class="bi bi-building-check me-1"></i>
-            <strong>Civil Engineer CMS</strong> &copy; @ReleaseYear
+            <strong>@L["Civil Engineer CMS"]</strong> &copy; @ReleaseYear
             @if (DateTime.UtcNow.Year > ReleaseYear)
             {
                 @Html.Raw($"&ndash; {DateTime.UtcNow.Year}")
             }
         </span>
         <a asp-area="" asp-controller="Home" asp-action="Privacy">
-            <i class="bi bi-shield-lock me-1"></i>Privacy
+            <i class="bi bi-shield-lock me-1"></i>@L["Privacy"]
         </a>
     </div>
 </footer>

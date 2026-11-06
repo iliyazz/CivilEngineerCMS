@@ -1,0 +1,1001 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Bulgarian translations. The resource key is the English text used in the code/views,
+  so English needs no resource file. To add a translation: use L["English text"] in a view
+  (or this.L["..."] in a controller, [Display(Name = "...")] in a model) and add an entry here.
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="— All statuses —" xml:space="preserve">
+    <value>— Всички статуси —</value>
+  </data>
+  <data name="— Select status —" xml:space="preserve">
+    <value>— Изберете статус —</value>
+  </data>
+  <data name="{0} members" xml:space="preserve">
+    <value>{0} членове</value>
+  </data>
+  <data name="{0} online now" xml:space="preserve">
+    <value>{0} онлайн в момента</value>
+  </data>
+  <data name="A non-empty request body is required." xml:space="preserve">
+    <value>Изисква се непразно тяло на заявката.</value>
+  </data>
+  <data name="A value for the '{0}' parameter or property was not provided." xml:space="preserve">
+    <value>Не е подадена стойност за „{0}“.</value>
+  </data>
+  <data name="A value is required." xml:space="preserve">
+    <value>Изисква се стойност.</value>
+  </data>
+  <data name="Access Denied" xml:space="preserve">
+    <value>Достъпът е отказан</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Активен</value>
+  </data>
+  <data name="Active Projects" xml:space="preserve">
+    <value>Активни проекти</value>
+  </data>
+  <data name="Add Client" xml:space="preserve">
+    <value>Добави клиент</value>
+  </data>
+  <data name="Add Employee" xml:space="preserve">
+    <value>Добави служител</value>
+  </data>
+  <data name="Add Expense" xml:space="preserve">
+    <value>Добави плащане</value>
+  </data>
+  <data name="Add Interaction" xml:space="preserve">
+    <value>Добави взаимодействие</value>
+  </data>
+  <data name="Add Project" xml:space="preserve">
+    <value>Добави проект</value>
+  </data>
+  <data name="Add the first client to get started." xml:space="preserve">
+    <value>Добавете първия клиент, за да започнете.</value>
+  </data>
+  <data name="Add the first employee to get started." xml:space="preserve">
+    <value>Добавете първия служител, за да започнете.</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="Address..." xml:space="preserve">
+    <value>Адрес...</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Админ</value>
+  </data>
+  <data name="Admin Dashboard" xml:space="preserve">
+    <value>Админ табло</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Administrator Dashboard" xml:space="preserve">
+    <value>Табло на администратора</value>
+  </data>
+  <data name="All Clients" xml:space="preserve">
+    <value>Всички клиенти</value>
+  </data>
+  <data name="All Employees" xml:space="preserve">
+    <value>Всички служители</value>
+  </data>
+  <data name="All employees currently assigned to this project." xml:space="preserve">
+    <value>Всички служители, които в момента работят по този проект.</value>
+  </data>
+  <data name="All Employees in Project" xml:space="preserve">
+    <value>Всички служители в проекта</value>
+  </data>
+  <data name="All interactions and communications logged for this project." xml:space="preserve">
+    <value>Всички взаимодействия и комуникации, записани за този проект.</value>
+  </data>
+  <data name="All Projects" xml:space="preserve">
+    <value>Всички проекти</value>
+  </data>
+  <data name="Already have an account?" xml:space="preserve">
+    <value>Вече имате акаунт?</value>
+  </data>
+  <data name="An error occurred while adding employee to project. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при добавянето на служител към проекта. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while adding the client. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при добавянето на клиента. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while adding the employee. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при добавянето на служителя. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while adding the expense. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при добавянето на плащането. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while adding the interaction. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при добавянето на взаимодействието. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while adding the project. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при добавянето на проекта. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while deleting the client. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при изтриването на клиента. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while deleting the employee. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при изтриването на служителя. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while deleting the project. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при изтриването на проекта. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while editing the client. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при редактирането на клиента. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while editing the employee. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при редактирането на служителя. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while editing the expense. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при редактирането на плащането. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while editing the interaction. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при редактирането на взаимодействието. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An error occurred while editing the project. Please try again later or contact administrator!" xml:space="preserve">
+    <value>Възникна грешка при редактирането на проекта. Опитайте отново по-късно или се свържете с администратор!</value>
+  </data>
+  <data name="An unexpected error occurred while processing your request." xml:space="preserve">
+    <value>При обработката на заявката ви възникна неочаквана грешка.</value>
+  </data>
+  <data name="An unknown failure has occurred." xml:space="preserve">
+    <value>Възникна неизвестна грешка.</value>
+  </data>
+  <data name="Are you sure you want to permanently delete this project?" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да изтриете този проект завинаги?</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Back to Home" xml:space="preserve">
+    <value>Към началната страница</value>
+  </data>
+  <data name="Back to Project" xml:space="preserve">
+    <value>Обратно към проекта</value>
+  </data>
+  <data name="Brief description..." xml:space="preserve">
+    <value>Кратко описание...</value>
+  </data>
+  <data name="Brief project description..." xml:space="preserve">
+    <value>Кратко описание на проекта...</value>
+  </data>
+  <data name="Browse, search, and manage all projects in the system." xml:space="preserve">
+    <value>Разглеждайте, търсете и управлявайте всички проекти в системата.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отказ</value>
+  </data>
+  <data name="Check or uncheck employees to add or remove them from this project." xml:space="preserve">
+    <value>Отметнете или премахнете отметката на служителите, за да ги добавите към проекта или да ги премахнете от него.</value>
+  </data>
+  <data name="Check the URL or return to the home page." xml:space="preserve">
+    <value>Проверете адреса или се върнете към началната страница.</value>
+  </data>
+  <data name="Choose Client" xml:space="preserve">
+    <value>Избор на клиент</value>
+  </data>
+  <data name="Civil Engineer CMS" xml:space="preserve">
+    <value>Civil Engineer CMS</value>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Клиент</value>
+  </data>
+  <data name="Client {0} {1} added successfully." xml:space="preserve">
+    <value>Клиентът {0} {1} е добавен успешно.</value>
+  </data>
+  <data name="Client {0} {1} deleted successfully." xml:space="preserve">
+    <value>Клиентът {0} {1} е изтрит успешно.</value>
+  </data>
+  <data name="Client {0} {1} edited successfully." xml:space="preserve">
+    <value>Клиентът {0} {1} е редактиран успешно.</value>
+  </data>
+  <data name="Client does not exist." xml:space="preserve">
+    <value>Клиентът не съществува.</value>
+  </data>
+  <data name="Client Email" xml:space="preserve">
+    <value>Имейл на клиента</value>
+  </data>
+  <data name="Client Info" xml:space="preserve">
+    <value>Информация за клиента</value>
+  </data>
+  <data name="Client Information" xml:space="preserve">
+    <value>Информация за клиента</value>
+  </data>
+  <data name="Client Name" xml:space="preserve">
+    <value>Име на клиента</value>
+  </data>
+  <data name="Client Phone" xml:space="preserve">
+    <value>Телефон на клиента</value>
+  </data>
+  <data name="Client phone number" xml:space="preserve">
+    <value>Телефон на клиента</value>
+  </data>
+  <data name="Client with provided id does not exist." xml:space="preserve">
+    <value>Клиент с посочения идентификатор не съществува.</value>
+  </data>
+  <data name="Close to starting" xml:space="preserve">
+    <value>Предстои стартиране</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Потвърдете паролата</value>
+  </data>
+  <data name="Create account" xml:space="preserve">
+    <value>Създаване на акаунт</value>
+  </data>
+  <data name="Create client" xml:space="preserve">
+    <value>Създай клиент</value>
+  </data>
+  <data name="Create employee" xml:space="preserve">
+    <value>Създай служител</value>
+  </data>
+  <data name="Create one now" xml:space="preserve">
+    <value>Създайте сега</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Създаден</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Изтрий</value>
+  </data>
+  <data name="Delete client" xml:space="preserve">
+    <value>Изтриване на клиент</value>
+  </data>
+  <data name="Delete Employee" xml:space="preserve">
+    <value>Изтриване на служител</value>
+  </data>
+  <data name="Delete Project" xml:space="preserve">
+    <value>Изтриване на проект</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Description..." xml:space="preserve">
+    <value>Описание...</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Детайли</value>
+  </data>
+  <data name="Don't have an account?" xml:space="preserve">
+    <value>Нямате акаунт?</value>
+  </data>
+  <data name="e.g. Meeting, Email, Call..." xml:space="preserve">
+    <value>напр. Среща, Имейл, Обаждане...</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактирай</value>
+  </data>
+  <data name="Edit Client" xml:space="preserve">
+    <value>Редактиране на клиент</value>
+  </data>
+  <data name="Edit employee" xml:space="preserve">
+    <value>Редактиране на служител</value>
+  </data>
+  <data name="Edit expenses" xml:space="preserve">
+    <value>Редактиране на плащания</value>
+  </data>
+  <data name="Edit interactions" xml:space="preserve">
+    <value>Редактиране на взаимодействие</value>
+  </data>
+  <data name="Edit Project" xml:space="preserve">
+    <value>Редактиране на проект</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Имейл</value>
+  </data>
+  <data name="Email '{0}' is already taken." xml:space="preserve">
+    <value>Имейлът „{0}“ вече е зает.</value>
+  </data>
+  <data name="Email '{0}' is invalid." xml:space="preserve">
+    <value>Имейлът „{0}“ е невалиден.</value>
+  </data>
+  <data name="Email address" xml:space="preserve">
+    <value>Имейл адрес</value>
+  </data>
+  <data name="Email..." xml:space="preserve">
+    <value>Имейл...</value>
+  </data>
+  <data name="Employee {0} {1} added successfully." xml:space="preserve">
+    <value>Служителят {0} {1} е добавен успешно.</value>
+  </data>
+  <data name="Employee {0} {1} deleted successfully." xml:space="preserve">
+    <value>Служителят {0} {1} е изтрит успешно.</value>
+  </data>
+  <data name="Employee {0} {1} edited successfully." xml:space="preserve">
+    <value>Служителят {0} {1} е редактиран успешно.</value>
+  </data>
+  <data name="Employee changed successfully." xml:space="preserve">
+    <value>Екипът е променен успешно.</value>
+  </data>
+  <data name="Employee Details" xml:space="preserve">
+    <value>Данни за служителя</value>
+  </data>
+  <data name="Employee does not exist." xml:space="preserve">
+    <value>Служителят не съществува.</value>
+  </data>
+  <data name="Employee with provided id does not exist." xml:space="preserve">
+    <value>Служител с посочения идентификатор не съществува.</value>
+  </data>
+  <data name="Employees in project" xml:space="preserve">
+    <value>Служители в проекта</value>
+  </data>
+  <data name="End Date" xml:space="preserve">
+    <value>Краен срок</value>
+  </data>
+  <data name="Enter project title..." xml:space="preserve">
+    <value>Въведете име на проекта...</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Грешка</value>
+  </data>
+  <data name="Expense added successfully." xml:space="preserve">
+    <value>Плащането е добавено успешно.</value>
+  </data>
+  <data name="Expense already exists." xml:space="preserve">
+    <value>Плащането вече съществува.</value>
+  </data>
+  <data name="Expense Details" xml:space="preserve">
+    <value>Данни за плащането</value>
+  </data>
+  <data name="Expense does not exist." xml:space="preserve">
+    <value>Плащането не съществува.</value>
+  </data>
+  <data name="Expense edited successfully." xml:space="preserve">
+    <value>Плащането е редактирано успешно.</value>
+  </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>Плащания</value>
+  </data>
+  <data name="Featured Projects" xml:space="preserve">
+    <value>Избрани проекти</value>
+  </data>
+  <data name="File link" xml:space="preserve">
+    <value>Връзка към файл</value>
+  </data>
+  <data name="File Link (optional)" xml:space="preserve">
+    <value>Връзка към файл (по избор)</value>
+  </data>
+  <data name="File size can not be more than 5 MB." xml:space="preserve">
+    <value>Размерът на файла не може да надвишава 5 MB.</value>
+  </data>
+  <data name="Fill in your details to get started" xml:space="preserve">
+    <value>Попълнете данните си, за да започнете</value>
+  </data>
+  <data name="Financial summary for this project." xml:space="preserve">
+    <value>Финансово обобщение за този проект.</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>Завършен</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Име</value>
+  </data>
+  <data name="First name..." xml:space="preserve">
+    <value>Име...</value>
+  </data>
+  <data name="Grant or revoke administrator privileges for employees." xml:space="preserve">
+    <value>Предоставяйте или отнемайте администраторски права на служители.</value>
+  </data>
+  <data name="Hide statistics" xml:space="preserve">
+    <value>Скрий статистиката</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="Image link" xml:space="preserve">
+    <value>Връзка към изображение</value>
+  </data>
+  <data name="ImageContent" xml:space="preserve">
+    <value>Изображение</value>
+  </data>
+  <data name="In progress" xml:space="preserve">
+    <value>В изпълнение</value>
+  </data>
+  <data name="In progress with a blocker or ended" xml:space="preserve">
+    <value>В изпълнение с блокиращ проблем или прекратен</value>
+  </data>
+  <data name="In progress with a pending action" xml:space="preserve">
+    <value>В изпълнение с чакащо действие</value>
+  </data>
+  <data name="In Project" xml:space="preserve">
+    <value>В проекта</value>
+  </data>
+  <data name="Inactive" xml:space="preserve">
+    <value>Неактивен</value>
+  </data>
+  <data name="Incorrect password." xml:space="preserve">
+    <value>Грешна парола.</value>
+  </data>
+  <data name="Interaction added successfully." xml:space="preserve">
+    <value>Взаимодействието е добавено успешно.</value>
+  </data>
+  <data name="Interaction Details" xml:space="preserve">
+    <value>Данни за взаимодействието</value>
+  </data>
+  <data name="Interaction does not exist." xml:space="preserve">
+    <value>Взаимодействието не съществува.</value>
+  </data>
+  <data name="Interaction edited successfully." xml:space="preserve">
+    <value>Взаимодействието е редактирано успешно.</value>
+  </data>
+  <data name="Interaction message or notes..." xml:space="preserve">
+    <value>Съобщение или бележки...</value>
+  </data>
+  <data name="Interactions" xml:space="preserve">
+    <value>Взаимодействия</value>
+  </data>
+  <data name="Job Title" xml:space="preserve">
+    <value>Длъжност</value>
+  </data>
+  <data name="Job title..." xml:space="preserve">
+    <value>Длъжност...</value>
+  </data>
+  <data name="JPEG format only" xml:space="preserve">
+    <value>Само JPEG формат</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Език</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="Last name..." xml:space="preserve">
+    <value>Фамилия...</value>
+  </data>
+  <data name="Last Transaction" xml:space="preserve">
+    <value>Последно плащане</value>
+  </data>
+  <data name="Link to file..." xml:space="preserve">
+    <value>Връзка към файл...</value>
+  </data>
+  <data name="Load Statistics" xml:space="preserve">
+    <value>Зареди статистика</value>
+  </data>
+  <data name="Log a new communication or interaction for this project." xml:space="preserve">
+    <value>Запишете нова комуникация или взаимодействие по този проект.</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Изход</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Управление</value>
+  </data>
+  <data name="Manage account" xml:space="preserve">
+    <value>Управление на акаунта</value>
+  </data>
+  <data name="Manage Administrators" xml:space="preserve">
+    <value>Управление на администратори</value>
+  </data>
+  <data name="Manage Admins" xml:space="preserve">
+    <value>Администратори</value>
+  </data>
+  <data name="Manage Project Team" xml:space="preserve">
+    <value>Управление на екипа на проекта</value>
+  </data>
+  <data name="Manage team" xml:space="preserve">
+    <value>Управление на екипа</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>Ръководител</value>
+  </data>
+  <data name="Manager does not exist." xml:space="preserve">
+    <value>Ръководителят не съществува.</value>
+  </data>
+  <data name="Manager Email" xml:space="preserve">
+    <value>Имейл на ръководителя</value>
+  </data>
+  <data name="Manager Name" xml:space="preserve">
+    <value>Име на ръководителя</value>
+  </data>
+  <data name="Manager Phone" xml:space="preserve">
+    <value>Телефон на ръководителя</value>
+  </data>
+  <data name="Manager phone number" xml:space="preserve">
+    <value>Телефон на ръководителя</value>
+  </data>
+  <data name="Manager Projects" xml:space="preserve">
+    <value>Ръководени проекти</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Съобщение</value>
+  </data>
+  <data name="My Employee Projects" xml:space="preserve">
+    <value>Моите проекти като служител</value>
+  </data>
+  <data name="My Manager Projects" xml:space="preserve">
+    <value>Моите ръководени проекти</value>
+  </data>
+  <data name="My Projects" xml:space="preserve">
+    <value>Моите проекти</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Име</value>
+  </data>
+  <data name="Name does not exist." xml:space="preserve">
+    <value>Статусът не съществува.</value>
+  </data>
+  <data name="New Project" xml:space="preserve">
+    <value>Нов проект</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Следваща</value>
+  </data>
+  <data name="No active employees found in the system." xml:space="preserve">
+    <value>В системата няма активни служители.</value>
+  </data>
+  <data name="No clients registered" xml:space="preserve">
+    <value>Няма регистрирани клиенти</value>
+  </data>
+  <data name="No communications have been logged for this project." xml:space="preserve">
+    <value>За този проект все още няма записани комуникации.</value>
+  </data>
+  <data name="No employees assigned" xml:space="preserve">
+    <value>Няма назначени служители</value>
+  </data>
+  <data name="No employees available" xml:space="preserve">
+    <value>Няма налични служители</value>
+  </data>
+  <data name="No employees have been added to the project" xml:space="preserve">
+    <value>Към проекта все още няма добавени служители</value>
+  </data>
+  <data name="No employees registered" xml:space="preserve">
+    <value>Няма регистрирани служители</value>
+  </data>
+  <data name="No featured projects yet" xml:space="preserve">
+    <value>Все още няма избрани проекти</value>
+  </data>
+  <data name="No interactions yet" xml:space="preserve">
+    <value>Все още няма взаимодействия</value>
+  </data>
+  <data name="No payments have been made for this project." xml:space="preserve">
+    <value>По този проект все още няма направени плащания.</value>
+  </data>
+  <data name="No projects found" xml:space="preserve">
+    <value>Няма намерени проекти</value>
+  </data>
+  <data name="No projects have been assigned to you yet." xml:space="preserve">
+    <value>Все още нямате възложени проекти.</value>
+  </data>
+  <data name="No projects yet" xml:space="preserve">
+    <value>Все още няма проекти</value>
+  </data>
+  <data name="No team members assigned" xml:space="preserve">
+    <value>Няма назначени членове на екипа</value>
+  </data>
+  <data name="No team members have been added to this project yet." xml:space="preserve">
+    <value>Към този проект все още няма добавени членове на екипа.</value>
+  </data>
+  <data name="Not filtered" xml:space="preserve">
+    <value>Без сортиране</value>
+  </data>
+  <data name="Not yet started" xml:space="preserve">
+    <value>Не е започнал</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>Офлайн</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="Only jpg, gif and png files are allowed." xml:space="preserve">
+    <value>Разрешени са само файлове във формат jpg, gif и png.</value>
+  </data>
+  <data name="Our team has been notified." xml:space="preserve">
+    <value>Екипът ни е уведомен.</value>
+  </data>
+  <data name="Overview of all registered clients and their online status." xml:space="preserve">
+    <value>Преглед на всички регистрирани клиенти и дали са онлайн.</value>
+  </data>
+  <data name="Overview of all registered employees and their online status." xml:space="preserve">
+    <value>Преглед на всички регистрирани служители и дали са онлайн.</value>
+  </data>
+  <data name="Page {0} of {1}" xml:space="preserve">
+    <value>Страница {0} от {1}</value>
+  </data>
+  <data name="Page Not Found" xml:space="preserve">
+    <value>Страницата не е намерена</value>
+  </data>
+  <data name="Paid Amount (€)" xml:space="preserve">
+    <value>Платена сума (€)</value>
+  </data>
+  <data name="Paid So Far" xml:space="preserve">
+    <value>Платено досега</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Парола</value>
+  </data>
+  <data name="Passwords must be at least {0} characters." xml:space="preserve">
+    <value>Паролата трябва да е поне {0} символа.</value>
+  </data>
+  <data name="Passwords must have at least one digit ('0'-'9')." xml:space="preserve">
+    <value>Паролата трябва да съдържа поне една цифра ('0'-'9').</value>
+  </data>
+  <data name="Passwords must have at least one lowercase ('a'-'z')." xml:space="preserve">
+    <value>Паролата трябва да съдържа поне една малка латинска буква ('a'-'z').</value>
+  </data>
+  <data name="Passwords must have at least one non alphanumeric character." xml:space="preserve">
+    <value>Паролата трябва да съдържа поне един символ, който не е буква или цифра.</value>
+  </data>
+  <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
+    <value>Паролата трябва да съдържа поне една главна латинска буква ('A'-'Z').</value>
+  </data>
+  <data name="Passwords must use at least {0} different characters." xml:space="preserve">
+    <value>Паролата трябва да съдържа поне {0} различни символа.</value>
+  </data>
+  <data name="Payment Progress" xml:space="preserve">
+    <value>Напредък на плащанията</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Phone number" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Phone number..." xml:space="preserve">
+    <value>Телефон...</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Please log in with an authorised account." xml:space="preserve">
+    <value>Моля, влезте с акаунт, който има нужните права.</value>
+  </data>
+  <data name="Please review the project details before permanently deleting." xml:space="preserve">
+    <value>Моля, прегледайте данните за проекта, преди да го изтриете завинаги.</value>
+  </data>
+  <data name="Please select" xml:space="preserve">
+    <value>Моля, изберете</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Предишна</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Поверителност</value>
+  </data>
+  <data name="Professional project management for civil engineering teams. Track projects, manage teams, and stay on schedule." xml:space="preserve">
+    <value>Професионално управление на проекти за екипи в строителното инженерство. Следете проектите, управлявайте екипите и спазвайте сроковете.</value>
+  </data>
+  <data name="Project {0} added successfully." xml:space="preserve">
+    <value>Проектът „{0}“ е добавен успешно.</value>
+  </data>
+  <data name="Project {0} deleted successfully." xml:space="preserve">
+    <value>Проектът „{0}“ е изтрит успешно.</value>
+  </data>
+  <data name="Project {0} edited successfully." xml:space="preserve">
+    <value>Проектът „{0}“ е редактиран успешно.</value>
+  </data>
+  <data name="Project created date" xml:space="preserve">
+    <value>Дата на създаване</value>
+  </data>
+  <data name="Project Description" xml:space="preserve">
+    <value>Описание на проекта</value>
+  </data>
+  <data name="Project Details" xml:space="preserve">
+    <value>Данни за проекта</value>
+  </data>
+  <data name="Project does not exist." xml:space="preserve">
+    <value>Проектът не съществува.</value>
+  </data>
+  <data name="Project end date" xml:space="preserve">
+    <value>Краен срок</value>
+  </data>
+  <data name="Project End Date cannot be before start date." xml:space="preserve">
+    <value>Крайният срок на проекта не може да е преди началната дата.</value>
+  </data>
+  <data name="Project Expenses" xml:space="preserve">
+    <value>Плащания по проекта</value>
+  </data>
+  <data name="Project Image" xml:space="preserve">
+    <value>Изображение на проекта</value>
+  </data>
+  <data name="Project Interactions" xml:space="preserve">
+    <value>Взаимодействия по проекта</value>
+  </data>
+  <data name="Project Name" xml:space="preserve">
+    <value>Име на проекта</value>
+  </data>
+  <data name="Project name, client..." xml:space="preserve">
+    <value>Име на проект, клиент...</value>
+  </data>
+  <data name="Project Status" xml:space="preserve">
+    <value>Статус на проекта</value>
+  </data>
+  <data name="Project Team" xml:space="preserve">
+    <value>Екип на проекта</value>
+  </data>
+  <data name="Project Title" xml:space="preserve">
+    <value>Име на проекта</value>
+  </data>
+  <data name="Project with provided id does not exist." xml:space="preserve">
+    <value>Проект с посочения идентификатор не съществува.</value>
+  </data>
+  <data name="Projects assigned to you as the client." xml:space="preserve">
+    <value>Проекти, по които сте клиент.</value>
+  </data>
+  <data name="Projects per page" xml:space="preserve">
+    <value>Проекти на страница</value>
+  </data>
+  <data name="Projects where you are listed as the manager." xml:space="preserve">
+    <value>Проекти, на които сте ръководител.</value>
+  </data>
+  <data name="Projects with uploaded images will be showcased here." xml:space="preserve">
+    <value>Тук ще се показват проектите с качени изображения.</value>
+  </data>
+  <data name="Projects you are assigned to as a team member." xml:space="preserve">
+    <value>Проекти, по които работите като член на екипа.</value>
+  </data>
+  <data name="Quick Actions" xml:space="preserve">
+    <value>Бързи действия</value>
+  </data>
+  <data name="Record a new financial entry for this project." xml:space="preserve">
+    <value>Запишете ново плащане по този проект.</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="Remaining" xml:space="preserve">
+    <value>Остатък</value>
+  </data>
+  <data name="Remember me?" xml:space="preserve">
+    <value>Запомни ме</value>
+  </data>
+  <data name="Replace Image" xml:space="preserve">
+    <value>Смяна на изображението</value>
+  </data>
+  <data name="Review the employee details before permanently deleting their record." xml:space="preserve">
+    <value>Прегледайте данните на служителя, преди да изтриете записа завинаги.</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Запази</value>
+  </data>
+  <data name="Save Administrators" xml:space="preserve">
+    <value>Запази администраторите</value>
+  </data>
+  <data name="Save Expense" xml:space="preserve">
+    <value>Запази плащането</value>
+  </data>
+  <data name="Save Interaction" xml:space="preserve">
+    <value>Запази взаимодействието</value>
+  </data>
+  <data name="Save Project" xml:space="preserve">
+    <value>Запази проекта</value>
+  </data>
+  <data name="Save Team" xml:space="preserve">
+    <value>Запази екипа</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Търси</value>
+  </data>
+  <data name="Search by word" xml:space="preserve">
+    <value>Търсене по дума</value>
+  </data>
+  <data name="Select Administrators" xml:space="preserve">
+    <value>Изберете администратори</value>
+  </data>
+  <data name="Select Team Members" xml:space="preserve">
+    <value>Изберете членове на екипа</value>
+  </data>
+  <data name="Show statistics" xml:space="preserve">
+    <value>Покажи статистиката</value>
+  </data>
+  <data name="Sign In" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Sign in to your account to continue" xml:space="preserve">
+    <value>Влезте в акаунта си, за да продължите</value>
+  </data>
+  <data name="Something went wrong" xml:space="preserve">
+    <value>Нещо се обърка</value>
+  </data>
+  <data name="Sort by" xml:space="preserve">
+    <value>Сортиране по</value>
+  </data>
+  <data name="Sort project by" xml:space="preserve">
+    <value>Сортиране на проектите по</value>
+  </data>
+  <data name="Start Date" xml:space="preserve">
+    <value>Начална дата</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Successfully updated administrators!" xml:space="preserve">
+    <value>Администраторите са обновени успешно!</value>
+  </data>
+  <data name="System Statistics" xml:space="preserve">
+    <value>Статистика на системата</value>
+  </data>
+  <data name="The {0} field is not a valid e-mail address." xml:space="preserve">
+    <value>Полето „{0}“ не съдържа валиден имейл адрес.</value>
+  </data>
+  <data name="The {0} field is not a valid phone number." xml:space="preserve">
+    <value>Полето „{0}“ не съдържа валиден телефонен номер.</value>
+  </data>
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>Полето „{0}“ е задължително.</value>
+  </data>
+  <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
+    <value>Полето „{0}“ трябва да е между {2} и {1} символа.</value>
+  </data>
+  <data name="The field {0} must be a number." xml:space="preserve">
+    <value>Полето „{0}“ трябва да е число.</value>
+  </data>
+  <data name="The field {0} must be a string or array type with a maximum length of '{1}'." xml:space="preserve">
+    <value>Полето „{0}“ трябва да е най-много {1} символа.</value>
+  </data>
+  <data name="The field {0} must be a string or array type with a minimum length of '{1}'." xml:space="preserve">
+    <value>Полето „{0}“ трябва да е поне {1} символа.</value>
+  </data>
+  <data name="The field {0} must be a string with a maximum length of {1}." xml:space="preserve">
+    <value>Полето „{0}“ трябва да е най-много {1} символа.</value>
+  </data>
+  <data name="The field {0} must be a string with a minimum length of {2} and a maximum length of {1}." xml:space="preserve">
+    <value>Полето „{0}“ трябва да е между {2} и {1} символа.</value>
+  </data>
+  <data name="The field {0} must be between {1} and {2}." xml:space="preserve">
+    <value>Полето „{0}“ трябва да е между {1} и {2}.</value>
+  </data>
+  <data name="The field must be a number." xml:space="preserve">
+    <value>Полето трябва да е число.</value>
+  </data>
+  <data name="The page you're looking for doesn't exist or has been moved." xml:space="preserve">
+    <value>Страницата, която търсите, не съществува или е преместена.</value>
+  </data>
+  <data name="The password and confirmation password do not match." xml:space="preserve">
+    <value>Паролата и потвърждението ѝ не съвпадат.</value>
+  </data>
+  <data name="The supplied value is invalid for {0}." xml:space="preserve">
+    <value>Въведената стойност за „{0}“ е невалидна.</value>
+  </data>
+  <data name="The supplied value is invalid." xml:space="preserve">
+    <value>Въведената стойност е невалидна.</value>
+  </data>
+  <data name="The value '{0}' is invalid." xml:space="preserve">
+    <value>Стойността „{0}“ е невалидна.</value>
+  </data>
+  <data name="The value '{0}' is not valid for {1}." xml:space="preserve">
+    <value>Стойността „{0}“ не е валидна за „{1}“.</value>
+  </data>
+  <data name="The value '{0}' is not valid." xml:space="preserve">
+    <value>Стойността „{0}“ не е валидна.</value>
+  </data>
+  <data name="There are no active employees in the system." xml:space="preserve">
+    <value>В системата няма активни служители.</value>
+  </data>
+  <data name="There are no expenses about this project." xml:space="preserve">
+    <value>По този проект няма плащания.</value>
+  </data>
+  <data name="There are no expenses about this project. Create the first one." xml:space="preserve">
+    <value>По този проект няма плащания. Добавете първото.</value>
+  </data>
+  <data name="There are no interaction about this project." xml:space="preserve">
+    <value>По този проект няма взаимодействия.</value>
+  </data>
+  <data name="There are no interaction about this project. Create the first one." xml:space="preserve">
+    <value>По този проект няма взаимодействия. Добавете първото.</value>
+  </data>
+  <data name="There was an error while logging. Please contact again later or contact an administrator." xml:space="preserve">
+    <value>Входът е неуспешен. Проверете имейла и паролата си или се свържете с администратор.</value>
+  </data>
+  <data name="This action is &lt;strong&gt;permanent&lt;/strong&gt; and cannot be undone." xml:space="preserve">
+    <value>Това действие е &lt;strong&gt;необратимо&lt;/strong&gt; и не може да бъде отменено.</value>
+  </data>
+  <data name="Title..." xml:space="preserve">
+    <value>Име...</value>
+  </data>
+  <data name="Toggle navigation" xml:space="preserve">
+    <value>Превключване на навигацията</value>
+  </data>
+  <data name="Total Clients" xml:space="preserve">
+    <value>Общо клиенти</value>
+  </data>
+  <data name="Total Projects" xml:space="preserve">
+    <value>Общо проекти</value>
+  </data>
+  <data name="Total Required" xml:space="preserve">
+    <value>Обща дължима сума</value>
+  </data>
+  <data name="Total Required (€)" xml:space="preserve">
+    <value>Обща дължима сума (€)</value>
+  </data>
+  <data name="Try adjusting your search filters." xml:space="preserve">
+    <value>Опитайте да промените филтрите за търсене.</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Type..." xml:space="preserve">
+    <value>Вид...</value>
+  </data>
+  <data name="Unexpected error occurred! Please try again later or contact administrator" xml:space="preserve">
+    <value>Възникна неочаквана грешка! Опитайте отново по-късно или се свържете с администратор</value>
+  </data>
+  <data name="Use &lt;strong&gt;Manage Team&lt;/strong&gt; to add employees to this project." xml:space="preserve">
+    <value>Използвайте &lt;strong&gt;Управление на екипа&lt;/strong&gt;, за да добавите служители към проекта.</value>
+  </data>
+  <data name="Username '{0}' is already taken." xml:space="preserve">
+    <value>Потребителското име „{0}“ вече е заето.</value>
+  </data>
+  <data name="Username '{0}' is invalid, can only contain letters or digits." xml:space="preserve">
+    <value>Потребителското име „{0}“ е невалидно – може да съдържа само букви и цифри.</value>
+  </data>
+  <data name="Welcome back" xml:space="preserve">
+    <value>Добре дошли отново</value>
+  </data>
+  <data name="Welcome back! Manage all projects, employees, clients, and system settings from here." xml:space="preserve">
+    <value>Добре дошли отново! Оттук управлявате всички проекти, служители, клиенти и настройки на системата.</value>
+  </data>
+  <data name="You are going to delete client {0} {1}." xml:space="preserve">
+    <value>На път сте да изтриете клиента {0} {1}.</value>
+  </data>
+  <data name="You are going to delete employee {0} {1}." xml:space="preserve">
+    <value>На път сте да изтриете служителя {0} {1}.</value>
+  </data>
+  <data name="You are going to delete project {0}." xml:space="preserve">
+    <value>На път сте да изтриете проекта „{0}“.</value>
+  </data>
+  <data name="You are going to edit client {0} {1}." xml:space="preserve">
+    <value>На път сте да редактирате клиента {0} {1}.</value>
+  </data>
+  <data name="You are not authorized to add expenses to this project." xml:space="preserve">
+    <value>Нямате право да добавяте плащания към този проект.</value>
+  </data>
+  <data name="You are not authorized to add interaction to this project." xml:space="preserve">
+    <value>Нямате право да добавяте взаимодействия към този проект.</value>
+  </data>
+  <data name="You are not authorized to edit expenses to this project." xml:space="preserve">
+    <value>Нямате право да редактирате плащанията по този проект.</value>
+  </data>
+  <data name="You are not authorized to edit interaction to this project." xml:space="preserve">
+    <value>Нямате право да редактирате взаимодействията по този проект.</value>
+  </data>
+  <data name="You are not authorized to view expenses to this project." xml:space="preserve">
+    <value>Нямате право да преглеждате плащанията по този проект.</value>
+  </data>
+  <data name="You are not authorized to view interaction to this project." xml:space="preserve">
+    <value>Нямате право да преглеждате взаимодействията по този проект.</value>
+  </data>
+  <data name="You are not authorized to view this page." xml:space="preserve">
+    <value>Нямате право да преглеждате тази страница.</value>
+  </data>
+  <data name="You don't have permission to view this page." xml:space="preserve">
+    <value>Нямате права да преглеждате тази страница.</value>
+  </data>
+  <data name="You haven't been assigned as manager to any projects." xml:space="preserve">
+    <value>Все още не сте ръководител на нито един проект.</value>
+  </data>
+  <data name="You haven't been assigned to any projects as an employee." xml:space="preserve">
+    <value>Все още не сте включени в нито един проект като служител.</value>
+  </data>
+  <data name="You must be manager of project you want to delete." xml:space="preserve">
+    <value>Трябва да сте ръководител на проекта, за да го изтриете.</value>
+  </data>
+  <data name="You must be manager of project you want to edit." xml:space="preserve">
+    <value>Трябва да сте ръководител на проекта, за да го редактирате.</value>
+  </data>
+</root>

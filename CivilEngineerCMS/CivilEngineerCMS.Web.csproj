@@ -4,6 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- resx keys are case-insensitive: a duplicate key would silently lose a translation -->
+    <WarningsAsErrors>$(WarningsAsErrors);MSB3568</WarningsAsErrors>
     <UserSecretsId>aspnet-CivilEngineerCMS-ec96252b-2375-4beb-ab24-eaf366c68088</UserSecretsId>
   </PropertyGroup>
 

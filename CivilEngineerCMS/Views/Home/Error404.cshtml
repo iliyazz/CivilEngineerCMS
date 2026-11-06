@@ -1,15 +1,15 @@
 @{
-    ViewData["Title"] = "Page Not Found";
+    ViewData["Title"] = L["Page Not Found"].Value;
 }
 
 <div class="error-wrapper">
     <div>
         <div class="error-code">404</div>
         <div class="error-message">
-            <h2><i class="bi bi-search me-2 text-primary"></i>Page Not Found</h2>
-            <p>The page you're looking for doesn't exist or has been moved.<br>Check the URL or return to the home page.</p>
+            <h2><i class="bi bi-search me-2 text-primary"></i>@L["Page Not Found"]</h2>
+            <p>@L["The page you're looking for doesn't exist or has been moved."]<br>@L["Check the URL or return to the home page."]</p>
             <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Home" asp-action="Index">
-                <i class="bi bi-house-door me-1"></i>Back to Home
+                <i class="bi bi-house-door me-1"></i>@L["Back to Home"]
             </a>
         </div>
     </div>

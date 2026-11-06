@@ -1,18 +1,18 @@
 @model IEnumerable<SelectEmployeesForProjectFormModel>
 @{
-    ViewData["Title"] = "Manage Project Team";
+    ViewData["Title"] = L["Manage Project Team"].Value;
 }
 
 <div class="page-header">
-    <h2><i class="bi bi-people-fill me-2"></i>Manage Project Team</h2>
-    <p>Check or uncheck employees to add or remove them from this project.</p>
+    <h2><i class="bi bi-people-fill me-2"></i>@L["Manage Project Team"]</h2>
+    <p>@L["Check or uncheck employees to add or remove them from this project."]</p>
 </div>
 
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <div class="card">
             <div class="card-header">
-                <i class="bi bi-check2-square me-2"></i>Select Team Members
+                <i class="bi bi-check2-square me-2"></i>@L["Select Team Members"]
             </div>
             <div class="card-body p-0">
                 <form method="post">
@@ -20,8 +20,8 @@
                     {
                         <div class="empty-state">
                             <span class="empty-icon"><i class="bi bi-people"></i></span>
-                            <h4>No employees available</h4>
-                            <p>No active employees found in the system.</p>
+                            <h4>@L["No employees available"]</h4>
+                            <p>@L["No active employees found in the system."]</p>
                         </div>
                     }
                     else
@@ -31,11 +31,11 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Job Title</th>
-                                        <th>Phone</th>
-                                        <th class="text-center">In Project</th>
+                                        <th>@L["First Name"]</th>
+                                        <th>@L["Last Name"]</th>
+                                        <th>@L["Job Title"]</th>
+                                        <th>@L["Phone"]</th>
+                                        <th class="text-center">@L["In Project"]</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,9 +63,9 @@
                     }
                     <div class="p-3 d-flex gap-2 justify-content-end border-top">
                         <a class="btn btn-outline-secondary" href="javascript:history.back();">
-                            <i class="bi bi-x me-1"></i>Cancel
+                            <i class="bi bi-x me-1"></i>@L["Cancel"]
                         </a>
-                        <input class="btn btn-primary" type="submit" value="Save Team" />
+                        <input class="btn btn-primary" type="submit" value="@L["Save Team"]" />
                     </div>
                 </form>
             </div>
