@@ -141,6 +141,22 @@
             project2.IsActive = true;
             project2.UrlPicturePath = "TestUrl2";
 
+            //Project3 has no picture and must not be featured
+            var modelProject3 = new AddAndEditProjectFormModel
+            {
+                Name = "TestProjectName3",
+                Description = "TestProjectDescription3",
+                ClientId = clientId,
+                ManagerId = managerId2,
+                Status = (ProjectStatusEnums)1,
+                ProjectEndDate = "15.12.2024",
+                UrlPicturePath = string.Empty,
+            };
+            await projectService.CreateProjectAsync(modelProject3);
+            var project3 = data.Projects.First(p => p.Name == "TestProjectName3");
+            project3.IsActive = true;
+            project3.UrlPicturePath = string.Empty;
+
             await data.SaveChangesAsync();
 
             homeService = new HomeService(data);
@@ -148,6 +164,7 @@
             var res = await this.homeService.AllIndexProjectsAsync();
 
             Assert.That(res.Count, Is.EqualTo(2));
+            Assert.That(res.Select(p => p.Name), Has.None.EqualTo("TestProjectName3"));
 
         }
 

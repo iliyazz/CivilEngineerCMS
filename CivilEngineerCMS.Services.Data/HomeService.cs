@@ -24,8 +24,7 @@
         {
             IEnumerable<IndexViewModel> allProjects = await this.dbContext
                 .Projects
-                //.Where(p => !string.IsNullOrWhiteSpace(p.UrlPicturePath))
-                .Where(p => p.UrlPicturePath != null)
+                .Where(p => !string.IsNullOrWhiteSpace(p.UrlPicturePath))
                 .OrderBy(x => EF.Functions.Random())
                 .Select(p => new IndexViewModel
                 {
